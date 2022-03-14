@@ -13,6 +13,8 @@ import {
   TextField,
 } from "@material-ui/core";
 import { Edit, Delete } from "@material-ui/icons";
+const { MongoClient } = require('mongodb');
+const { findOneListingByName } = require('../CrudConnection/mongoClient');
 
 const Url = "http://localhost:3001/inscripciones/";
 
@@ -58,9 +60,32 @@ function DataTableInscription() {
   };
 
   const peticionGet = async () => {
-    await axios.get(Url).then((response) => {
-      setData(response.data);
-    });
+    // await axios.get(Url).then((response) => {
+    //   setData(response.data);
+    // });
+
+    try {
+      const uri = "mongodb+srv://dantegrizia:39910308@sarcluster.1sxkc.mongodb.net/test?retryWrites=true&w=majority";
+      const client = new MongoClient(uri);
+  
+      console.log("Hola");
+      await client.connect();
+      console.log("Hola");
+      console.log("Cliente:", client);
+
+      const results = await findOneListingByName(client, "IdUsuario", "1");
+      if (results.length > 0) {
+          console.log(`Found listing(s):`);
+          // Itero sobre esos items para ir recorriendolos uno por uno y poder mostrarlos
+          results.forEach((result, i) => {
+              console.log('Inscripcion:', result);
+          });
+      } else {
+          console.log(`No listings found`);
+      }
+    } catch (error) {
+      console.log('Error: ', error);
+    }
   };
 
   const peticionPost = async () => {
