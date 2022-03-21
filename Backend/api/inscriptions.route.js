@@ -12,7 +12,7 @@ router
     .route("/inscription")
     .get(InscriptionsCtrl.apiGetInscriptions)
     .post(InscriptionsCtrl.apiPostInscription)
-    .put(InscriptionsCtrl.apiUpdateInscription)
+    .patch(InscriptionsCtrl.apiUpdateInscription)
     .delete(InscriptionsCtrl.apiDeleteInscription)
 
 export default router;
