@@ -1,5 +1,5 @@
-import InscriptionsDAO from "../dao/inscriptionsDAO.js";
-import { modTypeCreate } from "../util/constants.js";
+import InscriptionsDAO from "../../dao/inscriptions/inscriptionsDAO.js";
+import { modTypeCreate } from "../../util/constants.js";
 
 export default class InscriptionsController {
     static async apiGetInscriptions(req, res, next) {

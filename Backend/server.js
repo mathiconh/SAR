@@ -1,6 +1,6 @@
 import express from "express"
 import cors from "cors"
-import inscriptions from "./api/inscriptions.route.js"
+import inscriptions from "./api/inscriptions/inscriptions.route.js"
 
 const app = express();
 

@@ -1,6 +1,5 @@
 import mongodb from "mongodb";
-import { modTypeCreate, modTypeModif } from "../util/constants.js";
-
+import { modTypeCreate, modTypeModif } from "../../util/constants.js";
 const ObjectId = mongodb.ObjectId;
 let inscriptions;
 

@@ -1,7 +1,7 @@
 import app from "./server.js";
 import mongodb from "mongodb";
 import dotenv from "dotenv";
-import InscriptionsDAO from "./dao/inscriptionsDAO.js"
+import InscriptionsDAO from "./dao/inscriptions/inscriptionsDAO.js"
 dotenv.config();
 const MongoClient = mongodb.MongoClient;
 
