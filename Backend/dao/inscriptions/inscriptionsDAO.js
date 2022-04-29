@@ -1,6 +1,5 @@
 import mongodb from "mongodb";
-import { modTypeCreate, modTypeModif } from "../util/constants.js";
-
+import { modTypeCreate, modTypeModif } from "../../util/constants.js";
 const ObjectId = mongodb.ObjectId;
 let inscriptions;
 
@@ -78,6 +77,7 @@ export default class InscriptionsDAO {
                 PagadoBool: paid,
                 Monto: amount,
                 FechaUltModif: new Date(),
+                IdUsuarioModif: 0,
                 TipoModif: modTypeCreate,
             };
 

@@ -1,5 +1,5 @@
-import InscriptionsDAO from "../dao/inscriptionsDAO.js";
-import { modTypeCreate } from "../util/constants.js";
+import InscriptionsDAO from "../../dao/inscriptions/inscriptionsDAO.js";
+import { modTypeCreate } from "../../util/constants.js";
 
 export default class InscriptionsController {
     static async apiGetInscriptions(req, res, next) {
@@ -34,8 +34,6 @@ export default class InscriptionsController {
     static async apiPostInscription(req, res, next) {
         try {
             console.log(`About to create new inscription`);
-            const lastModDate = new Date();
-            const modType = modTypeCreate;
 
             const inscriptionResponse = await InscriptionsDAO.addInscription(
                 req.body.userId,
@@ -44,8 +42,6 @@ export default class InscriptionsController {
                 req.body.date,
                 req.body.paid,
                 req.body.amount,
-                lastModDate,
-                modType
             );
 
             res.json({ status: "success" });
