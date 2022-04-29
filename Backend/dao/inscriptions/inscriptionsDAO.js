@@ -77,6 +77,7 @@ export default class InscriptionsDAO {
                 PagadoBool: paid,
                 Monto: amount,
                 FechaUltModif: new Date(),
+                IdUsuarioModif: 0,
                 TipoModif: modTypeCreate,
             };
 
