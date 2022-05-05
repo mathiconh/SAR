@@ -70,7 +70,7 @@ const UsersList = props => {
   };
 
   const findByName = () => {
-    find(searchName, "name")
+    find(searchName, "Nombre")
   };
 
   const findByZip = () => {
@@ -147,21 +147,25 @@ const UsersList = props => {
       </div>
       <div className="row">
         {users.map((user) => {
-          const address = `${user.address.building} ${user.address.street}, ${user.address.zipcode}`;
+          const id = `${user._id}`;
+          const name = `${user.Nombre}`;
+          const Lastname = `${user.Apellido}`;
+          const address = `${user.Direccion}`;
           return (
             <div className="col-lg-4 pb-1">
               <div className="card">
                 <div className="card-body">
-                  <h5 className="card-title">{user.name}</h5>
+                  <h5 className="card-title">{user.Nombre}</h5>
                   <p className="card-text">
-                    <strong>IdRol: </strong>{user.idRol}<br/>
+                    <strong>Id: </strong>{id}<br/>
+                    <strong>name: </strong>{name}<br/>
+                    <strong>Lastname: </strong>{Lastname}<br/>
                     <strong>Address: </strong>{address}
                   </p>
                   <div className="row">
                   <Link to={"/users/"+user._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
-                    View Addresses
+                    View User
                   </Link>
-                  <a target="_blank" href={"https://www.google.com/maps/place/" + address} className="btn btn-primary col-lg-5 mx-1 mb-1">View Map</a>
                   </div>
                 </div>
               </div>

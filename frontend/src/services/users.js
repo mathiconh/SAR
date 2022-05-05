@@ -2,6 +2,7 @@ import http from "../http-common";
 
 class UsersDataService {
   getAll(page = 0) {
+    // return http.get(`user?page=${page}`);
     return http.get(`users?page=${page}`);
   }
 
@@ -9,8 +10,11 @@ class UsersDataService {
     return http.get(`/user?id=${id}`);
   }
 
-  find(query, by = "name", page = 0) {
-    return http.get(`users?${by}=${query}&page=${page}`);
+  find(query, by = "Nombre", page = 0) {
+    // const result = http.get(`users?${by}=${query}&page=${page}`);
+    const result = http.get(`users?page=${page}&${by}=${query}`);
+    console.log('Result: ', result);
+    return result;
   } 
 
   createAddress(data) {
