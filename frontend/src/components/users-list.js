@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const UsersList = props => {
   const [users, setUsers] = useState([]);
   const [searchName, setSearchName ] = useState("");
-  const [searchZip, setSearchZip ] = useState("");
+  const [searchId, setSearchId ] = useState("");
   const [searchIdRol, setSearchIdRol ] = useState("");
   const [idRols, setIdRoles] = useState(["All IdRoles"]);
 
@@ -14,14 +14,14 @@ const UsersList = props => {
     retrieveIdRol();
   }, []);
 
+  const onChangeSearchId = e => {
+    const searchId = e.target.value;
+    setSearchId(searchId);
+  };
+
   const onChangeSearchName = e => {
     const searchName = e.target.value;
     setSearchName(searchName);
-  };
-
-  const onChangeSearchZip = e => {
-    const searchZip = e.target.value;
-    setSearchZip(searchZip);
   };
 
   const onChangeSearchIdRol = e => {
@@ -45,7 +45,7 @@ const UsersList = props => {
   const retrieveIdRol = () => {
     UserDataService.getIdRol()
       .then(response => {
-        console.log(response.data);
+        console.log('Resultados: ', response.data);
         setIdRoles(["All IdRoles"].concat(response.data));
         
       })
@@ -73,8 +73,8 @@ const UsersList = props => {
     find(searchName, "Nombre")
   };
 
-  const findByZip = () => {
-    find(searchZip, "zipcode")
+  const findById = () => {
+    find(searchId, "_id")
   };
 
   const findByIdRol = () => {
@@ -110,15 +110,15 @@ const UsersList = props => {
           <input
             type="text"
             className="form-control"
-            placeholder="Search by zip"
-            value={searchZip}
-            onChange={onChangeSearchZip}
+            placeholder="Search by ID"
+            value={searchId}
+            onChange={onChangeSearchId}
           />
           <div className="input-group-append">
             <button
               className="btn btn-outline-secondary"
               type="button"
-              onClick={findByZip}
+              onClick={findById}
             >
               Search
             </button>
@@ -127,7 +127,7 @@ const UsersList = props => {
         <div className="input-group col-lg-4">
 
           <select onChange={onChangeSearchIdRol}>
-             {idRols.map(idRol => {
+          {idRols.map(idRol => {
                return (
                  <option value={idRol}> {idRol.substr(0, 20)} </option>
                )

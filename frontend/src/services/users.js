@@ -13,7 +13,7 @@ class UsersDataService {
   find(query, by = "Nombre", page = 0) {
     // const result = http.get(`users?${by}=${query}&page=${page}`);
     const result = http.get(`users?page=${page}&${by}=${query}`);
-    console.log('Result: ', result);
+    console.log('DB Result: ', result);
     return result;
   } 
 
