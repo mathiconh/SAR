@@ -7,11 +7,10 @@ class UsersDataService {
   }
 
   get(id) {
-    return http.get(`/user?id=${id}`);
+    return http.get(`/users?id=${id}`);
   }
 
   find(query, by = "Nombre", page = 0) {
-    // const result = http.get(`users?${by}=${query}&page=${page}`);
     const result = http.get(`users?page=${page}&${by}=${query}`);
     console.log('DB Result: ', result);
     return result;
@@ -30,7 +29,7 @@ class UsersDataService {
   }
 
   getIdRol(id) {
-    return http.get(`/idRol`);
+    return http.get(`/usersIdRoles`);
   }
 
 }

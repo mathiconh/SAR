@@ -78,10 +78,10 @@ const UsersList = props => {
   };
 
   const findByIdRol = () => {
-    if (searchIdRol == "All Role Ids") {
+    if (searchIdRol === "All IdRoles") {
       refreshList();
     } else {
-      find(searchIdRol, "idRol")
+      find(searchIdRol, "IdRol")
     }
   };
 
@@ -150,6 +150,7 @@ const UsersList = props => {
           const id = `${user._id}`;
           const name = `${user.Nombre}`;
           const Lastname = `${user.Apellido}`;
+          const idrol = `${user.IdRol}`;
           const address = `${user.Direccion}`;
           return (
             <div className="col-lg-4 pb-1">
@@ -159,6 +160,7 @@ const UsersList = props => {
                   <p className="card-text">
                     <strong>Id: </strong>{id}<br/>
                     <strong>name: </strong>{name}<br/>
+                    <strong>Id Rol: </strong>{idrol}<br/>
                     <strong>Lastname: </strong>{Lastname}<br/>
                     <strong>Address: </strong>{address}
                   </p>

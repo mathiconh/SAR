@@ -5,6 +5,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import AddAddress from "./components/add-address";
 import User from "./components/users";
 import UsersList from "./components/users-list";
+import Car from "./components/cars";
+import CarsList from "./components/cars-list";
 import Login from "./components/login";
 
 function App() {
@@ -32,6 +34,13 @@ function App() {
               </Link>
             </BrowserRouter>
           </li>
+          <li className="nav-item">
+            <BrowserRouter>
+              <Link to={"/cars"} className="nav-link">
+                Cars
+              </Link>
+            </BrowserRouter>
+          </li>
           <li className="nav-item" >
             { user ? (
               <a onClick={logout} className="nav-link" style={{cursor:'pointer'}}>
@@ -53,6 +62,7 @@ function App() {
         <BrowserRouter>
           <Switch>
             <Route exact path={["/", "/users"]} component={UsersList} />
+            <Route exact path={["/", "/cars"]} component={CarsList} />
             <Route 
               path="/users/:id/address"
               render={(props) => (
@@ -63,6 +73,12 @@ function App() {
               path="/users/:id"
               render={(props) => (
                 <User {...props} user={user} />
+              )}
+            />
+            <Route 
+              path="/cars/:id"
+              render={(props) => (
+                <Car {...props} user={user} />
               )}
             />
             <Route 
