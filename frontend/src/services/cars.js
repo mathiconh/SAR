@@ -17,6 +17,10 @@ class CarsDataService {
     return result;
   } 
 
+  deleteCar(id) {
+    return http.delete(`/carsDelete?id=${id}`);
+  }
+
   // createAddress(data) {
   //   return http.post("/address-new", data);
   // }

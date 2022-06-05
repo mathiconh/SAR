@@ -2,6 +2,7 @@ import React, { useState, useEffect, Component } from "react";
 import CarsDataService from "../services/cars";
 import { Link } from "react-router-dom";
 
+
 const CarsList = props => {
     const [cars, setCars] = useState([]);
     const [totalPages, setTotalPages] = useState([]);
@@ -44,6 +45,19 @@ const CarsList = props => {
           console.log(e);
         });
     };
+
+    const deleteCar = (carId) => {
+        
+        CarsDataService.deleteCar(carId)
+          .then(response => {
+            setCars(response.data.cars);
+            
+        console.log("entra");
+          })
+          .catch(e => {
+            console.log(e);
+          });
+      };
   
     // const retrieveIdRol = () => {
     //   CarsDataService.getIdRol()
@@ -81,6 +95,7 @@ const CarsList = props => {
     const findById = () => {
       find(searchId, "_id")
     };
+
   
     // const findByIdRol = () => {
     //   if (searchIdRol === "All IdRoles") {
@@ -159,7 +174,7 @@ return (
                                     <td>{workshopAssociated}</td>
                                     <td>
                                         <a href="#editCarModal" className="edit" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                        <a href="#deleteCarModal" className="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                        <a href="#carsDelete" className="delete" data-toggle="modal" onClick={() => deleteCar(car._id)}><i className="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                     </td>
                                 </tr>
                                 );
