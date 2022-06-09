@@ -51,8 +51,7 @@ const CarsList = props => {
         CarsDataService.deleteCar(carId)
           .then(response => {
             setCars(response.data.cars);
-            
-        console.log("entra");
+            console.log("entra");
           })
           .catch(e => {
             console.log(e);
@@ -116,7 +115,7 @@ const CarsList = props => {
 
     let itemList = items.map((item,index)=>{
         console.log('Index: ', index+1);
-        return <li className="page-item active"><a href="#" className="page-link">{index+1}</a></li>
+        return <li className="page-item active"><a href="#a" className="page-link">{index+1}</a></li>
     })
 
 return (
@@ -130,7 +129,10 @@ return (
                             <h2>Administrar <b>Autos</b></h2>
                         </div>
                         <div className="col-sm-6">
-                            <a href="#addCarModal" className="btn btn-success" data-toggle="modal"><i className="material-icons">&#xE147;</i> <span>Add New Car</span></a>
+                        <Link to={"/add-car"} className="btn btn-success">
+                        <i className="material-icons">&#xE147;</i> <span>Add New Car</span>
+                        </Link>
+                            <a href="#addCarModal" className="btn btn-success" data-toggle="modal"><i className="material-icons">&#xE147;</i> <span>ESTE NO</span></a>
                             <a href="#deleteCarModal" className="btn btn-danger" data-toggle="modal"><i className="material-icons">&#xE15C;</i> <span>Delete</span></a>						
                         </div>
                     </div>
@@ -174,7 +176,7 @@ return (
                                     <td>{workshopAssociated}</td>
                                     <td>
                                         <a href="#editCarModal" className="edit" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                        <a href="#carsDelete" className="delete" data-toggle="modal" onClick={() => deleteCar(car._id)}><i className="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                        <a href="#deleteCarModal" className="delete" data-toggle="modal" onClick={() => deleteCar(car._id)}><i className="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                     </td>
                                 </tr>
                                 );
@@ -184,9 +186,9 @@ return (
                 <div className="clearfix">
                     <div className="hint-text">Showing <b>{`${totalResults}`}</b> out of <b>{`${totalPages}`}</b> entries</div>
                     <ul className="pagination">
-                        <li className="page-item"><a href="#" className="page-link">Previous</a></li>
+                        <li className="page-item"><a href="#a" className="page-link">Previous</a></li>
                         {itemList}
-                        <li className="page-item"><a href="#" className="page-link">Next</a></li>
+                        <li className="page-item"><a href="#a" className="page-link">Next</a></li>
                     </ul>
                 </div>
             </div>

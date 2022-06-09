@@ -8,6 +8,7 @@ import UsersList from "./components/users-list";
 import Car from "./components/cars";
 import CarsList from "./components/cars-list";
 import Login from "./components/login";
+import addCar from "./components/add-car"
 
 function App() {
   const [user, setUser] = React.useState(null);
@@ -63,6 +64,8 @@ function App() {
           <Switch>
             <Route exact path={["/", "/users"]} component={UsersList} />
             <Route exact path={["/", "/cars"]} component={CarsList} />
+            <Route exact path={["/", "/add-car"]} component={addCar} />
+
             <Route 
               path="/users/:id/address"
               render={(props) => (
