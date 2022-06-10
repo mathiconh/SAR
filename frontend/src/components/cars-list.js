@@ -1,7 +1,8 @@
 import React, { useState, useEffect, Component } from "react";
 import CarsDataService from "../services/cars";
 import { Link } from "react-router-dom";
-
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
 
 const CarsList = props => {
     const [cars, setCars] = useState([]);
@@ -9,6 +10,16 @@ const CarsList = props => {
     const [totalResults, setTotalResults] = useState([]);
     const [searchPatent, setSearchPatent ] = useState("");
     const [searchId, setSearchId ] = useState("");
+    const [selectedCar, setSelectedCar ] = useState({
+        id: '',
+        patent: '',
+        model: '',
+        year: '',
+        workshopAssociated: '',
+    });
+
+    const [modalEditar, setModalEditar] = useState(false)
+    const [modalEliminar, setModalElminar] = useState(false)
     // const [searchIdRol, setSearchIdRol ] = useState("");
     // const [idRols, setIdRoles] = useState(["All IdRoles"]);
   
@@ -47,28 +58,15 @@ const CarsList = props => {
     };
 
     const deleteCar = (carId) => {
-        
+        console.log('Car to be deleted', carId);
         CarsDataService.deleteCar(carId)
           .then(response => {
-            setCars(response.data.cars);
-            console.log("entra");
+            refreshList();
           })
           .catch(e => {
             console.log(e);
           });
       };
-  
-    // const retrieveIdRol = () => {
-    //   CarsDataService.getIdRol()
-    //     .then(response => {
-    //       console.log('Resultados: ', response.data);
-    //       setIdRoles(["All IdRoles"].concat(response.data));
-          
-    //     })
-    //     .catch(e => {
-    //       console.log(e);
-    //     });
-    // };
   
     const refreshList = () => {
       retrieveCars();
@@ -117,6 +115,17 @@ const CarsList = props => {
         console.log('Index: ', index+1);
         return <li className="page-item active"><a href="#a" className="page-link">{index+1}</a></li>
     })
+
+    const selectCar = (car, action) => {
+        console.log('Selected: ', car);
+        setSelectedCar(car);
+        (action === 'Editar') ? setModalEditar(true) : setModalElminar(true);
+    }
+
+    const eliminar = (carId) => {
+        deleteCar(carId);
+        setModalElminar(false);
+    }
 
 return (
 <div>
@@ -175,8 +184,10 @@ return (
                                     <td>{year}</td>
                                     <td>{workshopAssociated}</td>
                                     <td>
-                                        <a href="#editCarModal" className="edit" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                        <a href="#deleteCarModal" className="delete" data-toggle="modal" onClick={() => deleteCar(car._id)}><i className="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                        {/* <a href="editCarModal" className="edit" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                        <a href="deleteCarModal" className="delete" data-toggle="modal" onClick={() => deleteCar(car._id)}><i className="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a> */}
+                                        <button className="btn btn-primary">Edit</button>
+                                        <button className="btn btn-danger" onClick={()=>selectCar(car, 'Eliminar')}>Delete</button>
                                     </td>
                                 </tr>
                                 );
@@ -285,6 +296,22 @@ return (
             </div>
         </div>
     </div>
+
+    <Modal isOpen={modalEliminar}>
+        <ModalBody>
+            Estás seguro que deseas eliminar el registro? Id: {selectedCar._id}
+        </ModalBody>
+        <ModalFooter>
+            <button className="btn btn-danger"
+                onClick={()=>eliminar(selectedCar._id)}>
+                Sí
+            </button>
+            <button className="btn btn-secondary"
+                onClick={()=>setModalElminar(false)}>
+                No
+            </button>
+        </ModalFooter>
+    </Modal>
 </div>
 );
 }

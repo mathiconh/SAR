@@ -8,7 +8,7 @@ import UsersList from "./components/users-list";
 import Car from "./components/cars";
 import CarsList from "./components/cars-list";
 import Login from "./components/login";
-import addCar from "./components/add-car"
+// import addCar from "./components/add-car"
 
 function App() {
   const [user, setUser] = React.useState(null);
@@ -26,6 +26,9 @@ function App() {
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <a href="/users" className="navbar-brand">
           User Addresses
+        </a>
+        <a href="/cars" className="navbar-brand">
+          Cars ABM
         </a>
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
@@ -64,7 +67,7 @@ function App() {
           <Switch>
             <Route exact path={["/", "/users"]} component={UsersList} />
             <Route exact path={["/", "/cars"]} component={CarsList} />
-            <Route exact path={["/", "/add-car"]} component={addCar} />
+            {/* <Route exact path={["/", "/add-car"]} component={addCar} /> */}
 
             <Route 
               path="/users/:id/address"
