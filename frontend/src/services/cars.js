@@ -17,6 +17,11 @@ class CarsDataService {
     return result;
   } 
 
+  createCar(car) {
+    console.log("About to create car: ", car);
+    return http.put(`/createCar?_id=${car}`);
+  }
+
   deleteCar(id) {
     return http.delete(`/deleteCar?_id=${id}`);
   }

@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
 
 const CarsList = (props) => {
+
   const [cars, setCars] = useState([]);
   const [totalPages, setTotalPages] = useState([]);
   const [totalResults, setTotalResults] = useState([]);
@@ -20,12 +21,9 @@ const CarsList = (props) => {
 
   const [modalEditar, setModalEditar] = useState(false);
   const [modalEliminar, setModalElminar] = useState(false);
-  // const [searchIdRol, setSearchIdRol ] = useState("");
-  // const [idRols, setIdRoles] = useState(["All IdRoles"]);
 
   useEffect(() => {
     retrieveCars();
-    //   retrieveIdRol();
   }, []);
 
   const onChangeSearchId = (e) => {
@@ -37,12 +35,6 @@ const CarsList = (props) => {
     const searchPatent = e.target.value;
     setSearchPatent(searchPatent);
   };
-
-  // const onChangeSearchIdRol = e => {
-  //   const searchIdRol = e.target.value;
-  //   setSearchIdRol(searchIdRol);
-
-  // };
 
   const retrieveCars = () => {
     CarsDataService.getAll()
@@ -93,13 +85,6 @@ const CarsList = (props) => {
     find(searchId, "_id");
   };
 
-  // const findByIdRol = () => {
-  //   if (searchIdRol === "All IdRoles") {
-  //     refreshList();
-  //   } else {
-  //     find(searchIdRol, "IdRol")
-  //   }
-  // };
   function getPages() {
     let pages = [];
     for (let index = 0; index < totalPages; index++) {
@@ -121,7 +106,23 @@ const CarsList = (props) => {
     );
   });
 
-  const selectCar = (car, action) => {
+  let setModalButton = (selectedCar) => {
+    if (selectedCar._id) {
+        return (
+            <button className="btn btn-danger" onClick={() => editar()}>
+            Actualizar
+            </button>
+        )
+    } else {
+        return (
+            <button className="btn btn-danger" onClick={() => crear(selectedCar)}>
+              Crear
+            </button>
+        )
+    }
+  }
+
+  const selectCar = (action, car = {}) => {
     console.log("Selected: ", car);
     setSelectedCar(car);
     action === "Editar" ? setModalEditar(true) : setModalElminar(true);
@@ -153,6 +154,11 @@ const CarsList = (props) => {
     setModalEditar(false);
   }
 
+  const crear = (car) =>{
+    CarsDataService.createCar(car);
+    setModalEditar(false);
+  }
+
   return (
     <div>
       <div className="container-xl">
@@ -166,23 +172,9 @@ const CarsList = (props) => {
                   </h2>
                 </div>
                 <div className="col-sm-6">
-                  <Link to={"/add-car"} className="btn btn-success">
-                    <i className="material-icons">&#xE147;</i>{" "}
-                    <span>Add New Car</span>
-                  </Link>
-                  <a
-                    href="#addCarModal"
-                    className="btn btn-success"
-                    data-toggle="modal"
-                  >
-                    <i className="material-icons">&#xE147;</i>{" "}
-                    <span>ESTE NO</span>
-                  </a>
-                  <a
-                    href="#deleteCarModal"
-                    className="btn btn-danger"
-                    data-toggle="modal"
-                  >
+                  <button className="btn btn-success" onClick={() => selectCar("Editar")}>Añadir un nuevo Auto</button>
+
+                  <a href="#deleteCarModal" className="btn btn-danger" data-toggle="modal">
                     <i className="material-icons">&#xE15C;</i>{" "}
                     <span>Delete</span>
                   </a>
@@ -232,15 +224,8 @@ const CarsList = (props) => {
                       <td>{year}</td>
                       <td>{workshopAssociated}</td>
                       <td>
-                        {/* <a href="editCarModal" className="edit" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                        <a href="deleteCarModal" className="delete" data-toggle="modal" onClick={() => deleteCar(car._id)}><i className="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a> */}
-                        <button className="btn btn-primary" onClick={() => selectCar(car, "Editar")}>Edit</button>
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => selectCar(car, "Eliminar")}
-                        >
-                          Delete
-                        </button>
+                        <button className="btn btn-primary" onClick={() => selectCar("Editar", car)}>Edit</button>
+                        <button className="btn btn-danger" onClick={() => selectCar("Eliminar", car)}>Delete</button>
                       </td>
                     </tr>
                   );
@@ -249,164 +234,20 @@ const CarsList = (props) => {
             </table>
             <div className="clearfix">
               <div className="hint-text">
-                Showing <b>{`${totalResults}`}</b> out of{" "}
+                Showing 
+                <b>{`${totalResults}`}</b> out of{" "}
                 <b>{`${totalPages}`}</b> entries
               </div>
               <ul className="pagination">
                 <li className="page-item">
-                  <a href="#a" className="page-link">
-                    Previous
-                  </a>
+                  <a href="#a" className="page-link">Previous</a>
                 </li>
                 {itemList}
                 <li className="page-item">
-                  <a href="#a" className="page-link">
-                    Next
-                  </a>
+                  <a href="#a" className="page-link">Next</a>
                 </li>
               </ul>
             </div>
-          </div>
-        </div>
-      </div>
-      {/* Edit Modal HTML */}
-      <div id="addCarModal" className="modal fade">
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <form>
-              <div className="modal-header">
-                <h4 className="modal-title">Add Car</h4>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-hidden="true"
-                >
-                  &times;
-                </button>
-              </div>
-              <div className="modal-body">
-                <div className="form-group">
-                  <label>Name</label>
-                  <input type="text" className="form-control" required></input>
-                </div>
-                <div className="form-group">
-                  <label>Email</label>
-                  <input type="email" className="form-control" required></input>
-                </div>
-                <div className="form-group">
-                  <label>Address</label>
-                  <textarea className="form-control" required></textarea>
-                </div>
-                <div className="form-group">
-                  <label>Phone</label>
-                  <input type="text" className="form-control" required></input>
-                </div>
-              </div>
-              <div className="modal-footer">
-                <input
-                  type="button"
-                  className="btn btn-default"
-                  data-dismiss="modal"
-                  value="Cancel"
-                ></input>
-                <input
-                  type="submit"
-                  className="btn btn-success"
-                  value="Add"
-                ></input>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      {/* Edit Modal HTML */}
-      <div id="editCarModal" className="modal fade">
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <form>
-              <div className="modal-header">
-                <h4 className="modal-title">Edit Car</h4>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-hidden="true"
-                >
-                  &times;
-                </button>
-              </div>
-              <div className="modal-body">
-                <div className="form-group">
-                  <label>Name</label>
-                  <input type="text" className="form-control" required></input>
-                </div>
-                <div className="form-group">
-                  <label>Email</label>
-                  <input type="email" className="form-control" required></input>
-                </div>
-                <div className="form-group">
-                  <label>Address</label>
-                  <textarea className="form-control" required></textarea>
-                </div>
-                <div className="form-group">
-                  <label>Phone</label>
-                  <input type="text" className="form-control" required></input>
-                </div>
-              </div>
-              <div className="modal-footer">
-                <input
-                  type="button"
-                  className="btn btn-default"
-                  data-dismiss="modal"
-                  value="Cancel"
-                ></input>
-                <input
-                  type="submit"
-                  className="btn btn-info"
-                  value="Save"
-                ></input>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      {/* Delete Modal HTML */}
-      <div id="deleteCarModal" className="modal fade">
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <form>
-              <div className="modal-header">
-                <h4 className="modal-title">Delete Car</h4>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-hidden="true"
-                >
-                  &times;
-                </button>
-              </div>
-              <div className="modal-body">
-                <p>Are you sure you want to delete these Records?</p>
-                <p className="text-warning">
-                  <small>This action cannot be undone.</small>
-                </p>
-              </div>
-              <div className="modal-footer">
-                <input
-                  type="button"
-                  className="btn btn-default"
-                  data-dismiss="modal"
-                  value="Cancel"
-                ></input>
-                <input
-                  type="submit"
-                  className="btn btn-danger"
-                  value="Delete"
-                ></input>
-              </div>
-            </form>
           </div>
         </div>
       </div>
@@ -416,16 +257,10 @@ const CarsList = (props) => {
           Estás seguro que deseas eliminar el registro? Id: {selectedCar._id}
         </ModalBody>
         <ModalFooter>
-          <button
-            className="btn btn-danger"
-            onClick={() => eliminar(selectedCar._id)}
-          >
+          <button className="btn btn-danger" onClick={() => eliminar(selectedCar._id)}>
             Sí
           </button>
-          <button
-            className="btn btn-secondary"
-            onClick={() => setModalElminar(false)}
-          >
+          <button className="btn btn-secondary" onClick={() => setModalElminar(false)}>
             No
           </button>
         </ModalFooter>
@@ -433,59 +268,20 @@ const CarsList = (props) => {
 
       <Modal isOpen={modalEditar}>
         <ModalBody>
-
-        <label>ID</label>
-        <input 
-            className="form-control"
-            readOnly
-            type="text"
-            name="id"
-            value={selectedCar._id}
-        />
-        <label>Patente</label>
-        <input 
-            className="form-control"
-            type="text"
-            name="patent"
-            onChange={handleChange}
-            value={selectedCar.patent}
-        />
-        <label>Modelo</label>
-        <input 
-            className="form-control"
-            type="text"
-            name="model"
-            onChange={handleChange}
-            value={selectedCar.model}
-        />
-        <label>Año</label>
-        <input 
-            className="form-control"
-            type="text"
-            name="year"
-            onChange={handleChange}
-            value={selectedCar.year}
-        />
-        <label>Taller Mecanico</label>
-        <input 
-            className="form-control"
-            type="text"
-            name="workshopAssociated"
-            onChange={handleChange}
-            value={selectedCar.workshopAssociated}
-        />
+            <label>ID</label>
+            <input className="form-control" readOnly type="text" name="id" id="idField" value={selectedCar._id} placeholder="Auto-Incremental ID"/>
+            <label>Patente</label>
+            <input className="form-control" type="text" name="patent" id="patentField" onChange={handleChange} value={selectedCar.patent}/>
+            <label>Modelo</label>
+            <input className="form-control" type="text" name="model" id="modelField" onChange={handleChange} value={selectedCar.model}/>
+            <label>Año</label>
+            <input className="form-control" type="number" name="year" id="yearField" onChange={handleChange} value={selectedCar.year}/>
+            <label>Taller Mecanico</label>
+            <input className="form-control" type="text" name="workshopAssociated" id="workshopField" onChange={handleChange} value={selectedCar.workshopAssociated}/>
         </ModalBody>
         <ModalFooter>
-          <button
-            className="btn btn-danger"
-            onClick={() => editar()}
-          >
-            Actualizar
-          </button>
-          <button
-            className="btn btn-secondary"
-            onClick={() => setModalEditar(false)}
-          >
+            {setModalButton(selectedCar)}
+          <button className="btn btn-secondary" onClick={() => setModalEditar(false)}>
             Cancelar
           </button>
         </ModalFooter>
