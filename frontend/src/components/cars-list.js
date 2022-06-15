@@ -1,319 +1,497 @@
 import React, { useState, useEffect, Component } from "react";
 import CarsDataService from "../services/cars";
 import { Link } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css'
+import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
 
-const CarsList = props => {
-    const [cars, setCars] = useState([]);
-    const [totalPages, setTotalPages] = useState([]);
-    const [totalResults, setTotalResults] = useState([]);
-    const [searchPatent, setSearchPatent ] = useState("");
-    const [searchId, setSearchId ] = useState("");
-    const [selectedCar, setSelectedCar ] = useState({
-        id: '',
-        patent: '',
-        model: '',
-        year: '',
-        workshopAssociated: '',
-    });
+const CarsList = (props) => {
+  const [cars, setCars] = useState([]);
+  const [totalPages, setTotalPages] = useState([]);
+  const [totalResults, setTotalResults] = useState([]);
+  const [searchPatent, setSearchPatent] = useState("");
+  const [searchId, setSearchId] = useState("");
+  const [selectedCar, setSelectedCar] = useState({
+    id: "",
+    patent: "",
+    model: "",
+    year: "",
+    workshopAssociated: "",
+  });
 
-    const [modalEditar, setModalEditar] = useState(false)
-    const [modalEliminar, setModalElminar] = useState(false)
-    // const [searchIdRol, setSearchIdRol ] = useState("");
-    // const [idRols, setIdRoles] = useState(["All IdRoles"]);
-  
-    useEffect(() => {
-      retrieveCars();
+  const [modalEditar, setModalEditar] = useState(false);
+  const [modalEliminar, setModalElminar] = useState(false);
+  // const [searchIdRol, setSearchIdRol ] = useState("");
+  // const [idRols, setIdRoles] = useState(["All IdRoles"]);
+
+  useEffect(() => {
+    retrieveCars();
     //   retrieveIdRol();
-    }, []);
-  
-    const onChangeSearchId = e => {
-      const searchId = e.target.value;
-      setSearchId(searchId);
-    };
-  
-    const onChangeSearchPatent = e => {
-      const searchPatent = e.target.value;
-      setSearchPatent(searchPatent);
-    };
-  
-    // const onChangeSearchIdRol = e => {
-    //   const searchIdRol = e.target.value;
-    //   setSearchIdRol(searchIdRol);
-      
-    // };
-  
-    const retrieveCars = () => {
-      CarsDataService.getAll()
-        .then(response => {
-          console.log('Data: ', response.data);
-          setCars(response.data.cars);
-          setTotalPages(response.data.total_pages);
-          setTotalResults(response.data.total_results);
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    };
+  }, []);
 
-    const deleteCar = (carId) => {
-        console.log('Car to be deleted', carId);
-        CarsDataService.deleteCar(carId)
-          .then(response => {
-            refreshList();
-          })
-          .catch(e => {
-            console.log(e);
-          });
-      };
-  
-    const refreshList = () => {
-      retrieveCars();
-    };
-  
-    const find = (query, by) => {
-      CarsDataService.find(query, by)
-        .then(response => {
-          console.log('Data: ', response.data);
-          setCars(response.data.cars);
-          setTotalPages(response.data.total_pages);
-          setTotalResults(response.data.total_results);
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    };
-  
-    const findByPatent = () => {
-      find(searchPatent, "Patente")
-    };
-  
-    const findById = () => {
-      find(searchId, "_id")
-    };
+  const onChangeSearchId = (e) => {
+    const searchId = e.target.value;
+    setSearchId(searchId);
+  };
 
-  
-    // const findByIdRol = () => {
-    //   if (searchIdRol === "All IdRoles") {
-    //     refreshList();
-    //   } else {
-    //     find(searchIdRol, "IdRol")
-    //   }
-    // };
-    function getPages() {
-        let pages = [];
-        for (let index = 0; index < totalPages; index++) {
-            pages.push(index+1);
-        }
-        return pages;
-    };
+  const onChangeSearchPatent = (e) => {
+    const searchPatent = e.target.value;
+    setSearchPatent(searchPatent);
+  };
 
-    let items = getPages();
+  // const onChangeSearchIdRol = e => {
+  //   const searchIdRol = e.target.value;
+  //   setSearchIdRol(searchIdRol);
 
-    let itemList = items.map((item,index)=>{
-        console.log('Index: ', index+1);
-        return <li className="page-item active"><a href="#a" className="page-link">{index+1}</a></li>
-    })
+  // };
 
-    const selectCar = (car, action) => {
-        console.log('Selected: ', car);
-        setSelectedCar(car);
-        (action === 'Editar') ? setModalEditar(true) : setModalElminar(true);
+  const retrieveCars = () => {
+    CarsDataService.getAll()
+      .then((response) => {
+        console.log("Data: ", response.data);
+        setCars(response.data.cars);
+        setTotalPages(response.data.total_pages);
+        setTotalResults(response.data.total_results);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const deleteCar = (carId) => {
+    console.log("Car to be deleted", carId);
+    CarsDataService.deleteCar(carId)
+      .then((response) => {
+        refreshList();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const refreshList = () => {
+    retrieveCars();
+  };
+
+  const find = (query, by) => {
+    CarsDataService.find(query, by)
+      .then((response) => {
+        console.log("Data: ", response.data);
+        setCars(response.data.cars);
+        setTotalPages(response.data.total_pages);
+        setTotalResults(response.data.total_results);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const findByPatent = () => {
+    find(searchPatent, "Patente");
+  };
+
+  const findById = () => {
+    find(searchId, "_id");
+  };
+
+  // const findByIdRol = () => {
+  //   if (searchIdRol === "All IdRoles") {
+  //     refreshList();
+  //   } else {
+  //     find(searchIdRol, "IdRol")
+  //   }
+  // };
+  function getPages() {
+    let pages = [];
+    for (let index = 0; index < totalPages; index++) {
+      pages.push(index + 1);
     }
+    return pages;
+  }
 
-    const eliminar = (carId) => {
-        deleteCar(carId);
-        setModalElminar(false);
-    }
+  let items = getPages();
 
-return (
-<div>
-    <div className="container-xl">
+  let itemList = items.map((item, index) => {
+    console.log("Index: ", index + 1);
+    return (
+      <li className="page-item active">
+        <a href="#a" className="page-link">
+          {index + 1}
+        </a>
+      </li>
+    );
+  });
+
+  const selectCar = (car, action) => {
+    console.log("Selected: ", car);
+    setSelectedCar(car);
+    action === "Editar" ? setModalEditar(true) : setModalElminar(true);
+  };
+
+  const eliminar = (carId) => {
+    deleteCar(carId);
+    setModalElminar(false);
+  };
+
+  const handleChange=e=>{
+      const {name, value}=e.target;
+      setSelectedCar((prevState)=>({
+          ...prevState,
+          [name]: value
+      }));
+  }
+
+  const editar = () =>{
+    var newData=cars;
+    newData.map(car=>{
+    if(car._id === selectedCar._id){
+        car.patent = selectedCar.patent;
+        car.model = selectedCar.model;
+        car.year = selectedCar.year;
+        car.workshopAssociated = selectedCar.workshopAssociated;
+    }});
+    setCars(newData);
+    setModalEditar(false);
+  }
+
+  return (
+    <div>
+      <div className="container-xl">
         <div className="table-responsive">
-            <div className="table-wrapper">
-                <div className="table-title">
-                    <div className="row">
-                        <div className="col-sm-6">
-                            <h2>Administrar <b>Autos</b></h2>
-                        </div>
-                        <div className="col-sm-6">
-                        <Link to={"/add-car"} className="btn btn-success">
-                        <i className="material-icons">&#xE147;</i> <span>Add New Car</span>
-                        </Link>
-                            <a href="#addCarModal" className="btn btn-success" data-toggle="modal"><i className="material-icons">&#xE147;</i> <span>ESTE NO</span></a>
-                            <a href="#deleteCarModal" className="btn btn-danger" data-toggle="modal"><i className="material-icons">&#xE15C;</i> <span>Delete</span></a>						
-                        </div>
-                    </div>
+          <div className="table-wrapper">
+            <div className="table-title">
+              <div className="row">
+                <div className="col-sm-6">
+                  <h2>
+                    Administrar <b>Autos</b>
+                  </h2>
                 </div>
-                <table className="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>
-                                <span className="custom-checkbox">
-                                    <input type="checkbox" id="selectAll"></input>
-                                    <label htmlFor="selectAll"></label>
-                                </span>
-                            </th>
-                            <th>Id</th>
-                            <th>Patente</th>
-                            <th>Modelo</th>
-                            <th>Año</th>
-                            <th>Workshop Asociado</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {cars.map((car) => {
-                            const id = `${car._id}`;
-                            const patent = `${car.patent}`;
-                            const model = `${car.model}`;
-                            const year = `${car.year}`;
-                            const workshopAssociated = `${car.workshopAssociated}`;
-                            return (
-                                <tr>
-                                    <td>
-                                        <span className="custom-checkbox">
-                                            <input type="checkbox" id="checkbox2" name="options[]" value="1"></input>
-                                            <label htmlFor="checkbox2"></label>
-                                        </span>
-                                    </td>
-                                    <td>{id}</td>
-                                    <td>{patent}</td>
-                                    <td>{model}</td>
-                                    <td>{year}</td>
-                                    <td>{workshopAssociated}</td>
-                                    <td>
-                                        {/* <a href="editCarModal" className="edit" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                <div className="col-sm-6">
+                  <Link to={"/add-car"} className="btn btn-success">
+                    <i className="material-icons">&#xE147;</i>{" "}
+                    <span>Add New Car</span>
+                  </Link>
+                  <a
+                    href="#addCarModal"
+                    className="btn btn-success"
+                    data-toggle="modal"
+                  >
+                    <i className="material-icons">&#xE147;</i>{" "}
+                    <span>ESTE NO</span>
+                  </a>
+                  <a
+                    href="#deleteCarModal"
+                    className="btn btn-danger"
+                    data-toggle="modal"
+                  >
+                    <i className="material-icons">&#xE15C;</i>{" "}
+                    <span>Delete</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <table className="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>
+                    <span className="custom-checkbox">
+                      <input type="checkbox" id="selectAll"></input>
+                      <label htmlFor="selectAll"></label>
+                    </span>
+                  </th>
+                  <th>Id</th>
+                  <th>Patente</th>
+                  <th>Modelo</th>
+                  <th>Año</th>
+                  <th>Workshop Asociado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cars.map((car) => {
+                  const id = `${car._id}`;
+                  const patent = `${car.patent}`;
+                  const model = `${car.model}`;
+                  const year = `${car.year}`;
+                  const workshopAssociated = `${car.workshopAssociated}`;
+                  return (
+                    <tr>
+                      <td>
+                        <span className="custom-checkbox">
+                          <input
+                            type="checkbox"
+                            id="checkbox2"
+                            name="options[]"
+                            value="1"
+                          ></input>
+                          <label htmlFor="checkbox2"></label>
+                        </span>
+                      </td>
+                      <td>{id}</td>
+                      <td>{patent}</td>
+                      <td>{model}</td>
+                      <td>{year}</td>
+                      <td>{workshopAssociated}</td>
+                      <td>
+                        {/* <a href="editCarModal" className="edit" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                         <a href="deleteCarModal" className="delete" data-toggle="modal" onClick={() => deleteCar(car._id)}><i className="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a> */}
-                                        <button className="btn btn-primary">Edit</button>
-                                        <button className="btn btn-danger" onClick={()=>selectCar(car, 'Eliminar')}>Delete</button>
-                                    </td>
-                                </tr>
-                                );
-                            })}
-                    </tbody>
-                </table>
-                <div className="clearfix">
-                    <div className="hint-text">Showing <b>{`${totalResults}`}</b> out of <b>{`${totalPages}`}</b> entries</div>
-                    <ul className="pagination">
-                        <li className="page-item"><a href="#a" className="page-link">Previous</a></li>
-                        {itemList}
-                        <li className="page-item"><a href="#a" className="page-link">Next</a></li>
-                    </ul>
+                        <button className="btn btn-primary" onClick={() => selectCar(car, "Editar")}>Edit</button>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => selectCar(car, "Eliminar")}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            <div className="clearfix">
+              <div className="hint-text">
+                Showing <b>{`${totalResults}`}</b> out of{" "}
+                <b>{`${totalPages}`}</b> entries
+              </div>
+              <ul className="pagination">
+                <li className="page-item">
+                  <a href="#a" className="page-link">
+                    Previous
+                  </a>
+                </li>
+                {itemList}
+                <li className="page-item">
+                  <a href="#a" className="page-link">
+                    Next
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Edit Modal HTML */}
+      <div id="addCarModal" className="modal fade">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <form>
+              <div className="modal-header">
+                <h4 className="modal-title">Add Car</h4>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-hidden="true"
+                >
+                  &times;
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="form-group">
+                  <label>Name</label>
+                  <input type="text" className="form-control" required></input>
                 </div>
-            </div>
-        </div>        
-    </div>
-    {/* Edit Modal HTML */}
-    <div id="addCarModal" className="modal fade">
-        <div className="modal-dialog">
-            <div className="modal-content">
-                <form>
-                    <div className="modal-header">						
-                        <h4 className="modal-title">Add Car</h4>
-                        <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div className="modal-body">					
-                        <div className="form-group">
-                            <label>Name</label>
-                            <input type="text" className="form-control" required></input>
-                        </div>
-                        <div className="form-group">
-                            <label>Email</label>
-                            <input type="email" className="form-control" required></input>
-                        </div>
-                        <div className="form-group">
-                            <label>Address</label>
-                            <textarea className="form-control" required></textarea>
-                        </div>
-                        <div className="form-group">
-                            <label>Phone</label>
-                            <input type="text" className="form-control" required></input>
-                        </div>					
-                    </div>
-                    <div className="modal-footer">
-                        <input type="button" className="btn btn-default" data-dismiss="modal" value="Cancel"></input>
-                        <input type="submit" className="btn btn-success" value="Add"></input>
-                    </div>
-                </form>
-            </div>
+                <div className="form-group">
+                  <label>Email</label>
+                  <input type="email" className="form-control" required></input>
+                </div>
+                <div className="form-group">
+                  <label>Address</label>
+                  <textarea className="form-control" required></textarea>
+                </div>
+                <div className="form-group">
+                  <label>Phone</label>
+                  <input type="text" className="form-control" required></input>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <input
+                  type="button"
+                  className="btn btn-default"
+                  data-dismiss="modal"
+                  value="Cancel"
+                ></input>
+                <input
+                  type="submit"
+                  className="btn btn-success"
+                  value="Add"
+                ></input>
+              </div>
+            </form>
+          </div>
         </div>
-    </div>
-    {/* Edit Modal HTML */}
-    <div id="editCarModal" className="modal fade">
+      </div>
+      {/* Edit Modal HTML */}
+      <div id="editCarModal" className="modal fade">
         <div className="modal-dialog">
-            <div className="modal-content">
-                <form>
-                    <div className="modal-header">						
-                        <h4 className="modal-title">Edit Car</h4>
-                        <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div className="modal-body">					
-                        <div className="form-group">
-                            <label>Name</label>
-                            <input type="text" className="form-control" required></input>
-                        </div>
-                        <div className="form-group">
-                            <label>Email</label>
-                            <input type="email" className="form-control" required></input>
-                        </div>
-                        <div className="form-group">
-                            <label>Address</label>
-                            <textarea className="form-control" required></textarea>
-                        </div>
-                        <div className="form-group">
-                            <label>Phone</label>
-                            <input type="text" className="form-control" required></input>
-                        </div>					
-                    </div>
-                    <div className="modal-footer">
-                        <input type="button" className="btn btn-default" data-dismiss="modal" value="Cancel"></input>
-                        <input type="submit" className="btn btn-info" value="Save"></input>
-                    </div>
-                </form>
-            </div>
+          <div className="modal-content">
+            <form>
+              <div className="modal-header">
+                <h4 className="modal-title">Edit Car</h4>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-hidden="true"
+                >
+                  &times;
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="form-group">
+                  <label>Name</label>
+                  <input type="text" className="form-control" required></input>
+                </div>
+                <div className="form-group">
+                  <label>Email</label>
+                  <input type="email" className="form-control" required></input>
+                </div>
+                <div className="form-group">
+                  <label>Address</label>
+                  <textarea className="form-control" required></textarea>
+                </div>
+                <div className="form-group">
+                  <label>Phone</label>
+                  <input type="text" className="form-control" required></input>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <input
+                  type="button"
+                  className="btn btn-default"
+                  data-dismiss="modal"
+                  value="Cancel"
+                ></input>
+                <input
+                  type="submit"
+                  className="btn btn-info"
+                  value="Save"
+                ></input>
+              </div>
+            </form>
+          </div>
         </div>
-    </div>
-    {/* Delete Modal HTML */}
-    <div id="deleteCarModal" className="modal fade">
+      </div>
+      {/* Delete Modal HTML */}
+      <div id="deleteCarModal" className="modal fade">
         <div className="modal-dialog">
-            <div className="modal-content">
-                <form>
-                    <div className="modal-header">						
-                        <h4 className="modal-title">Delete Car</h4>
-                        <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div className="modal-body">					
-                        <p>Are you sure you want to delete these Records?</p>
-                        <p className="text-warning"><small>This action cannot be undone.</small></p>
-                    </div>
-                    <div className="modal-footer">
-                        <input type="button" className="btn btn-default" data-dismiss="modal" value="Cancel"></input>
-                        <input type="submit" className="btn btn-danger" value="Delete"></input>
-                    </div>
-                </form>
-            </div>
+          <div className="modal-content">
+            <form>
+              <div className="modal-header">
+                <h4 className="modal-title">Delete Car</h4>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-hidden="true"
+                >
+                  &times;
+                </button>
+              </div>
+              <div className="modal-body">
+                <p>Are you sure you want to delete these Records?</p>
+                <p className="text-warning">
+                  <small>This action cannot be undone.</small>
+                </p>
+              </div>
+              <div className="modal-footer">
+                <input
+                  type="button"
+                  className="btn btn-default"
+                  data-dismiss="modal"
+                  value="Cancel"
+                ></input>
+                <input
+                  type="submit"
+                  className="btn btn-danger"
+                  value="Delete"
+                ></input>
+              </div>
+            </form>
+          </div>
         </div>
-    </div>
+      </div>
 
-    <Modal isOpen={modalEliminar}>
+      <Modal isOpen={modalEliminar}>
         <ModalBody>
-            Estás seguro que deseas eliminar el registro? Id: {selectedCar._id}
+          Estás seguro que deseas eliminar el registro? Id: {selectedCar._id}
         </ModalBody>
         <ModalFooter>
-            <button className="btn btn-danger"
-                onClick={()=>eliminar(selectedCar._id)}>
-                Sí
-            </button>
-            <button className="btn btn-secondary"
-                onClick={()=>setModalElminar(false)}>
-                No
-            </button>
+          <button
+            className="btn btn-danger"
+            onClick={() => eliminar(selectedCar._id)}
+          >
+            Sí
+          </button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => setModalElminar(false)}
+          >
+            No
+          </button>
         </ModalFooter>
-    </Modal>
-</div>
-);
-}
+      </Modal>
+
+      <Modal isOpen={modalEditar}>
+        <ModalBody>
+
+        <label>ID</label>
+        <input 
+            className="form-control"
+            readOnly
+            type="text"
+            name="id"
+            value={selectedCar._id}
+        />
+        <label>Patente</label>
+        <input 
+            className="form-control"
+            type="text"
+            name="patent"
+            onChange={handleChange}
+            value={selectedCar.patent}
+        />
+        <label>Modelo</label>
+        <input 
+            className="form-control"
+            type="text"
+            name="model"
+            onChange={handleChange}
+            value={selectedCar.model}
+        />
+        <label>Año</label>
+        <input 
+            className="form-control"
+            type="text"
+            name="year"
+            onChange={handleChange}
+            value={selectedCar.year}
+        />
+        <label>Taller Mecanico</label>
+        <input 
+            className="form-control"
+            type="text"
+            name="workshopAssociated"
+            onChange={handleChange}
+            value={selectedCar.workshopAssociated}
+        />
+        </ModalBody>
+        <ModalFooter>
+          <button
+            className="btn btn-danger"
+            onClick={() => editar()}
+          >
+            Actualizar
+          </button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => setModalEditar(false)}
+          >
+            Cancelar
+          </button>
+        </ModalFooter>
+      </Modal>
+    </div>
+  );
+};
 
 export default CarsList;
