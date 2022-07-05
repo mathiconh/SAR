@@ -109,7 +109,7 @@ const CarsList = (props) => {
   let setModalButton = (selectedCar) => {
     if (selectedCar._id) {
         return (
-            <button className="btn btn-danger" onClick={() => editar()}>
+            <button className="btn btn-danger" onClick={() => editar(selectedCar)}>
             Actualizar
             </button>
         )
@@ -151,6 +151,7 @@ const CarsList = (props) => {
         car.workshopAssociated = selectedCar.workshopAssociated;
     }});
     setCars(newData);
+    CarsDataService.editCar(newData[0]);
     setModalEditar(false);
   }
 

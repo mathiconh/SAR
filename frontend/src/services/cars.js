@@ -26,6 +26,10 @@ class CarsDataService {
     return http.delete(`/deleteCar?_id=${id}`);
   }
 
+  editCar({ _id, patent, model, year, aggregated, history, workshopAssociated }) {
+    return http.put(`/editCar?_id=${_id}&patent=${patent}&model=${model}&year=${year}&aggregated=${aggregated}$history=${history}$workshopAssociated=${workshopAssociated}}`);
+  }
+
   // createAddress(data) {
   //   return http.post("/address-new", data);
   // }
