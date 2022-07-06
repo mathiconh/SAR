@@ -17,9 +17,9 @@ class CarsDataService {
     return result;
   } 
 
-  createCar(car) {
-    console.log("About to create car: ", car);
-    return http.put(`/createCar?_id=${car}`);
+  createCar(patent, model, year, aggregated, history, workshopAssociated) {
+    console.log("About to create car: ", patent, model, year, aggregated, history, workshopAssociated);
+    return http.post(`/createCar?&patent=${patent}&model=${model}&year=${year}&aggregated=${aggregated}$history=${history}$workshopAssociated=${workshopAssociated}}`);
   }
 
   deleteCar(id) {
@@ -27,6 +27,7 @@ class CarsDataService {
   }
 
   editCar({ _id, patent, model, year, aggregated, history, workshopAssociated }) {
+    console.log("About to edit car: ", _id, patent, model, year, aggregated, history, workshopAssociated);
     return http.put(`/editCar?_id=${_id}&patent=${patent}&model=${model}&year=${year}&aggregated=${aggregated}$history=${history}$workshopAssociated=${workshopAssociated}}`);
   }
 

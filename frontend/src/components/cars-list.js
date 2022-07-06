@@ -12,10 +12,12 @@ const CarsList = (props) => {
   const [searchPatent, setSearchPatent] = useState("");
   const [searchId, setSearchId] = useState("");
   const [selectedCar, setSelectedCar] = useState({
-    id: "",
+    _id: "",
     patent: "",
     model: "",
     year: "",
+    aggregated: "",
+    history: "",
     workshopAssociated: "",
   });
 
@@ -141,13 +143,17 @@ const CarsList = (props) => {
       }));
   }
 
-  const editar = () =>{
+  const editar = (selectedCar) =>{
     var newData=cars;
+    
+    console.log("que tiene newData ", newData);
     newData.map(car=>{
     if(car._id === selectedCar._id){
         car.patent = selectedCar.patent;
         car.model = selectedCar.model;
         car.year = selectedCar.year;
+        car.aggregated = selectedCar.aggregated;
+        car.history = selectedCar.history;
         car.workshopAssociated = selectedCar.workshopAssociated;
     }});
     setCars(newData);
@@ -195,6 +201,8 @@ const CarsList = (props) => {
                   <th>Patente</th>
                   <th>Modelo</th>
                   <th>Año</th>
+                  <th>Agregados</th>
+                  <th>Historia</th>
                   <th>Workshop Asociado</th>
                   <th>Acciones</th>
                 </tr>
@@ -205,6 +213,8 @@ const CarsList = (props) => {
                   const patent = `${car.patent}`;
                   const model = `${car.model}`;
                   const year = `${car.year}`;
+                  const aggregated = `${car.aggregated}`;
+                  const history = `${car.history}`;
                   const workshopAssociated = `${car.workshopAssociated}`;
                   return (
                     <tr>
@@ -223,6 +233,8 @@ const CarsList = (props) => {
                       <td>{patent}</td>
                       <td>{model}</td>
                       <td>{year}</td>
+                      <td>{aggregated}</td>
+                      <td>{history}</td>
                       <td>{workshopAssociated}</td>
                       <td>
                         <button className="btn btn-primary" onClick={() => selectCar("Editar", car)}>Edit</button>
@@ -277,6 +289,10 @@ const CarsList = (props) => {
             <input className="form-control" type="text" name="model" id="modelField" onChange={handleChange} value={selectedCar.model}/>
             <label>Año</label>
             <input className="form-control" type="number" name="year" id="yearField" onChange={handleChange} value={selectedCar.year}/>
+            <label>Agregados</label>
+            <input className="form-control" type="text" name="aggregated" id="aggregatedField" onChange={handleChange} value={selectedCar.aggregated}/>
+            <label>Historia</label>
+            <input className="form-control" type="tex" name="history" id="historyField" onChange={handleChange} value={selectedCar.history}/>
             <label>Taller Mecanico</label>
             <input className="form-control" type="text" name="workshopAssociated" id="workshopField" onChange={handleChange} value={selectedCar.workshopAssociated}/>
         </ModalBody>
