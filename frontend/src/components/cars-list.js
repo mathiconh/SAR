@@ -180,23 +180,12 @@ const CarsList = (props) => {
                 </div>
                 <div className="col-sm-6">
                   <button className="btn btn-success" onClick={() => selectCar("Editar")}>Añadir un nuevo Auto</button>
-
-                  <a href="#deleteCarModal" className="btn btn-danger" data-toggle="modal">
-                    <i className="material-icons">&#xE15C;</i>{" "}
-                    <span>Delete</span>
-                  </a>
                 </div>
               </div>
             </div>
             <table className="table table-striped table-hover">
               <thead>
                 <tr>
-                  <th>
-                    <span className="custom-checkbox">
-                      <input type="checkbox" id="selectAll"></input>
-                      <label htmlFor="selectAll"></label>
-                    </span>
-                  </th>
                   <th>Id</th>
                   <th>Patente</th>
                   <th>Modelo</th>
@@ -218,17 +207,6 @@ const CarsList = (props) => {
                   const workshopAssociated = `${car.workshopAssociated}`;
                   return (
                     <tr>
-                      <td>
-                        <span className="custom-checkbox">
-                          <input
-                            type="checkbox"
-                            id="checkbox2"
-                            name="options[]"
-                            value="1"
-                          ></input>
-                          <label htmlFor="checkbox2"></label>
-                        </span>
-                      </td>
                       <td>{id}</td>
                       <td>{patent}</td>
                       <td>{model}</td>
