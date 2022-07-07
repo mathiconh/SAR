@@ -38,8 +38,8 @@ const CarsList = (props) => {
     setSearchPatent(searchPatent);
   };
 
-  const retrieveCars = () => {
-    CarsDataService.getAll()
+  const retrieveCars = async () => {
+    await CarsDataService.getAll()
       .then((response) => {
         console.log("Data: ", response.data);
         setCars(response.data.cars);
@@ -51,9 +51,9 @@ const CarsList = (props) => {
       });
   };
 
-  const deleteCar = (carId) => {
+  const deleteCar = async (carId) => {
     console.log("Car to be deleted", carId);
-    CarsDataService.deleteCar(carId)
+    await CarsDataService.deleteCar(carId)
       .then((response) => {
         refreshList();
       })
@@ -66,8 +66,8 @@ const CarsList = (props) => {
     retrieveCars();
   };
 
-  const find = (query, by) => {
-    CarsDataService.find(query, by)
+  const find = async (query, by) => {
+    await CarsDataService.find(query, by)
       .then((response) => {
         console.log("Data: ", response.data);
         setCars(response.data.cars);
@@ -143,11 +143,8 @@ const CarsList = (props) => {
       }));
   }
 
-  const editar = (selectedCar) =>{
-    var newData=cars;
-    
-    console.log("que tiene newData ", newData);
-    newData.map(car=>{
+  const editar = async (selectedCar) =>{
+    cars.map(car=>{
     if(car._id === selectedCar._id){
         car.patent = selectedCar.patent;
         car.model = selectedCar.model;
@@ -156,13 +153,16 @@ const CarsList = (props) => {
         car.history = selectedCar.history;
         car.workshopAssociated = selectedCar.workshopAssociated;
     }});
-    setCars(newData);
-    CarsDataService.editCar(newData[0]);
+    const result = await await CarsDataService.editCar(selectedCar);
+    if (result.status) {
+      console.log('Edicion exitosa');
+      setCars(cars);
+    }
     setModalEditar(false);
   }
 
-  const crear = (car) =>{
-    CarsDataService.createCar(car);
+  const crear = async (car) =>{
+    await CarsDataService.createCar(car);
     setModalEditar(false);
   }
 
