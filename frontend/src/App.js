@@ -81,6 +81,7 @@ function App() {
                 <User {...props} user={user} />
               )}
             />
+            // TODO: Investigar como funciona para desde aca darle estilo al render
             <Route 
               path="/cars/:id"
               render={(props) => (

@@ -26,8 +26,7 @@ const UsersList = props => {
 
   const onChangeSearchIdRol = e => {
     const searchIdRol = e.target.value;
-    setSearchIdRol(searchIdRol);
-    
+    setSearchIdRol(searchIdRol); 
   };
 
   const retrieveUsers = () => {

@@ -12,6 +12,7 @@ class CarsDataService {
   }
 
   async find(query, by = "patent", page = 0) {
+    console.log(`Searching by: ${by} value: ${query}`);
     const result = await http.get(`cars?page=${page}&${by}=${query}`);
     console.log('DB Result: ', result);
     return result;

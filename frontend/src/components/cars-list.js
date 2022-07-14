@@ -7,10 +7,10 @@ import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
 const CarsList = (props) => {
 
   const [cars, setCars] = useState([]);
-  const [totalPages, setTotalPages] = useState([]);
+  const [entriesPerPage, setEntriesPerPage] = useState([]);
   const [totalResults, setTotalResults] = useState([]);
-  const [searchPatent, setSearchPatent] = useState("");
-  const [searchId, setSearchId] = useState("");
+  const [searchParam, setSearchParam] = useState("");
+  const [searchValue, setSearchValue] = useState("");
   const [selectedCar, setSelectedCar] = useState({
     _id: "",
     patent: "",
@@ -20,6 +20,7 @@ const CarsList = (props) => {
     history: "",
     workshopAssociated: "",
   });
+  const [searchableParams] = useState(Object.keys(selectedCar));
 
   const [modalEditar, setModalEditar] = useState(false);
   const [modalEliminar, setModalElminar] = useState(false);
@@ -28,14 +29,14 @@ const CarsList = (props) => {
     retrieveCars();
   }, []);
 
-  const onChangeSearchId = (e) => {
-    const searchId = e.target.value;
-    setSearchId(searchId);
+  const onChangeSearchParam = (e) => {
+    const searchParam = e.target.value;
+    setSearchParam(searchParam);
   };
 
-  const onChangeSearchPatent = (e) => {
-    const searchPatent = e.target.value;
-    setSearchPatent(searchPatent);
+  const onChangeSearchValue = (e) => {
+    const searchValue = e.target.value;
+    setSearchValue(searchValue);
   };
 
   const retrieveCars = async () => {
@@ -43,8 +44,8 @@ const CarsList = (props) => {
       .then((response) => {
         console.log("Data: ", response.data);
         setCars(response.data.cars);
-        setTotalPages(response.data.total_pages);
         setTotalResults(response.data.total_results);
+        setEntriesPerPage(response.data.cars.length);
       })
       .catch((e) => {
         console.log(e);
@@ -71,42 +72,18 @@ const CarsList = (props) => {
       .then((response) => {
         console.log("Data: ", response.data);
         setCars(response.data.cars);
-        setTotalPages(response.data.total_pages);
         setTotalResults(response.data.total_results);
+        setEntriesPerPage(response.data.cars.length);
       })
       .catch((e) => {
         console.log(e);
       });
   };
 
-  const findByPatent = () => {
-    find(searchPatent, "Patente");
+  const findByParam = () => {
+    find(searchValue, searchParam);
   };
 
-  const findById = () => {
-    find(searchId, "_id");
-  };
-
-  function getPages() {
-    let pages = [];
-    for (let index = 0; index < totalPages; index++) {
-      pages.push(index + 1);
-    }
-    return pages;
-  }
-
-  let items = getPages();
-
-  let itemList = items.map((item, index) => {
-    console.log("Index: ", index + 1);
-    return (
-      <li className="page-item active">
-        <a href="#a" className="page-link">
-          {index + 1}
-        </a>
-      </li>
-    );
-  });
 
   let setModalButton = (selectedCar) => {
     if (selectedCar._id) {
@@ -136,23 +113,25 @@ const CarsList = (props) => {
   };
 
   const handleChange=e=>{
-      const {name, value}=e.target;
-      setSelectedCar((prevState)=>({
-          ...prevState,
-          [name]: value
-      }));
+    const {name, value}=e.target;
+    setSelectedCar((prevState)=>({
+        ...prevState,
+        [name]: value
+      }
+    ));
   }
 
   const editar = async (selectedCar) =>{
-    cars.map(car=>{
-    if(car._id === selectedCar._id){
+    cars.map(car => {
+    if (car._id === selectedCar._id) {
         car.patent = selectedCar.patent;
         car.model = selectedCar.model;
         car.year = selectedCar.year;
         car.aggregated = selectedCar.aggregated;
         car.history = selectedCar.history;
         car.workshopAssociated = selectedCar.workshopAssociated;
-    }});
+      }
+    });
     const result = await CarsDataService.editCar(selectedCar);
     if (result.status) {
       console.log('Edicion exitosa');
@@ -161,11 +140,11 @@ const CarsList = (props) => {
     setModalEditar(false);
   }
 
-  const crear = async (selectedCar) =>{    
-    const car = selectedCar;
-    const result = await CarsDataService.createCar(car)
+  const crear = async (selectedCar) =>{
+    const result = await CarsDataService.createCar(selectedCar);
     if (result.status) {
       console.log('creación exitosa');
+      retrieveCars();
     }
     setModalEditar(false);
   }
@@ -182,12 +161,37 @@ const CarsList = (props) => {
                     Administrar <b>Autos</b>
                   </h2>
                 </div>
-                <div className="col-sm-6">
+                <div className="input-group col-lg-4">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Buscar por "
+                    value={searchValue}
+                    onChange={onChangeSearchValue}
+                  />
+                  <select onChange={onChangeSearchParam}>
+                  {searchableParams.map(param => {
+                    return (
+                      <option value={param}> {param.replace("_", "")} </option>
+                    )
+                  })}
+                  </select>
+                  <div className="input-group-append">
+                    <button
+                      className="btn btn-outline-secondary"
+                      type="button"
+                      onClick={findByParam}
+                    >
+                      Search
+                    </button>
+                  </div>
+                </div>
+                <div className="col-lg-6">
                   <button className="btn btn-success" onClick={() => selectCar("Editar")}>Añadir un nuevo Auto</button>
                 </div>
               </div>
             </div>
-            <table className="table table-striped table-hover">
+            <table className="table table-striped w-auto table-hover">
               <thead>
                 <tr>
                   <th>Id</th>
@@ -216,7 +220,7 @@ const CarsList = (props) => {
                       <td>{model}</td>
                       <td>{year}</td>
                       <td>{aggregated}</td>
-                      <td>{history}</td>
+                      <td width="">{history}</td>
                       <td>{workshopAssociated}</td>
                       <td>
                         <button className="btn btn-primary" onClick={() => selectCar("Editar", car)}>Edit</button>
@@ -229,19 +233,10 @@ const CarsList = (props) => {
             </table>
             <div className="clearfix">
               <div className="hint-text">
-                Showing 
-                <b>{`${totalResults}`}</b> out of{" "}
-                <b>{`${totalPages}`}</b> entries
+                Showing{" "}
+                <b>{`${entriesPerPage}`}</b> out of{" "}
+                <b>{`${totalResults}`}</b> entries
               </div>
-              <ul className="pagination">
-                <li className="page-item">
-                  <a href="#a" className="page-link">Previous</a>
-                </li>
-                {itemList}
-                <li className="page-item">
-                  <a href="#a" className="page-link">Next</a>
-                </li>
-              </ul>
             </div>
           </div>
         </div>
