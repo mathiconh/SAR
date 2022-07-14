@@ -153,7 +153,7 @@ const CarsList = (props) => {
         car.history = selectedCar.history;
         car.workshopAssociated = selectedCar.workshopAssociated;
     }});
-    const result = await await CarsDataService.editCar(selectedCar);
+    const result = await CarsDataService.editCar(selectedCar);
     if (result.status) {
       console.log('Edicion exitosa');
       setCars(cars);
@@ -161,8 +161,12 @@ const CarsList = (props) => {
     setModalEditar(false);
   }
 
-  const crear = async (car) =>{
-    await CarsDataService.createCar(car);
+  const crear = async (selectedCar) =>{    
+    const car = selectedCar;
+    const result = await CarsDataService.createCar(car)
+    if (result.status) {
+      console.log('creación exitosa');
+    }
     setModalEditar(false);
   }
 

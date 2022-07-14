@@ -17,9 +17,10 @@ class CarsDataService {
     return result;
   } 
 
-  async createCar(patent, model, year, aggregated, history, workshopAssociated) {
+  async createCar({patent, model, year, aggregated, history, workshopAssociated}) {
     console.log("About to create car: ", patent, model, year, aggregated, history, workshopAssociated);
     const result = await http.post(`/createCar?patent=${patent}&model=${model}&year=${year}&aggregated=${aggregated}&history=${history}&workshopAssociated=${workshopAssociated}`);
+    console.log('Result: ', result);
     return result;
   }
 
