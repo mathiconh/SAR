@@ -1,8 +1,7 @@
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, useEffect } from "react";
 import CarsDataService from "../services/cars";
-import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
+import { Modal, ModalBody, ModalFooter, Alert } from "reactstrap";
 
 const CarsList = (props) => {
 
@@ -11,6 +10,7 @@ const CarsList = (props) => {
   const [totalResults, setTotalResults] = useState([]);
   const [searchParam, setSearchParam] = useState("");
   const [searchValue, setSearchValue] = useState("");
+  const [validationErrorMessage, setValidationErrorMessage] = useState("");
   const [selectedCar, setSelectedCar] = useState({
     _id: "",
     patent: "",
@@ -37,6 +37,16 @@ const CarsList = (props) => {
   const onChangeSearchValue = (e) => {
     const searchValue = e.target.value;
     setSearchValue(searchValue);
+  };
+
+  const selectCar = (action, car = {}) => {
+    console.log("Selected: ", car);
+    setSelectedCar(car);
+    action === "Editar" ? setModalEditar(true) : setModalElminar(true);
+  };
+
+  const findByParam = () => {
+    find(searchValue, searchParam);
   };
 
   const retrieveCars = async () => {
@@ -80,11 +90,6 @@ const CarsList = (props) => {
       });
   };
 
-  const findByParam = () => {
-    find(searchValue, searchParam);
-  };
-
-
   let setModalButton = (selectedCar) => {
     if (selectedCar._id) {
         return (
@@ -101,20 +106,19 @@ const CarsList = (props) => {
     }
   }
 
-  const selectCar = (action, car = {}) => {
-    console.log("Selected: ", car);
-    setSelectedCar(car);
-    action === "Editar" ? setModalEditar(true) : setModalElminar(true);
-  };
+  const closeModal = () => {
+    setModalEditar(false);
+    setValidationErrorMessage('');
+  }
 
   const eliminar = (carId) => {
     deleteCar(carId);
     setModalElminar(false);
   };
 
-  const handleChange=e=>{
-    const {name, value}=e.target;
-    setSelectedCar((prevState)=>({
+  const handleChange = e => {
+    const {name, value} = e.target;
+    setSelectedCar((prevState) => ({
         ...prevState,
         [name]: value
       }
@@ -122,7 +126,7 @@ const CarsList = (props) => {
   }
 
   const editar = async (selectedCar) =>{
-    cars.map(car => {
+    cars.forEach(car => {
     if (car._id === selectedCar._id) {
         car.patent = selectedCar.patent;
         car.model = selectedCar.model;
@@ -135,18 +139,35 @@ const CarsList = (props) => {
     const result = await CarsDataService.editCar(selectedCar);
     if (result.status) {
       console.log('Edicion exitosa');
+      setValidationErrorMessage('');
       setCars(cars);
+      setModalEditar(false);
+    } else {
+      setValidationErrorMessage(result?.errorMessage);
     }
-    setModalEditar(false);
   }
 
-  const crear = async (selectedCar) =>{
+  const crear = async (selectedCar) => {
     const result = await CarsDataService.createCar(selectedCar);
-    if (result.status) {
+    if (result?.status) {
       console.log('creación exitosa');
+      setValidationErrorMessage('');
       retrieveCars();
+      setModalEditar(false);
+    } else {
+      setValidationErrorMessage(result?.errorMessage);
     }
-    setModalEditar(false);
+  }
+
+  const buildErrorMessage = () => {
+    if (validationErrorMessage !== '') {
+      return (
+        <Alert id='errorMessage' className="alert alert-danger fade show" key='danger' variant='danger'>
+          {validationErrorMessage}
+        </Alert>
+      );
+    }
+    return;
   }
 
   return (
@@ -274,8 +295,9 @@ const CarsList = (props) => {
             <input className="form-control" type="text" name="workshopAssociated" id="workshopField" onChange={handleChange} value={selectedCar.workshopAssociated}/>
         </ModalBody>
         <ModalFooter>
-            {setModalButton(selectedCar)}
-          <button className="btn btn-secondary" onClick={() => setModalEditar(false)}>
+          {buildErrorMessage()}
+          {setModalButton(selectedCar)}
+          <button className="btn btn-secondary" onClick={() => closeModal()}>
             Cancelar
           </button>
         </ModalFooter>
