@@ -285,17 +285,17 @@ const CarsList = (props) => {
             <label>ID</label>
             <input className="form-control" readOnly type="text" name="id" id="idField" value={selectedCar._id} placeholder="Auto-Incremental ID"/>
             <label>Patente</label>
-            <input className="form-control" type="text" name="patent" id="patentField" onChange={handleChange} value={selectedCar.patent}/>
+            <input className="form-control" type="text" maxlength="50" name="patent" id="patentField" onChange={handleChange} value={selectedCar.patent}/>
             <label>Modelo</label>
-            <input className="form-control" type="text" name="model" id="modelField" onChange={handleChange} value={selectedCar.model}/>
+            <input className="form-control" type="text" maxlength="100" name="model" id="modelField" onChange={handleChange} value={selectedCar.model}/>
             <label>Año</label>
-            <input className="form-control" type="number" name="year" id="yearField" onChange={handleChange} value={selectedCar.year}/>
+            <input className="form-control" type="number" maxlength="10" name="year" id="yearField" onChange={handleChange} value={selectedCar.year}/>
             <label>Agregados</label>
-            <input className="form-control" type="text" name="aggregated" id="aggregatedField" onChange={handleChange} value={selectedCar.aggregated}/>
+            <input className="form-control" type="text" maxlength="300" name="aggregated" id="aggregatedField" onChange={handleChange} value={selectedCar.aggregated}/>
             <label>Historia</label>
-            <input className="form-control" type="tex" name="history" id="historyField" onChange={handleChange} value={selectedCar.history}/>
+            <input className="form-control" type="text" maxlength="200" name="history" id="historyField" onChange={handleChange} value={selectedCar.history}/>
             <label>Taller Mecanico</label>
-            <input className="form-control" type="text" name="workshopAssociated" id="workshopField" onChange={handleChange} value={selectedCar.workshopAssociated}/>
+            <input className="form-control" type="text" maxlength="50" name="workshopAssociated" id="workshopField" onChange={handleChange} value={selectedCar.workshopAssociated}/>
         </ModalBody>
         <ModalFooter>
           {buildErrorMessage()}
