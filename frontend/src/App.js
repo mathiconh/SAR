@@ -30,6 +30,9 @@ function App() {
         <a href="/cars" className="navbar-brand">
           Cars ABM
         </a>
+        <a href="/login" className="navbar-brand">
+          Login
+        </a>
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
             <BrowserRouter>
@@ -67,6 +70,9 @@ function App() {
           <Switch>
             <Route exact path={["/", "/users"]} component={UsersList} />
             <Route exact path={["/", "/cars"]} component={CarsList} />
+            <Route exact path={["/", "/login"]} component={Login} />
+
+            
             {/* <Route exact path={["/", "/add-car"]} component={addCar} /> */}
 
             <Route 

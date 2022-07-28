@@ -1,5 +1,6 @@
 import http from "../http-common";
 
+
 class UsersDataService {
   getAll(page = 0) {
     // return http.get(`user?page=${page}`);
@@ -9,6 +10,14 @@ class UsersDataService {
   get(id) {
     return http.get(`/users?id=${id}`);
   }
+
+  getLogin(nombre, password) {
+    const result =  http.get(`/login?nombre=${nombre}&password=${password}`);
+    console.log('DB Result: ', result);
+    return result;
+
+  }
+  
 
   find(query, by = "Nombre", page = 0) {
     const result = http.get(`users?page=${page}&${by}=${query}`);
