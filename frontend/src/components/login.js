@@ -27,8 +27,8 @@ function Login() {
   //          });
   //      };
 
-  const iniciarSesion = async (nombre, password) => {
-    await UsersDataService.getLogin(nombre, password)
+  const iniciarSesion = async (user) => {
+    await UsersDataService.getLogin(user.nombre, user.password)
       .then((response) => {
         console.log("data", response.data);
       })
