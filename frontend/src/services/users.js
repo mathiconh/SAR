@@ -12,10 +12,9 @@ class UsersDataService {
   }
 
   getLogin(nombre, password) {
-    const result =  http.get(`/login?nombre=${nombre}&password=${password}`);
+    const result =  http.get(`/login?Nombre=${nombre}&Password=${password}`);
     console.log('DB Result: ', result);
     return result;
-
   }
   
 
