@@ -11,8 +11,8 @@ class UsersDataService {
     return http.get(`/users?id=${id}`);
   }
 
-  getLogin(nombre, password) {
-    const result =  http.get(`/login?nombre=${nombre}&password=${password}`);
+  async getLogin(correoE, password) {
+    const result =  await http.get(`/login?correoE=${correoE}&password=${password}`);
     console.log('DB Result: ', result);
     return result;
 

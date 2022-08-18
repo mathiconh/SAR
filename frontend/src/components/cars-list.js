@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import CarsDataService from "../services/cars";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, ModalBody, ModalFooter, Alert } from "reactstrap";
+import Cookies from 'universal-cookie'
+const cookies = new Cookies();
 
 const CarsList = (props) => {
 
@@ -13,18 +15,20 @@ const CarsList = (props) => {
   const [validationErrorMessage, setValidationErrorMessage] = useState("");
   const [selectedCar, setSelectedCar] = useState({
     _id: "",
-    patent: "",
-    model: "",
-    year: "",
-    aggregated: "",
-    history: "",
-    workshopAssociated: "",
+    patente: "",
+    modelo: "",
+    año: "",
+    agregados: "",
+    historia: "",
+    tallerAsociado: "",
   });
   const [searchableParams] = useState(Object.keys(selectedCar));
 
   const [modalEditar, setModalEditar] = useState(false);
   const [modalEliminar, setModalElminar] = useState(false);
 
+  console.log('id', cookies.get('_id'))
+  console.log('nombre', cookies.get('nombre'))
   useEffect(() => {
     retrieveCars();
   }, []);
@@ -131,12 +135,12 @@ const CarsList = (props) => {
 
     cars.forEach(car => {
     if (car._id === selectedCar._id) {
-        car.patent = selectedCar.patent;
-        car.model = selectedCar.model;
-        car.year = selectedCar.year;
-        car.aggregated = selectedCar.aggregated;
-        car.history = selectedCar.history;
-        car.workshopAssociated = selectedCar.workshopAssociated;
+        car.patente = selectedCar.patente;
+        car.modelo = selectedCar.modelo;
+        car.año = selectedCar.año;
+        car.agregados = selectedCar.agregados;
+        car.historia = selectedCar.historia;
+        car.tallerAsociado = selectedCar.tallerAsociado;
       }
     });
     const result = await CarsDataService.editCar(selectedCar);
@@ -231,21 +235,21 @@ const CarsList = (props) => {
               <tbody>
                 {cars.map((car) => {
                   const id = `${car._id}`;
-                  const patent = `${car.patent}`;
-                  const model = `${car.model}`;
-                  const year = `${car.year}`;
-                  const aggregated = `${car.aggregated}`;
-                  const history = `${car.history}`;
-                  const workshopAssociated = `${car.workshopAssociated}`;
+                  const patente = `${car.patente}`;
+                  const modelo = `${car.modelo}`;
+                  const año = `${car.año}`;
+                  const agregados = `${car.agregados}`;
+                  const historia = `${car.historia}`;
+                  const tallerAsociado = `${car.tallerAsociado}`;
                   return (
                     <tr>
                       <td>{id}</td>
-                      <td>{patent}</td>
-                      <td>{model}</td>
-                      <td>{year}</td>
-                      <td>{aggregated}</td>
-                      <td width="">{history}</td>
-                      <td>{workshopAssociated}</td>
+                      <td>{patente}</td>
+                      <td>{modelo}</td>
+                      <td>{año}</td>
+                      <td>{agregados}</td>
+                      <td width="">{historia}</td>
+                      <td>{tallerAsociado}</td>
                       <td>
                         <button className="btn btn-primary" onClick={() => selectCar("Editar", car)}>Edit</button>
                         <button className="btn btn-danger" onClick={() => selectCar("Eliminar", car)}>Delete</button>
@@ -285,17 +289,17 @@ const CarsList = (props) => {
             <label>ID</label>
             <input className="form-control" readOnly type="text" name="id" id="idField" value={selectedCar._id} placeholder="Auto-Incremental ID"/>
             <label>Patente</label>
-            <input className="form-control" type="text" maxlength="50" name="patent" id="patentField" onChange={handleChange} value={selectedCar.patent}/>
+            <input className="form-control" type="text" maxlength="50" name="patente" id="patenteField" onChange={handleChange} value={selectedCar.patente}/>
             <label>Modelo</label>
-            <input className="form-control" type="text" maxlength="100" name="model" id="modelField" onChange={handleChange} value={selectedCar.model}/>
+            <input className="form-control" type="text" maxlength="100" name="modelo" id="modeloField" onChange={handleChange} value={selectedCar.modelo}/>
             <label>Año</label>
-            <input className="form-control" type="number" maxlength="10" name="year" id="yearField" onChange={handleChange} value={selectedCar.year}/>
+            <input className="form-control" type="number" maxlength="10" name="año" id="añoField" onChange={handleChange} value={selectedCar.año}/>
             <label>Agregados</label>
-            <input className="form-control" type="text" maxlength="300" name="aggregated" id="aggregatedField" onChange={handleChange} value={selectedCar.aggregated}/>
+            <input className="form-control" type="text" maxlength="300" name="agregados" id="agregadosField" onChange={handleChange} value={selectedCar.agregados}/>
             <label>Historia</label>
-            <input className="form-control" type="text" maxlength="200" name="history" id="historyField" onChange={handleChange} value={selectedCar.history}/>
+            <input className="form-control" type="text" maxlength="200" name="historia" id="historiaField" onChange={handleChange} value={selectedCar.historia}/>
             <label>Taller Mecanico</label>
-            <input className="form-control" type="text" maxlength="50" name="workshopAssociated" id="workshopField" onChange={handleChange} value={selectedCar.workshopAssociated}/>
+            <input className="form-control" type="text" maxlength="50" name="tallerAsociado" id="workshopField" onChange={handleChange} value={selectedCar.tallerAsociado}/>
         </ModalBody>
         <ModalFooter>
           {buildErrorMessage()}

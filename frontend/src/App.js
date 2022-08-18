@@ -9,6 +9,8 @@ import Car from "./components/cars";
 import CarsList from "./components/cars-list";
 import Login from "./components/login";
 // import addCar from "./components/add-car"
+import Cookies from 'universal-cookie'
+const cookies = new Cookies();
 
 function App() {
   const [user, setUser] = React.useState(null);
@@ -17,8 +19,33 @@ function App() {
     setUser(user);
   }
 
-  async function logout() {
-    setUser(null)
+
+  const sesion = () => {
+    if(cookies.get('_id')){
+      console.log("entro al primero")
+      return(
+        <a onClick={cerrarSesion} className="nav-link" style={{cursor:'pointer'}}>
+          Cerrar Sesión 
+        </a>
+      );
+      
+    }else{
+      console.log("entro al 2do")
+      return(
+          <a onClick={cerrarSesion} className="nav-link" style={{cursor:'pointer'}}>
+            Ingresar
+          </a>
+      );
+    };
+      
+    
+  }
+
+  async function cerrarSesion() {
+    cookies.remove('_id', {path: "/"});
+    cookies.remove('nombre', {path: "/"});
+    cookies.remove('apellido', {path: "/"});
+    window.location.href="./login"
   }
 
   return (
@@ -49,18 +76,7 @@ function App() {
             </BrowserRouter>
           </li>
           <li className="nav-item" >
-            { user ? (
-              <a onClick={logout} className="nav-link" style={{cursor:'pointer'}}>
-                Logout {user.name}
-              </a>
-            ) : (
-            <BrowserRouter>
-              <Link to={"/login"} className="nav-link">
-                Login
-              </Link>
-            </BrowserRouter>
-            )}
-
+            {sesion()}
           </li>
         </div>
       </nav>
