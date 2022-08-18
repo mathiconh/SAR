@@ -15,7 +15,6 @@ class UsersDataService {
     const result =  await http.get(`/login?correoE=${correoE}&password=${password}`);
     console.log('DB Result: ', result);
     return result;
-
   }
   
 
