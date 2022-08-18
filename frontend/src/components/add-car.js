@@ -4,12 +4,12 @@
 
 // const AddCar = props => {
 //   const initialCarState = {
-//     patent: "",
-//     model: "",
-//     year: "",
-//     aggregated: "",
-//     history: "",
-//     workshopAssociated: ""
+//     patente: "",
+//     modelo: "",
+//     año: "",
+//     agregados: "",
+//     historia: "",
+//     tallerAsociado: ""
 //   };
 
 
@@ -24,12 +24,12 @@
 
 //   const saveCar = () => {
 //     var data = {
-//       patent: props.car.patent,
-//       model: props.car.model,
-//       year: props.car.year,
-//       aggregated: props.car.aggregated,
-//       history: props.car.history,
-//       workshopAssociated: props.car.workshopAssociated,
+//       patente: props.car.patente,
+//       modelo: props.car.modelo,
+//       año: props.car.año,
+//       agregados: props.car.agregados,
+//       historia: props.car.historia,
+//       tallerAsociado: props.car.tallerAsociado,
 
 //     };
 
@@ -74,7 +74,7 @@
 //                 className="form-control"
 //                 id="text"
 //                 required
-//                 value={patent}
+//                 value={patente}
 //                 onChange={handleInputChange}
 //                 name="text"
 //               />
@@ -83,7 +83,7 @@
 //                 className="form-control"
 //                 id="text"
 //                 required
-//                 value={year}
+//                 value={año}
 //                 onChange={handleInputChange}
 //                 name="text"
 //               />
@@ -92,7 +92,7 @@
 //                 className="form-control"
 //                 id="text"
 //                 required
-//                 value={model}
+//                 value={modelo}
 //                 onChange={handleInputChange}
 //                 name="text"
 //               />
@@ -101,7 +101,7 @@
 //                 className="form-control"
 //                 id="text"
 //                 required
-//                 value={workshopAssociated}
+//                 value={tallerAsociado}
 //                 onChange={handleInputChange}
 //                 name="text"
 //               />

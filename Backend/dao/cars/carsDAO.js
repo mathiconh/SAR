@@ -61,21 +61,21 @@ export default class carsDAO {
 
     // ToDo: Add nameProductModif property with the Id of the loged in user
     static async addCar(
-        patent,
-        model,
-        year,
-        aggregated,
-        history,
-        workshopAssociated,
+        patente,
+        modelo,
+        año,
+        agregados,
+        historia,
+        tallerAsociado,
     ) {
         try {
             const carDoc = {
-                patent: patent,
-                model: model,
-                year: year,
-                aggregated: aggregated,
-                history: history,
-                workshopAssociated: workshopAssociated,
+                patente: patente,
+                modelo: modelo,
+                año: año,
+                agregados: agregados,
+                historia: historia,
+                tallerAsociado: tallerAsociado,
                 FechaUltModif: new Date(),
                 IdUsuarioModif: 0,
                 TipoModif: modTypeCreate,
@@ -89,23 +89,23 @@ export default class carsDAO {
     }
 
     static async updateCar (
-        patent,
-        model,
-        year,
-        aggregated,
-        history,
-        workshopAssociated,
+        patente,
+        modelo,
+        año,
+        agregados,
+        historia,
+        tallerAsociado,
     ) {
         try {
             const upcontentResponse = await cars.updateOne(
                 { _id: ObjectId(carId) },
                 { $set: { 
-                    patent: patent,
-                    model: model,
-                    year: year,
-                    aggregated: aggregated,
-                    history: history,
-                    workshopAssociated: workshopAssociated,
+                    patente: patente,
+                    modelo: modelo,
+                    año: año,
+                    agregados: agregados,
+                    historia: historia,
+                    tallerAsociado: tallerAsociado,
                     contentUltModif: new content(),
                     TipoModif: modTypeModif,
                     }

@@ -16,12 +16,12 @@ const useStyles = makeStyles({
 });
 
 const CardsCrud = (props) => {
-  const { history } = props;
+  const { historia } = props;
 
 
 
   const handleButtonClick = (path) => {
-    history.push(path);
+    historia.push(path);
   };
 
   const data = [

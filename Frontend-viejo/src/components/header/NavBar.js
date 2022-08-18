@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavBar = (props) => {
-  const { history } = props;
+  const { historia } = props;
   const classes = useStyles();
   const [openCloseElement, setOpenCloseElement] = React.useState(null);
   const open = Boolean(openCloseElement);
@@ -43,12 +43,12 @@ const NavBar = (props) => {
   };
 
   const handleMenuClick = (pageURL) => {
-    history.push(pageURL);
+    historia.push(pageURL);
     setOpenCloseElement(null);
   };
 
   const handleButtonClick = (pageURL) => {
-    history.push(pageURL);
+    historia.push(pageURL);
   };
 
   const menuItems = [

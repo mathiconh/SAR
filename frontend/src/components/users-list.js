@@ -147,15 +147,15 @@ const UsersList = props => {
       <div className="row">
         {users.map((user) => {
           const id = `${user._id}`;
-          const name = `${user.Nombre}`;
-          const Lastname = `${user.Apellido}`;
-          const idrol = `${user.IdRol}`;
-          const address = `${user.Direccion}`;
+          const name = `${user.nombre}`;
+          const Lastname = `${user.apellido}`;
+          const idrol = `${user.idRol}`;
+          const address = `${user.direccion}`;
           return (
             <div className="col-lg-4 pb-1">
               <div className="card">
                 <div className="card-body">
-                  <h5 className="card-title">{user.Nombre}</h5>
+                  <h5 className="card-title">{user.nombre}</h5>
                   <p className="card-text">
                     <strong>Id: </strong>{id}<br/>
                     <strong>name: </strong>{name}<br/>

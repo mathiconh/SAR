@@ -11,16 +11,16 @@ class CarsDataService {
     return await http.get(`/cars?id=${id}`);
   }
 
-  async find(query, by = "patent", page = 0) {
+  async find(query, by = "patente", page = 0) {
     console.log(`Searching by: ${by} value: ${query}`);
     const result = await http.get(`cars?page=${page}&${by}=${query}`);
     console.log('DB Result: ', result);
     return result;
   } 
 
-  async createCar({patent, model, year, aggregated, history, workshopAssociated}) {
-    console.log("About to create car: ", patent, model, year, aggregated, history, workshopAssociated);
-    const result = await http.post(`/createCar?patent=${patent}&model=${model}&year=${year}&aggregated=${aggregated}&history=${history}&workshopAssociated=${workshopAssociated}`);
+  async createCar({patente, modelo, año, agregados, historia, tallerAsociado}) {
+    console.log("About to create car: ", patente, modelo, año, agregados, historia, tallerAsociado);
+    const result = await http.post(`/createCar?patente=${patente}&modelo=${modelo}&año=${año}&agregados=${agregados}&historia=${historia}&tallerAsociado=${tallerAsociado}`);
     console.log('Result: ', result);
     return result;
   }
@@ -29,9 +29,9 @@ class CarsDataService {
     return await http.delete(`/deleteCar?_id=${id}`);
   }
 
-  async editCar({ _id, patent, model, year, aggregated, history, workshopAssociated }) {
-    console.log("About to edit car: ", _id, patent, model, year, aggregated, history, workshopAssociated);
-    const result = await http.put(`/editCar?_id=${_id}&patent=${patent}&model=${model}&year=${year}&aggregated=${aggregated}&history=${history}&workshopAssociated=${workshopAssociated}`);
+  async editCar({ _id, patente, modelo, año, agregados, historia, tallerAsociado }) {
+    console.log("About to edit car: ", _id, patente, modelo, año, agregados, historia, tallerAsociado);
+    const result = await http.put(`/editCar?_id=${_id}&patente=${patente}&modelo=${modelo}&año=${año}&agregados=${agregados}&historia=${historia}&tallerAsociado=${tallerAsociado}`);
     console.log('Result: ', result);
     return result;
   }

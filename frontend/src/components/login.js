@@ -19,7 +19,6 @@ function Login() {
       ...prevState,
       [name]: value,
     }));
-    console.log(user);
   };
 
   //      const deleteCar = async (carId) => {
@@ -35,16 +34,17 @@ function Login() {
 
   const iniciarSesion = async (user) => {
     const result = await UsersDataService.getLogin(user.correoE, user.password)
-    if (result.data.status ){
+    if (result.data.status){
       setValidationErrorMessage('');
 
       cookies.set('_id', result.data.responseData._id, {path: "/"});
       cookies.set('nombre', result.data.responseData.nombre, {path: "/"});
       cookies.set('apellido', result.data.responseData.apellido, {path: "/"});
+      cookies.set('idRol', result.data.responseData.idRol, {path: "/"});
       console.log('Usuario y contraseña correctos', );
       window.location.href="./cars"
     }else{
-      setValidationErrorMessage(result?.data.errorMessage);
+      setValidationErrorMessage(result?.data?.errorMessage);
 
       console.log('Error, el usuario y/o contraseña son incorrectos');
     };

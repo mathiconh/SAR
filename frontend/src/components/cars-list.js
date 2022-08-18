@@ -15,8 +15,8 @@ const CarsList = (props) => {
   const [validationErrorMessage, setValidationErrorMessage] = useState("");
   const [selectedCar, setSelectedCar] = useState({
     _id: "",
-    patente: "",
-    modelo: "",
+    patentee: "",
+    modeloo: "",
     año: "",
     agregados: "",
     historia: "",
@@ -135,8 +135,8 @@ const CarsList = (props) => {
 
     cars.forEach(car => {
     if (car._id === selectedCar._id) {
-        car.patente = selectedCar.patente;
-        car.modelo = selectedCar.modelo;
+        car.patentee = selectedCar.patentee;
+        car.modeloo = selectedCar.modeloo;
         car.año = selectedCar.año;
         car.agregados = selectedCar.agregados;
         car.historia = selectedCar.historia;
@@ -235,8 +235,8 @@ const CarsList = (props) => {
               <tbody>
                 {cars.map((car) => {
                   const id = `${car._id}`;
-                  const patente = `${car.patente}`;
-                  const modelo = `${car.modelo}`;
+                  const patentee = `${car.patentee}`;
+                  const modeloo = `${car.modeloo}`;
                   const año = `${car.año}`;
                   const agregados = `${car.agregados}`;
                   const historia = `${car.historia}`;
@@ -244,8 +244,8 @@ const CarsList = (props) => {
                   return (
                     <tr>
                       <td>{id}</td>
-                      <td>{patente}</td>
-                      <td>{modelo}</td>
+                      <td>{patentee}</td>
+                      <td>{modeloo}</td>
                       <td>{año}</td>
                       <td>{agregados}</td>
                       <td width="">{historia}</td>
@@ -289,9 +289,9 @@ const CarsList = (props) => {
             <label>ID</label>
             <input className="form-control" readOnly type="text" name="id" id="idField" value={selectedCar._id} placeholder="Auto-Incremental ID"/>
             <label>Patente</label>
-            <input className="form-control" type="text" maxlength="50" name="patente" id="patenteField" onChange={handleChange} value={selectedCar.patente}/>
+            <input className="form-control" type="text" maxlength="50" name="patentee" id="patenteeField" onChange={handleChange} value={selectedCar.patentee}/>
             <label>Modelo</label>
-            <input className="form-control" type="text" maxlength="100" name="modelo" id="modeloField" onChange={handleChange} value={selectedCar.modelo}/>
+            <input className="form-control" type="text" maxlength="100" name="modeloo" id="modelooField" onChange={handleChange} value={selectedCar.modeloo}/>
             <label>Año</label>
             <input className="form-control" type="number" maxlength="10" name="año" id="añoField" onChange={handleChange} value={selectedCar.año}/>
             <label>Agregados</label>

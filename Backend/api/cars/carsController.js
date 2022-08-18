@@ -36,12 +36,12 @@ export default class carsController {
             console.log(`About to create new car`);
 
             const carResponse = await carsDAO.addCar(
-                req.body.patent,
-                req.body.model,
-                req.body.year,
-                req.body.aggregated,
-                req.body.history,
-                req.body.workshopAssociated,
+                req.body.patente,
+                req.body.modelo,
+                req.body.año,
+                req.body.agregados,
+                req.body.historia,
+                req.body.tallerAsociado,
             );
 
             res.json({ status: "success" });
@@ -57,12 +57,12 @@ export default class carsController {
 
             const carsResponse = await carsDAO.updateCar(
                 carId,
-                req.body.patent,
-                req.body.model,
-                req.body.year,
-                req.body.aggregated,
-                req.body.history,
-                req.body.workshopAssociated,
+                req.body.patente,
+                req.body.modelo,
+                req.body.año,
+                req.body.agregados,
+                req.body.historia,
+                req.body.tallerAsociado,
             );
     
             var { error } = carsResponse;
