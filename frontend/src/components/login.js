@@ -32,7 +32,7 @@ function Login() {
   //          });
   //      };
 
-  const iniciarSesion = async (user) => {
+  const logIn = async (user) => {
     const result = await LoginDataService.get(user.correoE, user.password)
     if (result.data.status){
       setValidationErrorMessage('');
@@ -78,7 +78,7 @@ function Login() {
         onChange={handleChange}
       />
       <br />
-      <button className="btn btn-primary" onClick={() => iniciarSesion(user)}>
+      <button className="btn btn-primary" onClick={() => logIn(user)}>
         Iniciar Sesión
       </button>
       {buildErrorMessage()}

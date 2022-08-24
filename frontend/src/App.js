@@ -2,22 +2,15 @@ import React from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import AddAddress from "./components/add-address";
-import User from "./components/users";
 import UsersList from "./components/users-list";
-import Car from "./components/cars";
 import CarsList from "./components/cars-list";
+import ChampionshipsList from "./components/championships-list";
 import Login from "./components/login";
 // import addCar from "./components/add-car"
 import Cookies from 'universal-cookie'
 const cookies = new Cookies();
 
 function App() {
-  const [user, setUser] = React.useState(null);
-
-  async function login(user = null) {
-    setUser(user);
-  }
 
 
   const sesion = () => {
@@ -72,6 +65,13 @@ function App() {
               </Link>
             </BrowserRouter>
           </li>
+          <li className="nav-item">
+            <BrowserRouter>
+              <Link to={"/championships"} className="nav-link">
+                Campeonatos
+              </Link>
+            </BrowserRouter>
+          </li>
           <li className="nav-item" >
             {sesion()}
           </li>
@@ -86,36 +86,12 @@ function App() {
           <Switch>
             <Route exact path={["/", "/users"]} component={UsersList} />
             <Route exact path={["/", "/cars"]} component={CarsList} />
+            <Route exact path={["/", "/championships"]} component={ChampionshipsList} />
             <Route exact path={["/", "/login"]} component={Login} />
 
             
             {/* <Route exact path={["/", "/add-car"]} component={addCar} /> */}
 
-            <Route 
-              path="/users/:id/address"
-              render={(props) => (
-                <AddAddress {...props} user={user} />
-              )}
-            />
-            <Route 
-              path="/users/:id"
-              render={(props) => (
-                <User {...props} user={user} />
-              )}
-            />
-            // TODO: Investigar como funciona para desde aca darle estilo al render
-            <Route 
-              path="/cars/:id"
-              render={(props) => (
-                <Car {...props} user={user} />
-              )}
-            />
-            <Route 
-              path="/login"
-              render={(props) => (
-                <Login {...props} login={login} />
-              )}
-            />
           </Switch>
         </BrowserRouter>
       </div>

@@ -153,6 +153,7 @@ const UsersList = props => {
             const Lastname = `${user.apellido}`;
             const idrol = `${user.idRol}`;
             const address = `${user.direccion}`;
+            const email = `${user.correoE}`;
             return (
               <div className="col-lg-4 pb-1">
                 <div className="card">
@@ -163,7 +164,8 @@ const UsersList = props => {
                       <strong>name: </strong>{name}<br/>
                       <strong>Id Rol: </strong>{idrol}<br/>
                       <strong>Lastname: </strong>{Lastname}<br/>
-                      <strong>Address: </strong>{address}
+                      <strong>Address: </strong>{address}<br/>
+                      <strong>Email: </strong>{email}
                     </p>
                     <div className="row">
                     <Link to={"/users/"+user._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
