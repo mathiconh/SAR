@@ -1,10 +1,14 @@
 import http from "../http-common";
-
+import Cookies from 'universal-cookie'
+const cookies = new Cookies();
 class LoginDataService {
 
-  get(id) {
-    return http.get(`/login?id=${id}`);
+  async get(correoE, password) {
+    const result =  await http.get(`/login?correoE=${correoE}&password=${password}`);
+    console.log('DB Result: ', result);
+    return result;
   }
+
   
 }
 

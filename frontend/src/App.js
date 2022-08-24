@@ -22,17 +22,15 @@ function App() {
 
   const sesion = () => {
     if(cookies.get('_id')){
-      console.log("entro al primero")
       return(
-        <a onClick={cerrarSesion} className="nav-link" style={{cursor:'pointer'}}>
+        <a onClick={cerrarSesion} href="./login" className="nav-link" style={{cursor:'pointer'}}>
           Cerrar Sesión 
         </a>
       );
       
     }else{
-      console.log("entro al 2do")
       return(
-          <a onClick={cerrarSesion} className="nav-link" style={{cursor:'pointer'}}>
+          <a onClick={cerrarSesion} href="./login" className="nav-link" style={{cursor:'pointer'}}>
             Ingresar
           </a>
       );
@@ -45,7 +43,6 @@ function App() {
     cookies.remove('_id', {path: "/"});
     cookies.remove('nombre', {path: "/"});
     cookies.remove('apellido', {path: "/"});
-    window.location.href="./login"
   }
 
   return (
@@ -77,6 +74,9 @@ function App() {
           </li>
           <li className="nav-item" >
             {sesion()}
+          </li>
+          <li className="navbar-brand">
+            Bienvenido {cookies.get("nombre")}
           </li>
         </div>
       </nav>
