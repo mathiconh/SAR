@@ -6,12 +6,45 @@ import UsersList from "./components/users-list";
 import CarsList from "./components/cars-list";
 import ChampionshipsList from "./components/championships-list";
 import Login from "./components/login";
-// import addCar from "./components/add-car"
 import Cookies from 'universal-cookie'
 const cookies = new Cookies();
 
 function App() {
 
+  const menuPopulate = () => {
+    if (cookies.get('_id')) {
+    return(
+      <div>
+        <li>
+          <div className="dropdown">
+            <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+              Menu
+            </button>
+            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li>
+                <a href="/users" className="dropdown-item">
+                  Usuarios
+                </a>
+              </li>
+              <li>
+                <a href="/cars" className="dropdown-item">
+                  ABM Autos
+                </a>
+              </li>
+              <li className="nav-item">
+                <BrowserRouter>
+                  <Link to={"/championships"} className="dropdown-item">
+                    Campeonatos
+                  </Link>
+                </BrowserRouter>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </div>
+      );
+    } 
+  }
 
   const sesion = () => {
     if(cookies.get('_id')){
@@ -28,8 +61,6 @@ function App() {
           </a>
       );
     };
-      
-    
   }
 
   async function cerrarSesion() {
@@ -41,61 +72,33 @@ function App() {
   return (
     <div>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <a href="/users" className="navbar-brand">
-          User Addresses
-        </a>
-        <a href="/cars" className="navbar-brand">
-          Cars ABM
-        </a>
-        <a href="/login" className="navbar-brand">
-          Login
-        </a>
-        <div className="navbar-nav mr-auto">
-          <li className="nav-item">
-            <BrowserRouter>
-              <Link to={"/users"} className="nav-link">
-                Users
-              </Link>
-            </BrowserRouter>
-          </li>
-          <li className="nav-item">
-            <BrowserRouter>
-              <Link to={"/cars"} className="nav-link">
-                Cars
-              </Link>
-            </BrowserRouter>
-          </li>
-          <li className="nav-item">
-            <BrowserRouter>
-              <Link to={"/championships"} className="nav-link">
-                Campeonatos
-              </Link>
-            </BrowserRouter>
-          </li>
-          <li className="nav-item" >
-            {sesion()}
-          </li>
-          <li className="navbar-brand">
-            Bienvenido {cookies.get("nombre")}
-          </li>
-        </div>
-      </nav>
-
-      <div className="container mt-3">
-        <BrowserRouter>
-          <Switch>
-            <Route exact path={["/", "/users"]} component={UsersList} />
-            <Route exact path={["/", "/cars"]} component={CarsList} />
-            <Route exact path={["/", "/championships"]} component={ChampionshipsList} />
-            <Route exact path={["/", "/login"]} component={Login} />
-
-            
-            {/* <Route exact path={["/", "/add-car"]} component={addCar} /> */}
-
-          </Switch>
-        </BrowserRouter>
+        <div className="container-fluid">
+          <div className="navbar-nav mr-auto">
+              <li className="navbar-brand">
+                Bienvenido {cookies.get("nombre")}
+              </li>
+              <li className="nav-item" >
+                {sesion()}
+              </li>
+              {menuPopulate()}
+            </div>
       </div>
+    </nav>
+    <div className="container mt-3">
+      <BrowserRouter>
+        <Switch>
+          <Route exact path={["/", "/users"]} component={UsersList} />
+          <Route exact path={["/", "/cars"]} component={CarsList} />
+          <Route exact path={["/", "/championships"]} component={ChampionshipsList} />
+          <Route exact path={["/", "/login"]} component={Login} />
+
+          
+          {/* <Route exact path={["/", "/add-car"]} component={addCar} /> */}
+
+        </Switch>
+      </BrowserRouter>
     </div>
+  </div>
   );
 }
 

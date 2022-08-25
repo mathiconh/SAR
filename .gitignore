@@ -4,6 +4,7 @@
 /backend/node_modules
 /backend/package.json
 /frontend/node_modules
+/frontend/package.json
 /.pnp
 .pnp.js
 /node_modules
