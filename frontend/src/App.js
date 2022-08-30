@@ -2,10 +2,12 @@ import React from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import Inicio from "./components/inicio";
+import Login from "./components/login";
 import UsersList from "./components/users-list";
 import CarsList from "./components/cars-list";
 import ChampionshipsList from "./components/championships-list";
-import Login from "./components/login";
+import Inscripcion from "./components/inscripcion";
 import Cookies from 'universal-cookie'
 const cookies = new Cookies();
 
@@ -71,17 +73,24 @@ function App() {
 
   return (
     <div>
-      <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <div className="container-fluid">
-          <div className="navbar-nav mr-auto">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div className="collapse navbar-collapse">
+          <ul className="navbar-nav mr-auto">
               <li className="navbar-brand">
-                Bienvenido {cookies.get("nombre")}
+                <a href="/inicio" className="nav-link text-light">
+                  Bienvenido {cookies.get("nombre")}
+                </a>
               </li>
               <li className="nav-item" >
                 {sesion()}
               </li>
               {menuPopulate()}
-            </div>
+              <li className="nav-item" >
+                <a href="/inscripcion" className="nav-link text-light">
+                  Inscripcion a Carrera
+                </a>
+              </li>
+            </ul>
       </div>
     </nav>
     <div className="container mt-3">
@@ -90,6 +99,8 @@ function App() {
           <Route exact path={["/", "/users"]} component={UsersList} />
           <Route exact path={["/", "/cars"]} component={CarsList} />
           <Route exact path={["/", "/championships"]} component={ChampionshipsList} />
+          <Route exact path={["/", "/Inicio"]} component={Inicio} />
+          <Route exact path={["/", "/Inscripcion"]} component={Inscripcion} />
           <Route exact path={["/", "/login"]} component={Login} />
 
           
