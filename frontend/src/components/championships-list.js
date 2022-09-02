@@ -274,9 +274,9 @@ const ChampionshipsList = (props) => {
               <label>Nombre</label>
               <input className="form-control" type="text" maxlength="50" name="nombre" id="nombreField" onChange={handleChange} value={selectedChampionship.nombre}/>
               <label>Fecha desde</label>
-              <input className="form-control" type="text" maxlength="100" name="fechaDesde" id="fechaDesdeField" onChange={handleChange} value={selectedChampionship.fechaDesde}/>
+              <input className="form-control" type="date" maxlength="100" name="fechaDesde" id="fechaDesdeField" onChange={handleChange} value={selectedChampionship.fechaDesde}/>
               <label>Fecha hasta</label>
-              <input className="form-control" type="number" maxlength="10" name="fechaHasta" id="fechaHastaField" onChange={handleChange} value={selectedChampionship.fechaHasta}/>
+              <input className="form-control" type="date" maxlength="10" name="fechaHasta" id="fechaHastaField" onChange={handleChange} value={selectedChampionship.fechaHasta}/>
           </ModalBody>
           <ModalFooter>
             {buildErrorMessage()}
