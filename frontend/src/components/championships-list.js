@@ -63,7 +63,6 @@ const ChampionshipsList = (props) => {
   };
 
   const deleteChampionship = async (championshipId) => {
-    console.log("Car to be deleted", championshipId);
     await ChampionshipsDataService.deleteChampionship(championshipId)
       .then((response) => {
         refreshList();
@@ -137,7 +136,7 @@ const ChampionshipsList = (props) => {
         championship.fechaHasta = selectedChampionship.fechaHasta;
       }
     });
-    const result = await ChampionshipsDataService.editCar(selectedChampionship);
+    const result = await ChampionshipsDataService.editChampionship(selectedChampionship);
     if (result.status) {
       console.log('Edicion exitosa');
       setValidationErrorMessage('');
@@ -149,7 +148,7 @@ const ChampionshipsList = (props) => {
   }
 
   const crear = async (selectedChampionship) => {
-    const result = await ChampionshipsDataService.createCar(selectedChampionship);
+    const result = await ChampionshipsDataService.createChampionship(selectedChampionship);
     if (result?.status) {
       console.log('creación exitosa');
       setValidationErrorMessage('');

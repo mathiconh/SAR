@@ -1,47 +1,51 @@
 import http from "../http-common";
+import Cookies from 'universal-cookie'
+const cookies = new Cookies();
 
 class ChampionshipsDataService {
   async getAll(page = 0) {
-    const result = await http.get(`cars?page=${page}`);
+    const result = await http.get(`championships?page=${page}`);
     console.log('DB Result: ', result);
     return result;
   }
 
   async get(id) {
-    return await http.get(`/cars?id=${id}`);
+    return await http.get(`/championships?id=${id}`);
   }
 
-  async find(query, by = "patente", page = 0) {
-    console.log(`Searching by: ${by} value: ${query}`);
-    const result = await http.get(`cars?page=${page}&${by}=${query}`);
-    console.log('DB Result: ', result);
-    return result;
-  } 
+  // async find(query, by = "patente", page = 0) {
+  //   console.log(`Searching by: ${by} value: ${query}`);
+  //   const result = await http.get(`cars?page=${page}&${by}=${query}`);
+  //   console.log('DB Result: ', result);
+  //   return result;
+  // } 
 
-  async createCar({patente, modelo, año, agregados = '', historia = '', tallerAsociado = ''}) {
-    console.log("About to create car: ", patente, modelo, año, agregados, historia, tallerAsociado);
+  async createChampionship({ nombre = '', fechaDesde, fechaHasta }) {
+    console.log("About to create championship: ", nombre, fechaDesde, fechaHasta );
     let result;
+    let idUsuarioModif = cookies.get("_id");
 
-    result = this.validateCarPayload({ patente, modelo, año });
-    if (!result.status) return result;
 
-    result = await http.post(`/createCar?patente=${patente}&modelo=${modelo}&año=${año}&agregados=${agregados}&historia=${historia}&tallerAsociado=${tallerAsociado}`);
+    // result = this.validateCarPayload({ patente, modelo, año });
+    // if (!result.status) return result;
+
+    result = await http.post(`/createChampionship?nombre=${nombre}&fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}&idUsuarioModif=${idUsuarioModif}`);
     console.log('Result: ', result);
     return result;
   }
 
-  async deleteCar(id) {
-    return await http.delete(`/deleteCar?_id=${id}`);
+  async deleteChampionship(id) {
+    return await http.delete(`/deleteChampionship?_id=${id}`);
   }
 
-  async editCar({ _id, patente, modelo, año, agregados = '', historia = '', tallerAsociado = '' }) {
-    console.log("About to edit car: ", _id, patente, modelo, año, agregados, historia, tallerAsociado);
+  async editChampionship({ _id, nombre = '', fechaDesde, fechaHasta }) {
+    console.log("About to edit championship: ", _id, nombre, fechaDesde, fechaHasta);
     let result;
 
-    result = this.validateCarPayload({ patente, modelo, año });
-    if (!result.status) return result;
+    //result = this.validateCarPayload({ nombre, modelo, año });
+    //if (!result.status) return result;
     
-    result = await http.put(`/editCar?_id=${_id}&patente=${patente}&modelo=${modelo}&año=${año}&agregados=${agregados}&historia=${historia}&tallerAsociado=${tallerAsociado}`);
+    result = await http.put(`/editChampionship?_id=${_id}&nombre=${nombre}&fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}`);
     console.log('Result: ', result);
     return result;
   }

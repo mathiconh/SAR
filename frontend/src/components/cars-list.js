@@ -18,7 +18,7 @@ const CarsList = (props) => {
     _id: "",
     patente: "",
     modelo: "",
-    año: "",
+    anio: "",
     agregados: "",
     historia: "",
     tallerAsociado: "",
@@ -137,7 +137,7 @@ const CarsList = (props) => {
     if (car._id === selectedCar._id) {
         car.patente = selectedCar.patente;
         car.modelo = selectedCar.modelo;
-        car.año = selectedCar.año;
+        car.anio = selectedCar.anio;
         car.agregados = selectedCar.agregados;
         car.historia = selectedCar.historia;
         car.tallerAsociado = selectedCar.tallerAsociado;
@@ -237,7 +237,7 @@ const CarsList = (props) => {
                     const id = `${car._id}`;
                     const patente = `${car.patente}`;
                     const modelo = `${car.modelo}`;
-                    const año = `${car.año}`;
+                    const anio = `${car.anio}`;
                     const agregados = `${car.agregados}`;
                     const historia = `${car.historia}`;
                     const tallerAsociado = `${car.tallerAsociado}`;
@@ -246,7 +246,7 @@ const CarsList = (props) => {
                         <td>{id}</td>
                         <td>{patente}</td>
                         <td>{modelo}</td>
-                        <td>{año}</td>
+                        <td>{anio}</td>
                         <td>{agregados}</td>
                         <td width="">{historia}</td>
                         <td>{tallerAsociado}</td>
@@ -293,7 +293,7 @@ const CarsList = (props) => {
               <label>Modelo</label>
               <input className="form-control" type="text" maxlength="100" name="modelo" id="modeloField" onChange={handleChange} value={selectedCar.modelo}/>
               <label>Año</label>
-              <input className="form-control" type="number" maxlength="10" name="año" id="añoField" onChange={handleChange} value={selectedCar.año}/>
+              <input className="form-control" type="number" maxlength="10" name="anio" id="anioField" onChange={handleChange} value={selectedCar.anio}/>
               <label>Agregados</label>
               <input className="form-control" type="text" maxlength="300" name="agregados" id="agregadosField" onChange={handleChange} value={selectedCar.agregados}/>
               <label>Historia</label>

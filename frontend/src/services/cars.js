@@ -1,5 +1,6 @@
 import http from "../http-common";
-
+import Cookies from 'universal-cookie'
+const cookies = new Cookies();
 class CarsDataService {
   async getAll(page = 0) {
     const result = await http.get(`cars?page=${page}`);
@@ -18,14 +19,16 @@ class CarsDataService {
     return result;
   } 
 
-  async createCar({patente, modelo, año, agregados = '', historia = '', tallerAsociado = ''}) {
-    console.log("About to create car: ", patente, modelo, año, agregados, historia, tallerAsociado);
+  async createCar({patente, modelo, anio, agregados = '', historia = '', tallerAsociado = ''}) {
+    console.log("About to create car: ", patente, modelo, anio, agregados, historia, tallerAsociado);
     let result;
+    let idUsuarioModif = cookies.get("_id");
 
-    result = this.validateCarPayload({ patente, modelo, año });
+
+    result = this.validateCarPayload({ patente, modelo, anio });
     if (!result.status) return result;
 
-    result = await http.post(`/createCar?patente=${patente}&modelo=${modelo}&año=${año}&agregados=${agregados}&historia=${historia}&tallerAsociado=${tallerAsociado}`);
+    result = await http.post(`/createCar?patente=${patente}&modelo=${modelo}&anio=${anio}&agregados=${agregados}&historia=${historia}&tallerAsociado=${tallerAsociado}&idUsuarioModif=${idUsuarioModif}`);
     console.log('Result: ', result);
     return result;
   }
