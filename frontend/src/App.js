@@ -6,6 +6,7 @@ import Inicio from "./components/inicio";
 import Login from "./components/login";
 import UsersList from "./components/users-list";
 import CarsList from "./components/cars-list";
+import MiPerfil from "./components/miPerfil";
 import ChampionshipsList from "./components/championships-list";
 import Inscripcion from "./components/inscripcion";
 import Cookies from "universal-cookie";
@@ -19,7 +20,7 @@ function App() {
           <li>
             <div className="dropdown bugermenu">
               <button
-                className="btn btn-secondary  navbar-toggler"
+                className="btn btn-secondary navbar-toggler"
                 type="button"
                 id="dropdownMenuButton1"
                 data-bs-toggle="dropdown"
@@ -44,6 +45,11 @@ function App() {
                 <li>
                   <a href="/championships" className="dropdown-item">
                     ABM campeonatos
+                  </a>
+                </li>
+                <li>
+                  <a href="/miperfil" className="dropdown-item">
+                    Mi perfil
                   </a>
                 </li>
                 <li>
@@ -119,6 +125,8 @@ function App() {
             <Route exact path={["/", "/Inicio"]} component={Inicio} />
             <Route exact path={["/", "/Inscripcion"]} component={Inscripcion} />
             <Route exact path={["/", "/login"]} component={Login} />
+            <Route exact path={["/", "/miperfil"]} component={MiPerfil} />
+
 
             {/* <Route exact path={["/", "/add-car"]} component={addCar} /> */}
           </Switch>

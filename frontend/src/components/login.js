@@ -42,6 +42,11 @@ function Login() {
       cookies.set("nombre", result.data.responseData.nombre, { path: "/" });
       cookies.set("apellido", result.data.responseData.apellido, { path: "/" });
       cookies.set("idRol", result.data.responseData.idRol, { path: "/" });
+      cookies.set("direccion", result.data.responseData.direccion, { path: "/" });
+      cookies.set("correoE", result.data.responseData.correoE, { path: "/" });
+      cookies.set("dni", result.data.responseData.dni, { path: "/" });
+      cookies.set("fechaNac", result.data.responseData.fechaNac, { path: "/" });
+      cookies.set("telefono", result.data.responseData.telefono, { path: "/" });
       window.location.href = "./cars";
     } else {
       setValidationErrorMessage(result?.data?.errorMessage);
