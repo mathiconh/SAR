@@ -31,10 +31,13 @@ const MiPerfil = (props) => {
   //   };
 
     const getPerfil = () => {
-      PerfilDataService.get()
+
+      const _id = cookies.get("_id");
+      
+      PerfilDataService.get(_id)
         .then(response => {
-          console.log(response.data);
-          setPerfil(response.data.perfil);
+          console.log(response.data.users);
+          setPerfil(response.data.users);
 
         })
         .catch(e => {
@@ -101,7 +104,7 @@ const MiPerfil = (props) => {
                     </div>
                     <div className="col-lg-6 px-xl-10">
                       <div className="d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
-                        <h3 className="h2 text-black mb-0">{cookies.get("nombre")} {cookies.get("apellido")}</h3>
+                        <h3 className="h2 text-black mb-0">{perfil.nombre} {perfil.apellido}</h3>
                       </div>
                       <ul className="list-unstyled mb-1-9">
                         <li className="mb-2 mb-xl-3 display-28">
