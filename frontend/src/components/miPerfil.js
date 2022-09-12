@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PerfilDataService from "../services/miPerfil";
+import UsersDataService from "../services/users";
 import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
@@ -34,10 +34,11 @@ const MiPerfil = (props) => {
 
       const _id = cookies.get("_id");
       
-      PerfilDataService.get(_id)
+      UsersDataService.get(_id)
         .then(response => {
-          console.log(response.data.users);
-          setPerfil(response.data.users);
+          console.log(response.data.users[0]);
+          setPerfil(response.data.users[0]);
+
 
         })
         .catch(e => {
@@ -111,31 +112,31 @@ const MiPerfil = (props) => {
                           <span className="display-26 text-secondary me-2 font-weight-600">
                             Dirección:
                           </span>
-                          {/* {perfil.direccion} */}
+                          { perfil.direccion }
                         </li>
                         <li className="mb-2 mb-xl-3 display-28">
                           <span className="display-26 text-secondary me-2 font-weight-600">
                             Telefono:
                           </span>{" "}
-                          {cookies.get("telefono")}
+                          { perfil.telefono }
                         </li>
                         <li className="mb-2 mb-xl-3 display-28">
                           <span className="display-26 text-secondary me-2 font-weight-600">
                             Email:
                           </span>{" "}
-                          {cookies.get("correoE")}
+                          { perfil.correoE }
                         </li>
                         <li className="mb-2 mb-xl-3 display-28">
                           <span className="display-26 text-secondary me-2 font-weight-600">
                             DNI:
                           </span>{" "}
-                          {cookies.get("dni")}
+                          { perfil.dni }
                         </li>
                         <li className="display-28">
                           <span className="display-26 text-secondary me-2 font-weight-600">
                             Fecha de nacimiento:
                           </span>{" "}
-                          {cookies.get("fechaNac")}
+                          { perfil.fechaNac }
                         </li>
                       </ul>
                     </div>
