@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
 import UsersDataService from "../services/users";
-import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
 const MiPerfil = (props) => {
   const [perfil, setPerfil] = useState([]);
+  const [perfilPicPath, setPerfilPic] = useState([]);
   const [searchName, setSearchName] = useState("");
   const [searchId, setSearchId] = useState("");
   const [searchIdRol, setSearchIdRol] = useState("");
   const [idRols, setIdRoles] = useState(["All IdRoles"]);
 
-    useEffect(() => {
-      getPerfil();
-    }, []);
+
+  useEffect(() => {
+    getPerfil();
+  }, []);
 
   //   const onChangeSearchId = e => {
   //     const searchId = e.target.value;
@@ -30,15 +31,18 @@ const MiPerfil = (props) => {
   //     setSearchIdRol(searchIdRol);
   //   };
 
-    const getPerfil = () => {
+    const getPerfil = async () => {
 
       const _id = cookies.get("_id");
       
-      UsersDataService.get(_id)
+      await UsersDataService.get(_id)
         .then(response => {
           console.log(response.data.users[0]);
           setPerfil(response.data.users[0]);
-
+          // const path = ('../assets/profilePics/' + perfil.profilePic);
+          // const path = ('../assets/profilePics/' + 'avatar7.png');
+          // console.log('Path  before: ', path);
+          // setPerfilPic(path);
 
         })
         .catch(e => {
@@ -98,10 +102,8 @@ const MiPerfil = (props) => {
                 <div className="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
                   <div className="row align-items-center">
                     <div className="col-lg-6 mb-4 mb-lg-0">
-                      <img
-                        src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                        alt="..."
-                      ></img>
+                      {/* <img src={require('../assets/profilePics/' + perfil.profilePic)} alt="..."></img> */}
+                      <img src={require('../assets/profilePics/avatar7.png')} alt="..."></img>
                     </div>
                     <div className="col-lg-6 px-xl-10">
                       <div className="d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">

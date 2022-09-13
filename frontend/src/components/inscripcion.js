@@ -51,12 +51,11 @@ const CarsList = (props) => {
             <div class="container-fluid">
                 <p class="h1 text-center">Inscripcion a Carrera</p>
                 <div className="input-group col-lg-4">
-                    <p class="h1 text-center">Clases disponibles para este viernes</p>
+                    <p class="h1 text-center">Clases disponibles para este viernes </p>
                     <select onChange={onChangesetSelectedClass}>
                     {clasesDisponibles.map(param => {
-                    console.log(param);
                       return (
-                        <option value={param.carreraIdClase}> {param.carreraIdClase} </option>
+                        <option value={param.carreraIdClase}> {param.carreraNombreClase} </option>
                       )
                     })}
                     </select>

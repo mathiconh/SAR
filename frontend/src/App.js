@@ -13,54 +13,97 @@ import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
 function App() {
-  const menuPopulate = () => {
+  const completarMenu = () => {
     if (cookies.get("_id")) {
-      return (
-        <div>
-          <li>
-            <div className="dropdown bugermenu">
-              <button
-                className="btn btn-secondary navbar-toggler"
-                type="button"
-                id="dropdownMenuButton1"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <ul
-                className="dropdown-menu"
-                aria-labelledby="dropdownMenuButton1"
-              >
-                <li>
-                  <a href="/users" className="dropdown-item">
-                    Usuarios
-                  </a>
-                </li>
-                <li>
-                  <a href="/cars" className="dropdown-item">
-                    ABM Autos
-                  </a>
-                </li>
-                <li>
-                  <a href="/championships" className="dropdown-item">
-                    ABM campeonatos
-                  </a>
-                </li>
-                <li>
-                  <a href="/miperfil" className="dropdown-item">
-                    Mi perfil
-                  </a>
-                </li>
-                <li>
-                    {sesion()}
-                </li>
-              </ul>
-            </div>
-          </li>
-        </div>
-      );
+      console.log('User Id: ', cookies.get("_id"));
+      console.log('Id Rol: ', cookies.get("idRol"));
+      if (parseInt(cookies.get("idRol")) === 1) {
+        return completarMenuAdmin();
+      } else if (parseInt(cookies.get("idRol")) === 2) {
+        return completarMenuUser();
+      }
     }
+  }
+
+  const completarMenuUser = () => {
+    return (
+      <div>
+        <li>
+          <div className="dropdown bugermenu">
+            <button
+              className="btn btn-secondary navbar-toggler"
+              type="button"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul
+              className="dropdown-menu"
+              aria-labelledby="dropdownMenuButton1"
+            >
+              <li>
+                <a href="/miperfil" className="dropdown-item">
+                  Mi perfil
+                </a>
+              </li>
+              <li>
+                  {sesion()}
+              </li>
+            </ul>
+          </div>
+        </li>
+      </div>
+    );
+  }
+
+  const completarMenuAdmin = () => {
+    return (
+      <div>
+        <li>
+          <div className="dropdown bugermenu">
+            <button
+              className="btn btn-secondary navbar-toggler"
+              type="button"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul
+              className="dropdown-menu"
+              aria-labelledby="dropdownMenuButton1"
+            >
+              <li>
+                <a href="/users" className="dropdown-item">
+                  Usuarios
+                </a>
+              </li>
+              <li>
+                <a href="/cars" className="dropdown-item">
+                  ABM Autos
+                </a>
+              </li>
+              <li>
+                <a href="/championships" className="dropdown-item">
+                  ABM campeonatos
+                </a>
+              </li>
+              <li>
+                <a href="/miperfil" className="dropdown-item">
+                  Mi perfil
+                </a>
+              </li>
+              <li>
+                  {sesion()}
+              </li>
+            </ul>
+          </div>
+        </li>
+      </div>
+    );
   };
 
   const sesion = () => {
@@ -98,18 +141,18 @@ function App() {
     <div>
       <div class="navbar navbar-dark d-flex bg-dark box-shadow">
         <div class="container  justify-content-between">
-        <div className="col-6"><a href="#" class=" navbar-brand d-flex align-items-center">
+        <div className="col-3"><a href="#" class=" navbar-brand d-flex align-items-center">
             <strong>S4R</strong>
           </a></div>
+          <div className="col-3">
+            <strong className="text-white">Bienvenido {cookies.get("nombre")}</strong>
+          </div>
         <div className="col-5">
         <a href="/inscripcion" className="nav-link text-light float-right" >
             <strong> Inscripcion a Carrera</strong>
           </a></div>
         <div className="col-1">
-          {menuPopulate()}</div>
-          
-          
-
+          {completarMenu()}</div>
         </div>
       </div>
       <div className="container mt-3">
