@@ -5,7 +5,6 @@ import { Modal, ModalBody, ModalFooter, Alert } from "reactstrap";
 import Cookies from 'universal-cookie'
 const cookies = new Cookies();
 
-
 const CarsList = (props) => {
 
   const [cars, setCars] = useState([]);
@@ -176,6 +175,7 @@ const CarsList = (props) => {
     }
     return;
   }
+
   if (cookies.get("_id")){
     return (
       <div>

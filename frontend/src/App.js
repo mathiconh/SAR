@@ -37,7 +37,7 @@ function App() {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <span class="navbar-toggler-icon"></span>
+              <span className="navbar-toggler-icon"></span>
             </button>
             <ul
               className="dropdown-menu"
@@ -70,7 +70,7 @@ function App() {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <span class="navbar-toggler-icon"></span>
+              <span className="navbar-toggler-icon"></span>
             </button>
             <ul
               className="dropdown-menu"
@@ -139,9 +139,9 @@ function App() {
 
   return (
     <div>
-      <div class="navbar navbar-dark d-flex bg-dark box-shadow">
-        <div class="container  justify-content-between">
-        <div className="col-3"><a href="#" class=" navbar-brand d-flex align-items-center">
+      <div className="navbar navbar-dark d-flex bg-dark box-shadow">
+        <div className="container  justify-content-between">
+        <div className="col-3"><a href="#" className=" navbar-brand d-flex align-items-center">
             <strong>S4R</strong>
           </a></div>
           <div className="col-3">

@@ -10,7 +10,6 @@ class UsersDataService {
   get(id) {
     return http.get(`/users?id=${id}`);
   }
- 
 
   find(query, by = "Nombre", page = 0) {
     const result = http.get(`users?page=${page}&${by}=${query}`);
