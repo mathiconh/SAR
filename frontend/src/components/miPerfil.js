@@ -46,8 +46,8 @@ const MiPerfil = (props) => {
   const getAutos = async () => {
     const _id = cookies.get("_id");
 
-    await CarsDataService.get(_id).then((response) => {
-      console.log(response.data);
+    await CarsDataService.find(_id, "idUsuarioDueño").then((response) => {
+      console.log("autos tiene", response.data);
       setAutos(response.data.car);
     });
   };

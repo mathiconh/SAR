@@ -16,6 +16,7 @@ class UsersDataService {
     console.log('DB Result: ', result);
     return result;
   } 
+  
 
   createAddress(data) {
     return http.post("/address-new", data);
