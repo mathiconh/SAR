@@ -47,8 +47,11 @@ const MiPerfil = (props) => {
     const _id = cookies.get("_id");
 
     await CarsDataService.find(_id, "idUsuarioDueño").then((response) => {
-      console.log("autos tiene", response.data);
-      setAutos(response.data.car);
+      console.log("autos tiene", response.data.cars);
+      setAutos(response.data.cars);
+    })
+    .catch((e) => {
+      console.log(e);
     });
   };
 
@@ -120,6 +123,36 @@ const MiPerfil = (props) => {
     return;
   }
 
+  let mostrarAutos = () => {
+    if(autos[0]){
+      console.log("entra")
+      // eslint-disable-next-line no-lone-blocks
+      {autos.map((car) => {
+        const patente = `${car.patente}`;
+        const modelo = `${car.modelo}`;
+        const anio = `${car.anio}`;
+        const agregados = `${car.agregados}`;
+        const historia = `${car.historia}`;
+        const tallerAsociado = `${car.tallerAsociado}`;
+        return (
+          <div className="col-lg-12 mb-4 mb-sm-5">
+            <div>
+              <span className="section-title text-primary mb-3 mb-sm-4">
+                {modelo}{console.log("llega hjasta acá" + modelo)}
+              </span>
+              <p>
+              {patente + anio + agregados + historia + tallerAsociado}
+              </p>
+            </div>
+          </div>
+          );
+          })}
+    }else{
+      console.log("no entra")
+
+    }
+  }
+
   if (cookies.get("_id")) {
     return (
       <div>
@@ -178,25 +211,27 @@ const MiPerfil = (props) => {
                 </div>
               </div>
             </div>
+            {mostrarAutos()}
+            {autos.map((car) => {
+                    const patente = `${car.patente}`;
+                    const modelo = `${car.modelo}`;
+                    const anio = `${car.anio}`;
+                    const agregados = `${car.agregados}`;
+                    const historia = `${car.historia}`;
+                    const tallerAsociado = `${car.tallerAsociado}`;
+                    return (
             <div className="col-lg-12 mb-4 mb-sm-5">
               <div>
                 <span className="section-title text-primary mb-3 mb-sm-4">
-                  About Me
+                  {modelo}
                 </span>
                 <p>
-                  Edith is simply dummy text of the printing and typesetting
-                  industry. Lorem Ipsum has been the industry's standard dummy
-                  text ever since the 1500s, when an unknown printer took a
-                  galley of type and scrambled it to make a type specimen book.
-                </p>
-                <p className="mb-0">
-                  It is a long established fact that a reader will be distracted
-                  by the readable content of a page when looking at its layout.
-                  The point of using Lorem Ipsum is that it has a more-or-less
-                  normal distribution of letters, as opposed.
+                 {patente + anio + agregados + historia + tallerAsociado}
                 </p>
               </div>
             </div>
+            );
+          })}
           </div>
         </div>
       
