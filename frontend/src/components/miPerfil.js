@@ -210,38 +210,6 @@ const MiPerfil = (props) => {
     }
   }
 
-  // let mostrarAutos = () => {
-  //   //esto por algun motivo no muestra el html, entra en todo el loop pero no muestra nada
-  //   if(autos[0]){
-  //     console.log("entra")
-
-  //     autos.forEach(car => {
-  //       const patente = car.patente;
-  //       const modelo = car.modelo;
-  //       const anio = `${car.anio}`;
-  //       const agregados = `${car.agregados}`;
-  //       const historia = `${car.historia}`;
-  //       const tallerAsociado = `${car.tallerAsociado}`;
-  //       return (
-  //         <div className="col-lg-12 mb-4 mb-sm-5">
-  //           <div>
-  //             <span className="section-title text-primary mb-3 mb-sm-4">
-  //             una prueba
-  //               {/* {modelo} {console.log("llega hjasta acá" + modelo)} */}
-  //             </span>
-  //             <p>
-  //             funciona{/* {patente + anio + agregados + historia + tallerAsociado} */}
-  //             </p>
-  //           </div>
-  //         </div>
-  //         );
-  //         })
-  //   }else{
-  //     console.log("no entra")
-
-  //   }
-  // }
-
   if (cookies.get("_id")) {
     return (
       <div>
@@ -320,7 +288,6 @@ const MiPerfil = (props) => {
                 </div>
               </div>
             </div>
-            {/* {mostrarAutos()} */}
            
             {autos.map((car) => {
               const patente = `${car.patente}`;
