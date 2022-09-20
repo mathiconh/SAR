@@ -3,7 +3,7 @@ import { Modal, ModalBody, ModalFooter, Alert } from "reactstrap";
 import UsersDataService from "../services/users";
 import CarsDataService from "../services/cars";
 import Cookies from "universal-cookie";
-import "../App.css"
+import "../App.css";
 import defaultImg from "../assets/profilePics/default.png";
 import avatar1 from "../assets/profilePics/avatar1.png";
 import avatar2 from "../assets/profilePics/avatar2.png";
@@ -24,7 +24,7 @@ const imgObj = {
   avatar6,
   avatar7,
   avatar8,
-}
+};
 const keys = Object.keys(imgObj);
 
 const MiPerfil = (props) => {
@@ -36,7 +36,18 @@ const MiPerfil = (props) => {
   const [searchIdRol, setSearchIdRol] = useState("");
   const [idRols, setIdRoles] = useState(["All IdRoles"]);
   const [modalEditar, setModalEditar] = useState(false);
+  const [modalEditarAuto, setModalEditarAuto] = useState(false);
+
   const [validationErrorMessage, setValidationErrorMessage] = useState("");
+  const [selectedCar, setSelectedCar] = useState({
+    _id: "",
+    patente: "",
+    modelo: "",
+    anio: "",
+    agregados: "",
+    historia: "",
+    tallerAsociado: "",
+  });
 
   useEffect(() => {
     getPerfil();
@@ -46,13 +57,14 @@ const MiPerfil = (props) => {
   const getAutos = async () => {
     const _id = cookies.get("_id");
 
-    await CarsDataService.find(_id, "idUsuarioDueño").then((response) => {
-      console.log("autos tiene", response.data.cars);
-      setAutos(response.data.cars);
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+    await CarsDataService.find(_id, "idUsuarioDueño")
+      .then((response) => {
+        console.log("autos tiene", response.data.cars);
+        setAutos(response.data.cars);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   const getPerfil = async () => {
@@ -68,27 +80,39 @@ const MiPerfil = (props) => {
       });
   };
 
-  const handleChange = e => {
-    const {name, value} = e.target;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
     setPerfil((prevState) => ({
-        ...prevState,
-        [name]: value
-      }
-    ));
-  }
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleChangeAuto = (e) => {
+    const { name, value } = e.target;
+    setSelectedCar((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   const editData = (perfil) => {
     console.log("Selected: ", perfil);
     setModalEditar(true);
-  }
+  };
 
   const closeModal = () => {
     setModalEditar(false);
-    setValidationErrorMessage('');
-  }
+    setValidationErrorMessage("");
+  };
 
-  const editar = async (perfil) =>{
-    // REVISAR: Cuando se trata de editar, se modifica una property, pero luego se cancela la operacion, la property queda modificada localmente. 
+  const closeModalAuto = () => {
+    setModalEditarAuto(false);
+    setValidationErrorMessage("");
+  };
+
+  const editar = async (perfil) => {
+    // REVISAR: Cuando se trata de editar, se modifica una property, pero luego se cancela la operacion, la property queda modificada localmente.
     // NO, tiene que volver a como estaba antes
 
     // perfil.forEach(car => {
@@ -103,55 +127,120 @@ const MiPerfil = (props) => {
     // });
     const result = await CarsDataService.editCar(UsersDataService);
     if (result.status) {
-      console.log('Edicion exitosa');
-      setValidationErrorMessage('');
+      console.log("Edicion exitosa");
+      setValidationErrorMessage("");
       setPerfil(perfil);
       setModalEditar(false);
     } else {
       setValidationErrorMessage(result?.errorMessage);
     }
-  }
+  };
 
   const buildErrorMessage = () => {
-    if (validationErrorMessage !== '') {
+    if (validationErrorMessage !== "") {
       return (
-        <Alert id='errorMessage' className="alert alert-danger fade show" key='danger' variant='danger'>
+        <Alert
+          id="errorMessage"
+          className="alert alert-danger fade show"
+          key="danger"
+          variant="danger"
+        >
           {validationErrorMessage}
         </Alert>
       );
     }
     return;
-  }
+  };
 
-  let mostrarAutos = () => {
-    if(autos[0]){
-      console.log("entra")
-      // eslint-disable-next-line no-lone-blocks
-      {autos.map((car) => {
-        const patente = `${car.patente}`;
-        const modelo = `${car.modelo}`;
-        const anio = `${car.anio}`;
-        const agregados = `${car.agregados}`;
-        const historia = `${car.historia}`;
-        const tallerAsociado = `${car.tallerAsociado}`;
-        return (
-          <div className="col-lg-12 mb-4 mb-sm-5">
-            <div>
-              <span className="section-title text-primary mb-3 mb-sm-4">
-                {modelo}{console.log("llega hjasta acá" + modelo)}
-              </span>
-              <p>
-              {patente + anio + agregados + historia + tallerAsociado}
-              </p>
-            </div>
-          </div>
-          );
-          })}
-    }else{
-      console.log("no entra")
+  const selectCar = (action, car = {}) => {
+    console.log("Selected: ", car);
+    setSelectedCar(car);
+    action === "EditarAuto" ? setModalEditarAuto(true) : console.log("nada");//setModalElminar(true);
+  };
 
+  const editarAuto = async (selectedCar) =>{
+    // REVISAR: Cuando se trata de editar, se modifica una property, pero luego se cancela la operacion, la property queda modificada localmente. 
+    // NO, tiene que volver a como estaba antes
+
+    autos.forEach(car => {
+    if (car._id === selectedCar._id) {
+        car.patente = selectedCar.patente;
+        car.modelo = selectedCar.modelo;
+        car.anio = selectedCar.anio;
+        car.agregados = selectedCar.agregados;
+        car.historia = selectedCar.historia;
+        car.tallerAsociado = selectedCar.tallerAsociado;
+      }
+    });
+    const result = await CarsDataService.editCar(selectedCar);
+    if (result.status) {
+      console.log('Edicion exitosa');
+      setValidationErrorMessage('');
+      setAutos(autos);
+      setModalEditarAuto(false);
+    } else {
+      setValidationErrorMessage(result?.errorMessage);
     }
   }
+
+  const crearAuto = async (selectedCar) => {
+    const result = await CarsDataService.createCar(selectedCar);
+    if (result?.status) {
+      console.log('creación exitosa');
+      setValidationErrorMessage('');
+      setModalEditarAuto(false);
+    } else {
+      setValidationErrorMessage(result?.errorMessage);
+    }
+  }
+
+  let setModalButtonAuto = (selectedCar) => {
+    if (selectedCar._id) {
+        return (
+            <button className="btn btn-danger" onClick={() => editarAuto(selectedCar)}>
+            Actualizar
+            </button>
+        )
+    } else {
+        return (
+            <button className="btn btn-danger" onClick={() => crearAuto(selectedCar)}>
+              Crear
+            </button>
+        )
+    }
+  }
+
+  // let mostrarAutos = () => {
+  //   //esto por algun motivo no muestra el html, entra en todo el loop pero no muestra nada
+  //   if(autos[0]){
+  //     console.log("entra")
+
+  //     autos.forEach(car => {
+  //       const patente = car.patente;
+  //       const modelo = car.modelo;
+  //       const anio = `${car.anio}`;
+  //       const agregados = `${car.agregados}`;
+  //       const historia = `${car.historia}`;
+  //       const tallerAsociado = `${car.tallerAsociado}`;
+  //       return (
+  //         <div className="col-lg-12 mb-4 mb-sm-5">
+  //           <div>
+  //             <span className="section-title text-primary mb-3 mb-sm-4">
+  //             una prueba
+  //               {/* {modelo} {console.log("llega hjasta acá" + modelo)} */}
+  //             </span>
+  //             <p>
+  //             funciona{/* {patente + anio + agregados + historia + tallerAsociado} */}
+  //             </p>
+  //           </div>
+  //         </div>
+  //         );
+  //         })
+  //   }else{
+  //     console.log("no entra")
+
+  //   }
+  // }
 
   if (cookies.get("_id")) {
     return (
@@ -163,7 +252,14 @@ const MiPerfil = (props) => {
                 <div className="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
                   <div className="row align-items-center">
                     <div className="col-lg-6 mb-4 mb-lg-0">
-                      <img src={perfil.profilePic ? imgObj[perfil.profilePic] : defaultImg} alt="..."/>
+                      <img
+                        src={
+                          perfil.profilePic
+                            ? imgObj[perfil.profilePic]
+                            : defaultImg
+                        }
+                        alt="..."
+                      />
                     </div>
                     <div className="col-lg-6 px-xl-10">
                       <div className="d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
@@ -203,7 +299,20 @@ const MiPerfil = (props) => {
                           {perfil.fechaNac}
                         </li>
                         <li>
-                          <button className="btn btn-primary" onClick={() => editData("Editar", perfil)}>Edit</button>
+                          <button
+                            className="btn btn-primary"
+                            onClick={() => editData("Editar", perfil)}
+                          >
+                            Edit
+                          </button>
+                          <br></br>
+                          <br></br>
+                          <button
+                            className="btn btn-primary"
+                            onClick={() => selectCar("EditarAuto")}
+                          >
+                            Añadir un nuevo Auto
+                          </button>
                         </li>
                       </ul>
                     </div>
@@ -211,72 +320,162 @@ const MiPerfil = (props) => {
                 </div>
               </div>
             </div>
-            {mostrarAutos()}
+            {/* {mostrarAutos()} */}
+           
             {autos.map((car) => {
-                    const patente = `${car.patente}`;
-                    const modelo = `${car.modelo}`;
-                    const anio = `${car.anio}`;
-                    const agregados = `${car.agregados}`;
-                    const historia = `${car.historia}`;
-                    const tallerAsociado = `${car.tallerAsociado}`;
-                    return (
-            <div className="col-lg-12 mb-4 mb-sm-5">
-              <div>
-                <span className="section-title text-primary mb-3 mb-sm-4">
-                  {modelo}
-                </span>
-                <p>
-                 {patente + anio + agregados + historia + tallerAsociado}
-                </p>
-              </div>
-            </div>
-            );
-          })}
+              const patente = `${car.patente}`;
+              const modelo = `${car.modelo}`;
+              const anio = `${car.anio}`;
+              const agregados = `${car.agregados}`;
+              const historia = `${car.historia}`;
+              const tallerAsociado = `${car.tallerAsociado}`;
+              return (
+                <div className="col-lg-12 mb-4 mb-sm-5">
+                  <div>
+                    <span className="section-title text-primary mb-3 mb-sm-4">
+                      {modelo}
+                    </span>
+                    <p>
+                      {patente + anio + agregados + historia + tallerAsociado}
+                    </p>
+                    <button className="btn btn-primary">Editar</button>
+                    <button className="btn btn-danger">Eliminar</button>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
-      
+        
+
+        <Modal isOpen={modalEditarAuto}>
+          <ModalBody>
+              <label>ID</label>
+              <input className="form-control" readOnly type="text" name="id" id="idField" value={selectedCar._id} placeholder="Auto-Incremental ID"/>
+              <label>Patente</label>
+              <input className="form-control" type="text" maxlength="50" name="patente" id="patenteField" onChange={handleChangeAuto} value={selectedCar.patente}/>
+              <label>Modelo</label>
+              <input className="form-control" type="text" maxlength="100" name="modelo" id="modeloField" onChange={handleChangeAuto} value={selectedCar.modelo}/>
+              <label>Año</label>
+              <input className="form-control" type="number" maxlength="10" name="anio" id="anioField" onChange={handleChangeAuto} value={selectedCar.anio}/>
+              <label>Agregados</label>
+              <input className="form-control" type="text" maxlength="300" name="agregados" id="agregadosField" onChange={handleChangeAuto} value={selectedCar.agregados}/>
+              <label>Historia</label>
+              <input className="form-control" type="text" maxlength="200" name="historia" id="historiaField" onChange={handleChangeAuto} value={selectedCar.historia}/>
+              <label>Taller Mecanico</label>
+              <input className="form-control" type="text" maxlength="50" name="tallerAsociado" id="workshopField" onChange={handleChangeAuto} value={selectedCar.tallerAsociado}/>
+          </ModalBody>
+          <ModalFooter>
+            {buildErrorMessage()}
+            {setModalButtonAuto(selectedCar)}
+            <button className="btn btn-secondary" onClick={() => closeModalAuto()}>
+              Cancelar
+            </button>
+          </ModalFooter>
+        </Modal>
+
 
         <Modal isOpen={modalEditar}>
-        <ModalBody>
+          <ModalBody>
             <label>Nombre</label>
-            <input className="form-control" type="text" maxLength="50" name="nombre" id="nombreField" onChange={handleChange} value={perfil.nombre}/>
+            <input
+              className="form-control"
+              type="text"
+              maxLength="50"
+              name="nombre"
+              id="nombreField"
+              onChange={handleChange}
+              value={perfil.nombre}
+            />
             <label>Apellido</label>
-            <input className="form-control" type="text" maxLength="50" name="apellido" id="apellidoField" onChange={handleChange} value={perfil.apellido}/>
+            <input
+              className="form-control"
+              type="text"
+              maxLength="50"
+              name="apellido"
+              id="apellidoField"
+              onChange={handleChange}
+              value={perfil.apellido}
+            />
             <div>
               <p>Elegi una imagen de perfil</p>
               <div className="imgContainer">
                 {keys.map((imageName, index) => (
                   // console.log('Hi: ', imageName);
-                  <img 
-                    key={index} 
-                    src={imgObj[imageName]} 
+                  <img
+                    key={index}
+                    src={imgObj[imageName]}
                     alt={`Profile ${index}`}
-                    width="10%" 
-                    style={{border: selectedImg === imageName ? "4px solid purple" : ""}}
-                    onClick={() => setSelectedImg(imageName)}></img>
+                    width="10%"
+                    style={{
+                      border:
+                        selectedImg === imageName ? "4px solid purple" : "",
+                    }}
+                    onClick={() => setSelectedImg(imageName)}
+                  ></img>
                 ))}
               </div>
             </div>
             <label>Dirección</label>
-            <input className="form-control" type="text" maxLength="50" name="direccion" id="direccionField" onChange={handleChange} value={perfil.direccion}/>
+            <input
+              className="form-control"
+              type="text"
+              maxLength="50"
+              name="direccion"
+              id="direccionField"
+              onChange={handleChange}
+              value={perfil.direccion}
+            />
             <label>Telefono</label>
-            <input className="form-control" type="text" maxLength="100" name="telefono" id="telefonoField" onChange={handleChange} value={perfil.telefono}/>
+            <input
+              className="form-control"
+              type="text"
+              maxLength="100"
+              name="telefono"
+              id="telefonoField"
+              onChange={handleChange}
+              value={perfil.telefono}
+            />
             <label>Email</label>
-            <input className="form-control" type="text" maxLength="10" name="email" id="emailField" onChange={handleChange} value={perfil.correoE}/>
+            <input
+              className="form-control"
+              type="text"
+              maxLength="10"
+              name="email"
+              id="emailField"
+              onChange={handleChange}
+              value={perfil.correoE}
+            />
             <label>DNI</label>
-            <input className="form-control" type="text" maxLength="300" name="dni" id="dniField" onChange={handleChange} value={perfil.dni}/>
+            <input
+              className="form-control"
+              type="text"
+              maxLength="300"
+              name="dni"
+              id="dniField"
+              onChange={handleChange}
+              value={perfil.dni}
+            />
             <label>Fecha de nacimiento</label>
-            <input className="form-control" type="text" maxLength="200" name="fechaNac" id="fechaNacField" onChange={handleChange} value={perfil.fechaNac}/>
-        </ModalBody>
-        <ModalFooter>
-          {buildErrorMessage()}
-          <button className="btn btn-danger" onClick={() => editar(perfil)}>
-            Actualizar
+            <input
+              className="form-control"
+              type="text"
+              maxLength="200"
+              name="fechaNac"
+              id="fechaNacField"
+              onChange={handleChange}
+              value={perfil.fechaNac}
+            />
+          </ModalBody>
+          <ModalFooter>
+            {buildErrorMessage()}
+            <button className="btn btn-danger" onClick={() => editar(perfil)}>
+              Actualizar
             </button>
-          <button className="btn btn-secondary" onClick={() => closeModal()}>
-            Cancelar
-          </button>
-        </ModalFooter>
+            <button className="btn btn-secondary" onClick={() => closeModal()}>
+              Cancelar
+            </button>
+          </ModalFooter>
         </Modal>
       </div>
     );
