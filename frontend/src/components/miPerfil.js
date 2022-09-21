@@ -73,7 +73,7 @@ const MiPerfil = (props) => {
         const perfilData = response.data.users[0];
         
         const fechaNacData = new Date(perfilData.fechaNac);
-        const fechaNacDay = fechaNacData.getDate();
+        const fechaNacDay = fechaNacData.getDate() + 1;
         // Be careful! January is 0, not 1
         const fechaNacMonth = fechaNacData.getMonth() + 1;
         const fechaNacYear = fechaNacData.getFullYear();
@@ -385,7 +385,7 @@ const MiPerfil = (props) => {
             <label>Telefono</label>
             <input
               className="form-control"
-              type="text"
+              type="number"
               maxLength="100"
               name="telefono"
               id="telefonoField"
@@ -405,7 +405,7 @@ const MiPerfil = (props) => {
             <label>DNI</label>
             <input
               className="form-control"
-              type="text"
+              type="number"
               maxLength="300"
               name="dni"
               id="dniField"
@@ -415,7 +415,7 @@ const MiPerfil = (props) => {
             <label>Fecha de nacimiento</label>
             <input
               className="form-control"
-              type="text"
+              type="date"
               maxLength="200"
               name="fechaNac"
               id="fechaNacField"
