@@ -17,17 +17,17 @@ class UsersDataService {
     return result;
   } 
   
+  async editUser({ _id, nombre, apellido, direccion, correoE, dni, fechaNac, telefono, profilePic}) {
+    console.log("About to edit car: ", nombre, apellido, direccion, correoE, dni, fechaNac, telefono, profilePic);
+    let result = { status: false };
 
-  createAddress(data) {
-    return http.post("/address-new", data);
-  }
-
-  updateAddress(data) {
-    return http.put("/address-edit", data);
-  }
-
-  deleteAddress(id, userId) {
-    return http.delete(`/address-delete?id=${id}`, {data:{user_id: userId}});
+    // result = this.validateCarPayload({ patente, modelo, año });
+		result.status = true;
+    if (!result.status) return result;
+    
+    result = await http.put(`/editUser?_id=${_id}&nombre=${nombre}&apellido=${apellido}&direccion=${direccion}&correoE=${correoE}&dni=${dni}&fechaNac=${fechaNac}&telefono=${telefono}&profilePic=${profilePic}`);
+    console.log('Result: ', result);
+    return result;
   }
 
   getIdRol(id) {

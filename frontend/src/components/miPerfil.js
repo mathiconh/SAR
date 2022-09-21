@@ -29,12 +29,9 @@ const keys = Object.keys(imgObj);
 
 const MiPerfil = (props) => {
   const [perfil, setPerfil] = useState([]);
-  const [selectedImg, setSelectedImg] = useState();
+  const [selectedImg, setSelectedImg] = useState(undefined);
+  const [userFechaNac, setUserFechaNac] = useState('');
   const [autos, setAutos] = useState([]);
-  const [searchName, setSearchName] = useState("");
-  const [searchId, setSearchId] = useState("");
-  const [searchIdRol, setSearchIdRol] = useState("");
-  const [idRols, setIdRoles] = useState(["All IdRoles"]);
   const [modalEditar, setModalEditar] = useState(false);
   const [modalEditarAuto, setModalEditarAuto] = useState(false);
 
@@ -73,6 +70,16 @@ const MiPerfil = (props) => {
     UsersDataService.get(_id)
       .then(async (response) => {
         console.log(response.data.users[0]);
+        const perfilData = response.data.users[0];
+        
+        const fechaNacData = new Date(perfilData.fechaNac);
+        const fechaNacDay = fechaNacData.getDate();
+        // Be careful! January is 0, not 1
+        const fechaNacMonth = fechaNacData.getMonth() + 1;
+        const fechaNacYear = fechaNacData.getFullYear();
+        
+        setUserFechaNac(`${fechaNacDay}/${fechaNacMonth}/${fechaNacYear}`);
+        
         setPerfil(response.data.users[0]);
       })
       .catch((e) => {
@@ -102,6 +109,7 @@ const MiPerfil = (props) => {
   };
 
   const closeModal = () => {
+    setSelectedImg(undefined);
     setModalEditar(false);
     setValidationErrorMessage("");
   };
@@ -112,20 +120,8 @@ const MiPerfil = (props) => {
   };
 
   const editar = async (perfil) => {
-    // REVISAR: Cuando se trata de editar, se modifica una property, pero luego se cancela la operacion, la property queda modificada localmente.
-    // NO, tiene que volver a como estaba antes
-
-    // perfil.forEach(car => {
-    // if (car._id === perfil._id) {
-    //     car.patente = perfil.patente;
-    //     car.modelo = perfil.modelo;
-    //     car.anio = perfil.anio;
-    //     car.agregados = perfil.agregados;
-    //     car.historia = perfil.historia;
-    //     car.tallerAsociado = perfil.tallerAsociado;
-    //   }
-    // });
-    const result = await CarsDataService.editCar(UsersDataService);
+    if (selectedImg) perfil.profilePic = selectedImg;
+    const result = await UsersDataService.editUser(perfil);
     if (result.status) {
       console.log("Edicion exitosa");
       setValidationErrorMessage("");
@@ -220,14 +216,7 @@ const MiPerfil = (props) => {
                 <div className="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
                   <div className="row align-items-center">
                     <div className="col-lg-6 mb-4 mb-lg-0">
-                      <img
-                        src={
-                          perfil.profilePic
-                            ? imgObj[perfil.profilePic]
-                            : defaultImg
-                        }
-                        alt="..."
-                      />
+                      <img src={ perfil.profilePic ? imgObj[perfil.profilePic] : defaultImg } alt="..."/>
                     </div>
                     <div className="col-lg-6 px-xl-10">
                       <div className="d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
@@ -264,7 +253,8 @@ const MiPerfil = (props) => {
                           <span className="display-26 text-secondary me-2 font-weight-600">
                             Fecha de nacimiento:
                           </span>{" "}
-                          {perfil.fechaNac}
+                          {/* {(`${perfil.fechaNac.getDate()} ${perfil.fechaNac.getMonth() + 1} ${perfil.fechaNac.getFullYear()}`)} */}
+                          {userFechaNac}
                         </li>
                         <li>
                           <button
@@ -364,16 +354,15 @@ const MiPerfil = (props) => {
               onChange={handleChange}
               value={perfil.apellido}
             />
-            <div>
+            <div className="container">
               <p>Elegi una imagen de perfil</p>
               <div className="imgContainer">
                 {keys.map((imageName, index) => (
-                  // console.log('Hi: ', imageName);
                   <img
                     key={index}
                     src={imgObj[imageName]}
                     alt={`Profile ${index}`}
-                    width="10%"
+                    width="20%"
                     style={{
                       border:
                         selectedImg === imageName ? "4px solid purple" : "",
