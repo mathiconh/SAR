@@ -26,7 +26,6 @@ const imgObj = {
   avatar8,
 };
 const keys = Object.keys(imgObj);
-
 const MiPerfil = (props) => {
   const [perfil, setPerfil] = useState([]);
   const [selectedImg, setSelectedImg] = useState(undefined);
@@ -38,6 +37,7 @@ const MiPerfil = (props) => {
   const [validationErrorMessage, setValidationErrorMessage] = useState("");
   const [selectedCar, setSelectedCar] = useState({
     _id: "",
+    idUsuarioDuenio: "",
     patente: "",
     modelo: "",
     anio: "",
@@ -50,11 +50,12 @@ const MiPerfil = (props) => {
     getPerfil();
     getAutos();
   }, []);
+  
 
   const getAutos = async () => {
     const _id = cookies.get("_id");
 
-    await CarsDataService.find(_id, "idUsuarioDueño")
+    await CarsDataService.find(_id, "idUsuarioDuenio")
       .then((response) => {
         console.log("autos tiene", response.data.cars);
         setAutos(response.data.cars);
@@ -166,6 +167,7 @@ const MiPerfil = (props) => {
         car.agregados = selectedCar.agregados;
         car.historia = selectedCar.historia;
         car.tallerAsociado = selectedCar.tallerAsociado;
+        car.idUsuarioDuenio = selectedCar.idUsuarioDuenio;
       }
     });
     const result = await CarsDataService.editCar(selectedCar);
@@ -198,9 +200,10 @@ const MiPerfil = (props) => {
             </button>
         )
     } else {
+      
         return (
             <button className="btn btn-danger" onClick={() => crearAuto(selectedCar)}>
-              Crear
+              Crear 
             </button>
         )
     }
@@ -307,8 +310,9 @@ const MiPerfil = (props) => {
 
         <Modal isOpen={modalEditarAuto}>
           <ModalBody>
-              <label>ID</label>
-              <input className="form-control" readOnly type="text" name="id" id="idField" value={selectedCar._id} placeholder="Auto-Incremental ID"/>
+              <label>ID Usuario</label>
+              <label>ID Auto</label>
+              <input className="form-control" readOnly type="text" name="id" id="idField" value={selectedCar._id} placeholder="ID Auto-Incremental"/>
               <label>Patente</label>
               <input className="form-control" type="text" maxlength="50" name="patente" id="patenteField" onChange={handleChangeAuto} value={selectedCar.patente}/>
               <label>Modelo</label>
