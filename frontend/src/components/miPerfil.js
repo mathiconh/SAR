@@ -34,6 +34,9 @@ const MiPerfil = (props) => {
   const [modalEditar, setModalEditar] = useState(false);
   const [modalEditarAuto, setModalEditarAuto] = useState(false);
 
+  const [modalEliminarAuto, setModalElminarAuto] = useState(false);
+
+
   const [validationErrorMessage, setValidationErrorMessage] = useState("");
   const [selectedCar, setSelectedCar] = useState({
     _id: "",
@@ -152,7 +155,7 @@ const MiPerfil = (props) => {
   const selectCar = (action, car = {}) => {
     console.log("Selected: ", car);
     setSelectedCar(car);
-    action === "EditarAuto" ? setModalEditarAuto(true) : console.log("nada");//setModalElminar(true);
+    action === "EditarAuto" ? setModalEditarAuto(true) : setModalElminarAuto(true);
   };
 
   const editarAuto = async (selectedCar) =>{
@@ -187,10 +190,28 @@ const MiPerfil = (props) => {
       console.log('creación exitosa');
       setValidationErrorMessage('');
       setModalEditarAuto(false);
+      getAutos();
     } else {
       setValidationErrorMessage(result?.errorMessage);
     }
   }
+
+  const eliminarAuto = (carId) => {
+    deleteCar(carId);
+    setModalElminarAuto(false);
+  };
+
+  const deleteCar = async (carId) => {
+    console.log("Car to be deleted", carId);
+    await CarsDataService.deleteCar(carId)
+      .then((response) => {
+        getAutos();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  
 
   let setModalButtonAuto = (selectedCar) => {
     if (selectedCar._id) {
@@ -298,8 +319,8 @@ const MiPerfil = (props) => {
                     <p>
                       {patente + anio + agregados + historia + tallerAsociado}
                     </p>
-                    <button className="btn btn-primary">Editar</button>
-                    <button className="btn btn-danger">Eliminar</button>
+                    <button className="btn btn-primary" onClick={() => selectCar("EditarAuto", car)}>Editar</button>
+                    <button className="btn btn-danger" onClick={() => selectCar("EliminarAuto", car)}>Eliminar</button>
                   </div>
                 </div>
               );
@@ -331,6 +352,20 @@ const MiPerfil = (props) => {
             {setModalButtonAuto(selectedCar)}
             <button className="btn btn-secondary" onClick={() => closeModalAuto()}>
               Cancelar
+            </button>
+          </ModalFooter>
+        </Modal>
+
+        <Modal isOpen={modalEliminarAuto}>
+          <ModalBody>
+            Estás seguro que deseas eliminar el registro? Id: {selectedCar._id}
+          </ModalBody>
+          <ModalFooter>
+            <button className="btn btn-danger" onClick={() => eliminarAuto(selectedCar._id)}>
+              Sí
+            </button>
+            <button className="btn btn-secondary" onClick={() => setModalElminarAuto(false)}>
+              No
             </button>
           </ModalFooter>
         </Modal>

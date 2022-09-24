@@ -40,14 +40,14 @@ class CarsDataService {
     return await http.delete(`/deleteCar?_id=${id}`);
   }
 
-  async editCar({ _id, patente, modelo, año, agregados = '', historia = '', tallerAsociado = '' }) {
-    console.log("About to edit car: ", _id, patente, modelo, año, agregados, historia, tallerAsociado);
+  async editCar({ _id, patente, modelo, anio, agregados = '', historia = '', tallerAsociado = '' }) {
+    console.log("About to edit car: ", _id, patente, modelo, anio, agregados, historia, tallerAsociado);
     let result;
 
-    result = this.validateCarPayload({ patente, modelo, año });
+    result = this.validateCarPayload({ patente, modelo, anio });
     if (!result.status) return result;
     
-    result = await http.put(`/editCar?_id=${_id}&patente=${patente}&modelo=${modelo}&año=${año}&agregados=${agregados}&historia=${historia}&tallerAsociado=${tallerAsociado}`);
+    result = await http.put(`/editCar?_id=${_id}&patente=${patente}&modelo=${modelo}&anio=${anio}&agregados=${agregados}&historia=${historia}&tallerAsociado=${tallerAsociado}`);
     console.log('Result: ', result);
     return result;
   }

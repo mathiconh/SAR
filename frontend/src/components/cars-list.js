@@ -21,6 +21,7 @@ const CarsList = (props) => {
     agregados: "",
     historia: "",
     tallerAsociado: "",
+    idUsuarioDuenio: "",
   });
   const [searchableParams] = useState(Object.keys(selectedCar));
 
@@ -140,6 +141,7 @@ const CarsList = (props) => {
         car.agregados = selectedCar.agregados;
         car.historia = selectedCar.historia;
         car.tallerAsociado = selectedCar.tallerAsociado;
+        car.idUsuarioDuenio = selectedCar.idUsuarioDuenio;
       }
     });
     const result = await CarsDataService.editCar(selectedCar);
@@ -229,6 +231,7 @@ const CarsList = (props) => {
                     <th>Agregados</th>
                     <th>Historia</th>
                     <th>Workshop Asociado</th>
+                    <th>Id Dueño</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -241,6 +244,7 @@ const CarsList = (props) => {
                     const agregados = `${car.agregados}`;
                     const historia = `${car.historia}`;
                     const tallerAsociado = `${car.tallerAsociado}`;
+                    const idUsuarioDuenio = `${car.idUsuarioDuenio}`
                     return (
                       <tr>
                         <td>{id}</td>
@@ -250,6 +254,7 @@ const CarsList = (props) => {
                         <td>{agregados}</td>
                         <td width="">{historia}</td>
                         <td>{tallerAsociado}</td>
+                        <td>{idUsuarioDuenio}</td>
                         <td>
                           <button className="btn btn-primary" onClick={() => selectCar("Editar", car)}>Edit</button>
                           <button className="btn btn-danger" onClick={() => selectCar("Eliminar", car)}>Delete</button>
@@ -288,6 +293,8 @@ const CarsList = (props) => {
           <ModalBody>
               <label>ID</label>
               <input className="form-control" readOnly type="text" name="id" id="idField" value={selectedCar._id} placeholder="Auto-Incremental ID"/>
+              <label>ID Usuario Dueño</label>
+              <input className="form-control" type="text" maxlength="50" name="idUsuarioDuenio" id="idUsuarioDuenioField" onChange={handleChange} value={selectedCar.idUsuarioDuenio}/>
               <label>Patente</label>
               <input className="form-control" type="text" maxlength="50" name="patente" id="patenteField" onChange={handleChange} value={selectedCar.patente}/>
               <label>Modelo</label>
