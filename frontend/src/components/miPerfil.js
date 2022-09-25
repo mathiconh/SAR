@@ -277,7 +277,6 @@ const MiPerfil = (props) => {
                           <span className="display-26 text-secondary me-2 font-weight-600">
                             Fecha de nacimiento:
                           </span>{" "}
-                          {/* {(`${perfil.fechaNac.getDate()} ${perfil.fechaNac.getMonth() + 1} ${perfil.fechaNac.getFullYear()}`)} */}
                           {userFechaNac}
                         </li>
                         <li>
@@ -285,16 +284,10 @@ const MiPerfil = (props) => {
                             className="btn btn-primary"
                             onClick={() => editData("Editar", perfil)}
                           >
-                            Edit
+                            Editar datos
                           </button>
                           <br></br>
                           <br></br>
-                          <button
-                            className="btn btn-primary"
-                            onClick={() => selectCar("EditarAuto")}
-                          >
-                            Añadir un nuevo Auto
-                          </button>
                         </li>
                       </ul>
                     </div>
@@ -303,7 +296,7 @@ const MiPerfil = (props) => {
               </div>
             </div>
            
-            {autos.map((car) => {
+            {/* {autos.map((car) => {
               const patente = `${car.patente}`;
               const modelo = `${car.modelo}`;
               const anio = `${car.anio}`;
@@ -324,7 +317,76 @@ const MiPerfil = (props) => {
                   </div>
                 </div>
               );
-            })}
+            })} */}
+
+                <div>
+                  <div className="container-xl">
+                    <div className="table-responsive">
+                      <div className="table-wrapper">
+                        <div className="table-title">
+                          <div className="row">
+                            <div className="col-sm-6">
+                              <h2>
+                                Administra tus <b>Autos</b>
+                              </h2>
+                              <button
+                                className="btn btn-success"
+                                onClick={() => selectCar("EditarAuto")}
+                              >
+                                Añadir un nuevo Auto
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <table className="table table-striped w-auto table-hover">
+                          <thead>
+                            <tr>
+                              <th>Id</th>
+                              <th>Patente</th>
+                              <th>Modelo</th>
+                              <th>Año</th>
+                              <th>Agregados</th>
+                              <th>Historia</th>
+                              <th>Workshop Asociado</th>
+                              <th>Id Dueño</th>
+                              <th>Acciones</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {autos.map((selectedCar) => {
+                              const id = `${selectedCar._id}`;
+                              const patente = `${selectedCar.patente}`;
+                              const modelo = `${selectedCar.modelo}`;
+                              const anio = `${selectedCar.anio}`;
+                              const agregados = `${selectedCar.agregados}`;
+                              const historia = `${selectedCar.historia}`;
+                              const tallerAsociado = `${selectedCar.tallerAsociado}`;
+                              const idUsuarioDuenio = `${selectedCar.idUsuarioDuenio}`
+                              return (
+                                <tr>
+                                  <td>{id}</td>
+                                  <td>{patente}</td>
+                                  <td>{modelo}</td>
+                                  <td>{anio}</td>
+                                  <td>{agregados}</td>
+                                  <td width="">{historia}</td>
+                                  <td>{tallerAsociado}</td>
+                                  <td>{idUsuarioDuenio}</td>
+                                  <td>
+                                    <button className="btn btn-primary" onClick={() => selectCar("Editar", selectedCar)}>Edit</button>
+                                    <button className="btn btn-danger" onClick={() => selectCar("Eliminar", selectedCar)}>Delete</button>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+
+
           </div>
         </div>
         
