@@ -1,28 +1,31 @@
 import React, { useState, useEffect } from "react";
+import fondo from '../assets/profilePics/galvez.jpg'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Alert } from "reactstrap";
 import Cookies from 'universal-cookie'
+import "../styles/inicio.css";
 const cookies = new Cookies();
+
+
+const divStyle = {
+    color: 'blue',
+    backgroundImage: "url(https://cdn.pixabay.com/photo/2021/09/02/16/48/cat-6593947_960_720.jpg)",
+  };
+  
 
 
 const CarsList = (props) => {
 
     const [cars, setCars] = useState([]);
-    
-    if (cookies.get("_id")){
         return (
-            <div class="container-fluid">
-                <p class="h1 text-center">Bienvenido a S4R</p>
+            <div style={divStyle}>
+                <div className="" >
+                    <img className="imagenFondo"  alt=""/>
+                    <p className="h1 text-center">Bienvenido a S4R</p>
+                </div>
             </div>
         );
     
-    }else{    
-        window.location.href="./login" 
-        console.log("Necesita logearse para poder acceder al ABM de Autos");
-        <Alert id='errorMessage' className="alert alert-danger fade show" key='danger' variant='danger'>
-            Necesita logearse para poder acceder al ABM de Autos
-        </Alert>
-    }
 };
 
 export default CarsList;

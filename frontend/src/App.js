@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css"
+import "./App.css";
 import Inicio from "./components/inicio";
 import Login from "./components/login";
 import UsersList from "./components/users-list";
@@ -15,15 +15,15 @@ const cookies = new Cookies();
 function App() {
   const completarMenu = () => {
     if (cookies.get("_id")) {
-      console.log('User Id: ', cookies.get("_id"));
-      console.log('Id Rol: ', cookies.get("idRol"));
+      console.log("User Id: ", cookies.get("_id"));
+      console.log("Id Rol: ", cookies.get("idRol"));
       if (parseInt(cookies.get("idRol")) === 1) {
         return completarMenuAdmin();
       } else if (parseInt(cookies.get("idRol")) === 2) {
         return completarMenuUser();
       }
     }
-  }
+  };
 
   const completarMenuUser = () => {
     return (
@@ -39,24 +39,19 @@ function App() {
             >
               <span className="navbar-toggler-icon"></span>
             </button>
-            <ul
-              className="dropdown-menu"
-              aria-labelledby="dropdownMenuButton1"
-            >
+            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
               <li>
                 <a href="/miperfil" className="dropdown-item">
                   Mi perfil
                 </a>
               </li>
-              <li>
-                  {sesion()}
-              </li>
+              <li>{sesion()}</li>
             </ul>
           </div>
         </li>
       </div>
     );
-  }
+  };
 
   const completarMenuAdmin = () => {
     return (
@@ -72,10 +67,7 @@ function App() {
             >
               <span className="navbar-toggler-icon"></span>
             </button>
-            <ul
-              className="dropdown-menu"
-              aria-labelledby="dropdownMenuButton1"
-            >
+            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
               <li>
                 <a href="/users" className="dropdown-item">
                   Usuarios
@@ -97,7 +89,14 @@ function App() {
                 </a>
               </li>
               <li>
-                  {sesion()}
+                <a
+                  onClick={cerrarSesion}
+                  href="./login"
+                  className="dropdown-item"
+                  style={{ cursor: "pointer" }}
+                >
+                  Cerrar Sesión
+                </a>
               </li>
             </ul>
           </div>
@@ -108,24 +107,16 @@ function App() {
 
   const sesion = () => {
     if (cookies.get("_id")) {
-      return (
-        <a
-          onClick={cerrarSesion}
-          href="./login"
-          className="dropdown-item"
-        >
-          Cerrar Sesión
-        </a>
-      );
+      return completarMenu();
     } else {
       return (
         <a
           onClick={cerrarSesion}
           href="./login"
-          className="nav-link"
+          className="nav-link text-white"
           style={{ cursor: "pointer" }}
         >
-          Ingresar
+          <strong> Ingresar</strong>
         </a>
       );
     }
@@ -141,18 +132,25 @@ function App() {
     <div>
       <div className="navbar navbar-dark d-flex bg-dark box-shadow">
         <div className="container  justify-content-between">
-        <div className="col-3"><a href="#" className=" navbar-brand d-flex align-items-center">
-            <strong>S4R</strong>
-          </a></div>
-          <div className="col-3">
-            <strong className="text-white">Bienvenido {cookies.get("nombre")}</strong>
+          <div className="col-1">
+            <a
+              href="/inicio"
+              className=" navbar-brand d-flex align-items-center"
+            >
+              <strong>S4R</strong>
+            </a>
           </div>
-        <div className="col-5">
-        <a href="/inscripcion" className="nav-link text-light float-right" >
-            <strong> Inscripcion a Carrera</strong>
-          </a></div>
-        <div className="col-1">
-          {completarMenu()}</div>
+          <div className="col-4">
+            <strong className="text-white">
+              Bienvenido {cookies.get("nombre")}
+            </strong>
+          </div>
+          <div className="col-6">
+            <a href="/inscripcion" className="nav-link text-light float-right">
+              <strong> Inscripcion a Carrera</strong>
+            </a>
+          </div>
+          <div className="col-1">{sesion()}</div>
         </div>
       </div>
       <div className="container mt-3">
@@ -169,7 +167,6 @@ function App() {
             <Route exact path={["/", "/Inscripcion"]} component={Inscripcion} />
             <Route exact path={["/", "/login"]} component={Login} />
             <Route exact path={["/", "/miperfil"]} component={MiPerfil} />
-
 
             {/* <Route exact path={["/", "/add-car"]} component={addCar} /> */}
           </Switch>
