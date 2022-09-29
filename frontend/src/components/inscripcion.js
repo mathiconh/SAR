@@ -9,7 +9,7 @@ const cookies = new Cookies();
 const CarsList = (props) => {
 
     const [carrerasDisponibles, setCarrerasDisponibles] = useState([]);
-    const [clasesDisponibles, setClasesDisponibles] = useState([]);
+    const [clasesDisponibles, setClasesDisponibles] = useState(["Seleccionar Clase"]);
     const [carreraSeleccionada, setCarreraSeleccionada] = useState([]);
 
     useEffect(() => {
@@ -19,26 +19,17 @@ const CarsList = (props) => {
     const onChangesetSelectedClass = (e) => {
         const clase = e.target.value;
         console.log('Carreras Disponibles: ', carrerasDisponibles);
-        console.log('clase: ', clase);
-        const carreraData = carrerasDisponibles.find(clase => clase.carreraNombreClase === clase);
-        // console.log('Clase Seleccionada: ', carreraId);
+
+        const carreraData = carrerasDisponibles.find(carrera => carrera.carreraNombreClase === clase);
         console.log('Carrera Seleccionada: ', carreraData);
-        setCarreraSeleccionada(carreraData);
+        if (carreraData) setCarreraSeleccionada(carreraData);
       };
     /*
         En principio para anotarse se pediria
-            Clase en la que se quiere correr
-            Auto con el que se quiere correr (se tiene que tener autos registrados)
-            Dni
-            fecha (determinada por el viernes mas proximo cargado en el sistema en la tabla Carreras)
-
-        Para traer las clases disponibles, primero tenemos que recorrer la tabla de carreras
-        DONE - al recorrer la tabla de carreras, buscamos todos los documentos que tengan fecha del proximo viernes mas cercano
-        DONE - al tener todos esos documentos, podemos recorrerlos para obtener el ID de clase de cada uno de esos documentos, teniendo
-            asi entonces todas las clases disponibles para el viernes mas proximo
-        TODO ACA - teniendo todos los id de clase disponibles, podemos ofrecer el dropdown con los valores de clases que se pueden elegir
-        - la fecha es dada por la data de lo obtenido en la tabla de carreras
-        DONE - antes de habilitar la clase para ser seleccionada, se debe tambien validar que para esa carrera(fecha) haya cupos disponibles
+            Partial - Clase en la que se quiere correr
+            PENDIENTE - Auto con el que se quiere correr (se tiene que tener autos registrados)
+            PENDIENTE - Dni (COOKIES ?)
+            PENDIENTE - PAGAR CON MP
     */ 
     const retrieveCarreras = async () => {
     const response = await InscripcionDataService.getAvailable();
@@ -47,24 +38,39 @@ const CarsList = (props) => {
     const clasesDisponiblesList = response.data.availableRaces.map((carrera) => {
         return carrera.carreraNombreClase;
     });
-    // clasesDisponiblesList.push(response.data.availableRaces[0].carreraNombreClase);
     setCarrerasDisponibles(response.data.availableRaces);
-    setClasesDisponibles(clasesDisponiblesList);
-    // console.log('So: ', clasesDisponibles);
+
+    ordenarClases(clasesDisponiblesList);
+    console.log('Clases Detectadas: ', clasesDisponiblesList);
+
+    setClasesDisponibles(["Seleccionar Clase"].concat(clasesDisponiblesList));
+    // setClasesDisponibles(clasesDisponiblesList);
     };
+
+    function ordenarClases(clasesDisponiblesList) {
+        clasesDisponiblesList.sort((claseA, claseB) => {
+            const nameA = claseA.toUpperCase(); // Para ignorar mayusculas y minusculas en la comparacion
+            const nameB = claseB.toUpperCase();
+            if (nameA < nameB) return -1;
+            if (nameA > nameB) return 1;
+            
+            // Nombres iguales
+            return 0;
+        });
+    }
     
     if (cookies.get("_id")){
         return (
-            <div class="container-fluid">
+            <div className="container-fluid">
                 {/*
                 <div className="input-group col-lg-4">
-                    <p class="h1 text-center">Clases disponibles para este viernes </p>
+                    <p className="h1 text-center">Clases disponibles para este viernes </p>
                     
                   </div> */}
-                <p class="h1 text-center">Inscripcion a Carrera</p>
+                <p className="h1 text-center">Inscripcion a Carrera</p>
                 <form>
-                    <div class="form-group align-items-center">
-                        <label for="exampleInputEmail1">Clases disponibles para este viernes </label>
+                    <div className="form-group align-items-center">
+                        <label htmlFor="exampleInputEmail1">Clases disponibles para este viernes </label>
                         <select onChange={onChangesetSelectedClass}>
                             {clasesDisponibles.map(param => {
                                 return (
@@ -73,21 +79,21 @@ const CarsList = (props) => {
                                 })}
                         </select>
                         <br></br>
-                        <label for="tiempoClase">Tiempo de la clase seleccionada: {carreraSeleccionada.tiempoClase}</label>
-                        {/* <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"> */}
-                        {/* <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> */}
+                        <label htmlFor="tiempoClase">Tiempo de la clase seleccionada: {carreraSeleccionada.tiempoClase}</label>
+                        {/* <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"> */}
+                        {/* <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small> */}
                     </div>
-                    <div class="form-group align-items-center">
+                    <div className="form-group align-items-center">
                         <div className="form-row align-items-center">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"></input>
+                            <label htmlFor="exampleInputPassword1">Password</label>
+                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"></input>
                         </div>
                     </div>
-                    <div class="form-group align-items-center form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1"></input>
-                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    <div className="form-group align-items-center form-check">
+                        <input type="checkbox" className="form-check-input" id="exampleCheck1"></input>
+                        <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" className="btn btn-primary">Submit</button>
                 </form>
             </div>
         );
