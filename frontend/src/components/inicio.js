@@ -1,31 +1,35 @@
 import React, { useState, useEffect } from "react";
-import fondo from '../assets/profilePics/galvez.jpg'
+import fondo from "../assets/profilePics/galvez.jpg";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Alert } from "reactstrap";
-import Cookies from 'universal-cookie'
+import Cookies from "universal-cookie";
 import "../styles/inicio.css";
 const cookies = new Cookies();
 
-
 const divStyle = {
-    color: 'blue',
-    backgroundImage: "url(https://cdn.pixabay.com/photo/2021/09/02/16/48/cat-6593947_960_720.jpg)",
-  };
-  
-
+  color: "blue",
+  backgroundImage: "url('../assets/profilePics/galvez.jpg')",
+};
 
 const CarsList = (props) => {
+  const [cars, setCars] = useState([]);
+  return (
+    <section className="vh-100 img-fluid  imagenFondo">
+      <div className="m-0 vh-100  p-5 row justify-content-center text-center">
+        
+        <div className="col-auto justify-center ">
+        <p className=" text-center h1 text-white">Bienvenido a S4R asdasd</p>
 
-    const [cars, setCars] = useState([]);
-        return (
-            <div style={divStyle}>
-                <div className="" >
-                    <img className="imagenFondo"  alt=""/>
-                    <p className="h1 text-center">Bienvenido a S4R</p>
-                </div>
-            </div>
-        );
-    
+          <a href="#" className="btn btn-success">
+            Centrar boton
+          </a>
+          <a href="#" className="btn btn-success">
+            Centrar boton
+          </a>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default CarsList;

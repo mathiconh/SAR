@@ -10,6 +10,8 @@ import MiPerfil from "./components/miPerfil";
 import ChampionshipsList from "./components/championships-list";
 import Inscripcion from "./components/inscripcion";
 import Cookies from "universal-cookie";
+import "./styles/inicio.css";
+
 const cookies = new Cookies();
 
 function App() {
@@ -153,7 +155,6 @@ function App() {
           <div className="col-1">{sesion()}</div>
         </div>
       </div>
-      <div className="container mt-3">
         <BrowserRouter>
           <Switch>
             <Route exact path={["/", "/users"]} component={UsersList} />
@@ -171,7 +172,6 @@ function App() {
             {/* <Route exact path={["/", "/add-car"]} component={addCar} /> */}
           </Switch>
         </BrowserRouter>
-      </div>
     </div>
   );
 }
