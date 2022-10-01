@@ -30,7 +30,7 @@ function App() {
   const completarMenuUser = () => {
     return (
       <div>
-        <li>
+        <li key='DropdownUser'>
           <div className="dropdown bugermenu">
             <button
               className="btn btn-secondary navbar-toggler"
@@ -42,12 +42,12 @@ function App() {
               <span className="navbar-toggler-icon"></span>
             </button>
             <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li>
+              <li key='UserPerfil'>
                 <a href="/miperfil" className="dropdown-item">
                   Mi perfil
                 </a>
               </li>
-              <li>{sesion()}</li>
+              <li key='BasadoEnSesionRol'>{sesion()}</li>
             </ul>
           </div>
         </li>
@@ -58,7 +58,7 @@ function App() {
   const completarMenuAdmin = () => {
     return (
       <div>
-        <li>
+        <li key='DropdownAdmin'>
           <div className="dropdown bugermenu">
             <button
               className="btn btn-secondary navbar-toggler"
@@ -70,27 +70,27 @@ function App() {
               <span className="navbar-toggler-icon"></span>
             </button>
             <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li>
+              <li key='AdminUsuarios'>
                 <a href="/users" className="dropdown-item">
                   Usuarios
                 </a>
               </li>
-              <li>
+              <li key='AdminAutos'>
                 <a href="/cars" className="dropdown-item">
                   ABM Autos
                 </a>
               </li>
-              <li>
+              <li key='AdminCampeonatos'>
                 <a href="/championships" className="dropdown-item">
                   ABM campeonatos
                 </a>
               </li>
-              <li>
+              <li key='AdminPerfil'>
                 <a href="/miperfil" className="dropdown-item">
                   Mi perfil
                 </a>
               </li>
-              <li>
+              <li key='AdminCerrarSesion'>
                 <a
                   onClick={cerrarSesion}
                   href="./login"
