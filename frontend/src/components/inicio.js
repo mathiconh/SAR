@@ -14,20 +14,23 @@ const divStyle = {
 const CarsList = (props) => {
   const [cars, setCars] = useState([]);
   return (
-    <section className="vh-100 img-fluid  imagenFondo">
-      <div className="m-0 vh-100  p-5 row justify-content-center text-center">
-        
-        <div className="col-auto justify-center ">
-        <p className=" text-center h1 text-white">Bienvenido a S4R asdasd</p>
-
-          <a href="#" className="btn btn-success">
-            Centrar boton
-          </a>
-          <a href="#" className="btn btn-success">
-            Centrar boton
+    <section className="vh-100 d-flex justify-content-center align-items-center img-fluid  imagenFondo">
+        <div className="col-auto  ">
+        <p className="  h3 text-white text-center">Veni a probar los tiempos de tu auto</p>
+        <p className="  h1 text-white text-center">EN EL GRAN AUTODROMO DE BUENOS AIRES</p>
+        <div className="d-flex justify-content-center">
+        <div className="m-4">
+          <a href="/inscripcion" className="justify-center btn botonPrincipal ml-4">
+            INSCRIBITE
           </a>
         </div>
-      </div>
+        <div className="m-4">
+          <a href="/login" className="justify-center btn botonSecundario">
+            INICIAR SESION
+          </a>
+          </div>
+          </div>
+        </div>
     </section>
   );
 };
