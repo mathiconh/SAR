@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Inicio from "./components/inicio";
@@ -135,10 +135,7 @@ function App() {
       <div className="navbar navbar-dark d-flex bg-dark box-shadow">
         <div className="container  justify-content-between">
           <div className="col-1">
-            <a
-              href="/inicio"
-              className=" navbar-brand d-flex align-items-center"
-            >
+            <a href="/inicio" className=" navbar-brand d-flex align-items-center">
               <strong>S4R</strong>
             </a>
           </div>
@@ -157,19 +154,13 @@ function App() {
       </div>
         <BrowserRouter>
           <Switch>
+            <Route exact path={["/", "/Inicio"]} component={Inicio} />
             <Route exact path={["/", "/users"]} component={UsersList} />
             <Route exact path={["/", "/cars"]} component={CarsList} />
-            <Route
-              exact
-              path={["/", "/championships"]}
-              component={ChampionshipsList}
-            />
-            <Route exact path={["/", "/Inicio"]} component={Inicio} />
+            <Route exact path={["/", "/championships"]} component={ChampionshipsList}/>
             <Route exact path={["/", "/Inscripcion"]} component={Inscripcion} />
             <Route exact path={["/", "/login"]} component={Login} />
             <Route exact path={["/", "/miperfil"]} component={MiPerfil} />
-
-            {/* <Route exact path={["/", "/add-car"]} component={addCar} /> */}
           </Switch>
         </BrowserRouter>
     </div>

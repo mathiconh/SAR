@@ -1,6 +1,9 @@
 import http from "../http-common";
 import Cookies from 'universal-cookie'
+import { validatePayload } from '../utils/payloadValidations';
+
 const cookies = new Cookies();
+
 class CarsDataService {
   async getAll(page = 0) {
     const result = await http.get(`cars?page=${page}`);
@@ -28,7 +31,7 @@ class CarsDataService {
 
 
 
-    result = this.validateCarPayload({ patente, modelo, anio });
+    result = validatePayload({ patente, modelo, anio });
     if (!result.status) return result;
 
     result = await http.post(`/createCar?patente=${patente}&modelo=${modelo}&anio=${anio}&agregados=${agregados}&historia=${historia}&tallerAsociado=${tallerAsociado}&idUsuarioModif=${idUsuarioModif}&idUsuarioDuenio=${idUsuarioDuenio}`);
@@ -44,39 +47,12 @@ class CarsDataService {
     console.log("About to edit car: ", _id, patente, modelo, anio, agregados, historia, tallerAsociado, idUsuarioDuenio);
     let result;
 
-    result = this.validateCarPayload({ idUsuarioDuenio, patente, modelo, anio });
+    result = validatePayload({ idUsuarioDuenio, patente, modelo, anio });
     if (!result.status) return result;
     
     result = await http.put(`/editCar?_id=${_id}&patente=${patente}&modelo=${modelo}&anio=${anio}&agregados=${agregados}&historia=${historia}&tallerAsociado=${tallerAsociado}&idUsuarioDuenio=${idUsuarioDuenio}`);
     console.log('Result: ', result);
     return result;
-  }
-
-  validateCarPayload(payload) {
-    let validationResult = {
-        status: true,
-    };
-    const errorProperties = [];
-
-    Object.keys(payload).forEach((property) => {
-      console.log(`Evaluating ${property} value ${payload[property]}`);
-      
-      if ((payload[property] === undefined) || !payload[property]) {
-        errorProperties.push(property);
-      }
-    });
-
-    if (errorProperties.length) {
-      validationResult.status = false;
-      validationResult.errorMessage = errorProperties.length > 1 
-        ? `Las siguientes propiedades no pueden estar vacias: ${errorProperties}.` 
-        : `La siguiente propiedad no puede estar vacia: ${errorProperties}.`;
-      
-      console.log('', validationResult.errorMessage);
-      return validationResult;
-    }
-    
-    return validationResult;
   }
 
 }

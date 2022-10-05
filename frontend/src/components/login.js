@@ -4,7 +4,6 @@ import { Alert } from "reactstrap";
 import Cookies from "universal-cookie";
 import "../styles/login.css";
 
-
 const cookies = new Cookies();
 
 function Login() {
@@ -22,17 +21,6 @@ function Login() {
     }));
   };
 
-  //      const deleteCar = async (carId) => {
-  //        console.log("Car to be deleted", carId);
-  //        await CarsDataService.deleteCar(carId)
-  //          .then((response) => {
-  //            refreshList();
-  //          })
-  //          .catch((e) => {
-  //            console.log(e);
-  //          });
-  //      };
-
   const logIn = async (user) => {
     const result = await LoginDataService.get(user.correoE, user.password);
     if (result.data.status) {
@@ -47,7 +35,7 @@ function Login() {
       cookies.set("dni", result.data.responseData.dni, { path: "/" });
       cookies.set("fechaNac", result.data.responseData.fechaNac, { path: "/" });
       cookies.set("telefono", result.data.responseData.telefono, { path: "/" });
-      window.location.href = "./cars";
+      window.location.href = "./Inicio";
     } else {
       setValidationErrorMessage(result?.data?.errorMessage);
     }

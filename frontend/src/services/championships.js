@@ -25,10 +25,6 @@ class ChampionshipsDataService {
     let result;
     let idUsuarioModif = cookies.get("_id");
 
-
-    // result = this.validateCarPayload({ patente, modelo, año });
-    // if (!result.status) return result;
-
     result = await http.post(`/createChampionship?nombre=${nombre}&fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}&idUsuarioModif=${idUsuarioModif}`);
     console.log('Result: ', result);
     return result;
@@ -41,9 +37,6 @@ class ChampionshipsDataService {
   async editChampionship({ _id, nombre = '', fechaDesde, fechaHasta }) {
     console.log("About to edit championship: ", _id, nombre, fechaDesde, fechaHasta);
     let result;
-
-    //result = this.validateCarPayload({ nombre, modelo, año });
-    //if (!result.status) return result;
     
     result = await http.put(`/editChampionship?_id=${_id}&nombre=${nombre}&fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}`);
     console.log('Result: ', result);
