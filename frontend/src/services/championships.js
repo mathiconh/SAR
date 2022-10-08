@@ -37,8 +37,9 @@ class ChampionshipsDataService {
   async editChampionship({ _id, nombre = '', fechaDesde, fechaHasta }) {
     console.log("About to edit championship: ", _id, nombre, fechaDesde, fechaHasta);
     let result;
+    let idUsuarioModif = cookies.get("_id");
     
-    result = await http.put(`/editChampionship?_id=${_id}&nombre=${nombre}&fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}`);
+    result = await http.put(`/editChampionship?_id=${_id}&nombre=${nombre}&fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}&idUsuarioModif=${idUsuarioModif}`);
     console.log('Result: ', result);
     return result;
   }

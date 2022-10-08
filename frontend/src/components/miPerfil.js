@@ -373,7 +373,7 @@ const MiPerfil = (props) => {
                                   <td>{tallerAsociado}</td>
                                   <td>{idUsuarioDuenio}</td>
                                   <td>
-                                    <button className="btn btn-primary" onClick={() => selectCar("Editar", selectedCar)}>Edit</button>
+                                    <button className="btn btn-primary" onClick={() => selectCar("EditarAuto", selectedCar)}>Edit</button>
                                     <button className="btn btn-danger" onClick={() => selectCar("Eliminar", selectedCar)}>Delete</button>
                                   </td>
                                 </tr>

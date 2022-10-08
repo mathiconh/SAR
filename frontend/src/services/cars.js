@@ -46,11 +46,12 @@ class CarsDataService {
   async editCar({ _id, patente, modelo, anio, agregados = '', historia = '', tallerAsociado = '', idUsuarioDuenio }) {
     console.log("About to edit car: ", _id, patente, modelo, anio, agregados, historia, tallerAsociado, idUsuarioDuenio);
     let result;
+    let idUsuarioModif = cookies.get("_id");
 
     result = validatePayload({ idUsuarioDuenio, patente, modelo, anio });
     if (!result.status) return result;
     
-    result = await http.put(`/editCar?_id=${_id}&patente=${patente}&modelo=${modelo}&anio=${anio}&agregados=${agregados}&historia=${historia}&tallerAsociado=${tallerAsociado}&idUsuarioDuenio=${idUsuarioDuenio}`);
+    result = await http.put(`/editCar?_id=${_id}&patente=${patente}&modelo=${modelo}&anio=${anio}&agregados=${agregados}&historia=${historia}&tallerAsociado=${tallerAsociado}&idUsuarioDuenio=${idUsuarioDuenio}&idUsuarioModif=${idUsuarioModif}`);
     console.log('Result: ', result);
     return result;
   }

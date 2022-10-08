@@ -1,5 +1,8 @@
 import http from "../http-common";
+import Cookies from 'universal-cookie'
 
+
+const cookies = new Cookies();
 
 class UsersDataService {
   getAll(page = 0) {
@@ -20,11 +23,12 @@ class UsersDataService {
   async editUser({ _id, nombre, apellido, direccion, correoE, dni, fechaNac, telefono, profilePic}) {
     console.log("About to edit car: ", nombre, apellido, direccion, correoE, dni, fechaNac, telefono, profilePic);
     let result = { status: false };
+    let idUsuarioModif = cookies.get("_id");
 
     result = this.validateUserPayload({ nombre, apellido, direccion, correoE, dni, fechaNac, telefono, profilePic });
     if (!result.status) return result;
     
-    result = await http.put(`/editUser?_id=${_id}&nombre=${nombre}&apellido=${apellido}&direccion=${direccion}&correoE=${correoE}&dni=${dni}&fechaNac=${fechaNac}&telefono=${telefono}&profilePic=${profilePic}`);
+    result = await http.put(`/editUser?_id=${_id}&nombre=${nombre}&apellido=${apellido}&direccion=${direccion}&correoE=${correoE}&dni=${dni}&fechaNac=${fechaNac}&telefono=${telefono}&profilePic=${profilePic}&idUsuarioModif=${idUsuarioModif}`);
     console.log('Result: ', result);
     return result;
   }
