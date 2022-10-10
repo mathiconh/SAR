@@ -9,6 +9,7 @@ import CarsList from "./components/cars-list";
 import MiPerfil from "./components/miPerfil";
 import ChampionshipsList from "./components/championships-list";
 import Inscripcion from "./components/inscripcion";
+import Sprints from "./components/sprints-list";
 import Cookies from "universal-cookie";
 import "./styles/inicio.css";
 
@@ -80,14 +81,19 @@ function App() {
                   ABM Autos
                 </a>
               </li>
+              <li key='AdminAutos'>
+                <a href="/sprints" className="dropdown-item">
+                  ABM Carreras
+                </a>
+              </li>
               <li key='AdminCampeonatos'>
                 <a href="/championships" className="dropdown-item">
-                  ABM campeonatos
+                  ABM Campeonatos
                 </a>
               </li>
               <li key='AdminPerfil'>
                 <a href="/miperfil" className="dropdown-item">
-                  Mi perfil
+                  Mi Perfil
                 </a>
               </li>
               <li key='AdminCerrarSesion'>
@@ -161,6 +167,7 @@ function App() {
             <Route exact path={["/", "/Inscripcion"]} component={Inscripcion} />
             <Route exact path={["/", "/login"]} component={Login} />
             <Route exact path={["/", "/miperfil"]} component={MiPerfil} />
+            <Route exact path={["/", "/sprints"]} component={Sprints} />
           </Switch>
         </BrowserRouter>
     </div>
