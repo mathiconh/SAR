@@ -201,7 +201,7 @@ const CarsList = (props) => {
                 <div className="row">
                   <div className="col-sm-6">
                     <h2>
-                      Administrar <b>Autos</b>
+                      Administrar <b>Carreras</b>
                     </h2>
                   </div>
                   <div className="input-group col-lg-4">
