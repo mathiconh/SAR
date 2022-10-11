@@ -321,20 +321,41 @@ const CarsList = (props) => {
           <ModalBody>
               <label>ID</label>
               <input className="form-control" readOnly type="text" name="id" id="idField" value={selectedSprint._id} placeholder="Auto-Incremental ID"/>
-              <label>ID Usuario Dueño</label>
-              <input className="form-control" type="text" maxlength="50" name="idVehiculoP2" id="idVehiculoP2Field" onChange={handleChange} value={selectedSprint.idVehiculoP2}/>
-              <label>Patente</label>
+              <label>Fecha</label>
               <input className="form-control" type="text" maxlength="50" name="fecha" id="fechaField" onChange={handleChange} value={selectedSprint.fecha}/>
-              <label>Modelo</label>
+              <label>ID Campeonato</label>
               <input className="form-control" type="text" maxlength="100" name="idCampeonato" id="idCampeonatoField" onChange={handleChange} value={selectedSprint.idCampeonato}/>
-              <label>Año</label>
+              <label>Clase</label>
               <input className="form-control" type="number" maxlength="10" name="clase" id="claseField" onChange={handleChange} value={selectedSprint.clase}/>
-              <label>Agregados</label>
+              <label>ID UsuarioP1</label>
               <input className="form-control" type="text" maxlength="300" name="idUsuarioP1" id="idUsuarioP1Field" onChange={handleChange} value={selectedSprint.idUsuarioP1}/>
-              <label>Historia</label>
+              <label>ID UsuarioP2</label>
               <input className="form-control" type="text" maxlength="200" name="idUsuarioP2" id="idUsuarioP2Field" onChange={handleChange} value={selectedSprint.idUsuarioP2}/>
-              <label>Taller Mecanico</label>
-              <input className="form-control" type="text" maxlength="50" name="idVehiculoP1" id="workshopField" onChange={handleChange} value={selectedSprint.idVehiculoP1}/>
+              <label>ID VehiculoP1</label>
+              <input className="form-control" type="text" maxlength="50" name="idVehiculoP1" id="workshopField" onChange={handleChange} value={selectedSprint.idVehiculoP1}/> 
+              <label>ID VehiculoP2</label>
+              <input className="form-control" type="text" maxlength="50" name="idVehiculoP2" id="idVehiculoP2Field" onChange={handleChange} value={selectedSprint.idVehiculoP2}/>
+              <label>Reacción P1</label>
+              <input className="form-control" type="text" maxlength="50" name="reaccionP1" id="reaccionP1Field" onChange={handleChange} value={selectedSprint.reaccionP1}/>
+              <label>Reacción P2</label>
+              <input className="form-control" type="text" maxlength="50" name="reaccionP2" id="reaccionP2Field" onChange={handleChange} value={selectedSprint.reaccionP2}/>
+              <label>Tiempo 100mts P1</label>
+              <input className="form-control" type="text" maxlength="50" name="tiempo100mtsP1" id="tiempo100mtsP1Field" onChange={handleChange} value={selectedSprint.tiempo100mtsP1}/>
+              <label>Tiempo 100mts P2</label>
+              <input className="form-control" type="text" maxlength="50" name="tiempo100mtsP2" id="tiempo100mtsP2Field" onChange={handleChange} value={selectedSprint.tiempo100mtsP2}/>
+              <label>Tiempo Llegada P1</label>
+              <input className="form-control" type="text" maxlength="50" name="tiempoLlegadaP1" id="tiempoLlegadaP1Field" onChange={handleChange} value={selectedSprint.tiempoLlegadaP1}/>
+              <label>Tiempo Llegada P2</label>
+              <input className="form-control" type="text" maxlength="50" name="tiempoLlegadaP2" id="tiempoLlegadaP2Field" onChange={handleChange} value={selectedSprint.tiempoLlegadaP2}/>
+              <label>Pista</label>
+              <input className="form-control" type="text" maxlength="50" name="pista" id="pistaField" onChange={handleChange} value={selectedSprint.pista}/>
+              <label>Clase</label>
+              <input className="form-control" type="text" maxlength="50" name="clase" id="claseField" onChange={handleChange} value={selectedSprint.clase}/>
+              
+              
+              
+              
+              
           </ModalBody>
           <ModalFooter>
             {buildErrorMessage()}
