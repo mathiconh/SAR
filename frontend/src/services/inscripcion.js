@@ -8,14 +8,14 @@ class InscripcionDataService {
     return result;
   }
 
-  async createInscripcion({carreraId, claseId, dni, pagarMP}) {
-    console.log("About inscribir: ", carreraId, claseId, dni, pagarMP);
+  async createInscripcion({carreraId, claseId, dni, pagarMP, vehiculoId}) {
+    console.log("About inscribir: ", carreraId, claseId, dni, pagarMP, vehiculoId);
     let result;
 
     result = validatePayload({ carreraId, claseId, dni });
     if (!result.status) return result;
 
-    result = await http.post(`/createInscripcion?carreraId=${carreraId}&claseId=${claseId}&dni=${dni}&pagarMP=${pagarMP}`);
+    result = await http.post(`/createInscripcion?carreraId=${carreraId}&claseId=${claseId}&dni=${dni}&pagarMP=${pagarMP}&vehiculoId=${vehiculoId}`);
     console.log('Result: ', result);
     return result;
   }

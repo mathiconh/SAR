@@ -29,9 +29,7 @@ const CarsList = (props) => {
     const clase = e.target.value;
     console.log("Carreras Disponibles: ", carrerasDisponibles);
 
-    const carreraData = carrerasDisponibles.find(
-      (carrera) => carrera.carreraNombreClase === clase
-    );
+    const carreraData = carrerasDisponibles.find((carrera) => carrera.carreraNombreClase === clase);
     console.log("Carrera Seleccionada: ", carreraData);
     if (carreraData) {
         setCarreraSeleccionada(carreraData);
@@ -52,6 +50,16 @@ const CarsList = (props) => {
       }
     ));
   }
+
+  function onChangeValue(event) {
+    // console.log(`Name: ${event.target.name} Value: ${event.target.value}`);
+    const {name, value} = event.target;
+    setInscripcion((prevState) => ({
+      ...prevState,
+      [name]: value
+    }));
+  }
+
   /*
         En principio para anotarse se pediria
             PENDIENTE - Auto con el que se quiere correr (se tiene que tener autos registrados)
@@ -89,11 +97,24 @@ const CarsList = (props) => {
     const result = InscripcionDataService.createInscripcion(inscripcion);
     if (result.status) {
         console.log('Edicion exitosa');
-        setValidationErrorMessage('');
+        setValidationErrorMessage('success');
         setInscripcion(defaultInsc);
       } else {
         setValidationErrorMessage(result?.errorMessage);
       }
+  }
+
+  // Arreglar el problema de que siempre muestra el mensaje de error
+  const buildErrorMessage = () => {
+    if (validationErrorMessage !== '') {
+      return (
+        <Alert id='errorMessage' className="alert alert-danger fade show" key='danger' variant='danger'>
+          {validationErrorMessage}
+        </Alert>
+      );
+    }
+
+    return;
   }
 
   if (cookies.get("_id")) {
@@ -121,12 +142,17 @@ const CarsList = (props) => {
                             </div>
                         </div>
                         <div className="form-group align-items-center form-check">
-                            <input type="checkbox" className="form-check-input" id="exampleCheck1" name="pagarMP" onChange={handleChange}/>
-                            <label className="form-check-label" htmlFor="exampleCheck1">Pagar con MercadoPago</label>
+                            <label htmlFor="tiempoClase"> Precio de la inscripcion: {carreraSeleccionada.precio}</label>
+                            <br></br>
+                            <div onChange={onChangeValue}>
+                              <input type="radio" value="off" name="pagarMP" defaultChecked/> Abonar con efectivo al ingresar al predio
+                              <input type="radio" value="on" name="pagarMP" /> Abonar con MercadoPago
+                            </div>
                         </div>
                         <button className="btn btn-primary col-md-3" onClick={enviarInscripcion}>
                             Inscribirse
                         </button>
+                        {buildErrorMessage()}
                     </div>
                 </div>
             </div>
@@ -147,27 +173,3 @@ const CarsList = (props) => {
 };
 
 export default CarsList;
-
-
-{/* {clasesDisponibles.map((param) => {
-          return (
-            <div className="card col-3 mt-2">
-              <div className="card-body">
-                <h5 className="card-title">Card title</h5>
-                <p className="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
-                <a href="#" className="btn btn-primary">
-                  Go somewhere
-                </a>
-              </div>
-            </div>
-          );
-        })} */}
-
-        {/*
-                <div className="input-group col-lg-4">
-                    <p className="h1 text-center">Clases disponibles para este viernes </p>
-                    
-                  </div> */}
