@@ -5,7 +5,7 @@ import { Modal, ModalBody, ModalFooter, Alert } from "reactstrap";
 import Cookies from 'universal-cookie'
 const cookies = new Cookies();
 
-const CarsList = (props) => {
+const SprintsList = (props) => {
 
   const [sprints, setSprints] = useState([]);
   const [entriesPerPage, setEntriesPerPage] = useState([]);
@@ -36,7 +36,7 @@ const CarsList = (props) => {
   const [modalEliminar, setModalElminar] = useState(false);
 
   useEffect(() => {
-    retrieveCars();
+    retrieveSprints();
   }, []);
 
   const onChangeSearchParam = (e) => {
@@ -59,7 +59,7 @@ const CarsList = (props) => {
     find(searchValue, searchParam);
   };
 
-  const retrieveCars = async () => {
+  const retrieveSprints = async () => {
     await SprintsDataService.getAll()
       .then((response) => {
         console.log("Data: ", response.data);
@@ -84,7 +84,7 @@ const CarsList = (props) => {
   };
 
   const refreshList = () => {
-    retrieveCars();
+    retrieveSprints();
   };
 
   const find = async (query, by) => {
@@ -157,7 +157,7 @@ const CarsList = (props) => {
         sprint.clase = selectedSprint.clase;
       }
     });
-    const result = await SprintsDataService.editCar(selectedSprint);
+    const result = await SprintsDataService.editSprint(selectedSprint);
     if (result.status) {
       console.log('Edicion exitosa');
       setValidationErrorMessage('');
@@ -173,7 +173,7 @@ const CarsList = (props) => {
     if (result?.status) {
       console.log('creación exitosa');
       setValidationErrorMessage('');
-      retrieveCars();
+      retrieveSprints();
       setModalEditar(false);
     } else {
       setValidationErrorMessage(result?.errorMessage);
@@ -230,7 +230,7 @@ const CarsList = (props) => {
                     </div>
                   </div>
                   <div className="col-lg-6">
-                    <button className="btn btn-success" onClick={() => selectSprint("Editar")}>Añadir un nuevo Auto</button>
+                    <button className="btn btn-success" onClick={() => selectSprint("Editar")}>Añadir una Carrera</button>
                   </div>
                 </div>
               </div>
@@ -377,4 +377,4 @@ const CarsList = (props) => {
   }
 };
 
-export default CarsList;
+export default SprintsList;
