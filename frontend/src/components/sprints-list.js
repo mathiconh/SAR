@@ -72,9 +72,9 @@ const SprintsList = (props) => {
       });
   };
 
-  const deleteSprints = async (sprintId) => {
+  const deleteSprint = async (sprintId) => {
     console.log("Car to be deleted", sprintId);
-    await SprintsDataService.deleteSprints(sprintId)
+    await SprintsDataService.deleteSprint(sprintId)
       .then((response) => {
         refreshList();
       })
@@ -122,7 +122,7 @@ const SprintsList = (props) => {
   }
 
   const eliminar = (sprintId) => {
-    deleteSprints(sprintId);
+    deleteSprint(sprintId);
     setModalElminar(false);
   };
 
@@ -169,7 +169,7 @@ const SprintsList = (props) => {
   }
 
   const crear = async (selectedSprint) => {
-    const result = await SprintsDataService.createCar(selectedSprint);
+    const result = await SprintsDataService.createSprint(selectedSprint);
     if (result?.status) {
       console.log('creación exitosa');
       setValidationErrorMessage('');
