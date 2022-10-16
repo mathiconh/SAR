@@ -10,6 +10,7 @@ import MiPerfil from "./components/miPerfil";
 import ChampionshipsList from "./components/championships-list";
 import Inscripcion from "./components/inscripcion";
 import Sprints from "./components/sprints-list";
+import Clases from "./components/clases-list";
 import Cookies from "universal-cookie";
 import "./styles/inicio.css";
 
@@ -91,6 +92,11 @@ function App() {
                   ABM Campeonatos
                 </a>
               </li>
+              <li key='AdminClases'>
+                <a href="/clases" className="dropdown-item">
+                  ABM Clases
+                </a>
+              </li>
               <li key='AdminPerfil'>
                 <a href="/miperfil" className="dropdown-item">
                   Mi Perfil
@@ -168,6 +174,7 @@ function App() {
             <Route exact path={["/", "/login"]} component={Login} />
             <Route exact path={["/", "/miperfil"]} component={MiPerfil} />
             <Route exact path={["/", "/sprints"]} component={Sprints} />
+            <Route exact path={["/", "/clases"]} component={Clases} />
           </Switch>
         </BrowserRouter>
     </div>

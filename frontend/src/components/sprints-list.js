@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
 import SprintsDataService from "../services/sprints";
+import ClasesDataService from "../services/clases";
+import ChampionshipsDataService from "../services/championships";
+import UserDataService from "../services/users";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, ModalBody, ModalFooter, Alert } from "reactstrap";
-import Cookies from 'universal-cookie'
+import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 const SprintsList = (props) => {
 
   const [sprints, setSprints] = useState([]);
+  const [championships, setChampionships] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [clases, setClases] = useState([]);
   const [entriesPerPage, setEntriesPerPage] = useState([]);
   const [totalResults, setTotalResults] = useState([]);
   const [searchParam, setSearchParam] = useState("");
@@ -37,7 +43,49 @@ const SprintsList = (props) => {
 
   useEffect(() => {
     retrieveSprints();
+    retrieveChampionship();
+    retrieveClases();
+    retrieveUsers();
+
   }, []);
+
+  const retrieveChampionship = async () => {
+    await ChampionshipsDataService.getAll()
+      .then((response) => {
+        console.log("Data: ", response.data);
+        setChampionships(response.data.championships);
+        setTotalResults(response.data.total_results);
+        setEntriesPerPage(response.data.championships.length);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const retrieveUsers = () => {
+    UserDataService.getAll()
+      .then(response => {
+        console.log(response.data);
+        setUsers(response.data.users);
+        
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const retrieveClases = async () => {
+    await ClasesDataService.getAll()
+      .then((response) => {
+        console.log("Data: ", response.data);
+        setClases(response.data.clases);
+        setTotalResults(response.data.total_results);
+        setEntriesPerPage(response.data.clases.length);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   const onChangeSearchParam = (e) => {
     const searchParam = e.target.value;
@@ -323,14 +371,46 @@ const SprintsList = (props) => {
               <input className="form-control" readOnly type="text" name="id" id="idField" value={selectedSprint._id} placeholder="Auto-Incremental ID"/>
               <label>Fecha</label>
               <input className="form-control" type="text" maxlength="50" name="fecha" id="fechaField" onChange={handleChange} value={selectedSprint.fecha}/>
-              <label>ID Campeonato</label>
-              <input className="form-control" type="text" maxlength="100" name="idCampeonato" id="idCampeonatoField" onChange={handleChange} value={selectedSprint.idCampeonato}/>
+              <label>Campeonato</label>
+              <select class="form-select" name="idCampeonato" id="idCampeonatoField" onChange={handleChange} value={selectedSprint.idCampeonato} aria-label="Default select example">
+                {championships.map((championship) => {
+                      const id = `${championship._id}`;
+                      const nombre = `${championship.nombre}`;
+                      return (
+                        <option value={id}>{nombre}</option>
+                      );
+                    })}
+              </select>
               <label>Clase</label>
-              <input className="form-control" type="number" maxlength="10" name="clase" id="claseField" onChange={handleChange} value={selectedSprint.clase}/>
+              <select class="form-select" name="clase" id="claseField" onChange={handleChange} value={selectedSprint.clase} aria-label="Default select example">
+                {clases.map((clase) => {
+                      const id = `${clase._id}`;
+                      const nombre = `${clase.nombre}`;
+                      return (
+                        <option value={id}>{nombre}</option>
+                      );
+                    })}
+              </select>
               <label>ID UsuarioP1</label>
-              <input className="form-control" type="text" maxlength="300" name="idUsuarioP1" id="idUsuarioP1Field" onChange={handleChange} value={selectedSprint.idUsuarioP1}/>
+              <select class="form-select" name="idUsuarioP1" id="idUsuarioP1Field" onChange={handleChange} value={selectedSprint.idUsuarioP1} aria-label="Default select example">
+                {users.map((user) => {
+                      const id = `${user._id}`;
+                      const nombre = `${user.nombre}`;
+                      return (
+                        <option value={id}>{nombre}</option>
+                      );
+                    })}
+              </select>
               <label>ID UsuarioP2</label>
-              <input className="form-control" type="text" maxlength="200" name="idUsuarioP2" id="idUsuarioP2Field" onChange={handleChange} value={selectedSprint.idUsuarioP2}/>
+              <select class="form-select" name="idUsuarioP2" id="idUsuarioP2Field" onChange={handleChange} value={selectedSprint.idUsuarioP2} aria-label="Default select example">
+                {users.map((user) => {
+                      const id = `${user._id}`;
+                      const nombre = `${user.nombre}`;
+                      return (
+                        <option value={id}>{nombre}</option>
+                      );
+                    })}
+              </select>
               <label>ID VehiculoP1</label>
               <input className="form-control" type="text" maxlength="50" name="idVehiculoP1" id="workshopField" onChange={handleChange} value={selectedSprint.idVehiculoP1}/> 
               <label>ID VehiculoP2</label>
@@ -349,8 +429,6 @@ const SprintsList = (props) => {
               <input className="form-control" type="text" maxlength="50" name="tiempoLlegadaP2" id="tiempoLlegadaP2Field" onChange={handleChange} value={selectedSprint.tiempoLlegadaP2}/>
               <label>Pista</label>
               <input className="form-control" type="text" maxlength="50" name="pista" id="pistaField" onChange={handleChange} value={selectedSprint.pista}/>
-              <label>Clase</label>
-              <input className="form-control" type="text" maxlength="50" name="clase" id="claseField" onChange={handleChange} value={selectedSprint.clase}/>
               
               
               
