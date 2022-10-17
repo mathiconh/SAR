@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import InscripcionDataService from "../services/inscripcion";
+import CarsDataService from "../services/cars";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Alert } from "reactstrap";
 import Cookies from "universal-cookie";
@@ -10,19 +11,31 @@ const CarsList = (props) => {
         carreraId: '',
         claseId: '',
         dni: '',
-        vehiculoSeleccionado: '',
+        vehiculoSeleccionado: {},
         pagarMP: 'off',
       }
 
   const [carrerasDisponibles, setCarrerasDisponibles] = useState([]);
   const [clasesDisponibles, setClasesDisponibles] = useState(["Seleccionar Clase"]);
   const [carreraSeleccionada, setCarreraSeleccionada] = useState([]);
+  const [autos, setAutos] = useState([]);
   const [inscripcion, setInscripcion] = useState(defaultInsc);
   // Añadir el mensaje de error en el html
   const [validationErrorMessage, setValidationErrorMessage] = useState("");
+  const [selectedCar, setSelectedCar] = useState({
+    _id: "",
+    idUsuarioDuenio: "",
+    patente: "",
+    modelo: "",
+    anio: "",
+    agregados: "",
+    historia: "",
+    tallerAsociado: "",
+  });
 
   useEffect(() => {
     retrieveCarreras();
+    getAutos();
   }, []);
 
   const onChangesetSelectedClass = (e) => {
@@ -60,10 +73,28 @@ const CarsList = (props) => {
     }));
   }
 
-  /*
-        En principio para anotarse se pediria
-            PENDIENTE - Auto con el que se quiere correr (se tiene que tener autos registrados)
-    */
+  const getAutos = async () => {
+    const _id = cookies.get("_id");
+
+    await CarsDataService.find(_id, "idUsuarioDuenio")
+      .then((response) => {
+        console.log("autos tiene", response.data.cars);
+        setAutos(response.data.cars);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const selectCar = (car = {}) => {
+    console.log("Selected: ", car);
+    setSelectedCar(car);
+    setInscripcion((prevState) => ({
+      ...prevState,
+      vehiculoSeleccionado: car._id
+    }));
+  };
+
   const retrieveCarreras = async () => {
     const response = await InscripcionDataService.getAvailable();
 
@@ -125,7 +156,7 @@ const CarsList = (props) => {
                     <p className="h1 text-center">Inscripcion a Carrera</p>
                     <div className="form-row">
                         <div className="form-group align-items-center col-md-6">
-                            <label htmlFor="exampleInputEmail1">Clases disponibles para este viernes</label>
+                            <label className="label-class" htmlFor="exampleInputEmail1">Clases disponibles para este viernes</label>
                             <select onChange={onChangesetSelectedClass}>
                             {clasesDisponibles.map((param) => {
                                 return <option value={param}> {param} </option>;
@@ -135,20 +166,88 @@ const CarsList = (props) => {
                             <br></br>
                             <label htmlFor="tiempoClase"> Tiempo de la clase seleccionada: {carreraSeleccionada.tiempoClase}</label>
                         </div>
+                        <hr class="rounded"></hr>
                         <div className="col align-items-center">
                             <div class="form-group">
-                                <label for="inputPassword6">DNI</label>
+                                <label className="label-class" for="inputPassword6">DNI</label>
                                 <input type="text" id="inputDni" name="dni" class="col-md-3" onChange={handleChange}/>
                             </div>
                         </div>
+                        <hr class="rounded"></hr>
+                        <div>
+                          <div className="container-xl">
+                            <div className="table-responsive">
+                              <div className="table-wrapper">
+                                <div className="table-title">
+                                  <div className="row">
+                                    <div className="col-sm-6">
+                                      <h2>
+                                        Selecciona el auto con el que vas a correr
+                                      </h2>
+                                    </div>
+                                  </div>
+                                </div>
+                                <table className="table table-striped w-auto table-hover">
+                                  <thead>
+                                    <tr>
+                                      <th>Id</th>
+                                      <th>Patente</th>
+                                      <th>Modelo</th>
+                                      <th>Año</th>
+                                      <th>Agregados</th>
+                                      <th>Historia</th>
+                                      <th>Workshop Asociado</th>
+                                      <th>Id Dueño</th>
+                                      <th>Acciones</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {autos.map((selectedCar) => {
+                                      const id = `${selectedCar._id}`;
+                                      const patente = `${selectedCar.patente}`;
+                                      const modelo = `${selectedCar.modelo}`;
+                                      const anio = `${selectedCar.anio}`;
+                                      const agregados = `${selectedCar.agregados}`;
+                                      const historia = `${selectedCar.historia}`;
+                                      const tallerAsociado = `${selectedCar.tallerAsociado}`;
+                                      const idUsuarioDuenio = `${selectedCar.idUsuarioDuenio}`
+                                      return (
+                                        <tr>
+                                          <td>{id}</td>
+                                          <td>{patente}</td>
+                                          <td>{modelo}</td>
+                                          <td>{anio}</td>
+                                          <td>{agregados}</td>
+                                          <td width="">{historia}</td>
+                                          <td>{tallerAsociado}</td>
+                                          <td>{idUsuarioDuenio}</td>
+                                          <td>
+                                            <button className="btn btn-primary" onClick={() => selectCar(selectedCar)}>Seleccionar</button>
+                                          </td>
+                                        </tr>
+                                      );
+                                    })}
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                          <br></br>
+                          <div className="form-group align-items-center">
+                            <label className="label-class" htmlFor="tiempoClase"> Vehiculo Seleccionado: {selectedCar.modelo} - {selectedCar.patente} - {selectedCar.anio}</label>
+                          </div>
+                        </div>
+                        <hr class="rounded"></hr>
                         <div className="form-group align-items-center form-check">
-                            <label htmlFor="tiempoClase"> Precio de la inscripcion: {carreraSeleccionada.precio}</label>
+                            <label className="font-weight-bold" htmlFor="tiempoClase"> Precio de la inscripcion: {carreraSeleccionada.precio}</label>
                             <br></br>
                             <div onChange={onChangeValue}>
-                              <input type="radio" value="off" name="pagarMP" defaultChecked/> Abonar con efectivo al ingresar al predio
-                              <input type="radio" value="on" name="pagarMP" /> Abonar con MercadoPago
+                              <input className="radio-class" type="radio" value="off" name="pagarMP" defaultChecked/> Abonar con efectivo al ingresar al predio
+                              <br></br>
+                              <input className="radio-class" type="radio" value="on" name="pagarMP" /> Abonar con MercadoPago
                             </div>
                         </div>
+                        <hr class="rounded"></hr>
                         <button className="btn btn-primary col-md-3" onClick={enviarInscripcion}>
                             Inscribirse
                         </button>
