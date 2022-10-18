@@ -55,6 +55,10 @@ img {
   margin-right: 15px;
 }
 
+input[data-readonly] {
+  pointer-events: none;
+}
+
 hr.dashed {
   border-top: 3px dashed #bbb;
 }

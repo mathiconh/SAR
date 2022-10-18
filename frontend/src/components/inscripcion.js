@@ -53,6 +53,7 @@ const CarsList = (props) => {
           }
         ));
     }
+    document.getElementById("tiempoClaseData").value = carreraData.tiempoClase;
   };
 
   const handleChange = e => {
@@ -93,6 +94,8 @@ const CarsList = (props) => {
       ...prevState,
       vehiculoSeleccionado: car._id
     }));
+    const carData = `${car.modelo} - ${car.patente} - ${car.anio}`;
+    document.getElementById("carData").value = carData;
   };
 
   const retrieveCarreras = async () => {
@@ -148,11 +151,32 @@ const CarsList = (props) => {
     return;
   }
 
+  // Funcion de custom validation basada en la documentacion de Bootstrap
+  (function () {
+    'use strict'
+
+    // Obtiene todos los formularios a los que queremos aplicarles la validacion custom
+    var forms = document.querySelectorAll('.needs-validation')
+
+    // Loopeamos a traves de los campos a ser validados y los marcamos segun apliquen
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+
+          form.classList.add('was-validated')
+        }, false)
+      })
+  })();
+
   if (cookies.get("_id")) {
     return (
         <div className="align-self-center">
             <div className="container-lg align-self-center">
-                <div className="container-fluid align-self-center">
+                <form className="container-fluid align-self-center needs-validation" noValidate>
                     <p className="h1 text-center">Inscripcion a Carrera</p>
                     <div className="form-row">
                         <div className="form-group align-items-center col-md-6">
@@ -162,15 +186,23 @@ const CarsList = (props) => {
                                 return <option value={param}> {param} </option>;
                             })}
                             </select>
-                            <label htmlFor="cuposClase">{carreraSeleccionada.aproxCupos}</label>
                             <br></br>
-                            <label htmlFor="tiempoClase"> Tiempo de la clase seleccionada: {carreraSeleccionada.tiempoClase}</label>
+                            <label className="label-class" htmlFor="cuposClase">{carreraSeleccionada.aproxCupos}</label>
+                            <br></br>
+                            <label className="label-class" htmlFor="tiempoClase"> Tiempo de la clase seleccionada: </label>
+                            <input type="text" id="tiempoClaseData" name="tiempoDataInput" className="col-md-1" data-readonly required/>
+                            <div class="invalid-feedback">
+                              Por favor seleccione una clase de la lista.
+                            </div>
                         </div>
                         <hr class="rounded"></hr>
                         <div className="col align-items-center">
                             <div class="form-group">
-                                <label className="label-class" for="inputPassword6">DNI</label>
-                                <input type="text" id="inputDni" name="dni" class="col-md-3" onChange={handleChange}/>
+                                <label className="label-class required" for="inputPassword6">DNI</label>
+                                <input type="text" id="inputDni" name="dni" class="col-md-3" onChange={handleChange} required/>
+                                <div class="invalid-feedback">
+                                  Por favor complete con su DNI.
+                                </div>
                             </div>
                         </div>
                         <hr class="rounded"></hr>
@@ -222,7 +254,7 @@ const CarsList = (props) => {
                                           <td>{tallerAsociado}</td>
                                           <td>{idUsuarioDuenio}</td>
                                           <td>
-                                            <button className="btn btn-primary" onClick={() => selectCar(selectedCar)}>Seleccionar</button>
+                                            <button className="btn btn-primary" type="button" onClick={() => selectCar(selectedCar)}>Seleccionar</button>
                                           </td>
                                         </tr>
                                       );
@@ -234,7 +266,11 @@ const CarsList = (props) => {
                           </div>
                           <br></br>
                           <div className="form-group align-items-center">
-                            <label className="label-class" htmlFor="tiempoClase"> Vehiculo Seleccionado: {selectedCar.modelo} - {selectedCar.patente} - {selectedCar.anio}</label>
+                            <label className="label-class" htmlFor="tiempoClase"> Vehiculo Seleccionado: </label>
+                            <input type="text" id="carData" name="carDataInput" className="col-md-3" data-readonly required/>
+                            <div class="invalid-feedback">
+                              Por favor seleccione uno de sus vehiculos en la tabla.
+                            </div>
                           </div>
                         </div>
                         <hr class="rounded"></hr>
@@ -253,7 +289,7 @@ const CarsList = (props) => {
                         </button>
                         {buildErrorMessage()}
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     );

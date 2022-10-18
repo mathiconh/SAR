@@ -158,7 +158,7 @@ function App() {
           </div>
           <div className="col-6">
             <a href="/inscripcion" className="nav-link text-light float-right">
-              <strong> Inscripcion a Carrera</strong>
+              <strong>Inscripcion a Carrera</strong>
             </a>
           </div>
           <div className="col-1">{sesion()}</div>
