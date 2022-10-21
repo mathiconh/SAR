@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ChampionshipsDataService from "../services/championships";
+import ClasesDataService from "../services/clases";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, ModalBody, ModalFooter, Alert } from "reactstrap";
 import Cookies from 'universal-cookie'
@@ -8,6 +9,7 @@ const cookies = new Cookies();
 
 const ChampionshipsList = (props) => {
 
+  const [clases, setClases] = useState([]);
   const [championships, setChampionships] = useState([]);
   const [entriesPerPage, setEntriesPerPage] = useState([]);
   const [totalResults, setTotalResults] = useState([]);
@@ -27,6 +29,7 @@ const ChampionshipsList = (props) => {
 
   useEffect(() => {
     retrieveChampionship();
+    retrieveClases();
   }, []);
 
   const onChangeSearchParam = (e) => {
@@ -54,8 +57,17 @@ const ChampionshipsList = (props) => {
       .then((response) => {
         console.log("Data: ", response.data);
         setChampionships(response.data.championships);
-        setTotalResults(response.data.total_results);
-        setEntriesPerPage(response.data.championships.length);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const retrieveClases = async () => {
+    await ClasesDataService.getAll()
+      .then((response) => {
+        console.log("Data: ", response.data);
+        setClases([{ nombre: 'Seleccionar Clase' }].concat(response.data.clases));
       })
       .catch((e) => {
         console.log(e);
@@ -217,6 +229,7 @@ const ChampionshipsList = (props) => {
                   <tr>
                     <th>Id</th>
                     <th>Nombre</th>
+                    <th>Clase</th>
                     <th>Fecha desde</th>
                     <th>Fecha hasta</th>
                   </tr>
@@ -227,10 +240,12 @@ const ChampionshipsList = (props) => {
                     const nombre = `${championship.nombre}`;
                     const fechaDesde = `${championship.fechaDesde}`;
                     const fechaHasta = `${championship.fechaHasta}`;
+                    const clase = `${championship.clase}`;
                     return (
                       <tr>
                         <td>{id}</td>
                         <td>{nombre}</td>
+                        <td>{clase}</td>
                         <td>{fechaDesde}</td>
                         <td>{fechaHasta}</td>
                         <td>
@@ -273,6 +288,16 @@ const ChampionshipsList = (props) => {
               <input className="form-control" readOnly type="text" name="id" id="idField" value={selectedChampionship._id} placeholder="Auto-Incremental ID"/>
               <label>Nombre</label>
               <input className="form-control" type="text" maxlength="50" name="nombre" id="nombreField" onChange={handleChange} value={selectedChampionship.nombre}/>
+              <label>Clase</label>
+              <select class="form-select" name="clase" id="claseField" onChange={handleChange} value={selectedChampionship.clase} aria-label="Default select example">
+                {clases.map((clase) => {
+                      const id = `${clase._id}`;
+                      const nombre = `${clase.nombre}`;
+                      return (
+                        <option value={id}>{nombre}</option>
+                      );
+                    })}
+              </select>
               <label>Fecha desde</label>
               <input className="form-control" type="date" maxlength="100" name="fechaDesde" id="fechaDesdeField" onChange={handleChange} value={selectedChampionship.fechaDesde}/>
               <label>Fecha hasta</label>

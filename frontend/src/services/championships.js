@@ -20,12 +20,12 @@ class ChampionshipsDataService {
   //   return result;
   // } 
 
-  async createChampionship({ nombre = '', fechaDesde, fechaHasta }) {
+  async createChampionship({ nombre = '', fechaDesde, fechaHasta, clase }) {
     console.log("About to create championship: ", nombre, fechaDesde, fechaHasta );
     let result;
     let idUsuarioModif = cookies.get("_id");
 
-    result = await http.post(`/createChampionship?nombre=${nombre}&fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}&idUsuarioModif=${idUsuarioModif}`);
+    result = await http.post(`/createChampionship?nombre=${nombre}&clase=${clase}&fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}&idUsuarioModif=${idUsuarioModif}`);
     console.log('Result: ', result);
     return result;
   }
@@ -34,12 +34,12 @@ class ChampionshipsDataService {
     return await http.delete(`/deleteChampionship?_id=${id}`);
   }
 
-  async editChampionship({ _id, nombre = '', fechaDesde, fechaHasta }) {
+  async editChampionship({ _id, nombre = '', fechaDesde, fechaHasta, clase }) {
     console.log("About to edit championship: ", _id, nombre, fechaDesde, fechaHasta);
     let result;
     let idUsuarioModif = cookies.get("_id");
     
-    result = await http.put(`/editChampionship?_id=${_id}&nombre=${nombre}&fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}&idUsuarioModif=${idUsuarioModif}`);
+    result = await http.put(`/editChampionship?_id=${_id}&nombre=${nombre}&clase=${clase}&fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}&idUsuarioModif=${idUsuarioModif}`);
     console.log('Result: ', result);
     return result;
   }

@@ -53,9 +53,8 @@ const SprintsList = (props) => {
     await ChampionshipsDataService.getAll()
       .then((response) => {
         console.log("Data: ", response.data);
-        setChampionships(response.data.championships);
-        setTotalResults(response.data.total_results);
-        setEntriesPerPage(response.data.championships.length);
+        setChampionships([{ nombre: 'Seleccionar Campeonato' }].concat(response.data.championships));
+
       })
       .catch((e) => {
         console.log(e);
@@ -66,21 +65,19 @@ const SprintsList = (props) => {
     UserDataService.getAll()
       .then(response => {
         console.log(response.data);
-        setUsers(response.data.users);
-        
+        setUsers([{ nombre: 'Seleccionar Usuario' }].concat(response.data.users));
       })
       .catch(e => {
         console.log(e);
       });
+
   };
 
   const retrieveClases = async () => {
     await ClasesDataService.getAll()
       .then((response) => {
         console.log("Data: ", response.data);
-        setClases(response.data.clases);
-        setTotalResults(response.data.total_results);
-        setEntriesPerPage(response.data.clases.length);
+        setClases([{ nombre: 'Seleccionar Clase' }].concat(response.data.clases));
       })
       .catch((e) => {
         console.log(e);
@@ -114,6 +111,7 @@ const SprintsList = (props) => {
         setSprints(response.data.sprints);
         setTotalResults(response.data.total_results);
         setEntriesPerPage(response.data.sprints.length);
+
       })
       .catch((e) => {
         console.log(e);
@@ -370,7 +368,7 @@ const SprintsList = (props) => {
               <label>ID</label>
               <input className="form-control" readOnly type="text" name="id" id="idField" value={selectedSprint._id} placeholder="Auto-Incremental ID"/>
               <label>Fecha</label>
-              <input className="form-control" type="text" maxlength="50" name="fecha" id="fechaField" onChange={handleChange} value={selectedSprint.fecha}/>
+              <input className="form-control" type="date" maxlength="50" name="fecha" id="fechaField" onChange={handleChange} value={selectedSprint.fecha}/>
               <label>Campeonato</label>
               <select class="form-select" name="idCampeonato" id="idCampeonatoField" onChange={handleChange} value={selectedSprint.idCampeonato} aria-label="Default select example">
                 {championships.map((championship) => {
@@ -401,6 +399,8 @@ const SprintsList = (props) => {
                       );
                     })}
               </select>
+              <label>ID VehiculoP1</label>
+              <input className="form-control" type="text" maxlength="50" name="idVehiculoP1" id="workshopField" onChange={handleChange} value={selectedSprint.idVehiculoP1}/> 
               <label>ID UsuarioP2</label>
               <select class="form-select" name="idUsuarioP2" id="idUsuarioP2Field" onChange={handleChange} value={selectedSprint.idUsuarioP2} aria-label="Default select example">
                 {users.map((user) => {
@@ -411,8 +411,6 @@ const SprintsList = (props) => {
                       );
                     })}
               </select>
-              <label>ID VehiculoP1</label>
-              <input className="form-control" type="text" maxlength="50" name="idVehiculoP1" id="workshopField" onChange={handleChange} value={selectedSprint.idVehiculoP1}/> 
               <label>ID VehiculoP2</label>
               <input className="form-control" type="text" maxlength="50" name="idVehiculoP2" id="idVehiculoP2Field" onChange={handleChange} value={selectedSprint.idVehiculoP2}/>
               <label>Reacción P1</label>
