@@ -31,11 +31,10 @@ const MiPerfil = (props) => {
   const [selectedImg, setSelectedImg] = useState(undefined);
   const [userFechaNac, setUserFechaNac] = useState('');
   const [autos, setAutos] = useState([]);
+  const [vt, setVt] = useState([]) //vt = Verificación Técnica
   const [modalEditar, setModalEditar] = useState(false);
   const [modalEditarAuto, setModalEditarAuto] = useState(false);
-
   const [modalEliminarAuto, setModalElminarAuto] = useState(false);
-
 
   const [validationErrorMessage, setValidationErrorMessage] = useState("");
   const [selectedCar, setSelectedCar] = useState({
@@ -50,6 +49,7 @@ const MiPerfil = (props) => {
   });
 
   useEffect(() => {
+    getPerfilById(props);
     getPerfil();
     getAutos();
   }, []);
@@ -68,7 +68,30 @@ const MiPerfil = (props) => {
       });
   };
 
+  const getPerfilById = async ( _id ) => {
+
+    UsersDataService.get(_id)
+      .then(async (response) => {
+        console.log(response.data.users[0]);
+        const perfilData = response.data.users[0];
+        
+        const fechaNacData = new Date(perfilData.fechaNac);
+        const fechaNacDay = fechaNacData.getDate() + 1;
+        // Be careful! January is 0, not 1
+        const fechaNacMonth = fechaNacData.getMonth() + 1;
+        const fechaNacYear = fechaNacData.getFullYear();
+        
+        setUserFechaNac(`${fechaNacDay}/${fechaNacMonth}/${fechaNacYear}`);
+        
+        setPerfil(response.data.users[0]);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   const getPerfil = async () => {
+    
     const _id = cookies.get("_id");
 
     UsersDataService.get(_id)
@@ -285,6 +308,12 @@ const MiPerfil = (props) => {
                             onClick={() => editData("Editar", perfil)}
                           >
                             Editar datos
+                          </button>
+                          <button
+                            className="btn btn-primary"
+                            onClick={() => editData("VT", perfil)}
+                          >
+                            Verificación Técnica
                           </button>
                           <br></br>
                           <br></br>
