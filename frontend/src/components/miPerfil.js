@@ -59,6 +59,7 @@ const MiPerfil = (props) => {
     agregados: "",
     historia: "",
     tallerAsociado: "",
+    idVt: "",
   });
 
   useEffect(() => {
@@ -278,6 +279,7 @@ const MiPerfil = (props) => {
         car.historia = selectedCar.historia;
         car.tallerAsociado = selectedCar.tallerAsociado;
         car.idUsuarioDuenio = selectedCar.idUsuarioDuenio;
+        car.idVt = selectedCar.idVt;
       }
     });
     const result = await CarsDataService.editCar(selectedCar);
@@ -398,12 +400,6 @@ const MiPerfil = (props) => {
                           >
                             Editar datos
                           </button>
-                          <button
-                            className="btn btn-primary"
-                            onClick={() => editData("VT", perfil)}
-                          >
-                            Verificación Técnica
-                          </button>
                           <br></br>
                           <br></br>
                         </li>
@@ -443,6 +439,7 @@ const MiPerfil = (props) => {
                           <th>Historia</th>
                           <th>Workshop Asociado</th>
                           <th>Id Dueño</th>
+                          <th>Id Verificación Técnica</th>
                           <th>Acciones</th>
                         </tr>
                       </thead>
@@ -456,6 +453,7 @@ const MiPerfil = (props) => {
                           const historia = `${selectedCar.historia}`;
                           const tallerAsociado = `${selectedCar.tallerAsociado}`;
                           const idUsuarioDuenio = `${selectedCar.idUsuarioDuenio}`
+                          const idVt = `${selectedCar.idVt}`
                           return (
                             <tr>
                               <td>{id}</td>
@@ -466,10 +464,11 @@ const MiPerfil = (props) => {
                               <td width="">{historia}</td>
                               <td>{tallerAsociado}</td>
                               <td>{idUsuarioDuenio}</td>
+                              <td>{idVt}</td>
                               <td>
                                 <button className="btn btn-primary" onClick={() => selectCar("EditarAuto", selectedCar)}>Edit</button>
                                 <button className="btn btn-danger" onClick={() => selectCar("Eliminar", selectedCar)}>Delete</button>
-                                <button className="btn btn-primary" onClick={() => selectVt("Vt", selectedVt)}>Verificación Técnica</button>
+                                <button className="btn btn-primary" onClick={() => selectVt("EditarVt", selectedVt)}>Verificación Técnica</button>
                               </td>
                             </tr>
                           );
@@ -501,6 +500,8 @@ const MiPerfil = (props) => {
               <input className="form-control" type="text" maxlength="200" name="historia" id="historiaField" onChange={handleChangeAuto} value={selectedCar.historia}/>
               <label>Taller Mecanico</label>
               <input className="form-control" type="text" maxlength="50" name="tallerAsociado" id="workshopField" onChange={handleChangeAuto} value={selectedCar.tallerAsociado}/>
+              <label>ID Verificación Técnica</label>
+              <input className="form-control" type="text" maxlength="50" name="tallerAsociado" id="workshopField" onChange={handleChangeAuto} value={selectedCar.idVt}/>
           </ModalBody>
           <ModalFooter>
             {buildErrorMessage()}
@@ -515,19 +516,19 @@ const MiPerfil = (props) => {
           <ModalBody>
               <label>ID VT</label>
               <label>Mata Fuego</label>
-              <input className="form-control" readOnly type="text" name="id" id="idField" value={selectedCar._id} placeholder="ID Auto-Incremental"/>
+              <input className="form-control" readOnly type="text" name="id" id="idField" value={selectedVt._id} placeholder="ID Auto-Incremental"/>
               <label>Traje</label>
-              <input className="form-control" type="text" maxlength="50" name="mataFuego" id="mataFuegoField" onChange={handleChangeVt} value={selectedCar.mataFuego}/>
+              <input className="form-control" type="text" maxlength="50" name="mataFuego" id="mataFuegoField" onChange={handleChangeVt} value={selectedVt.mataFuego}/>
               <label>Motor</label>
-              <input className="form-control" type="text" maxlength="100" name="motor" id="motorField" onChange={handleChangeVt} value={selectedCar.motor}/>
+              <input className="form-control" type="text" maxlength="100" name="motor" id="motorField" onChange={handleChangeVt} value={selectedVt.motor}/>
               <label>Electricidad</label>
-              <input className="form-control" type="number" maxlength="10" name="electricidad" id="electricidadField" onChange={handleChangeVt} value={selectedCar.electricidad}/>
+              <input className="form-control" type="number" maxlength="10" name="electricidad" id="electricidadField" onChange={handleChangeVt} value={selectedVt.electricidad}/>
               <label>Estado</label>
-              <input className="form-control" type="text" maxlength="300" name="estado" id="estadoField" onChange={handleChangeVt} value={selectedCar.estado}/>
+              <input className="form-control" type="text" maxlength="300" name="estado" id="estadoField" onChange={handleChangeVt} value={selectedVt.estado}/>
               <label>id Dueño del auto</label>
-              <input className="form-control" type="text" maxlength="200" name="idUsuarioDuenio" id="idUsuarioDuenioField" onChange={handleChangeVt} value={selectedCar.idUsuarioDuenio}/>
+              <input className="form-control" type="text" maxlength="200" name="idUsuarioDuenio" id="idUsuarioDuenioField" onChange={handleChangeVt} value={selectedVt.idUsuarioDuenio}/>
               <label>id Auto</label>
-              <input className="form-control" type="text" maxlength="50" name="idAuto" id="idAutoField" onChange={handleChangeAuto} value={selectedCar.idAuto}/>
+              <input className="form-control" type="text" maxlength="50" name="idAuto" id="idAutoField" onChange={handleChangeAuto} value={selectedVt.idAuto}/>
           </ModalBody>
           <ModalFooter>
             {buildErrorMessage()}
