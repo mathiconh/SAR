@@ -10,7 +10,7 @@ const CarsList = (props) => {
     const defaultInsc = {
         carreraId: '',
         claseId: '',
-        dni: '',
+        idUsuario: cookies.get("_id"),
         vehiculoSeleccionado: {},
         pagarMP: 'off',
       }
@@ -193,16 +193,6 @@ const CarsList = (props) => {
                             <input type="text" id="tiempoClaseData" name="tiempoDataInput" className="col-md-1" data-readonly required/>
                             <div class="invalid-feedback">
                               Por favor seleccione una clase de la lista.
-                            </div>
-                        </div>
-                        <hr class="rounded"></hr>
-                        <div className="col align-items-center">
-                            <div class="form-group">
-                                <label className="label-class required" for="inputPassword6">DNI</label>
-                                <input type="text" id="inputDni" name="dni" class="col-md-3" onChange={handleChange} required/>
-                                <div class="invalid-feedback">
-                                  Por favor complete con su DNI.
-                                </div>
                             </div>
                         </div>
                         <hr class="rounded"></hr>

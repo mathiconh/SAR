@@ -78,7 +78,7 @@ const MiPerfil = (props) => {
         
         const fechaNacData = new Date(perfilData.fechaNac);
         const fechaNacDay = fechaNacData.getDate() + 1;
-        // Be careful! January is 0, not 1
+        // Cuidado!! Enero es 0, no 1
         const fechaNacMonth = fechaNacData.getMonth() + 1;
         const fechaNacYear = fechaNacData.getFullYear();
         
