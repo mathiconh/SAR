@@ -30,13 +30,25 @@ const MiPerfil = (props) => {
   const [perfil, setPerfil] = useState([]);
   const [selectedImg, setSelectedImg] = useState(undefined);
   const [userFechaNac, setUserFechaNac] = useState('');
-  const [autos, setAutos] = useState([]);
   const [modalEditar, setModalEditar] = useState(false);
+  //vt = Verificación Técnica
+  const [vt, setVt] = useState([]) 
+  const [modalEditarVt, setModalEditarVt] = useState(false);
+  const [selectedVt, setSelectedVt] = useState({
+    _id: "",
+    mataFuego: "",
+    traje: "",
+    motor: "",
+    electricidad: "",
+    estado: "",
+    idUsuarioDuenio: "",
+    idAuto: ""
+  })
+
+  //autos
+  const [autos, setAutos] = useState([]);
   const [modalEditarAuto, setModalEditarAuto] = useState(false);
-
   const [modalEliminarAuto, setModalElminarAuto] = useState(false);
-
-
   const [validationErrorMessage, setValidationErrorMessage] = useState("");
   const [selectedCar, setSelectedCar] = useState({
     _id: "",
@@ -47,9 +59,11 @@ const MiPerfil = (props) => {
     agregados: "",
     historia: "",
     tallerAsociado: "",
+    idVt: "",
   });
 
   useEffect(() => {
+    getPerfilById(props);
     getPerfil();
     getAutos();
   }, []);
@@ -68,7 +82,30 @@ const MiPerfil = (props) => {
       });
   };
 
+  const getPerfilById = async ( _id ) => {
+
+    UsersDataService.get(_id)
+      .then(async (response) => {
+        console.log(response.data.users[0]);
+        const perfilData = response.data.users[0];
+        
+        const fechaNacData = new Date(perfilData.fechaNac);
+        const fechaNacDay = fechaNacData.getDate() + 1;
+        // Be careful! January is 0, not 1
+        const fechaNacMonth = fechaNacData.getMonth() + 1;
+        const fechaNacYear = fechaNacData.getFullYear();
+        
+        setUserFechaNac(`${fechaNacDay}/${fechaNacMonth}/${fechaNacYear}`);
+        
+        setPerfil(response.data.users[0]);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   const getPerfil = async () => {
+    
     const _id = cookies.get("_id");
 
     UsersDataService.get(_id)
@@ -99,14 +136,6 @@ const MiPerfil = (props) => {
     }));
   };
 
-  const handleChangeAuto = (e) => {
-    const { name, value } = e.target;
-    setSelectedCar((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
   const editData = (perfil) => {
     console.log("Selected: ", perfil);
     setModalEditar(true);
@@ -118,10 +147,7 @@ const MiPerfil = (props) => {
     setValidationErrorMessage("");
   };
 
-  const closeModalAuto = () => {
-    setModalEditarAuto(false);
-    setValidationErrorMessage("");
-  };
+  
 
   const editar = async (perfil) => {
     if (selectedImg) perfil.profilePic = selectedImg;
@@ -151,11 +177,93 @@ const MiPerfil = (props) => {
     }
     return;
   };
+  //--------------------------------------------------------------Verificación Técnica--------------------------------------------------
 
+  let setModalButtonVt = (selectedVt) => {
+    if (selectedVt._id) {
+        return (
+            <button className="btn btn-danger" onClick={() => editarVt(selectedVt)}>
+            Actualizar
+            </button>
+        )
+    } else {
+      
+        return (
+            <button className="btn btn-danger" onClick={() => completarVt(selectedCar)}>
+              Completar 
+            </button>
+        )
+    }
+  }
+  const completarVt = async (selectedVt) => {
+    const result = await CarsDataService.createVt(selectedVt);
+    if (result?.status) {
+      console.log('creación exitosa');
+      setValidationErrorMessage('');
+      setModalEditarVt(false);
+      getAutos();
+    } else {
+      setValidationErrorMessage(result?.errorMessage);
+    }
+  }
+
+  const editarVt = async (selectedVt) =>{
+    // REVISAR: Cuando se trata de editar, se modifica una property, pero luego se cancela la operacion, la property queda modificada localmente. 
+    // NO, tiene que volver a como estaba antes
+
+    autos.forEach(vt => {
+    if (vt._id === selectedVt._id) {
+        vt.mataFuego = selectedVt.mataFuego;
+        vt.traje = selectedVt.traje;
+        vt.motor = selectedVt.motor;
+        vt.electricidad = selectedVt.electricidad;
+        vt.estado = selectedVt.estado;
+        vt.idUsuarioDuenio = selectedVt.idUsuarioDuenio;
+        vt.idAuto = selectedVt.idAuto;
+      }
+    });
+    const result = await CarsDataService.editVt(selectedVt);
+    if (result.status) {
+      console.log('Edicion exitosa');
+      setValidationErrorMessage('');
+      setAutos(autos);
+      setModalEditarAuto(false);
+    } else {
+      setValidationErrorMessage(result?.errorMessage);
+    }
+  }
+
+  const selectVt = (action, vt = {}) => {
+    setSelectedVt(vt);
+    action === "EditarVt" ? setModalEditarVt(true) : console.log("first");//setModalElminarVt(true);
+  };
+
+  const handleChangeVt = (e) => {
+    const { name, value } = e.target;
+    setSelectedVt((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const closeModalVt = () => {
+    setModalEditarVt(false);
+    setValidationErrorMessage("");
+  };
+
+  //--------------------------------------------------------------------auto------------------------------------------------------------
   const selectCar = (action, car = {}) => {
     console.log("Selected: ", car);
     setSelectedCar(car);
     action === "EditarAuto" ? setModalEditarAuto(true) : setModalElminarAuto(true);
+  };
+
+  const handleChangeAuto = (e) => {
+    const { name, value } = e.target;
+    setSelectedCar((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const editarAuto = async (selectedCar) =>{
@@ -171,6 +279,7 @@ const MiPerfil = (props) => {
         car.historia = selectedCar.historia;
         car.tallerAsociado = selectedCar.tallerAsociado;
         car.idUsuarioDuenio = selectedCar.idUsuarioDuenio;
+        car.idVt = selectedCar.idVt;
       }
     });
     const result = await CarsDataService.editCar(selectedCar);
@@ -229,6 +338,11 @@ const MiPerfil = (props) => {
         )
     }
   }
+
+  const closeModalAuto = () => {
+    setModalEditarAuto(false);
+    setValidationErrorMessage("");
+  };
 
   if (cookies.get("_id")) {
     return (
@@ -325,6 +439,7 @@ const MiPerfil = (props) => {
                           <th>Historia</th>
                           <th>Workshop Asociado</th>
                           <th>Id Dueño</th>
+                          <th>Id Verificación Técnica</th>
                           <th>Acciones</th>
                         </tr>
                       </thead>
@@ -338,6 +453,7 @@ const MiPerfil = (props) => {
                           const historia = `${selectedCar.historia}`;
                           const tallerAsociado = `${selectedCar.tallerAsociado}`;
                           const idUsuarioDuenio = `${selectedCar.idUsuarioDuenio}`
+                          const idVt = `${selectedCar.idVt}`
                           return (
                             <tr>
                               <td>{id}</td>
@@ -348,9 +464,11 @@ const MiPerfil = (props) => {
                               <td width="">{historia}</td>
                               <td>{tallerAsociado}</td>
                               <td>{idUsuarioDuenio}</td>
+                              <td>{idVt}</td>
                               <td>
                                 <button className="btn btn-primary" onClick={() => selectCar("EditarAuto", selectedCar)}>Edit</button>
                                 <button className="btn btn-danger" onClick={() => selectCar("Eliminar", selectedCar)}>Delete</button>
+                                <button className="btn btn-primary" onClick={() => selectVt("EditarVt", selectedVt)}>Verificación Técnica</button>
                               </td>
                             </tr>
                           );
@@ -382,11 +500,40 @@ const MiPerfil = (props) => {
               <input className="form-control" type="text" maxlength="200" name="historia" id="historiaField" onChange={handleChangeAuto} value={selectedCar.historia}/>
               <label>Taller Mecanico</label>
               <input className="form-control" type="text" maxlength="50" name="tallerAsociado" id="workshopField" onChange={handleChangeAuto} value={selectedCar.tallerAsociado}/>
+              <label>ID Verificación Técnica</label>
+              <input className="form-control" type="text" maxlength="50" name="tallerAsociado" id="workshopField" onChange={handleChangeAuto} value={selectedCar.idVt}/>
           </ModalBody>
           <ModalFooter>
             {buildErrorMessage()}
             {setModalButtonAuto(selectedCar)}
             <button className="btn btn-secondary" onClick={() => closeModalAuto()}>
+              Cancelar
+            </button>
+          </ModalFooter>
+        </Modal>
+
+        <Modal isOpen={modalEditarVt}>
+          <ModalBody>
+              <label>ID VT</label>
+              <label>Mata Fuego</label>
+              <input className="form-control" readOnly type="text" name="id" id="idField" value={selectedVt._id} placeholder="ID Auto-Incremental"/>
+              <label>Traje</label>
+              <input className="form-control" type="text" maxlength="50" name="mataFuego" id="mataFuegoField" onChange={handleChangeVt} value={selectedVt.mataFuego}/>
+              <label>Motor</label>
+              <input className="form-control" type="text" maxlength="100" name="motor" id="motorField" onChange={handleChangeVt} value={selectedVt.motor}/>
+              <label>Electricidad</label>
+              <input className="form-control" type="number" maxlength="10" name="electricidad" id="electricidadField" onChange={handleChangeVt} value={selectedVt.electricidad}/>
+              <label>Estado</label>
+              <input className="form-control" type="text" maxlength="300" name="estado" id="estadoField" onChange={handleChangeVt} value={selectedVt.estado}/>
+              <label>id Dueño del auto</label>
+              <input className="form-control" type="text" maxlength="200" name="idUsuarioDuenio" id="idUsuarioDuenioField" onChange={handleChangeVt} value={selectedVt.idUsuarioDuenio}/>
+              <label>id Auto</label>
+              <input className="form-control" type="text" maxlength="50" name="idAuto" id="idAutoField" onChange={handleChangeAuto} value={selectedVt.idAuto}/>
+          </ModalBody>
+          <ModalFooter>
+            {buildErrorMessage()}
+            {setModalButtonVt(selectedVt)}
+            <button className="btn btn-secondary" onClick={() => closeModalVt()}>
               Cancelar
             </button>
           </ModalFooter>

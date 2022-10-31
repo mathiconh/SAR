@@ -168,7 +168,7 @@ const UsersList = props => {
                       <strong>Email: </strong>{email}
                     </p>
                     <div className="row">
-                    <Link to={"/users/"+user._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
+                    <Link to={"/miperfil/"+user._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
                       View User
                     </Link>
                     </div>
