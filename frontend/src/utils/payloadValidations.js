@@ -7,7 +7,7 @@ export function validatePayload(payload) {
     Object.keys(payload).forEach((property) => {
       console.log(`Evaluating ${property} value ${payload[property]}`);
       
-      if ((payload[property] === undefined) || !payload[property]) {
+      if ((payload[property] === undefined) || !payload[property] || Object.keys(payload[property]).length === 0) {
         errorProperties.push(property);
       }
     });

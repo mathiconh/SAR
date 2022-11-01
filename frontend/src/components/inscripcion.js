@@ -21,17 +21,8 @@ const CarsList = (props) => {
   const [autos, setAutos] = useState([]);
   const [inscripcion, setInscripcion] = useState(defaultInsc);
   // Añadir el mensaje de error en el html
-  const [validationErrorMessage, setValidationErrorMessage] = useState("");
-  const [selectedCar, setSelectedCar] = useState({
-    _id: "",
-    idUsuarioDuenio: "",
-    patente: "",
-    modelo: "",
-    anio: "",
-    agregados: "",
-    historia: "",
-    tallerAsociado: "",
-  });
+  // const [validationErrorMessage, setValidationErrorMessage] = useState("");
+  const [selectedCar, setSelectedCar] = useState();
 
   useEffect(() => {
     retrieveCarreras();
@@ -129,27 +120,31 @@ const CarsList = (props) => {
 
   function enviarInscripcion() {
     const result = InscripcionDataService.createInscripcion(inscripcion);
+    // const result = {status:200}
+    // const result = {}
     if (result.status) {
-        console.log('Edicion exitosa');
-        setValidationErrorMessage('success');
+        console.log('Inscripcion exitosa');
+        // setValidationErrorMessage('success');
         setInscripcion(defaultInsc);
+        // Work on this
+        window.location.reload(false);
       } else {
-        setValidationErrorMessage(result?.errorMessage);
+        // setValidationErrorMessage(result?.errorMessage);
       }
   }
 
   // Arreglar el problema de que siempre muestra el mensaje de error
-  const buildErrorMessage = () => {
-    if (validationErrorMessage !== '') {
-      return (
-        <Alert id='errorMessage' className="alert alert-danger fade show" key='danger' variant='danger'>
-          {validationErrorMessage}
-        </Alert>
-      );
-    }
+  // const buildErrorMessage = () => {
+  //   if (validationErrorMessage !== '') {
+  //     return (
+  //       <Alert id='errorMessage' className="alert alert-danger fade show" key='danger' variant='danger'>
+  //         {validationErrorMessage}
+  //       </Alert>
+  //     );
+  //   }
 
-    return;
-  }
+  //   return;
+  // }
 
   // Funcion de custom validation basada en la documentacion de Bootstrap
   (function () {
@@ -172,11 +167,16 @@ const CarsList = (props) => {
       })
   })();
 
+  function formPreventDefault(e) {
+    alert('Inscripcion enviada');
+    e.preventDefault();
+  }
+
   if (cookies.get("_id")) {
     return (
         <div className="align-self-center">
             <div className="container-lg align-self-center">
-                <form className="container-fluid align-self-center needs-validation" noValidate>
+                <form className="container-fluid align-self-center needs-validation" onSubmit={formPreventDefault} noValidate>
                     <p className="h1 text-center">Inscripcion a Carrera</p>
                     <div className="form-row">
                         <div className="form-group align-items-center col-md-6">
@@ -270,14 +270,14 @@ const CarsList = (props) => {
                             <div onChange={onChangeValue}>
                               <input className="radio-class" type="radio" value="off" name="pagarMP" defaultChecked/> Abonar con efectivo al ingresar al predio
                               <br></br>
-                              <input className="radio-class" type="radio" value="on" name="pagarMP" /> Abonar con MercadoPago
+                              <input className="radio-class" type="radio" value="on" name="pagarMP"/> Abonar con MercadoPago
                             </div>
                         </div>
                         <hr class="rounded"></hr>
                         <button className="btn btn-primary col-md-3" onClick={enviarInscripcion}>
                             Inscribirse
                         </button>
-                        {buildErrorMessage()}
+                        {/* {buildErrorMessage()} */}
                     </div>
                 </form>
             </div>
