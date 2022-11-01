@@ -69,18 +69,7 @@ const MiPerfil = (props) => {
   }, []);
   
 
-  const getAutos = async () => {
-    const _id = cookies.get("_id");
 
-    await CarsDataService.find(_id, "idUsuarioDuenio")
-      .then((response) => {
-        console.log("autos tiene", response.data.cars);
-        setAutos(response.data.cars);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
 
   const getPerfilById = async ( _id ) => {
 
@@ -179,6 +168,7 @@ const MiPerfil = (props) => {
   };
   //--------------------------------------------------------------Verificación Técnica--------------------------------------------------
 
+
   let setModalButtonVt = (selectedVt) => {
     if (selectedVt._id) {
         return (
@@ -195,6 +185,7 @@ const MiPerfil = (props) => {
         )
     }
   }
+
   const completarVt = async (selectedVt) => {
     const result = await CarsDataService.createVt(selectedVt);
     if (result?.status) {
@@ -226,7 +217,7 @@ const MiPerfil = (props) => {
     if (result.status) {
       console.log('Edicion exitosa');
       setValidationErrorMessage('');
-      setAutos(autos);
+      setVt(vt);
       setModalEditarAuto(false);
     } else {
       setValidationErrorMessage(result?.errorMessage);
@@ -252,6 +243,29 @@ const MiPerfil = (props) => {
   };
 
   //--------------------------------------------------------------------auto------------------------------------------------------------
+  
+  
+  const getAutos = async () => {
+    const _id = cookies.get("_id");
+
+    await CarsDataService.find(_id, "idUsuarioDuenio")
+      .then((response) => {
+        console.log("autos tiene", response.data.cars);
+        setAutos(response.data.cars);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+      await CarsDataService.find(_id, "idVt")
+      .then((response) => {
+        setVt(response.data.vt);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  
   const selectCar = (action, car = {}) => {
     console.log("Selected: ", car);
     setSelectedCar(car);
