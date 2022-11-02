@@ -170,7 +170,7 @@ const MiPerfil = (props) => {
 
 
   let setModalButtonVt = (selectedVt) => {
-    if (selectedVt._id) {
+    if (selectedVt.idUsuarioDuenio) {
         return (
             <button className="btn btn-danger" onClick={() => editarVt(selectedVt)}>
             Actualizar
@@ -224,7 +224,9 @@ const MiPerfil = (props) => {
     }
   }
 
-  const selectVt = (action, vt = {}) => {
+  const selectVt = (action, car = {} ) => {
+    console.log("funca", car)
+    console.log("decime que va", vt[0]._id)
     setSelectedVt(vt);
     action === "EditarVt" ? setModalEditarVt(true) : console.log("first");//setModalElminarVt(true);
   };
@@ -257,9 +259,10 @@ const MiPerfil = (props) => {
         console.log(e);
       });
 
-      await CarsDataService.find(_id, "idVt")
+      await CarsDataService.findVt(_id, "idVt")
       .then((response) => {
-        setVt(response.data.vt);
+        console.log("vt tiene", response.data.vts);
+        setVt(response.data.vts);
       })
       .catch((e) => {
         console.log(e);
@@ -467,7 +470,7 @@ const MiPerfil = (props) => {
                           const historia = `${selectedCar.historia}`;
                           const tallerAsociado = `${selectedCar.tallerAsociado}`;
                           const idUsuarioDuenio = `${selectedCar.idUsuarioDuenio}`
-                          const idVt = `${selectedCar.idVt}`
+                          const idVt = `${selectedCar.idVt}`                          
                           return (
                             <tr>
                               <td>{id}</td>
@@ -482,7 +485,7 @@ const MiPerfil = (props) => {
                               <td>
                                 <button className="btn btn-primary" onClick={() => selectCar("EditarAuto", selectedCar)}>Edit</button>
                                 <button className="btn btn-danger" onClick={() => selectCar("Eliminar", selectedCar)}>Delete</button>
-                                <button className="btn btn-primary" onClick={() => selectVt("EditarVt", selectedVt)}>Verificación Técnica</button>
+                                <button className="btn btn-primary" onClick={() => selectVt("EditarVt", selectedCar)}>Verificación Técnica</button>
                               </td>
                             </tr>
                           );

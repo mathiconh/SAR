@@ -22,6 +22,13 @@ class CarsDataService {
     return result;
   } 
 
+  async findVt(query, by = "idVt", page = 0) {
+    console.log(`Searching by: ${by} value: ${query}`);
+    const result = await http.get(`vt?page=${page}&${by}=${query}`);
+    console.log('DB Result para vt: ', result);
+    return result;
+  } 
+
 
   async createCar({patente, modelo, anio, agregados = '', historia = '', tallerAsociado = ''}) {
     console.log("About to create car: ", patente, modelo, anio, agregados, historia, tallerAsociado );
@@ -64,7 +71,7 @@ class CarsDataService {
     //result = validatePayload({ idUsuarioDuenio, patente, modelo, anio });
     if (!result.status) return result;
     
-    result = await http.put(`/editCar?_id=${_id}&mataFuego=${mataFuego}&traje=${traje}&motor=${motor}&electricidad=${electricidad}&estado=${estado}&idUsuarioDuenio=${idUsuarioDuenio}&idAuto=${idAuto}&idUsuarioModif=${idUsuarioModif}`);
+    result = await http.put(`/editVt?_id=${_id}&mataFuego=${mataFuego}&traje=${traje}&motor=${motor}&electricidad=${electricidad}&estado=${estado}&idUsuarioDuenio=${idUsuarioDuenio}&idAuto=${idAuto}&idUsuarioModif=${idUsuarioModif}`);
     console.log('Result: ', result);
     return result;
   }
