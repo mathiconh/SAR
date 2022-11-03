@@ -170,7 +170,7 @@ const MiPerfil = (props) => {
 
 
   let setModalButtonVt = (selectedVt) => {
-    if (selectedVt.idUsuarioDuenio) {
+    if (selectedVt._id) {
         return (
             <button className="btn btn-danger" onClick={() => editarVt(selectedVt)}>
             Actualizar
@@ -179,7 +179,7 @@ const MiPerfil = (props) => {
     } else {
       
         return (
-            <button className="btn btn-danger" onClick={() => completarVt(selectedCar)}>
+            <button className="btn btn-danger" onClick={() => completarVt(selectedVt)}>
               Completar 
             </button>
         )
@@ -187,7 +187,8 @@ const MiPerfil = (props) => {
   }
 
   const completarVt = async (selectedVt) => {
-    const result = await CarsDataService.createVt(selectedVt);
+    console.log("SelectecVt tiene:", selectedVt)
+    const result = await CarsDataService.completarVt(selectedVt);
     if (result?.status) {
       console.log('creación exitosa');
       setValidationErrorMessage('');
@@ -224,11 +225,22 @@ const MiPerfil = (props) => {
     }
   }
 
-  const selectVt = (action, car = {} ) => {
-    console.log("funca", car)
-    console.log("decime que va", vt[0]._id)
-    setSelectedVt(vt);
-    action === "EditarVt" ? setModalEditarVt(true) : console.log("first");//setModalElminarVt(true);
+  const selectVt = async (action, car = {} ) => {
+    if(car.idVt){
+      await CarsDataService.findVt(car.idVt, "_id")
+      .then((response) => {
+        setVt(response.data.vts[0]);
+        setSelectedVt(response.data.vts[0]);
+        action === "EditarVt" ? setModalEditarVt(true) : console.log("first");//setModalElminarVt(true);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    }else{
+      setSelectedVt({});
+      action === "EditarVt" ? setModalEditarVt(true) : console.log("first");//setModalElminarVt(true);
+    }
+    
   };
 
   const handleChangeVt = (e) => {

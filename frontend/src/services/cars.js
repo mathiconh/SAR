@@ -22,21 +22,12 @@ class CarsDataService {
     return result;
   } 
 
-  async findVt(query, by = "idVt", page = 0) {
-    console.log(`Searching by: ${by} value: ${query}`);
-    const result = await http.get(`vt?page=${page}&${by}=${query}`);
-    console.log('DB Result para vt: ', result);
-    return result;
-  } 
-
 
   async createCar({patente, modelo, anio, agregados = '', historia = '', tallerAsociado = ''}) {
     console.log("About to create car: ", patente, modelo, anio, agregados, historia, tallerAsociado );
     let result;
     let idUsuarioModif = cookies.get("_id");
     let idUsuarioDuenio = cookies.get("_id");
-
-
 
     result = validatePayload({ patente, modelo, anio });
     if (!result.status) return result;
@@ -63,6 +54,17 @@ class CarsDataService {
     return result;
   }
 
+
+//-------------------------------------------------------------verificación técnica---------------------------------------------
+  
+  async findVt(query, by = "_id", page = 0) {
+    console.log(`Searching by: ${by} value: ${query}`);
+    const result = await http.get(`vt?page=${page}&${by}=${query}`);
+    console.log('DB Result para vt: ', result);
+    return result;
+  } 
+
+
   async editVt({ _id, mataFuego, traje, motor, electricidad, estado, idUsuarioDuenio, idAuto }) {
     console.log("About to edit car: ", _id, mataFuego, traje, motor, electricidad, estado, idUsuarioDuenio, idAuto);
     let result;
@@ -76,6 +78,19 @@ class CarsDataService {
     return result;
   }
 
+
+  async completarVt({ mataFuego, traje, motor, electricidad, estado, idUsuarioDuenio, idAuto }) {
+    console.log("About to complete vt: ", mataFuego, traje, motor, electricidad, estado, idUsuarioDuenio, idAuto );
+    let result;
+    let idUsuarioModif = cookies.get("_id");
+
+    // result = validatePayload({ patente, modelo, anio });
+    // if (!result.status) return result;
+
+    result = await http.post(`/completeVt?mataFuego=${mataFuego}&traje=${traje}&motor=${motor}&electricidad=${electricidad}&estado=${estado}&idUsuarioDuenio=${idUsuarioDuenio}&idUsuarioModif=${idUsuarioModif}&idAuto=${idAuto}`);
+    console.log('Result: ', result);
+    return result;
+  }
 }
 
 export default new CarsDataService();
