@@ -547,7 +547,7 @@ const MiPerfil = (props) => {
               <label>Mata Fuego</label>
               <input className="form-control" readOnly type="text" name="id" id="idField" value={selectedVt._id} placeholder="ID Auto-Incremental"/>
               <label>Traje</label>
-              <input className="form-control" type="text" maxlength="50" name="mataFuego" id="mataFuegoField" onChange={handleChangeVt} value={selectedVt.mataFuego}/>
+              <input className="form-control" type="text" maxlength="50" name="traje" id="trajeField" onChange={handleChangeVt} value={selectedVt.traje}/>
               <label>Motor</label>
               <input className="form-control" type="text" maxlength="100" name="motor" id="motorField" onChange={handleChangeVt} value={selectedVt.motor}/>
               <label>Electricidad</label>
@@ -557,7 +557,7 @@ const MiPerfil = (props) => {
               <label>id Dueño del auto</label>
               <input className="form-control" type="text" maxlength="200" name="idUsuarioDuenio" id="idUsuarioDuenioField" onChange={handleChangeVt} value={selectedVt.idUsuarioDuenio}/>
               <label>id Auto</label>
-              <input className="form-control" type="text" maxlength="50" name="idAuto" id="idAutoField" onChange={handleChangeAuto} value={selectedVt.idAuto}/>
+              <input className="form-control" type="text" maxlength="50" name="idAuto" id="idAutoField" onChange={handleChangeVt} value={selectedVt.idAuto}/>
           </ModalBody>
           <ModalFooter>
             {buildErrorMessage()}
