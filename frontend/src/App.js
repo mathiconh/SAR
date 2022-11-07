@@ -82,7 +82,7 @@ function App() {
                   ABM Autos
                 </a>
               </li>
-              <li key='AdminAutos'>
+              <li key='AdminCarreras'>
                 <a href="/sprints" className="dropdown-item">
                   ABM Carreras
                 </a>
