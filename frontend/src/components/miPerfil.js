@@ -187,7 +187,7 @@ const MiPerfil = (props) => {
   }
 
   const completarVt = async (selectedVt) => {
-    console.log("SelectecVt tiene:", selectedVt)
+    console.log("SelectecVt tiene:", selectedVt._id)
     const result = await CarsDataService.completarVt(selectedVt);
     if (result?.status) {
       console.log('creación exitosa');
@@ -544,8 +544,9 @@ const MiPerfil = (props) => {
         <Modal isOpen={modalEditarVt}>
           <ModalBody>
               <label>ID VT</label>
-              <label>Mata Fuego</label>
               <input className="form-control" readOnly type="text" name="id" id="idField" value={selectedVt._id} placeholder="ID Auto-Incremental"/>
+              <label>Mata Fuego</label>
+              <input className="form-control" type="text" maxlength="50" name="mataFuego" id="mataFuegoField" onChange={handleChangeVt} value={selectedVt.mataFuego}/>
               <label>Traje</label>
               <input className="form-control" type="text" maxlength="50" name="traje" id="trajeField" onChange={handleChangeVt} value={selectedVt.traje}/>
               <label>Motor</label>

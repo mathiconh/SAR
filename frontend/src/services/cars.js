@@ -69,9 +69,10 @@ class CarsDataService {
     console.log("About to edit car: ", _id, mataFuego, traje, motor, electricidad, estado, idUsuarioDuenio, idAuto);
     let result;
     let idUsuarioModif = cookies.get("_id");
+    
 
     //result = validatePayload({ idUsuarioDuenio, patente, modelo, anio });
-    if (!result.status) return result;
+    //if (!result.status) return result;
     
     result = await http.put(`/editVt?_id=${_id}&mataFuego=${mataFuego}&traje=${traje}&motor=${motor}&electricidad=${electricidad}&estado=${estado}&idUsuarioDuenio=${idUsuarioDuenio}&idAuto=${idAuto}&idUsuarioModif=${idUsuarioModif}`);
     console.log('Result: ', result);
