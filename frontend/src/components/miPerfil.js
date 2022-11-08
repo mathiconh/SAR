@@ -26,8 +26,18 @@ const imgObj = {
   avatar8,
 };
 const keys = Object.keys(imgObj);
-const MiPerfil = (props) => {
-  const [perfil, setPerfil] = useState([]);
+const MiPerfil = props => {
+  const initialPerfilState = {
+    _id: "",
+    apellido: "",
+    nombre: "",
+    direccion: "",
+    correoE: "",
+    dni: "",
+    telefono: "",
+    profilePic: ""
+  };
+  const [perfil, setPerfil] = useState(initialPerfilState);
   const [selectedImg, setSelectedImg] = useState(undefined);
   const [userFechaNac, setUserFechaNac] = useState('');
   const [modalEditar, setModalEditar] = useState(false);
@@ -63,12 +73,11 @@ const MiPerfil = (props) => {
   });
 
   useEffect(() => {
-    getPerfilById(props);
+    getPerfilById(props.match.params._id);
     getPerfil();
     getAutos();
-  }, []);
+  }, [props.match.params._id]);
   
-
 
 
   const getPerfilById = async ( _id ) => {

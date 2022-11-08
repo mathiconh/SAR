@@ -173,6 +173,12 @@ function App() {
             <Route exact path={["/", "/Inscripcion"]} component={Inscripcion} />
             <Route exact path={["/", "/login"]} component={Login} />
             <Route exact path={["/", "/miperfil"]} component={MiPerfil} />
+            <Route 
+            path="/miperfil/:_id"
+            render={(props) => (
+              <MiPerfil {...props}/>
+            )}
+          />
             <Route exact path={["/", "/sprints"]} component={Sprints} />
             <Route exact path={["/", "/clases"]} component={Clases} />
           </Switch>
