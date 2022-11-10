@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { Modal, ModalBody, ModalFooter, Alert } from "reactstrap";
 import InscripcionDataService from "../services/inscripcion";
 import CarsDataService from "../services/cars";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Alert } from "reactstrap";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
@@ -20,9 +20,10 @@ const CarsList = (props) => {
   const [carreraSeleccionada, setCarreraSeleccionada] = useState([]);
   const [autos, setAutos] = useState([]);
   const [inscripcion, setInscripcion] = useState(defaultInsc);
-  // Añadir el mensaje de error en el html
-  // const [validationErrorMessage, setValidationErrorMessage] = useState("");
-  const [selectedCar, setSelectedCar] = useState();
+  const [inscribrOtroCompetidor, setInscribirOtroCompetidor] = useState(true);
+  const [modalCodigoQR, setModalCodigoQR] = useState(false);
+  const [modalErrorDatos, setModalErrorDatos] = useState(false);
+  const [validationErrorMessage, setValidationErrorMessage] = useState("");
 
   useEffect(() => {
     retrieveCarreras();
@@ -47,14 +48,14 @@ const CarsList = (props) => {
     document.getElementById("tiempoClaseData").value = carreraData.tiempoClase;
   };
 
-  const handleChange = e => {
-    const {name, value} = e.target;
-    setInscripcion((prevState) => ({
-        ...prevState,
-        [name]: value
-      }
-    ));
-  }
+//   const handleChange = e => {
+//     const {name, value} = e.target;
+//     setInscripcion((prevState) => ({
+//         ...prevState,
+//         [name]: value
+//       }
+//     ));
+//   }
 
   function onChangeValue(event) {
     // console.log(`Name: ${event.target.name} Value: ${event.target.value}`);
@@ -63,6 +64,11 @@ const CarsList = (props) => {
       ...prevState,
       [name]: value
     }));
+  }
+
+  function onChangeValueCompetidor() {
+	setInscribirOtroCompetidor(prevState => !prevState)
+	document.getElementById('otroCompetidorData').setAttribute('required', inscribrOtroCompetidor);
   }
 
   const getAutos = async () => {
@@ -80,7 +86,7 @@ const CarsList = (props) => {
 
   const selectCar = (car = {}) => {
     console.log("Selected: ", car);
-    setSelectedCar(car);
+    // setSelectedCar(car);
     setInscripcion((prevState) => ({
       ...prevState,
       vehiculoSeleccionado: car._id
@@ -118,38 +124,63 @@ const CarsList = (props) => {
     });
   }
 
-  function enviarInscripcion() {
-    const result = InscripcionDataService.createInscripcion(inscripcion);
+  async function enviarInscripcion() {
+	// TODO: La logica funciona, no funciona el IF. Considerar si primero se pone que SI a otro competidor, se completa el ID,y luego al final, se pone NO. Volver a poner el ID de las cookies
+	if (inscribrOtroCompetidor) {
+		const competidorId = document.getElementById('otroCompetidorData').value;
+		console.log('Otro competidor: ', competidorId);
+		const newInscripcion = inscripcion;
+		newInscripcion.idUsuario = competidorId;
+		// setInscripcion(newInscripcion);
+		setInscripcion((currentValue) => ({
+		...currentValue,
+		idUsuario: competidorId
+		}));
+	}
+
+    const result = await InscripcionDataService.createInscripcion(inscripcion);
+	// Testing purposes
     // const result = {status:200}
-    // const result = {}
+    // const result = { errorMessage: 'Datos erroneos' }
     if (result.status) {
         console.log('Inscripcion exitosa');
-        // setValidationErrorMessage('success');
         setInscripcion(defaultInsc);
-        // Work on this
-        window.location.reload(false);
+		if (inscripcion.pagarMP === 'on') setModalCodigoQR(true);
       } else {
-        // setValidationErrorMessage(result?.errorMessage);
+		setModalErrorDatos(true);
+        setValidationErrorMessage(result?.errorMessage);
       }
   }
 
-  // Arreglar el problema de que siempre muestra el mensaje de error
-  // const buildErrorMessage = () => {
-  //   if (validationErrorMessage !== '') {
-  //     return (
-  //       <Alert id='errorMessage' className="alert alert-danger fade show" key='danger' variant='danger'>
-  //         {validationErrorMessage}
-  //       </Alert>
-  //     );
-  //   }
+  const closeModalCodigoQR = () => {
+    setModalCodigoQR(false);
+	window.location.reload(false);
+  };
 
-  //   return;
-  // }
+  const closeModalErrorDatos = () => {
+    setModalErrorDatos(false);
+	setValidationErrorMessage('');
+  };
+
+  const buildErrorMessage = () => {
+    if (validationErrorMessage !== "") {
+      return (
+        <Alert
+          id="errorMessage"
+          className="alert alert-danger fade show"
+          key="danger"
+          variant="danger"
+        >
+          {validationErrorMessage}
+        </Alert>
+      );
+    }
+    return;
+  };
 
   // Funcion de custom validation basada en la documentacion de Bootstrap
   (function () {
     'use strict'
-
     // Obtiene todos los formularios a los que queremos aplicarles la validacion custom
     var forms = document.querySelectorAll('.needs-validation')
 
@@ -195,7 +226,28 @@ const CarsList = (props) => {
                               Por favor seleccione una clase de la lista.
                             </div>
                         </div>
-                        <hr class="rounded"></hr>
+						<hr class="rounded"></hr>
+                        <div className="form-group align-items-center form-check">
+                            <label className="font-weight-bold" htmlFor="inscripcionOtroCompetidorLabel"> Deseo inscribir a otro competidor: </label>
+                            <br></br>
+                            <div onChange={onChangeValueCompetidor}>
+                            {/* <div onChange={()=> setInscribirOtroCompetidor(prevState => !prevState)}> */}
+                              <input className="radio-class-competidor" type="radio" value="false" name="inscribirOtroCompetidor" defaultChecked/> No
+                              <br></br>
+                              <input className="radio-class-competidor" type="radio" value="true" name="inscribirOtroCompetidor"/> Si
+                            </div>
+                        </div>
+						<div className="form-group align-items-center form-check">
+						{/* {setInputOtroCompetidor()} */}
+							<div className="form-group align-items-center">
+								<label className="label-class" htmlFor="idCompetidor"> Id del competidor: </label>
+								<input type="text" id="otroCompetidorData" name="otroCompetidorDataInput" className="col-md-3" readOnly={inscribrOtroCompetidor}/>
+								<div class="invalid-feedback">
+								Por favor ingrese el ID de un competidor.
+								</div>
+							</div>
+						</div>
+                        <hr className="rounded"></hr>
                         <div>
                           <div className="container-xl">
                             <div className="table-responsive">
@@ -258,12 +310,12 @@ const CarsList = (props) => {
                           <div className="form-group align-items-center">
                             <label className="label-class" htmlFor="tiempoClase"> Vehiculo Seleccionado: </label>
                             <input type="text" id="carData" name="carDataInput" className="col-md-3" data-readonly required/>
-                            <div class="invalid-feedback">
+                            <div className="invalid-feedback">
                               Por favor seleccione uno de sus vehiculos en la tabla.
                             </div>
                           </div>
                         </div>
-                        <hr class="rounded"></hr>
+                        <hr className="rounded"></hr>
                         <div className="form-group align-items-center form-check">
                             <label className="font-weight-bold" htmlFor="tiempoClase"> Precio de la inscripcion: {carreraSeleccionada.precio}</label>
                             <br></br>
@@ -273,15 +325,39 @@ const CarsList = (props) => {
                               <input className="radio-class" type="radio" value="on" name="pagarMP"/> Abonar con MercadoPago
                             </div>
                         </div>
-                        <hr class="rounded"></hr>
+                        <hr className="rounded"></hr>
                         <button className="btn btn-primary col-md-3" onClick={enviarInscripcion}>
                             Inscribirse
                         </button>
-                        {/* {buildErrorMessage()} */}
                     </div>
                 </form>
             </div>
-        </div>
+        <Modal isOpen={modalCodigoQR}>
+        <ModalBody>
+			<p className="h1 text-center">Gracias por inscribirse</p>
+            <label>Con el siguiente codigo QR, usted podra ingresar al predio por la entrada preferencial:</label>
+        </ModalBody>
+        <ModalFooter>
+          <button className="btn btn-success" onClick={() => closeModalCodigoQR()}>
+            Cerrar
+          </button>
+        </ModalFooter>
+        </Modal>
+
+        <Modal isOpen={modalErrorDatos}>
+        <ModalBody>
+			<p className="h1 text-center">Hay un error en los datos ingresados</p>
+            <label>Por favor corregir el error para continuar:</label>
+			{buildErrorMessage()}
+        </ModalBody>
+        <ModalFooter>
+          <button className="btn btn-secondary" onClick={() => closeModalErrorDatos()}>
+            Cerrar
+          </button>
+        </ModalFooter>
+        </Modal>
+	</div>
+
     );
   } else {
     window.location.href = "./login";
