@@ -48,15 +48,6 @@ const CarsList = (props) => {
     document.getElementById("tiempoClaseData").value = carreraData.tiempoClase;
   };
 
-//   const handleChange = e => {
-//     const {name, value} = e.target;
-//     setInscripcion((prevState) => ({
-//         ...prevState,
-//         [name]: value
-//       }
-//     ));
-//   }
-
   function onChangeValue(event) {
     // console.log(`Name: ${event.target.name} Value: ${event.target.value}`);
     const {name, value} = event.target;
@@ -72,6 +63,7 @@ const CarsList = (props) => {
   }
 
   const getAutos = async () => {
+	//Cambiar que ID usa para buscar los autos en base a OTRO COMPETIDOR
     const _id = cookies.get("_id");
 
     await CarsDataService.find(_id, "idUsuarioDuenio")
@@ -124,18 +116,21 @@ const CarsList = (props) => {
     });
   }
 
-  async function enviarInscripcion() {
-	// TODO: La logica funciona, no funciona el IF. Considerar si primero se pone que SI a otro competidor, se completa el ID,y luego al final, se pone NO. Volver a poner el ID de las cookies
-	if (inscribrOtroCompetidor) {
-		const competidorId = document.getElementById('otroCompetidorData').value;
-		console.log('Otro competidor: ', competidorId);
+	function cambiarIdUsuarioInscripcion(userId) {
 		const newInscripcion = inscripcion;
-		newInscripcion.idUsuario = competidorId;
-		// setInscripcion(newInscripcion);
-		setInscripcion((currentValue) => ({
-		...currentValue,
-		idUsuario: competidorId
-		}));
+		newInscripcion.idUsuario = userId;
+		setInscripcion(newInscripcion);
+	}
+
+  async function enviarInscripcion() {
+	// TODO: Buscar autos del competidor
+	// False implica usar ID del OTRO competidor y no del user logeado
+	if (!inscribrOtroCompetidor) {
+		const competidorId = document.getElementById('otroCompetidorData').value;
+		cambiarIdUsuarioInscripcion(competidorId);
+		
+	} else if (inscripcion.idUsuario !== cookies.get("_id")) {
+		cambiarIdUsuarioInscripcion(cookies.get("_id"));
 	}
 
     const result = await InscripcionDataService.createInscripcion(inscripcion);
@@ -145,7 +140,11 @@ const CarsList = (props) => {
     if (result.status) {
         console.log('Inscripcion exitosa');
         setInscripcion(defaultInsc);
-		if (inscripcion.pagarMP === 'on') setModalCodigoQR(true);
+		if (inscripcion.pagarMP === 'on') {
+			setModalCodigoQR(true);
+		} else {
+			window.location.reload(false);
+		}
       } else {
 		setModalErrorDatos(true);
         setValidationErrorMessage(result?.errorMessage);

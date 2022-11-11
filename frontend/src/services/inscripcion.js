@@ -15,8 +15,9 @@ class InscripcionDataService {
     result = validatePayload({ carreraId, claseId, idUsuario, vehiculoSeleccionado });
     if (!result.status) return result;
 
-    // result = await http.post(`/createInscripcion?carreraId=${carreraId}&claseId=${claseId}&idUsuario=${idUsuario}&pagarMP=${pagarMP}&vehiculoId=${vehiculoSeleccionado}`);
-    result.status = 200;
+    result = await http.post(`/createInscripcion?carreraId=${carreraId}&claseId=${claseId}&idUsuario=${idUsuario}&pagarMP=${pagarMP}&vehiculoId=${vehiculoSeleccionado}`);
+    // Testing purposes
+    // result.status = 200;
     console.log('Result: ', result);
     return result;
   }
