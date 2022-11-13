@@ -158,7 +158,6 @@ const MiPerfil = props => {
     }
     return;
   };
-  //--------------------------------------------------------------Carreras--------------------------------------------------------------
 
 
 
@@ -276,7 +275,7 @@ const MiPerfil = props => {
       console.log(e);
     });
 
-    await CarsDataService.findCarreras(_id, "idUsuarioP2")
+    await CarsDataService.findCarreras(_id)
     .then((response) => {
       console.log("carreras tiene", response.data.sprints);
       setCarreras(response.data.sprints);
@@ -783,7 +782,7 @@ const MiPerfil = props => {
     );
   } else {
     // // window.location.href = "./login";
-     console.log("Necesita logearse para poder acceder al ABM de usuarios");
+    // console.log("Necesita logearse para poder acceder al ABM de usuarios");
     return (
       <div>
         <div className="container">

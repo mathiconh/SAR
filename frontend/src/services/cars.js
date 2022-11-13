@@ -56,9 +56,9 @@ class CarsDataService {
 
 //-------------------------------------------------------------carreras---------------------------------------------
 
-  async findCarreras(query, by = "idUsuarioP2", page = 0) {
-    console.log(`Searching by: ${by} value: ${query}`);
-    const result = await http.get(`sprints?page=${page}&${by}=${query}`);
+  async findCarreras(query, page = 0) {
+    console.log(`Searching value: ${query}`);
+    const result = await http.get(`sprints?page=${page}&perfil=${query}`);
     console.log('DB Result de carreras: ', result);
     return result;
   } 
