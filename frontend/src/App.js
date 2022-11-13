@@ -7,7 +7,6 @@ import Login from "./components/login";
 import UsersList from "./components/users-list";
 import CarsList from "./components/cars-list";
 import MiPerfil from "./components/miPerfil";
-import MisCarreras from "./components/misCarreras";
 import ChampionshipsList from "./components/championships-list";
 import Inscripcion from "./components/inscripcion";
 import Sprints from "./components/sprints-list";
@@ -46,8 +45,18 @@ function App() {
             </button>
             <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
               <li key='UserPerfil'>
+                <a href={"/inicio"} className="dropdown-item">
+                  Inicio
+                </a>
+              </li>
+              <li key='UserPerfil'>
                 <a href={"/miperfil/"+cookies.get("_id")} className="dropdown-item">
                   Mi Perfil
+                </a>
+              </li>
+              <li key='UserPerfil'>
+                <a href="/inscripcion" className="dropdown-item">
+                  Inscribirme
                 </a>
               </li>
               <li key='UserCerrarSesion'>

@@ -437,6 +437,14 @@ const MiPerfil = props => {
                           </button>
                           <br></br>
                           <br></br>
+                          <a
+                            className="btn btn-primary"
+                            href={"/performance/"+perfil._id}
+                          >
+                            Performance
+                          </a>
+                          <br></br>
+                          <br></br>
                         </li>
                       </ul>
                     </div>
@@ -582,9 +590,7 @@ const MiPerfil = props => {
                             <td>{pista}</td>
                             <td>{clase}</td>
                             <td>
-                            <div className="row">
                               <a className="btn btn-primary" href={"/miperfil/"+selectedCarrera.idUsuarioP1}>Ver</a>
-                            </div>
                             </td>
                           </tr>
                         );
