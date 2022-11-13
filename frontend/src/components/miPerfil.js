@@ -13,6 +13,8 @@ import avatar5 from "../assets/profilePics/avatar5.png";
 import avatar6 from "../assets/profilePics/avatar6.png";
 import avatar7 from "../assets/profilePics/avatar7.png";
 import avatar8 from "../assets/profilePics/avatar8.png";
+import { Link } from "react-router-dom";
+
 const cookies = new Cookies();
 
 const imgObj = {
@@ -35,7 +37,8 @@ const MiPerfil = props => {
     correoE: "",
     dni: "",
     telefono: "",
-    profilePic: ""
+    profilePic: "",
+    idRol: ""
   };
   const [perfil, setPerfil] = useState(initialPerfilState);
   const [selectedImg, setSelectedImg] = useState(undefined);
@@ -54,6 +57,10 @@ const MiPerfil = props => {
     idUsuarioDuenio: "",
     idAuto: ""
   })
+
+  //carreras
+  const [carreras, setCarreras] = useState([]);
+
 
   //autos
   const [autos, setAutos] = useState([]);
@@ -74,8 +81,7 @@ const MiPerfil = props => {
 
   useEffect(() => {
     getPerfilById(props.match.params._id);
-    getPerfil();
-    getAutos();
+    getAutos(props.match.params._id);
   }, [props.match.params._id]);
   
 
@@ -102,29 +108,6 @@ const MiPerfil = props => {
       });
   };
 
-  const getPerfil = async () => {
-    
-    const _id = cookies.get("_id");
-
-    UsersDataService.get(_id)
-      .then(async (response) => {
-        console.log(response.data.users[0]);
-        const perfilData = response.data.users[0];
-        
-        const fechaNacData = new Date(perfilData.fechaNac);
-        const fechaNacDay = fechaNacData.getDate() + 1;
-        // Cuidado!! Enero es 0, no 1
-        const fechaNacMonth = fechaNacData.getMonth() + 1;
-        const fechaNacYear = fechaNacData.getFullYear();
-        
-        setUserFechaNac(`${fechaNacDay}/${fechaNacMonth}/${fechaNacYear}`);
-        
-        setPerfil(response.data.users[0]);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -175,6 +158,11 @@ const MiPerfil = props => {
     }
     return;
   };
+  //--------------------------------------------------------------Carreras--------------------------------------------------------------
+
+
+
+
   //--------------------------------------------------------------Verificación Técnica--------------------------------------------------
 
 
@@ -268,8 +256,7 @@ const MiPerfil = props => {
   //--------------------------------------------------------------------auto------------------------------------------------------------
   
   
-  const getAutos = async () => {
-    const _id = cookies.get("_id");
+  const getAutos = async ( _id ) => {
 
     await CarsDataService.find(_id, "idUsuarioDuenio")
       .then((response) => {
@@ -280,14 +267,23 @@ const MiPerfil = props => {
         console.log(e);
       });
 
-      await CarsDataService.findVt(_id, "idVt")
-      .then((response) => {
-        console.log("vt tiene", response.data.vts);
-        setVt(response.data.vts);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    await CarsDataService.findVt(_id, "idVt")
+    .then((response) => {
+      console.log("vt tiene", response.data.vts);
+      setVt(response.data.vts);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+
+    await CarsDataService.findCarreras(_id, "idUsuarioP2")
+    .then((response) => {
+      console.log("carreras tiene", response.data.sprints);
+      setCarreras(response.data.sprints);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
   };
   
   const selectCar = (action, car = {}) => {
@@ -382,7 +378,8 @@ const MiPerfil = props => {
     setValidationErrorMessage("");
   };
 
-  if (cookies.get("_id")) {
+  if (perfil._id === cookies.get("_id") || cookies.get("idRol") === "1") {
+    console.log("Entro")
     return (
       <div>
         <div className="container">
@@ -517,9 +514,91 @@ const MiPerfil = props => {
                 </div>
               </div>
             </div>
+        
+        <div>
+            <div className="container-xl">
+              <div className="table-responsive">
+                <div className="table-wrapper">
+                  <div className="table-title">
+                    <div className="row">
+                      <div className="col-sm-6">
+                        <h2>
+                          Tus Carreras
+                        </h2>
+                      </div>
+                    </div>
+                  </div>
+                  <table className="table table-striped w-auto table-hover">
+                    <thead>
+                      <tr>
+                        <th>Fecha</th>
+                        <th>Campeonato</th>
+                        <th>Usuario 1</th>
+                        <th>Vehiculo 1</th>
+                        <th>Reacción</th>
+                        <th>Tiempo 100 mts</th>                          
+                        <th>Tiempo Lllegada</th>
+                        <th>Usuario 2</th>
+                        <th>Vehiculo 2</th>
+                        <th>Reacción</th>
+                        <th>Tiempo 100 mts</th>                          
+                        <th>Tiempo Lllegada</th>
+                        <th>Clase</th>
+                        <th>Pista</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {carreras.map((selectedCarrera) => {
+                        const _id = `${selectedCarrera.idUsuarioP1}`;
+                        const fecha = `${selectedCarrera.fecha}`;
+                        const idCampeonato = `${selectedCarrera.idCampeonato}`;
+                        const idUsuarioP1 = `${selectedCarrera.idUsuarioP1}`;
+                        const idUsuarioP2 = `${selectedCarrera.idUsuarioP2}`;
+                        const idVehiculoP1 = `${selectedCarrera.idVehiculoP1}`;
+                        const idVehiculoP2 = `${selectedCarrera.idVehiculoP2}`;
+                        const reaccionP1 = `${selectedCarrera.reaccionP1}`
+                        const reaccionP2 = `${selectedCarrera.reaccionP2}`
+                        const tiempo100mtsP1 = `${selectedCarrera.tiempo100mtsP1}`  
+                        const tiempo100mtsP2 = `${selectedCarrera.tiempo100mtsP2}`  
+                        const tiempoLlegadaP1 = `${selectedCarrera.tiempoLlegadaP1}`  
+                        const tiempoLlegadaP2 = `${selectedCarrera.tiempoLlegadaP2}`   
+                        const pista = `${selectedCarrera.pista}`   
+                        const clase = `${selectedCarrera.clase}`                           
+                        return (
+                          <tr>
+                            <td>{fecha}</td>
+                            <td>{idCampeonato}</td>
+                            <td>{idUsuarioP1}</td>
+                            <td>{idVehiculoP1}</td>
+                            <td>{reaccionP1}</td>
+                            <td>{tiempo100mtsP1}</td>
+                            <td>{tiempoLlegadaP1}</td>
+                            <td>{idUsuarioP2}</td>
+                            <td>{idVehiculoP2}</td>
+                            <td>{reaccionP2}</td>
+                            <td>{tiempo100mtsP2}</td>
+                            <td>{tiempoLlegadaP2}</td>
+                            <td>{pista}</td>
+                            <td>{clase}</td>
+                            <td>
+                            <div className="row">
+                              <a className="btn btn-primary" href={"/miperfil/"+selectedCarrera.idUsuarioP1}>Ver</a>
+                            </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        
+
+
 
         <Modal isOpen={modalEditarAuto}>
           <ModalBody>
@@ -697,9 +776,128 @@ const MiPerfil = props => {
       </div>
     );
   } else {
-    window.location.href = "./login";
-    console.log("Necesita logearse para poder acceder al ABM de usuarios");
-  }
+    // // window.location.href = "./login";
+     console.log("Necesita logearse para poder acceder al ABM de usuarios");
+    return (
+      <div>
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-12 mb-4 mb-sm-5">
+              <div className="card card-style1 border-0">
+                <div className="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                  <div className="row align-items-center">
+                    <div className="col-lg-6 mb-4 mb-lg-0">
+                      <img src={ perfil.profilePic ? imgObj[perfil.profilePic] : defaultImg } alt="..."/>
+                    </div>
+                    <div className="col-lg-6 px-xl-10">
+                      <div className="d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
+                        <h3 className="h2 text-black mb-0">
+                          {perfil.nombre} {perfil.apellido}
+                        </h3>
+                      </div>
+                      <ul className="list-unstyled mb-1-9">
+                        <li className="mb-2 mb-xl-3 display-28">
+                          <span className="display-26 text-secondary me-2 font-weight-600">
+                            Dirección:
+                          </span>
+                          {perfil.direccion}
+                        </li>
+                        <li className="mb-2 mb-xl-3 display-28">
+                          <span className="display-26 text-secondary me-2 font-weight-600">
+                            Telefono:
+                          </span>{" "}
+                          {perfil.telefono}
+                        </li>
+                        <li className="mb-2 mb-xl-3 display-28">
+                          <span className="display-26 text-secondary me-2 font-weight-600">
+                            Email:
+                          </span>{" "}
+                          {perfil.correoE}
+                        </li>
+                        <li className="mb-2 mb-xl-3 display-28">
+                          <span className="display-26 text-secondary me-2 font-weight-600">
+                            DNI:
+                          </span>{" "}
+                          {perfil.dni}
+                        </li>
+                        <li className="display-28">
+                          <span className="display-26 text-secondary me-2 font-weight-600">
+                            Fecha de nacimiento:
+                          </span>{" "}
+                          {userFechaNac}
+                        </li>
+                        <li>
+                          <br></br>
+                          <br></br>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div className="container-xl">
+                <div className="table-responsive">
+                  <div className="table-wrapper">
+                    <div className="table-title">
+                      <div className="row">
+                        <div className="col-sm-6">
+                          <h2>
+                            Autos
+                          </h2>
+                        </div>
+                      </div>
+                    </div>
+                    <table className="table table-striped w-auto table-hover">
+                      <thead>
+                        <tr>
+                          <th>Id</th>
+                          <th>Patente</th>
+                          <th>Modelo</th>
+                          <th>Año</th>
+                          <th>Agregados</th>
+                          <th>Historia</th>
+                          <th>Workshop Asociado</th>
+                          <th>Id Dueño</th>
+                          <th>Id Verificación Técnica</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {autos.map((selectedCar) => {
+                          const id = `${selectedCar._id}`;
+                          const patente = `${selectedCar.patente}`;
+                          const modelo = `${selectedCar.modelo}`;
+                          const anio = `${selectedCar.anio}`;
+                          const agregados = `${selectedCar.agregados}`;
+                          const historia = `${selectedCar.historia}`;
+                          const tallerAsociado = `${selectedCar.tallerAsociado}`;
+                          const idUsuarioDuenio = `${selectedCar.idUsuarioDuenio}`
+                          const idVt = `${selectedCar.idVt}`                          
+                          return (
+                            <tr>
+                              <td>{id}</td>
+                              <td>{patente}</td>
+                              <td>{modelo}</td>
+                              <td>{anio}</td>
+                              <td>{agregados}</td>
+                              <td width="">{historia}</td>
+                              <td>{tallerAsociado}</td>
+                              <td>{idUsuarioDuenio}</td>
+                              <td>{idVt}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  )}
 };
 
 export default MiPerfil;

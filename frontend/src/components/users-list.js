@@ -85,7 +85,7 @@ const UsersList = props => {
       find(searchIdRol, "IdRol")
     }
   };
-  if (cookies.get("_id")){
+  if (cookies.get("_id") && cookies.get("idRol") === "1"){
     return (
       <div>
         <div className="row pb-1">

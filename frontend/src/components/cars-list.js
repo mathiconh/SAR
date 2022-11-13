@@ -178,7 +178,7 @@ const CarsList = (props) => {
     return;
   }
 
-  if (cookies.get("_id")){
+  if (cookies.get("_id") && cookies.get("idRol") === "1"){
     return (
       <div>
         <div className="container-xl">

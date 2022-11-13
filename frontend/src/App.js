@@ -7,6 +7,7 @@ import Login from "./components/login";
 import UsersList from "./components/users-list";
 import CarsList from "./components/cars-list";
 import MiPerfil from "./components/miPerfil";
+import MisCarreras from "./components/misCarreras";
 import ChampionshipsList from "./components/championships-list";
 import Inscripcion from "./components/inscripcion";
 import Sprints from "./components/sprints-list";
@@ -45,11 +46,20 @@ function App() {
             </button>
             <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
               <li key='UserPerfil'>
-                <a href="/miperfil" className="dropdown-item">
-                  Mi perfil
+                <a href={"/miperfil/"+cookies.get("_id")} className="dropdown-item">
+                  Mi Perfil
                 </a>
               </li>
-              <li key='BasadoEnSesionRol'>{sesion()}</li>
+              <li key='UserCerrarSesion'>
+                <a
+                  onClick={cerrarSesion}
+                  href="./login"
+                  className="dropdown-item"
+                  style={{ cursor: "pointer" }}
+                >
+                  Cerrar Sesión
+                </a>
+              </li>
             </ul>
           </div>
         </li>
@@ -98,7 +108,7 @@ function App() {
                 </a>
               </li>
               <li key='AdminPerfil'>
-                <a href="/miperfil" className="dropdown-item">
+                <a href={"/miperfil/"+cookies.get("_id")} className="dropdown-item">
                   Mi Perfil
                 </a>
               </li>
@@ -140,6 +150,7 @@ function App() {
     cookies.remove("_id", { path: "/" });
     cookies.remove("nombre", { path: "/" });
     cookies.remove("apellido", { path: "/" });
+    cookies.remove("idRol", { path: "/" });
   }
 
   return (
@@ -178,7 +189,7 @@ function App() {
             render={(props) => (
               <MiPerfil {...props}/>
             )}
-          />
+            />
             <Route exact path={["/", "/sprints"]} component={Sprints} />
             <Route exact path={["/", "/clases"]} component={Clases} />
           </Switch>
