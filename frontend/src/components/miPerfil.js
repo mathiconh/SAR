@@ -15,6 +15,8 @@ import avatar7 from "../assets/profilePics/avatar7.png";
 import avatar8 from "../assets/profilePics/avatar8.png";
 import { Link } from "react-router-dom";
 
+import { Category, ChartComponent, ColumnSeries, Inject, Legend, DataLabel, SeriesCollectionDirective, SeriesDirective, Tooltip } from '@syncfusion/ej2-react-charts';
+
 const cookies = new Cookies();
 
 const imgObj = {
@@ -60,6 +62,7 @@ const MiPerfil = props => {
 
   //carreras
   const [carreras, setCarreras] = useState([]);
+  const [reporte, setReporte] = useState([]);
 
 
   //autos
@@ -278,7 +281,9 @@ const MiPerfil = props => {
     await CarsDataService.findCarreras(_id)
     .then((response) => {
       console.log("carreras tiene", response.data.sprints);
+      console.log("reporte tiene", response.data.reporte);
       setCarreras(response.data.sprints);
+      setReporte(response.data.reporte);
     })
     .catch((e) => {
       console.log(e);
@@ -451,6 +456,7 @@ const MiPerfil = props => {
                 </div>
               </div>
             </div>
+            <hr className="rounded"></hr>
             <div>
               <div className="container-xl">
                 <div className="table-responsive">
@@ -521,6 +527,7 @@ const MiPerfil = props => {
                 </div>
               </div>
             </div>
+            <hr className="rounded"></hr>
         
         <div>
             <div className="container-xl">
@@ -598,6 +605,25 @@ const MiPerfil = props => {
                     </table>
                   </div>
                 </div>
+                  <div>
+                  <hr className="rounded"></hr>
+                    <ChartComponent id='chartsReaccion' tooltip={{ enable: true }} primaryXAxis={{ valueType: 'Category', title: 'Auto' }} primaryYAxis={{ title: 'Tiempo' }} title='Promedio de Tiempo de Reaccion por Auto'>
+                      <Inject services={[ColumnSeries, Legend, Tooltip, DataLabel, Category]}/>
+                      <SeriesCollectionDirective>
+                        <SeriesDirective dataSource={reporte} xName='auto' yName='avgReaccion' type='Column' fill='red'>
+                        </SeriesDirective>
+                      </SeriesCollectionDirective>
+                    </ChartComponent>
+                    <hr className="rounded"></hr>
+                    <ChartComponent id='chartsCien' tooltip={{ enable: true }} primaryXAxis={{ valueType: 'Category', title: 'Auto' }} primaryYAxis={{ title: 'Tiempo' }} title='Promedio de Tiempo de 100mts por Auto'>
+                      <Inject services={[ColumnSeries, Legend, Tooltip, DataLabel, Category]}/>
+                      <SeriesCollectionDirective>
+                        <SeriesDirective dataSource={reporte} xName='auto' yName='avgCien' type='Column' fill='#fbb00e'>
+                        </SeriesDirective>
+                      </SeriesCollectionDirective>
+                    </ChartComponent>
+                    <hr className="rounded"></hr>
+                  </div>
               </div>
             </div>
           </div>

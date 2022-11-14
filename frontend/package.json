@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@syncfusion/ej2-react-charts": "^20.3.56",
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
@@ -10,6 +11,8 @@
     "bootstrap": "^5.2.0",
     "cookies": "^0.8.0",
     "i": "^0.3.7",
+    "igniteui-react-charts": "^18.1.0",
+    "igniteui-react-core": "^18.1.0",
     "jquery": "^3.6.0",
     "npm": "^8.18.0",
     "popper.js": "^1.16.1",
