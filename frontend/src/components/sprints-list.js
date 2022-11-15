@@ -426,12 +426,7 @@ const SprintsList = (props) => {
               <label>Tiempo Llegada P2</label>
               <input className="form-control" type="text" maxlength="50" name="tiempoLlegadaP2" id="tiempoLlegadaP2Field" onChange={handleChange} value={selectedSprint.tiempoLlegadaP2}/>
               <label>Pista</label>
-              <input className="form-control" type="text" maxlength="50" name="pista" id="pistaField" onChange={handleChange} value={selectedSprint.pista}/>
-              
-              
-              
-              
-              
+              <input className="form-control" type="text" maxlength="50" name="pista" id="pistaField" onChange={handleChange} value={selectedSprint.pista}/>   
           </ModalBody>
           <ModalFooter>
             {buildErrorMessage()}
@@ -445,10 +440,10 @@ const SprintsList = (props) => {
     );
   
   }else{    
-    window.location.href="./login" 
-    console.log("Necesita logearse para poder acceder al ABM de Autos");
+    window.location.href="./errorPage" 
+    console.log("Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla");
     <Alert id='errorMessage' className="alert alert-danger fade show" key='danger' variant='danger'>
-      Necesita logearse para poder acceder al ABM de Autos
+      Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla
     </Alert>
   }
 };

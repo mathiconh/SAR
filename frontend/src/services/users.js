@@ -14,7 +14,8 @@ class UsersDataService {
     return http.get(`/users?id=${id}`);
   }
 
-  find(query, by = "Nombre", page = 0) {
+  find(query, by = "nombre", page = 0) {
+    console.log(`Searching by ${by} and value ${query}`);
     const result = http.get(`users?page=${page}&${by}=${query}`);
     console.log('DB Result: ', result);
     return result;

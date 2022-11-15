@@ -30,6 +30,7 @@ const imgObj = {
   avatar8,
 };
 const keys = Object.keys(imgObj);
+
 const MiPerfil = props => {
   const initialPerfilState = {
     _id: "",
@@ -443,7 +444,7 @@ const MiPerfil = props => {
                           <br></br>
                           <a
                             className="btn btn-primary"
-                            href={"/performance/"+perfil._id}
+                            href="#graficos"
                           >
                             Performance
                           </a>
@@ -605,7 +606,7 @@ const MiPerfil = props => {
                     </table>
                   </div>
                 </div>
-                  <div>
+                <div id='graficos'>
                   <hr className="rounded"></hr>
                     <ChartComponent id='chartsReaccion' tooltip={{ enable: true }} primaryXAxis={{ valueType: 'Category', title: 'Auto' }} primaryYAxis={{ title: 'Tiempo' }} title='Promedio de Tiempo de Reaccion por Auto'>
                       <Inject services={[ColumnSeries, Legend, Tooltip, DataLabel, Category]}/>

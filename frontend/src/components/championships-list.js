@@ -315,10 +315,10 @@ const ChampionshipsList = (props) => {
     );
   
   }else{    
-    window.location.href="./login" 
-    console.log("Necesita logearse para poder acceder al ABM de Campeonatos");
+    window.location.href="./errorPage" 
+    console.log("Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla");
     <Alert id='errorMessage' className="alert alert-danger fade show" key='danger' variant='danger'>
-      Necesita logearse para poder acceder al ABM de Autos
+      Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla
     </Alert>
   }
 };

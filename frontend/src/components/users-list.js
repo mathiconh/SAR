@@ -59,19 +59,19 @@ const UsersList = props => {
     retrieveUsers();
   };
 
-  const find = (query, by) => {
-    UserDataService.find(query, by)
-      .then(response => {
+  const find = async (query, by) => {
+    await UserDataService.find(query, by)
+      .then((response) => {
         console.log(response.data);
         setUsers(response.data.users);
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e);
       });
   };
 
   const findByName = () => {
-    find(searchName, "Nombre")
+    find(searchName, "nombre")
   };
 
   const findById = () => {
@@ -82,14 +82,14 @@ const UsersList = props => {
     if (searchIdRol === "All IdRoles") {
       refreshList();
     } else {
-      find(searchIdRol, "IdRol")
+      find(searchIdRol, "idRol")
     }
   };
   if (cookies.get("_id") ){
     return (
-      <div>
-        <div className="row pb-1">
-          <div className="input-group col-lg-4">
+      <div className="align-self-center">
+        <div className="container-lg align-self-center">
+          <div className="input-group col-lg-12">
             <input
               type="text"
               className="form-control"
@@ -146,41 +146,42 @@ const UsersList = props => {
 
           </div>
         </div>
-        <div className="row">
-          {users.map((user) => {
-            const id = `${user._id}`;
-            const name = `${user.nombre}`;
-            const Lastname = `${user.apellido}`;
-            const idrol = `${user.idRol}`;
-            const address = `${user.direccion}`;
-            const email = `${user.correoE}`;
-            return (
-              <div className="col-lg-4 pb-1">
-                <div className="card">
-                  <div className="card-body">
-                    <h5 className="card-title">{user.nombre}</h5>
-                    <p className="card-text">
-                      <strong>Id: </strong>{id}<br/>
-                      <strong>name: </strong>{name}<br/>
-                      <strong>Id Rol: </strong>{idrol}<br/>
-                      <strong>Lastname: </strong>{Lastname}<br/>
-                      <strong>Address: </strong>{address}<br/>
-                      <strong>Email: </strong>{email}
-                    </p>
-                    <div className="row">
-                    <Link to={"/miperfil/"+user._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
-                      View User
-                    </Link>
+        <div className="col-lg-10 align-self-center">
+          <div className="row">
+            {users.map((user) => {
+              const id = `${user._id}`;
+              const name = `${user.nombre}`;
+              const Lastname = `${user.apellido}`;
+              const idrol = `${user.idRol}`;
+              const address = `${user.direccion}`;
+              const email = `${user.correoE}`;
+              return (
+                <div className="col-lg-4 pb-1">
+                  <div className="card">
+                    <div className="card-body">
+                      <h5 className="card-title">{user.nombre}</h5>
+                      <p className="card-text">
+                        <strong>Id: </strong>{id}<br/>
+                        <strong>name: </strong>{name}<br/>
+                        <strong>Id Rol: </strong>{idrol}<br/>
+                        <strong>Lastname: </strong>{Lastname}<br/>
+                        <strong>Address: </strong>{address}<br/>
+                        <strong>Email: </strong>{email}
+                      </p>
+                      <div className="row">
+                      <Link to={"/miperfil/"+user._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
+                        View User
+                      </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-
-
+              );
+            })}
+          </div>
         </div>
       </div>
+
     );
   }else{    
     window.location.href="./login" 

@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Inicio from "./components/inicio";
 import Login from "./components/login";
+import ErrorPage from "./components/errorPage";
 import UsersList from "./components/users-list";
 import CarsList from "./components/cars-list";
 import MiPerfil from "./components/miPerfil";
@@ -192,6 +193,7 @@ function App() {
             <Route exact path={["/", "/championships"]} component={ChampionshipsList}/>
             <Route exact path={["/", "/Inscripcion"]} component={Inscripcion} />
             <Route exact path={["/", "/login"]} component={Login} />
+            <Route exact path={["/", "/errorPage"]} component={ErrorPage} />
             <Route exact path={["/", "/miperfil"]} component={MiPerfil} />
             <Route 
             path="/miperfil/:_id"
