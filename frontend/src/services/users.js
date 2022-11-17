@@ -20,6 +20,21 @@ class UsersDataService {
     console.log('DB Result: ', result);
     return result;
   } 
+
+  async createUser({ nombre, apellido, direccion, correoE, dni, fechaNac, telefono, idRol, idSector, idSexo, idVehiculo,  password}) {
+    let result;
+    result = this.validateUserPayload({ nombre, apellido, direccion, correoE, dni, fechaNac, telefono });
+    if (!result.status) return result;
+
+    result = await http.post(`/createUser?nombre=${nombre}&apellido=${apellido}&direccion=${direccion}&correoE=${correoE}&dni=${dni}&fechaNac=${fechaNac}&telefono=${telefono}&idRol=${idRol}&idSector=${idSector}&idSexo=${idSexo}&idVehiculo=${idVehiculo}&password=${password}`);
+    console.log('Result: ', result);
+    return result;
+  }
+
+  async deleteUser(_id) {
+    return await http.delete(`/deleteUser?_id=${_id}`);
+  }
+
   
   async editUser({ _id, nombre, apellido, direccion, correoE, dni, fechaNac, telefono, profilePic}) {
     console.log("About to edit car: ", nombre, apellido, direccion, correoE, dni, fechaNac, telefono, profilePic);
