@@ -15,9 +15,9 @@ class SprintsDataService {
     return await http.get(`/sprints?id=${id}`);
   }
 
-  async find(query, by = "patente", page = 0) {
+  async find(query, by = "id", page = 0) {
     console.log(`Searching by: ${by} value: ${query}`);
-    const result = await http.get(`cars?page=${page}&${by}=${query}`);
+    const result = await http.get(`sprints?page=${page}&${by}=${query}`);
     console.log('DB Result: ', result);
     return result;
   } 
@@ -27,8 +27,6 @@ class SprintsDataService {
     // console.log("About to create sprint: ", patente, modelo, anio, agregados, historia, tallerAsociado );
     let result;
     let idUsuarioModif = cookies.get("_id");
-
-
 
      result = validatePayload({ idUsuarioP1, idUsuarioP2, idVehiculoP1, idVehiculoP2, clase });
      if (!result.status) return result;

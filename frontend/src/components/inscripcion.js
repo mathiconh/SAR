@@ -13,6 +13,7 @@ const CarsList = (props) => {
         idUsuario: cookies.get("_id"),
         vehiculoSeleccionado: {},
         pagarMP: 'off',
+        fechaSprint: '',
       }
 
   const [carrerasDisponibles, setCarrerasDisponibles] = useState([]);
@@ -36,12 +37,15 @@ const CarsList = (props) => {
 
     const carreraData = carrerasDisponibles.find((carrera) => carrera.carreraNombreClase === clase);
     console.log("Carrera Seleccionada: ", carreraData);
+    const fechaSprint = carreraData.fecha.split('T')[0];
+
     if (carreraData) {
         setCarreraSeleccionada(carreraData);
         setInscripcion((prevState) => ({
             ...prevState,
             carreraId: carreraData.carreraId,
             claseId: carreraData.carreraIdClase,
+            fechaSprint: fechaSprint,
           }
         ));
     }

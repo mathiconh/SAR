@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SprintsDataService from "../services/sprints";
 import ClasesDataService from "../services/clases";
-import ChampionshipsDataService from "../services/championships";
+// import ChampionshipsDataService from "../services/championships";
 import UserDataService from "../services/users";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, ModalBody, ModalFooter, Alert } from "reactstrap";
@@ -11,7 +11,7 @@ const cookies = new Cookies();
 const SprintsList = (props) => {
 
   const [sprints, setSprints] = useState([]);
-  const [championships, setChampionships] = useState([]);
+  // const [championships, setChampionships] = useState([]);
   const [users, setUsers] = useState([]);
   const [clases, setClases] = useState([]);
   const [entriesPerPage, setEntriesPerPage] = useState([]);
@@ -22,7 +22,7 @@ const SprintsList = (props) => {
   const [selectedSprint, setSelectedSprint] = useState({
     _id: "",
     fecha: "",
-    idCampeonato: "",
+    // idCampeonato: "",
     idUsuarioP1: "",
     idUsuarioP2: "",
     idVehiculoP1: "",
@@ -33,8 +33,8 @@ const SprintsList = (props) => {
     tiempo100mtsP2: "",
     tiempoLlegadaP1: "",
     tiempoLllegadaP2: "",
-    pista: "",
     clase: "",
+    carreraId: "",
   });
   const [searchableParams] = useState(Object.keys(selectedSprint));
 
@@ -43,23 +43,23 @@ const SprintsList = (props) => {
 
   useEffect(() => {
     retrieveSprints();
-    retrieveChampionship();
+    // retrieveChampionship();
     retrieveClases();
     retrieveUsers();
 
   }, []);
 
-  const retrieveChampionship = async () => {
-    await ChampionshipsDataService.getAll()
-      .then((response) => {
-        console.log("Data: ", response.data);
-        setChampionships([{ nombre: 'Seleccionar Campeonato' }].concat(response.data.championships));
+  // const retrieveChampionship = async () => {
+  //   await ChampionshipsDataService.getAll()
+  //     .then((response) => {
+  //       console.log("Data: ", response.data);
+  //       setChampionships([{ nombre: 'Seleccionar Campeonato' }].concat(response.data.championships));
 
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  // };
 
   const retrieveUsers = () => {
     UserDataService.getAll()
@@ -136,7 +136,7 @@ const SprintsList = (props) => {
   const find = async (query, by) => {
     await SprintsDataService.find(query, by)
       .then((response) => {
-        console.log("Data: ", response.data);
+        console.log("Found Sprints: ", response.data);
         setSprints(response.data.sprints);
         setTotalResults(response.data.total_results);
         setEntriesPerPage(response.data.sprints.length);
@@ -189,7 +189,7 @@ const SprintsList = (props) => {
     sprints.forEach(sprint => {
     if (sprint._id === selectedSprint._id) {
         sprint.fecha = selectedSprint.fecha;
-        sprint.idCampeonato = selectedSprint.idCampeonato;
+        // sprint.idCampeonato = selectedSprint.idCampeonato;
         sprint.idUsuarioP1 = selectedSprint.idUsuarioP1;
         sprint.idUsuarioP2 = selectedSprint.idUsuarioP2;
         sprint.idVehiculoP1 = selectedSprint.idVehiculoP1;
@@ -245,7 +245,7 @@ const SprintsList = (props) => {
             <div className="table-wrapper">
               <div className="table-title">
                 <div className="row">
-                  <div className="col-sm-6">
+                  <div className="col-lg-12">
                     <h2>
                       Administrar <b>Carreras</b>
                     </h2>
@@ -254,7 +254,7 @@ const SprintsList = (props) => {
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Bussprint por "
+                      placeholder="Buscar sprint por "
                       value={searchValue}
                       onChange={onChangeSearchValue}
                     />
@@ -285,7 +285,6 @@ const SprintsList = (props) => {
                   <tr>
                     <th>Id</th>
                     <th>fecha</th>
-                    <th>idCampeonato</th>
                     <th>clase</th>
                     <th>idUsuarioP1</th>
                     <th>idUsuarioP2</th>
@@ -295,7 +294,7 @@ const SprintsList = (props) => {
                     <th>reaccionP2</th>
                     <th>tiempo100mtsP1</th>
                     <th>tiempo100mtsP2</th>
-                    <th>pista</th>
+                    <th>carrera</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -303,8 +302,8 @@ const SprintsList = (props) => {
                   {sprints.map((sprint) => {
                     const id = `${sprint._id}`;
                     const fecha = `${sprint.fecha}`;
-                    const idCampeonato = `${sprint.idCampeonato}`;
                     const clase = `${sprint.clase}`;
+                    const carreraId = `${sprint.carreraId}`;
                     const idUsuarioP1 = `${sprint.idUsuarioP1}`;
                     const idUsuarioP2 = `${sprint.idUsuarioP2}`;
                     const idVehiculoP1 = `${sprint.idVehiculoP1}`;
@@ -313,12 +312,10 @@ const SprintsList = (props) => {
                     const reaccionP2 = `${sprint.reaccionP2}`;
                     const tiempo100mtsP1 = `${sprint.tiempo100mtsP1}`;
                     const tiempo100mtsP2 = `${sprint.tiempo100mtsP2}`;
-                    const pista = `${sprint.pista}`;
                     return (
                       <tr>
                         <td>{id}</td>
                         <td>{fecha}</td>
-                        <td>{idCampeonato}</td>
                         <td>{clase}</td>
                         <td>{idUsuarioP1}</td>
                         <td width="">{idUsuarioP2}</td>
@@ -328,7 +325,7 @@ const SprintsList = (props) => {
                         <td>{reaccionP2}</td>
                         <td>{tiempo100mtsP1}</td>
                         <td>{tiempo100mtsP2}</td>
-                        <td>{pista}</td>
+                        <td>{carreraId}</td>
                         <td>
                           <button className="btn btn-primary" onClick={() => selectSprint("Editar", sprint)}>Edit</button>
                           <button className="btn btn-danger" onClick={() => selectSprint("Eliminar", sprint)}>Delete</button>
@@ -369,8 +366,8 @@ const SprintsList = (props) => {
               <input className="form-control" readOnly type="text" name="id" id="idField" value={selectedSprint._id} placeholder="Auto-Incremental ID"/>
               <label>Fecha</label>
               <input className="form-control" type="date" maxlength="50" name="fecha" id="fechaField" onChange={handleChange} value={selectedSprint.fecha}/>
-              <label>Campeonato</label>
-              <select class="form-select" name="idCampeonato" id="idCampeonatoField" onChange={handleChange} value={selectedSprint.idCampeonato} aria-label="Default select example">
+              {/* <label>Campeonato</label> */}
+              {/* <select class="form-select" name="idCampeonato" id="idCampeonatoField" onChange={handleChange} value={selectedSprint.idCampeonato} aria-label="Default select example">
                 {championships.map((championship) => {
                       const id = `${championship._id}`;
                       const nombre = `${championship.nombre}`;
@@ -378,7 +375,7 @@ const SprintsList = (props) => {
                         <option value={id}>{nombre}</option>
                       );
                     })}
-              </select>
+              </select> */}
               <label>Clase</label>
               <select class="form-select" name="clase" id="claseField" onChange={handleChange} value={selectedSprint.clase} aria-label="Default select example">
                 {clases.map((clase) => {
