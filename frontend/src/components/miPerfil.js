@@ -91,10 +91,11 @@ const MiPerfil = props => {
 
 
   const getPerfilById = async ( _id ) => {
+    console.log('Buscando data de perfil de: ', _id);
 
     UsersDataService.get(_id)
       .then(async (response) => {
-        console.log(response.data.users[0]);
+        console.log('User Profile Data: ', response.data.users[0]);
         const perfilData = response.data.users[0];
         
         const fechaNacData = new Date(perfilData.fechaNac);

@@ -165,7 +165,7 @@ const UsersList = props => {
   }
 
 
-  if (cookies.get("_id") ){
+  if (cookies.get("_id") && cookies.get("idRol") === "1"){
     return (
       <div className="align-self-center">
         <div className="container-lg align-self-center">
@@ -225,7 +225,6 @@ const UsersList = props => {
             </div>
 
           </div>
-          
         <div className="col-lg-6">
           <button className="btn btn-success" onClick={() => selectUser("Crear")} >Añadir un nuevo Auto</button>
         </div>
@@ -322,7 +321,7 @@ const UsersList = props => {
       </div>
 
     );
-  }else{    
+  } else if (cookies.get("_id") && cookies.get("idRol") === "2"){    
     return (
       <div className="align-self-center">
         <div className="container-lg align-self-center">
@@ -420,6 +419,17 @@ const UsersList = props => {
       </div>
 
     );
+  } else {
+    console.log("Necesita logearse para poder acceder al ABM de Usuarios");
+    <Alert
+    id="errorMessage"
+      className="alert alert-danger fade show"
+      key="danger"
+      variant="danger"
+    >
+      Necesita logearse para poder acceder al ABM de usuarios
+    </Alert>;
+    window.location.href = "./login";
   }
 };
 

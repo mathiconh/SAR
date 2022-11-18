@@ -8,7 +8,6 @@ import ErrorPage from "./components/errorPage";
 import UsersList from "./components/users-list";
 import CarsList from "./components/cars-list";
 import MiPerfil from "./components/miPerfil";
-import ChampionshipsList from "./components/championships-list";
 import Inscripcion from "./components/inscripcion";
 import Sprints from "./components/sprints-list";
 import Clases from "./components/clases-list";
@@ -48,6 +47,11 @@ function App() {
               <li key='UserPerfil'>
                 <a href={"/inicio"} className="dropdown-item">
                   Inicio
+                </a>
+              </li>
+              <li key='AdminUsuarios'>
+                <a href="/users" className="dropdown-item">
+                  Usuarios
                 </a>
               </li>
               <li key='UserPerfil'>
@@ -97,6 +101,11 @@ function App() {
                   Usuarios
                 </a>
               </li>
+              <li key='AdminPerfil'>
+                <a href={"/miperfil/"+cookies.get("_id")} className="dropdown-item">
+                  Mi Perfil
+                </a>
+              </li>
               <li key='AdminAutos'>
                 <a href="/cars" className="dropdown-item">
                   ABM Autos
@@ -107,19 +116,9 @@ function App() {
                   ABM Carreras
                 </a>
               </li>
-              <li key='AdminCampeonatos'>
-                <a href="/championships" className="dropdown-item">
-                  ABM Campeonatos
-                </a>
-              </li>
               <li key='AdminClases'>
                 <a href="/clases" className="dropdown-item">
                   ABM Clases
-                </a>
-              </li>
-              <li key='AdminPerfil'>
-                <a href={"/miperfil/"+cookies.get("_id")} className="dropdown-item">
-                  Mi Perfil
                 </a>
               </li>
               <li key='AdminCerrarSesion'>
@@ -161,6 +160,7 @@ function App() {
     cookies.remove("nombre", { path: "/" });
     cookies.remove("apellido", { path: "/" });
     cookies.remove("idRol", { path: "/" });
+    window.location.href = "./inicio";
   }
 
   return (
@@ -177,12 +177,14 @@ function App() {
               Bienvenido {cookies.get("nombre")}
             </strong>
           </div>
-          <div className="col-6">
+          <div className="col-5">
             <a href="/inscripcion" className="nav-link text-light float-right">
               <strong>Inscripcion a Carrera</strong>
             </a>
           </div>
-          <div className="col-1">{sesion()}</div>
+          <div className="col-1 m-1">
+              {sesion()}
+          </div>
         </div>
       </div>
         <BrowserRouter>
@@ -190,7 +192,6 @@ function App() {
             <Route exact path={["/", "/Inicio"]} component={Inicio} />
             <Route exact path={["/", "/users"]} component={UsersList} />
             <Route exact path={["/", "/cars"]} component={CarsList} />
-            <Route exact path={["/", "/championships"]} component={ChampionshipsList}/>
             <Route exact path={["/", "/Inscripcion"]} component={Inscripcion} />
             <Route exact path={["/", "/login"]} component={Login} />
             <Route exact path={["/", "/errorPage"]} component={ErrorPage} />

@@ -6,12 +6,11 @@ const cookies = new Cookies();
 
 class UsersDataService {
   getAll(page = 0) {
-    // return http.get(`user?page=${page}`);
     return http.get(`users?page=${page}`);
   }
 
   get(id) {
-    return http.get(`/users?id=${id}`);
+    return http.get(`/users?_id=${id}`);
   }
 
   find(query, by = "nombre", page = 0) {
