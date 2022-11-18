@@ -1,18 +1,8 @@
-import React, { useState, useEffect } from "react";
-import fondo from "../assets/profilePics/galvez.jpg";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Alert } from "reactstrap";
-import Cookies from "universal-cookie";
 import "../styles/inicio.css";
-const cookies = new Cookies();
-
-const divStyle = {
-  color: "blue",
-  backgroundImage: "url('../assets/profilePics/galvez.jpg')",
-};
 
 const CarsList = (props) => {
-  const [cars, setCars] = useState([]);
   return (
     <section className="vh-100 d-flex justify-content-center align-items-center img-fluid  imagenFondo">
         <div className="col-auto  ">

@@ -13,7 +13,6 @@ import avatar5 from "../assets/profilePics/avatar5.png";
 import avatar6 from "../assets/profilePics/avatar6.png";
 import avatar7 from "../assets/profilePics/avatar7.png";
 import avatar8 from "../assets/profilePics/avatar8.png";
-import { Link } from "react-router-dom";
 
 import { Category, ChartComponent, ColumnSeries, Inject, Legend, DataLabel, SeriesCollectionDirective, SeriesDirective, Tooltip } from '@syncfusion/ej2-react-charts';
 
@@ -566,6 +565,7 @@ const MiPerfil = props => {
                     </thead>
                     <tbody>
                       {carreras.map((selectedCarrera) => {
+                        // TODO: valor del _id ? esta ok ? deberia ser uno nuevo ? revisar
                         const _id = `${selectedCarrera.idUsuarioP1}`;
                         const fecha = `${selectedCarrera.fecha}`;
                         const idCampeonato = `${selectedCarrera.idCampeonato}`;
