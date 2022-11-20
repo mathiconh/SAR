@@ -118,9 +118,9 @@ const UsersList = props => {
     return;
   }
 
-  const selectUser = (action, selectedUser = {}) => {
-    console.log("Selected: ", selectedUser);
-    setSelectedUser(selectedUser);
+  const selectUser = (action, user = {}) => {
+    console.log("Selected: ", user);
+    setSelectedUser(user);
 
     action === "Crear" ? setModalCrear(true) : setModalEliminar(true);
 
@@ -139,8 +139,8 @@ const UsersList = props => {
   }
 
   const eliminar = async (selectedUser) => {
-    console.log("esto tiene de id:" + selectedUser._id);
-    deleteUser(selectedUser._id);
+    console.log("esto tiene de id:" + selectedUser);
+    deleteUser(selectedUser);
     setModalEliminar(false);
   }
 
@@ -226,7 +226,7 @@ const UsersList = props => {
 
           </div>
         <div className="col-lg-6">
-          <button className="btn btn-success" onClick={() => selectUser("Crear")} >Añadir un nuevo Auto</button>
+          <button className="btn btn-success" onClick={() => selectUser("Crear")} >Añadir un nuevo Usuario</button>
         </div>
         </div>
         <div className="col-lg-10 align-self-center">
@@ -255,7 +255,7 @@ const UsersList = props => {
                       <Link to={"/miperfil/"+user._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
                         View User
                       </Link>
-                      <button className="btn btn-success" onClick={() => selectUser(selectedUser)} >Eliminar</button>
+                      <button className="btn btn-success" onClick={() => selectUser("Eliminar", user)} >Delete</button>
 
                       </div>
                     </div>
