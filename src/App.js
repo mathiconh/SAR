@@ -7,6 +7,7 @@ import Login from './components/login';
 import ErrorPage from './components/errorPage';
 import UsersList from './components/users-list';
 import CarsList from './components/cars-list';
+import InscripcionesList from './components/inscripciones-list';
 import MiPerfil from './components/miPerfil';
 import Inscripcion from './components/inscripcion';
 import Sprints from './components/sprints-list';
@@ -58,6 +59,11 @@ function App() {
 									Inscribirme
 								</a>
 							</li>
+							<li key="inscripciones">
+								<a href="/inscripciones" className="dropdown-item">
+									Ver Mis Inscripciones
+								</a>
+							</li>
 							<li key="UserCerrarSesion">
 								<a onClick={cerrarSesion} href="./login" className="dropdown-item" style={{ cursor: 'pointer' }}>
 									Cerrar Sesión
@@ -102,6 +108,11 @@ function App() {
 							<li key="AdminClases">
 								<a href="/clases" className="dropdown-item">
 									ABM Clases
+								</a>
+							</li>
+							<li key="inscripciones">
+								<a href="/inscripciones" className="dropdown-item">
+									ABM Inscripciones
 								</a>
 							</li>
 							<li key="AdminCerrarSesion">
@@ -161,6 +172,7 @@ function App() {
 					<Route exact path={['/', '/Inicio']} component={Inicio} />
 					<Route exact path={['/', '/users']} component={UsersList} />
 					<Route exact path={['/', '/cars']} component={CarsList} />
+					<Route exact path={['/', '/inscripciones']} component={InscripcionesList} />
 					<Route exact path={['/', '/Inscripcion']} component={Inscripcion} />
 					<Route exact path={['/', '/login']} component={Login} />
 					<Route exact path={['/', '/errorPage']} component={ErrorPage} />
