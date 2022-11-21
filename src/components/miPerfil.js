@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, ModalBody, ModalFooter, Alert } from 'reactstrap';
 import UsersDataService from '../services/users';
 import CarsDataService from '../services/cars';
+import CarrerasDataService from '../services/carreras';
 import Cookies from 'universal-cookie';
 import '../App.css';
 import defaultImg from '../assets/profilePics/default.png';
@@ -262,7 +263,7 @@ const MiPerfil = (props) => {
 				console.log(e);
 			});
 
-		await CarsDataService.findCarreras(_id)
+		await CarrerasDataService.findCarreras(_id)
 			.then((response) => {
 				console.log('carreras tiene', response.data.sprints);
 				console.log('reporte tiene', response.data.reporte);

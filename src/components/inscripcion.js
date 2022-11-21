@@ -5,6 +5,7 @@ import InscripcionDataService from '../services/inscripcion';
 import CarsDataService from '../services/cars';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from 'universal-cookie';
+import QRcode from 'qrcode';
 const cookies = new Cookies();
 
 const CarsList = () => {
@@ -12,7 +13,7 @@ const CarsList = () => {
 		carreraId: '',
 		claseId: '',
 		idUsuario: cookies.get('_id'),
-		vehiculoSeleccionado: {},
+		vehiculoSeleccionado: '',
 		pagarMP: 'off',
 		fechaSprint: '',
 	};
@@ -26,10 +27,12 @@ const CarsList = () => {
 	const [modalCodigoQR, setModalCodigoQR] = useState(false);
 	const [modalErrorDatos, setModalErrorDatos] = useState(false);
 	const [validationErrorMessage, setValidationErrorMessage] = useState('');
+	const [qrcode, setQrCode] = useState('');
 
 	useEffect(() => {
 		retrieveCarreras();
 		getAutos();
+		document.getElementById('buscarVehiculsButton').disabled = true;
 	}, []);
 
 	const onChangesetSelectedClass = (e) => {
@@ -64,10 +67,30 @@ const CarsList = () => {
 	function onChangeValueCompetidor() {
 		setInscribirOtroCompetidor((prevState) => !prevState);
 		document.getElementById('otroCompetidorData').setAttribute('required', inscribrOtroCompetidor);
+		if (inscribrOtroCompetidor) {
+			vaciarVehiculoSeleccionado();
+			setAutos([]);
+			alert('Necesita seleccionar el boton "Buscar Vehiculos" para seleccionar un vehiculo antes de finalizar la inscripcion');
+			document.getElementById('buscarVehiculsButton').setAttribute('class', 'btn btn-primary');
+			document.getElementById('buscarVehiculsButton').disabled = false;
+		} else {
+			vaciarVehiculoSeleccionado();
+			document.getElementById('buscarVehiculsButton').disabled = true;
+			document.getElementById('buscarVehiculsButton').setAttribute('class', 'btn btn-secondary');
+			getAutos();
+		}
+	}
+
+	function vaciarVehiculoSeleccionado() {
+		setInscripcion((prevState) => ({
+			...prevState,
+			vehiculoSeleccionado: '',
+		}));
+		document.getElementById('carData').value = '';
+		document.getElementById('otroCompetidorData').value = '';
 	}
 
 	const getAutos = async () => {
-		//Cambiar que ID usa para buscar los autos en base a OTRO COMPETIDOR
 		const _id = cookies.get('_id');
 
 		await CarsDataService.find(_id, 'idUsuarioDuenio')
@@ -82,7 +105,6 @@ const CarsList = () => {
 
 	const selectCar = (car = {}) => {
 		console.log('Selected: ', car);
-		// setSelectedCar(car);
 		setInscripcion((prevState) => ({
 			...prevState,
 			vehiculoSeleccionado: car._id,
@@ -118,14 +140,46 @@ const CarsList = () => {
 		});
 	}
 
+	async function buscarVehiculosCompetidor() {
+		if (!inscribrOtroCompetidor) {
+			const competidorId = document.getElementById('otroCompetidorData').value;
+			if (competidorId) {
+				console.log('Buscando autos para el competidor: ', competidorId);
+				await CarsDataService.find(competidorId, 'idUsuarioDuenio')
+					.then((response) => {
+						console.log('autos tiene', response.data.cars);
+						if (!response.data.cars.length) {
+							alert('Por favor ingrese el Id de un usuario existente y vuelva a buscar sus vehiculos');
+						}
+						setAutos(response.data.cars);
+					})
+					.catch((e) => {
+						console.log(e);
+					});
+			} else {
+				alert('Por favor ingrese el Id de un usuario existente y vuelva a buscar sus vehiculos');
+			}
+		}
+	}
+
 	function cambiarIdUsuarioInscripcion(userId) {
 		const newInscripcion = inscripcion;
 		newInscripcion.idUsuario = userId;
 		setInscripcion(newInscripcion);
 	}
 
+	// Generador de codigo QR
+	function generateQrCode() {
+		const message = `Usuario ${inscripcion.idUsuario} abonado`;
+		QRcode.toDataURL(message, (err, message) => {
+			if (err) return console.error(err);
+
+			console.log(message);
+			setQrCode(message);
+		});
+	}
+
 	async function enviarInscripcion() {
-		// TODO: Buscar autos del competidor
 		// False implica usar ID del OTRO competidor y no del user logeado
 		if (!inscribrOtroCompetidor) {
 			const competidorId = document.getElementById('otroCompetidorData').value;
@@ -142,6 +196,7 @@ const CarsList = () => {
 			console.log('Inscripcion exitosa');
 			setInscripcion(defaultInsc);
 			if (inscripcion.pagarMP === 'on') {
+				generateQrCode();
 				setModalCodigoQR(true);
 			} else {
 				window.location.reload(false);
@@ -249,7 +304,6 @@ const CarsList = () => {
 								</div>
 							</div>
 							<div className="form-group align-items-center form-check">
-								{/* {setInputOtroCompetidor()} */}
 								<div className="form-group align-items-center">
 									<label className="label-class" htmlFor="idCompetidor">
 										{' '}
@@ -257,6 +311,9 @@ const CarsList = () => {
 									</label>
 									<input type="text" id="otroCompetidorData" name="otroCompetidorDataInput" className="col-md-3" readOnly={inscribrOtroCompetidor} />
 									<div className="invalid-feedback">Por favor ingrese el ID de un competidor.</div>
+									<button className="btn btn-secondary" id="buscarVehiculsButton" type="button" onClick={buscarVehiculosCompetidor}>
+										Buscar Vehiculos
+									</button>
 								</div>
 							</div>
 							<hr className="rounded"></hr>
@@ -352,6 +409,15 @@ const CarsList = () => {
 					<ModalBody>
 						<p className="h1 text-center">Gracias por inscribirse</p>
 						<label>Con el siguiente codigo QR, usted podra ingresar al predio por la entrada preferencial:</label>
+						{/* Codigo QR */}
+						{qrcode && (
+							<>
+								<img src={qrcode} />
+								<a href={qrcode} download="qrcode.png">
+									Download
+								</a>
+							</>
+						)}
 					</ModalBody>
 					<ModalFooter>
 						<button className="btn btn-success" onClick={() => closeModalCodigoQR()}>

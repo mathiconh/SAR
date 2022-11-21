@@ -57,15 +57,6 @@ class CarsDataService {
 		return result;
 	}
 
-	//-------------------------------------------------------------carreras---------------------------------------------
-
-	async findCarreras(query, page = 0) {
-		console.log(`Searching value: ${query}`);
-		const result = await http.get(`sprints?page=${page}&perfil=${query}`);
-		console.log('DB Result de carreras: ', result);
-		return result;
-	}
-
 	//-------------------------------------------------------------verificación técnica---------------------------------------------
 
 	async findVt(query, by = '_id', page = 0) {
@@ -80,8 +71,8 @@ class CarsDataService {
 		let result;
 		let idUsuarioModif = cookies.get('_id');
 
-		//result = validatePayload({ idUsuarioDuenio, patente, modelo, anio });
-		//if (!result.status) return result;
+		result = validatePayload({ mataFuego, traje, motor, electricidad, estado });
+		if (!result.status) return result;
 
 		result = await http.put(
 			`/editVt?_id=${_id}&mataFuego=${mataFuego}&traje=${traje}&motor=${motor}&electricidad=${electricidad}&estado=${estado}&idUsuarioDuenio=${idUsuarioDuenio}&idAuto=${idAuto}&idUsuarioModif=${idUsuarioModif}`
@@ -95,8 +86,8 @@ class CarsDataService {
 		let result;
 		let idUsuarioModif = cookies.get('_id');
 
-		// result = validatePayload({ patente, modelo, anio });
-		// if (!result.status) return result;
+		result = validatePayload({ mataFuego, traje, motor, electricidad, estado });
+		if (!result.status) return result;
 
 		result = await http.post(
 			`/completeVt?mataFuego=${mataFuego}&traje=${traje}&motor=${motor}&electricidad=${electricidad}&estado=${estado}&idUsuarioDuenio=${idUsuarioDuenio}&idUsuarioModif=${idUsuarioModif}&idAuto=${idAuto}`

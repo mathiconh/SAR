@@ -123,9 +123,6 @@ const ClasesList = () => {
 	};
 
 	const editar = async (selectedClase) => {
-		// REVISAR: Cuando se trata de editar, se modifica una property, pero luego se cancela la operacion, la property queda modificada localmente.
-		// NO, tiene que volver a como estaba antes
-
 		clases.forEach((clase) => {
 			if (clase._id === selectedClase._id) {
 				clase.nombre = selectedClase.nombre;

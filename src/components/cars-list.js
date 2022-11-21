@@ -128,9 +128,6 @@ const CarsList = () => {
 	};
 
 	const editar = async (selectedCar) => {
-		// REVISAR: Cuando se trata de editar, se modifica una property, pero luego se cancela la operacion, la property queda modificada localmente.
-		// NO, tiene que volver a como estaba antes
-
 		cars.forEach((car) => {
 			if (car._id === selectedCar._id) {
 				car.patente = selectedCar.patente;
