@@ -287,7 +287,7 @@ const ChampionshipsList = (props) => {
               <label>ID</label>
               <input className="form-control" readOnly type="text" name="id" id="idField" value={selectedChampionship._id} placeholder="Auto-Incremental ID"/>
               <label>Nombre</label>
-              <input className="form-control" type="text" maxlength="50" name="nombre" id="nombreField" onChange={handleChange} value={selectedChampionship.nombre}/>
+              <input className="form-control" type="text" maxLength="50" name="nombre" id="nombreField" onChange={handleChange} value={selectedChampionship.nombre}/>
               <label>Clase</label>
               <select class="form-select" name="clase" id="claseField" onChange={handleChange} value={selectedChampionship.clase} aria-label="Default select example">
                 {clases.map((clase) => {
@@ -299,9 +299,9 @@ const ChampionshipsList = (props) => {
                     })}
               </select>
               <label>Fecha desde</label>
-              <input className="form-control" type="date" maxlength="100" name="fechaDesde" id="fechaDesdeField" onChange={handleChange} value={selectedChampionship.fechaDesde}/>
+              <input className="form-control" type="date" maxLength="100" name="fechaDesde" id="fechaDesdeField" onChange={handleChange} value={selectedChampionship.fechaDesde}/>
               <label>Fecha hasta</label>
-              <input className="form-control" type="date" maxlength="10" name="fechaHasta" id="fechaHastaField" onChange={handleChange} value={selectedChampionship.fechaHasta}/>
+              <input className="form-control" type="date" maxLength="10" name="fechaHasta" id="fechaHastaField" onChange={handleChange} value={selectedChampionship.fechaHasta}/>
           </ModalBody>
           <ModalFooter>
             {buildErrorMessage()}
