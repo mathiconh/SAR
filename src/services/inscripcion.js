@@ -27,15 +27,15 @@ class InscripcionDataService {
 		return result;
 	}
 
-	async createInscripcionABM({ carreraId, claseId, idUsuario, pagarMP, vehiculoId, precio, fechaSprint, matcheado }) {
-		console.log('About inscribir: ', carreraId, claseId, idUsuario, pagarMP, vehiculoId, precio, fechaSprint, matcheado);
+	async createInscripcionABM({ carreraId, claseId, idUsuario, pagarMP, vehiculoId, fechaSprint, matcheado }) {
+		console.log('About inscribir: ', carreraId, claseId, idUsuario, pagarMP, vehiculoId, fechaSprint, matcheado);
 		let result;
 
-		result = validatePayload({ carreraId, claseId, idUsuario, pagarMP, vehiculoId, precio, fechaSprint, matcheado });
+		result = validatePayload({ carreraId, claseId, idUsuario, pagarMP, vehiculoId, fechaSprint, matcheado });
 		if (!result.status) return result;
 
 		result = await http.post(
-			`/createInscripcion?carreraId=${carreraId}&claseId=${claseId}&idUsuario=${idUsuario}&pagarMP=${pagarMP}&vehiculoId=${vehiculoId}&precio=${precio}&fechaSprint=${fechaSprint}&matcheado=${matcheado}`
+			`/createInscripcion?carreraId=${carreraId}&claseId=${claseId}&idUsuario=${idUsuario}&pagarMP=${pagarMP}&vehiculoId=${vehiculoId}&fechaSprint=${fechaSprint}&matcheado=${matcheado}`
 		);
 		// Testing purposes
 		// result.status = 200;
@@ -58,16 +58,16 @@ class InscripcionDataService {
 		return await http.delete(`/deleteInscripcion?_id=${id}`);
 	}
 
-	async editInscripcion({ _id, carreraId, claseId, idUsuario, pagarMP, vehiculoId, precio, fechaSprint, matcheado }) {
-		console.log('About edit: ', _id, carreraId, claseId, idUsuario, pagarMP, vehiculoId, precio, fechaSprint, matcheado);
+	async editInscripcion({ _id, carreraId, claseId, idUsuario, pagarMP, vehiculoId, fechaSprint, matcheado }) {
+		console.log('About edit: ', _id, carreraId, claseId, idUsuario, pagarMP, vehiculoId, fechaSprint, matcheado);
 		let result;
 		let idUsuarioModif = cookies.get('_id');
 
-		result = validatePayload({ carreraId, claseId, idUsuario, pagarMP, vehiculoId, precio, fechaSprint, matcheado });
+		result = validatePayload({ carreraId, claseId, idUsuario, pagarMP, vehiculoId, fechaSprint, matcheado });
 		if (!result.status) return result;
 
 		result = await http.put(
-			`/editInscripcion?_id=${_id}&carreraId=${carreraId}&claseId=${claseId}&idUsuario=${idUsuario}&pagarMP=${pagarMP}&vehiculoId=${vehiculoId}&precio=${precio}&fechaSprint=${fechaSprint}&matcheado=${matcheado}&idUsuarioModif=${idUsuarioModif}`
+			`/editInscripcion?_id=${_id}&carreraId=${carreraId}&claseId=${claseId}&idUsuario=${idUsuario}&pagarMP=${pagarMP}&vehiculoId=${vehiculoId}&fechaSprint=${fechaSprint}&matcheado=${matcheado}&idUsuarioModif=${idUsuarioModif}`
 		);
 		console.log('Result: ', result);
 		return result;

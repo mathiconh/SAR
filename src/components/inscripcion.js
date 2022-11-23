@@ -116,11 +116,11 @@ const CarsList = () => {
 	const retrieveCarreras = async () => {
 		const response = await InscripcionDataService.getAvailable();
 
-		console.log('Data: ', response.data.availableRaces);
-		const clasesDisponiblesList = response.data.availableRaces.map((carrera) => {
+		console.log('Data: ', response.data.carrerasDisponibles);
+		const clasesDisponiblesList = response.data.carrerasDisponibles.map((carrera) => {
 			return carrera.carreraNombreClase;
 		});
-		setCarrerasDisponibles(response.data.availableRaces);
+		setCarrerasDisponibles(response.data.carrerasDisponibles);
 
 		ordenarClases(clasesDisponiblesList);
 		console.log('Clases Detectadas: ', clasesDisponiblesList);

@@ -18,11 +18,10 @@ const InscripcionesList = () => {
 		carreraId: '',
 		claseId: '',
 		idUsuario: '',
-		pagarMP: '',
+		pagarMP: 'off',
 		vehiculoId: '',
-		precio: '',
 		fechaSprint: '',
-		matcheado: false,
+		matcheado: 'no',
 	});
 	const [searchableParams] = useState(Object.keys(selectedInscripcion));
 
@@ -43,9 +42,9 @@ const InscripcionesList = () => {
 		setSearchValue(searchValue);
 	};
 
-	const selectInscripcion = (action, clase = {}) => {
-		console.log('Selected: ', clase);
-		setSelectedInscripcion(clase);
+	const selectInscripcion = (action, inscripcion = {}) => {
+		console.log('Selected: ', inscripcion);
+		setSelectedInscripcion(inscripcion);
 		action === 'Editar' ? setModalEditar(true) : setModalElminar(true);
 	};
 
@@ -136,7 +135,6 @@ const InscripcionesList = () => {
 				inscripcion.idUsuario = selectedInscripcion.idUsuario;
 				inscripcion.pagarMP = selectedInscripcion.pagarMP;
 				inscripcion.vehiculoId = selectedInscripcion.vehiculoId;
-				inscripcion.precio = selectedInscripcion.precio;
 				inscripcion.fechaSprint = selectedInscripcion.fechaSprint;
 				inscripcion.matcheado = selectedInscripcion.matcheado;
 			}
@@ -315,9 +313,8 @@ const InscripcionesList = () => {
 							id="vehiculoIdField"
 							onChange={handleChange}
 							value={selectedInscripcion.vehiculoId}
+							placeholder="Valores posibles: on - off"
 						/>
-						<label>precio</label>
-						<input className="form-control" type="text" maxLength="100" name="precio" id="precioField" onChange={handleChange} value={selectedInscripcion.precio} />
 						<label>fechaSprint</label>
 						<input
 							className="form-control"
@@ -327,6 +324,7 @@ const InscripcionesList = () => {
 							id="fechaSprintField"
 							onChange={handleChange}
 							value={selectedInscripcion.fechaSprint}
+							placeholder="Formato de fecha: año(yyyy)-mes(mm)-dia(dd)"
 						/>
 						<label>matcheado</label>
 						<input
@@ -337,6 +335,7 @@ const InscripcionesList = () => {
 							id="matcheadoField"
 							onChange={handleChange}
 							value={selectedInscripcion.matcheado}
+							placeholder="Valores posibles: on - off"
 						/>
 					</ModalBody>
 					<ModalFooter>
