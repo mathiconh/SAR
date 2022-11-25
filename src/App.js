@@ -100,9 +100,9 @@ function App() {
 									ABM Autos
 								</a>
 							</li>
-							<li key="AdminCarreras">
+							<li key="AdminEventos">
 								<a href="/sprints" className="dropdown-item">
-									ABM Carreras
+									ABM Eventos
 								</a>
 							</li>
 							<li key="AdminClases">

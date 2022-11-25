@@ -18,9 +18,9 @@ const CarsList = () => {
 		fechaSprint: '',
 	};
 
-	const [carrerasDisponibles, setCarrerasDisponibles] = useState([]);
+	const [eventosDisponibles, setEventosDisponibles] = useState([]);
 	const [clasesDisponibles, setClasesDisponibles] = useState(['Seleccionar Clase']);
-	const [carreraSeleccionada, setCarreraSeleccionada] = useState([]);
+	const [eventoSeleccionada, setEventoSeleccionada] = useState([]);
 	const [autos, setAutos] = useState([]);
 	const [inscripcion, setInscripcion] = useState(defaultInsc);
 	const [inscribrOtroCompetidor, setInscribirOtroCompetidor] = useState(true);
@@ -30,29 +30,29 @@ const CarsList = () => {
 	const [qrcode, setQrCode] = useState('');
 
 	useEffect(() => {
-		retrieveCarreras();
+		retrieveEventos();
 		getAutos();
 		document.getElementById('buscarVehiculsButton').disabled = true;
 	}, []);
 
 	const onChangesetSelectedClass = (e) => {
 		const clase = e.target.value;
-		console.log('Carreras Disponibles: ', carrerasDisponibles);
+		console.log('Eventos Disponibles: ', eventosDisponibles);
 
-		const carreraData = carrerasDisponibles.find((carrera) => carrera.carreraNombreClase === clase);
-		console.log('Carrera Seleccionada: ', carreraData);
-		const fechaSprint = carreraData.fecha.split('T')[0];
+		const eventoData = eventosDisponibles.find((evento) => evento.carreraNombreClase === clase);
+		console.log('Evento Seleccionada: ', eventoData);
+		const fechaSprint = eventoData.fecha.split('T')[0];
 
-		if (carreraData) {
-			setCarreraSeleccionada(carreraData);
+		if (eventoData) {
+			setEventoSeleccionada(eventoData);
 			setInscripcion((prevState) => ({
 				...prevState,
-				carreraId: carreraData.carreraId,
-				claseId: carreraData.carreraIdClase,
+				carreraId: eventoData.carreraId,
+				claseId: eventoData.carreraIdClase,
 				fechaSprint: fechaSprint,
 			}));
 		}
-		document.getElementById('tiempoClaseData').value = carreraData.tiempoClase;
+		document.getElementById('tiempoClaseData').value = eventoData.tiempoClase;
 	};
 
 	function onChangeValue(event) {
@@ -113,14 +113,14 @@ const CarsList = () => {
 		document.getElementById('carData').value = carData;
 	};
 
-	const retrieveCarreras = async () => {
+	const retrieveEventos = async () => {
 		const response = await InscripcionDataService.getAvailable();
 
-		console.log('Data: ', response.data.carrerasDisponibles);
-		const clasesDisponiblesList = response.data.carrerasDisponibles.map((carrera) => {
-			return carrera.carreraNombreClase;
+		console.log('Data: ', response.data.eventosDisponibles);
+		const clasesDisponiblesList = response.data.eventosDisponibles.map((evento) => {
+			return evento.carreraNombreClase;
 		});
-		setCarrerasDisponibles(response.data.carrerasDisponibles);
+		setEventosDisponibles(response.data.eventosDisponibles);
 
 		ordenarClases(clasesDisponiblesList);
 		console.log('Clases Detectadas: ', clasesDisponiblesList);
@@ -262,7 +262,7 @@ const CarsList = () => {
 			<div className="align-self-center">
 				<div className="container-lg align-self-center">
 					<form className="container-fluid align-self-center needs-validation" onSubmit={formPreventDefault} noValidate>
-						<p className="h1 text-center">Inscripcion a Carrera</p>
+						<p className="h1 text-center">Inscripcion a Evento</p>
 						<div className="form-row">
 							<div className="form-group align-items-center col-md-6">
 								<label className="label-class" htmlFor="exampleInputEmail1">
@@ -280,7 +280,7 @@ const CarsList = () => {
 								</select>
 								<br></br>
 								<label className="label-class" htmlFor="cuposClase">
-									{carreraSeleccionada.aproxCupos}
+									{eventoSeleccionada.aproxCupos}
 								</label>
 								<br></br>
 								<label className="label-class" htmlFor="tiempoClase">
@@ -389,7 +389,7 @@ const CarsList = () => {
 							<div className="form-group align-items-center form-check">
 								<label className="font-weight-bold" htmlFor="tiempoClase">
 									{' '}
-									Precio de la inscripcion: {carreraSeleccionada.precio}
+									Precio de la inscripcion: {eventoSeleccionada.precio}
 								</label>
 								<br></br>
 								<div onChange={onChangeValue}>
@@ -409,7 +409,6 @@ const CarsList = () => {
 					<ModalBody>
 						<p className="h1 text-center">Gracias por inscribirse</p>
 						<label>Con el siguiente codigo QR, usted podra ingresar al predio por la entrada preferencial:</label>
-						{/* Codigo QR */}
 						{qrcode && (
 							<>
 								<img src={qrcode} />
