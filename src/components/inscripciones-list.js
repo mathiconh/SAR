@@ -115,6 +115,7 @@ const InscripcionesList = () => {
 
 	const findRegularUser = async (query, by) => {
 		console.log(`Query: ${query} | By: ${by}`);
+		// Validar de una forma que no puedas buscar por un ID de inscripcion que no te pertenezca. Tal vez haya que hacerlo desde Mongo
 		if (by !== 'idUsuario' || (by === 'idUsuario' && query === cookies.get('_id'))) {
 			await InscripcionDataService.getRegularUser(query, by, cookies.get('_id'))
 				.then((response) => {
@@ -127,7 +128,7 @@ const InscripcionesList = () => {
 					console.log(e);
 				});
 		}
-		// ELSE: No podes buscar datos de otro usuario
+		// ELSE: No podes buscar datos de otro usuario- Mostrar un mensaje?
 	};
 
 	let setModalButton = (selectedInscripcion) => {
