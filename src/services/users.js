@@ -1,6 +1,6 @@
 import http from '../http-common';
 import Cookies from 'universal-cookie';
-
+import bcrypt from 'bcryptjs';
 const cookies = new Cookies();
 
 class UsersDataService {
@@ -24,8 +24,10 @@ class UsersDataService {
 		result = this.validateUserPayload({ nombre, apellido, direccion, correoE, dni, fechaNac, telefono });
 		if (!result.status) return result;
 
+		const passwordHash = await bcrypt.hash(password, 8);
+
 		result = await http.post(
-			`/createUser?nombre=${nombre}&apellido=${apellido}&direccion=${direccion}&correoE=${correoE}&dni=${dni}&fechaNac=${fechaNac}&telefono=${telefono}&idRol=${idRol}&idSector=${idSector}&idSexo=${idSexo}&idVehiculo=${idVehiculo}&password=${password}`
+			`/createUser?nombre=${nombre}&apellido=${apellido}&direccion=${direccion}&correoE=${correoE}&dni=${dni}&fechaNac=${fechaNac}&telefono=${telefono}&idRol=${idRol}&idSector=${idSector}&idSexo=${idSexo}&idVehiculo=${idVehiculo}&password=${passwordHash}`
 		);
 		console.log('Result: ', result);
 		return result;
