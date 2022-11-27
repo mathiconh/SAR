@@ -55,7 +55,7 @@ function Login() {
 
 	const logIn = async (user) => {
 		const result = await LoginDataService.get(user.correoE, user.password);
-		console.log('con esto te intentas logear' + user.correoE + user.password);
+		console.log('con esto te intentas logear ' + result);
 		if (result.data.status) {
 			setValidationErrorMessage('');
 
