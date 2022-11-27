@@ -47,7 +47,4 @@ export function fechaValida(dateString) {
 
 	// Chequea que el día esté dentro del rango del mes
 	return day > 0 && day <= monthLength[month - 1];
-
-	// Validar que la fecha sea en el futuro
-	// if (day < 0 && day >= monthLength[month - 1]) return false;
 }
