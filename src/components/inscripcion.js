@@ -195,12 +195,8 @@ const CarsList = () => {
 		if (result.status) {
 			console.log('Inscripcion exitosa');
 			setInscripcion(defaultInsc);
-			// if (inscripcion.pagarMP === 'on') {
 			generateQrCode();
 			setModalCodigoQR(true);
-			// } else {
-			// 	window.location.reload(false);
-			// }
 		} else {
 			setModalErrorDatos(true);
 			setValidationErrorMessage(result?.errorMessage);
