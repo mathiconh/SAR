@@ -1,6 +1,6 @@
 import http from '../http-common';
 import Cookies from 'universal-cookie';
-import { validatePayload } from '../utils/payloadValidations';
+import { validatePayload } from '../utils/utils';
 
 const cookies = new Cookies();
 

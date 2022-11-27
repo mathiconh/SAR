@@ -1,5 +1,5 @@
 import http from '../http-common';
-import { validatePayload } from '../utils/payloadValidations';
+import { validatePayload } from '../utils/utils';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();

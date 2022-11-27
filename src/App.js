@@ -11,6 +11,7 @@ import InscripcionesList from './components/inscripciones-list';
 import MiPerfil from './components/miPerfil';
 import Inscripcion from './components/inscripcion';
 import Sprints from './components/sprints-list';
+import Eventos from './components/eventos-list';
 import Clases from './components/clases-list';
 import Cookies from 'universal-cookie';
 import './styles/inicio.css';
@@ -184,6 +185,7 @@ function App() {
 					<Route exact path={['/', '/miperfil']} component={MiPerfil} />
 					<Route path="/miperfil/:_id" render={(props) => <MiPerfil {...props} />} />
 					<Route exact path={['/', '/sprints']} component={Sprints} />
+					<Route exact path={['/', '/eventos']} component={Eventos} />
 					<Route exact path={['/', '/clases']} component={Clases} />
 				</Switch>
 			</BrowserRouter>

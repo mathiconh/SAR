@@ -10,7 +10,7 @@ const ClasesList = () => {
 	const [clases, setClases] = useState([]);
 	const [entriesPerPage, setEntriesPerPage] = useState([]);
 	const [totalResults, setTotalResults] = useState([]);
-	const [searchParam, setSearchParam] = useState('');
+	const [searchParam, setSearchParam] = useState('_id');
 	const [searchValue, setSearchValue] = useState('');
 	const [validationErrorMessage, setValidationErrorMessage] = useState('');
 	const [selectedClase, setSelectedClase] = useState({

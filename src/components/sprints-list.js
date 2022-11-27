@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import SprintsDataService from '../services/sprints';
 import ClasesDataService from '../services/clases';
-// import ChampionshipsDataService from "../services/championships";
 import UserDataService from '../services/users';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, ModalBody, ModalFooter, Alert } from 'reactstrap';
@@ -11,18 +10,16 @@ const cookies = new Cookies();
 
 const SprintsList = () => {
 	const [sprints, setSprints] = useState([]);
-	// const [championships, setChampionships] = useState([]);
 	const [users, setUsers] = useState([]);
 	const [clases, setClases] = useState([]);
 	const [entriesPerPage, setEntriesPerPage] = useState([]);
 	const [totalResults, setTotalResults] = useState([]);
-	const [searchParam, setSearchParam] = useState('');
+	const [searchParam, setSearchParam] = useState('_id');
 	const [searchValue, setSearchValue] = useState('');
 	const [validationErrorMessage, setValidationErrorMessage] = useState('');
 	const [selectedSprint, setSelectedSprint] = useState({
 		_id: '',
 		fecha: '',
-		// idCampeonato: "",
 		idUsuarioP1: '',
 		idUsuarioP2: '',
 		idVehiculoP1: '',
@@ -43,22 +40,9 @@ const SprintsList = () => {
 
 	useEffect(() => {
 		retrieveSprints();
-		// retrieveChampionship();
 		retrieveClases();
 		retrieveUsers();
 	}, []);
-
-	// const retrieveChampionship = async () => {
-	//   await ChampionshipsDataService.getAll()
-	//     .then((response) => {
-	//       console.log("Data: ", response.data);
-	//       setChampionships([{ nombre: 'Seleccionar Campeonato' }].concat(response.data.championships));
-
-	//     })
-	//     .catch((e) => {
-	//       console.log(e);
-	//     });
-	// };
 
 	const retrieveUsers = () => {
 		UserDataService.getAll()
@@ -184,7 +168,6 @@ const SprintsList = () => {
 		sprints.forEach((sprint) => {
 			if (sprint._id === selectedSprint._id) {
 				sprint.fecha = selectedSprint.fecha;
-				// sprint.idCampeonato = selectedSprint.idCampeonato;
 				sprint.idUsuarioP1 = selectedSprint.idUsuarioP1;
 				sprint.idUsuarioP2 = selectedSprint.idUsuarioP2;
 				sprint.idVehiculoP1 = selectedSprint.idVehiculoP1;
@@ -351,16 +334,6 @@ const SprintsList = () => {
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedSprint._id} placeholder="Auto-Incremental ID" />
 						<label>Fecha</label>
 						<input className="form-control" type="date" maxLength="50" name="fecha" id="fechaField" onChange={handleChange} value={selectedSprint.fecha} />
-						{/* <label>Campeonato</label> */}
-						{/* <select class="form-select" name="idCampeonato" id="idCampeonatoField" onChange={handleChange} value={selectedSprint.idCampeonato} aria-label="Default select example">
-                {championships.map((championship) => {
-                      const id = `${championship._id}`;
-                      const nombre = `${championship.nombre}`;
-                      return (
-                        <option value={id}>{nombre}</option>
-                      );
-                    })}
-              </select> */}
 						<label>Clase</label>
 						<select className="form-select" name="clase" id="claseField" onChange={handleChange} value={selectedSprint.clase} aria-label="Default select example">
 							{clases.map((clase) => {
