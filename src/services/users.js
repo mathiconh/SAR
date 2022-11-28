@@ -8,6 +8,10 @@ class UsersDataService {
 		return http.get(`users?page=${page}`);
 	}
 
+	getAllGen(page = 0) {
+		return http.get(`/generos?page=${page}`);
+	}
+
 	get(id) {
 		return http.get(`/users?_id=${id}`);
 	}

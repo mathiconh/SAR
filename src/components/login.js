@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LoginDataService from '../services/login';
 import UserDataService from '../services/users';
 import { Modal, ModalBody, ModalFooter, Alert } from 'reactstrap';
@@ -15,6 +15,12 @@ function Login() {
 	const [validationErrorMessage, setValidationErrorMessage] = useState('');
 
 	const [modalCrear, setModalCrear] = useState(false);
+	const [genero, setGeneros] = useState([]);
+
+	useEffect(() => {
+		retrieveGeneros();
+	}, []);
+
 	const [selectedUser, setSelectedUser] = useState({
 		_id: '',
 		apellido: '',
@@ -22,8 +28,8 @@ function Login() {
 		direccion: '',
 		dni: '',
 		fechaNac: '',
-		idRol: '',
-		idSector: '',
+		idRol: '2',
+		idSector: '2',
 		idSexo: '',
 		idVehiculo: '',
 		nombre: '',
@@ -51,6 +57,17 @@ function Login() {
 			...prevState,
 			[name]: value,
 		}));
+	};
+
+	const retrieveGeneros = async () => {
+		await UserDataService.getAllGen()
+			.then((response) => {
+				console.log('Data: ', response.data.generos);
+				setGeneros([{ nombre: 'Seleccionar Genero' }].concat(response.data.generos));
+			})
+			.catch((e) => {
+				console.log(e);
+			});
 	};
 
 	const logIn = async (user) => {
@@ -127,33 +144,35 @@ function Login() {
 					<label>apellido</label>
 					<input className="form-control" type="text" maxLength="50" name="apellido" id="apellidoField" onChange={handleChangeCreate} value={selectedUser.apellido} />
 					<label>correoE</label>
-					<input className="form-control" type="text" maxLength="50" name="correoE" id="correoEField" onChange={handleChangeCreate} value={selectedUser.correoE} />
-					<label>direccion</label>
 					<input className="form-control" type="text" maxLength="100" name="direccion" id="direccionField" onChange={handleChangeCreate} value={selectedUser.direccion} />
 					<label>dni</label>
 					<input className="form-control" type="number" maxLength="10" name="dni" id="dniField" onChange={handleChangeCreate} value={selectedUser.dni} />
 					<label>fechaNac</label>
-					<input className="form-control" type="text" maxLength="300" name="fechaNac" id="fechaNacField" onChange={handleChangeCreate} value={selectedUser.fechaNac} />
-					<label>idRol</label>
-					<input className="form-control" type="text" maxLength="200" name="idRol" id="idRolField" onChange={handleChangeCreate} value={selectedUser.idRol} />
-					<label>idSector</label>
-					<input className="form-control" type="text" maxLength="50" name="idSector" id="idSectorField" onChange={handleChangeCreate} value={selectedUser.idSector} />
-					<label>idSexo</label>
-					<input className="form-control" type="text" maxLength="100" name="idSexo" id="idSexoField" onChange={handleChangeCreate} value={selectedUser.idSexo} />
-					<label>idVehiculo</label>
-					<input
-						className="form-control"
-						type="number"
-						maxLength="10"
-						name="idVehiculo"
-						id="idVehiculoField"
-						onChange={handleChangeCreate}
-						value={selectedUser.idVehiculo}
-					/>
+					<input className="form-control" type="date" maxLength="300" name="fechaNac" id="fechaNacField" onChange={handleChangeCreate} value={selectedUser.fechaNac} />
+					<label>Genero</label>
+					<select className="form-select" name="clase" id="claseField" onChange={handleChange} value={selectedUser.genero} aria-label="Default select example">
+						{genero.map((genero) => {
+							const id = `${genero._id}`;
+							const nombre = `${genero.nombre}`;
+							return (
+								<option key={id} value={id}>
+									{nombre}
+								</option>
+							);
+						})}
+					</select>
 					<label>nombre</label>
 					<input className="form-control" type="text" maxLength="300" name="nombre" id="nombreField" onChange={handleChangeCreate} value={selectedUser.nombre} />
 					<label>password</label>
-					<input className="form-control" type="text" maxLength="200" name="password" id="passwordField" onChange={handleChangeCreate} value={selectedUser.password} />
+					<input
+						className="form-control"
+						type="password"
+						maxLength="200"
+						name="password"
+						id="passwordField"
+						onChange={handleChangeCreate}
+						value={selectedUser.password}
+					/>
 					<label>telefono</label>
 					<input className="form-control" type="text" maxLength="50" name="telefono" id="telefonoField" onChange={handleChangeCreate} value={selectedUser.telefono} />
 				</ModalBody>
