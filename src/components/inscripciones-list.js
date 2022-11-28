@@ -375,7 +375,6 @@ const InscripcionesList = () => {
 							id="vehiculoIdField"
 							onChange={handleChange}
 							value={selectedInscripcion.vehiculoId}
-							placeholder="Valores posibles: on - off"
 						/>
 						<label>fechaSprint</label>
 						<input
