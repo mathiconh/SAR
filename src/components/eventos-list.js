@@ -136,6 +136,8 @@ const EventosList = () => {
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
+		console.log('Name: ', name);
+		console.log('Value: ', value);
 		setSelectedEvento((prevState) => ({
 			...prevState,
 			[name]: value,

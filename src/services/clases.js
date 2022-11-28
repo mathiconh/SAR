@@ -1,5 +1,6 @@
 import http from '../http-common';
 import Cookies from 'universal-cookie';
+import { validatePayload } from '../utils/utils';
 
 const cookies = new Cookies();
 
@@ -14,14 +15,14 @@ class ClasesDataService {
 		return await http.get(`/clases?id=${id}`);
 	}
 
-	async createClase({ nombre, tiempo }) {
+	async createClase({ idClase, nombre, tiempo }) {
 		let result;
 		let idUsuarioModif = cookies.get('_id');
 
-		// result = validatePayload({ patente, modelo, anio });
-		// if (!result.status) return result;
+		result = validatePayload({ idClase, nombre, tiempo });
+		if (!result.status) return result;
 
-		result = await http.post(`/createClase?nombre=${nombre}&tiempo=${tiempo}&idUsuarioModif=${idUsuarioModif}`);
+		result = await http.post(`/createClase?idClase=${idClase}&nombre=${nombre}&tiempo=${tiempo}&idUsuarioModif=${idUsuarioModif}`);
 		console.log('Result: ', result);
 		return result;
 	}
@@ -30,16 +31,38 @@ class ClasesDataService {
 		return await http.delete(`/deleteClase?_id=${id}`);
 	}
 
-	async editClase({ _id, nombre, tiempo }) {
+	async editClase({ _id, idClase, nombre, tiempo }) {
 		let result;
 		let idUsuarioModif = cookies.get('_id');
 
-		// result = validatePayload({ idUsuarioDuenio, patente, modelo, anio });
-		// if (!result.status) return result;
+		result = validatePayload({ idClase, nombre, tiempo });
+		if (!result.status) return result;
 
-		result = await http.put(`/editClase?_id=${_id}&nombre=${nombre}&tiempo=${tiempo}&idUsuarioModif=${idUsuarioModif}`);
+		result = await http.put(`/editClase?_id=${_id}&idClase=${idClase}&nombre=${nombre}&tiempo=${tiempo}&idUsuarioModif=${idUsuarioModif}`);
 		console.log('Result: ', result);
 		return result;
+	}
+
+	validarEvento(idClase, tiempo, allClases) {
+		const resultValidaciones = {
+			status: true,
+		};
+
+		if (parseInt(tiempo) === '0') {
+			resultValidaciones.status = false;
+			resultValidaciones.errorMessage = 'Debe configurar un tiempo mayor a 0';
+		}
+		if (idClase !== 'skip') {
+			allClases.forEach((clase) => {
+				console.log(`Actual ${idClase} VS ${clase.idClase}`);
+				if (idClase === clase.idClase) {
+					resultValidaciones.status = false;
+					resultValidaciones.errorMessage = 'No puede usar el ID Clase de un clase que ya exista';
+				}
+			});
+		}
+
+		return resultValidaciones;
 	}
 }
 

@@ -8,6 +8,7 @@ const cookies = new Cookies();
 
 const ClasesList = () => {
 	const [clases, setClases] = useState([]);
+	const [allClases, setAllClases] = useState([]);
 	const [entriesPerPage, setEntriesPerPage] = useState([]);
 	const [totalResults, setTotalResults] = useState([]);
 	const [searchParam, setSearchParam] = useState('_id');
@@ -15,6 +16,7 @@ const ClasesList = () => {
 	const [validationErrorMessage, setValidationErrorMessage] = useState('');
 	const [selectedClase, setSelectedClase] = useState({
 		_id: '',
+		idClase: '',
 		nombre: '',
 		tiempo: '',
 	});
@@ -52,6 +54,7 @@ const ClasesList = () => {
 			.then((response) => {
 				console.log('Data: ', response.data);
 				setClases(response.data.clases);
+				setAllClases(response.data.clases);
 				setTotalResults(response.data.total_results);
 				setEntriesPerPage(response.data.clases.length);
 			})
@@ -125,11 +128,12 @@ const ClasesList = () => {
 	const editar = async (selectedClase) => {
 		clases.forEach((clase) => {
 			if (clase._id === selectedClase._id) {
+				clase.idClase = selectedClase.idClase;
 				clase.nombre = selectedClase.nombre;
 				clase.tiempo = selectedClase.tiempo;
 			}
 		});
-		const result = await ClasesDataService.editClase(selectedClase);
+		const result = await ClasesDataService.editClase(selectedClase, allClases);
 		if (result.status) {
 			console.log('Edicion exitosa');
 			setValidationErrorMessage('');
@@ -141,7 +145,7 @@ const ClasesList = () => {
 	};
 
 	const crear = async (selectedClase) => {
-		const result = await ClasesDataService.createClase(selectedClase);
+		const result = await ClasesDataService.createClase(selectedClase, allClases);
 		if (result?.status) {
 			console.log('creación exitosa');
 			setValidationErrorMessage('');
@@ -200,6 +204,7 @@ const ClasesList = () => {
 								<thead>
 									<tr>
 										<th>Id</th>
+										<th>idClase</th>
 										<th>Nombre</th>
 										<th>Tiempo</th>
 									</tr>
@@ -207,11 +212,13 @@ const ClasesList = () => {
 								<tbody>
 									{clases.map((clase) => {
 										const id = `${clase._id}`;
+										const idClase = `${clase.idClase}`;
 										const nombre = `${clase.nombre}`;
 										const tiempo = `${clase.tiempo}`;
 										return (
 											<tr>
 												<td>{id}</td>
+												<td>{idClase}</td>
 												<td>{nombre}</td>
 												<td>{tiempo}</td>
 												<td>
@@ -252,6 +259,8 @@ const ClasesList = () => {
 					<ModalBody>
 						<label>ID</label>
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedClase._id} placeholder="Auto-Incremental ID" />
+						<label>Id Clase</label>
+						<input className="form-control" type="text" maxLength="50" name="idClase" id="idClaseField" onChange={handleChange} value={selectedClase.idClase} />
 						<label>Nombre</label>
 						<input className="form-control" type="text" maxLength="50" name="nombre" id="nombreField" onChange={handleChange} value={selectedClase.nombre} />
 						<label>Tiempo</label>
