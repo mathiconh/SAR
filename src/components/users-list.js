@@ -18,7 +18,7 @@ const UsersList = () => {
 		fechaNac: '',
 		idRol: '',
 		idSector: '',
-		idGenero: '',
+		genero: '',
 		nombre: '',
 		password: '',
 		telefono: '',
@@ -67,8 +67,8 @@ const UsersList = () => {
 	const retrieveGeneros = async () => {
 		await UserDataService.getAllGen()
 			.then((response) => {
-				console.log('Data: ', response.data.generos);
-				setGeneros([{ nombre: 'Seleccionar Genero' }].concat(response.data.generos));
+				console.log('Data: ', response.data);
+				setGeneros(response.data);
 			})
 			.catch((e) => {
 				console.log(e);
@@ -280,12 +280,13 @@ const UsersList = () => {
 						<label>idSector</label>
 						<input className="form-control" type="text" maxLength="50" name="idSector" id="idSectorField" onChange={handleChange} value={selectedUser.idSector} />
 						<label>Genero</label>
+						{/* <input className="form-control" type="text" maxLength="50" name="idSector" id="idSectorField" onChange={handleChange} value={selectedUser.idSector} /> */}
 						<select className="form-select" name="clase" id="claseField" onChange={handleChange} value={selectedUser.genero} aria-label="Default select example">
 							{genero.map((genero) => {
-								const id = `${genero._id}`;
-								const nombre = `${genero.nombre}`;
+								// const id = `${genero.idGenero}`;
+								const nombre = `${genero}`;
 								return (
-									<option key={id} value={id}>
+									<option key="genero" value={nombre}>
 										{nombre}
 									</option>
 								);
