@@ -15,7 +15,7 @@ function Login() {
 	const [validationErrorMessage, setValidationErrorMessage] = useState('');
 
 	const [modalCrear, setModalCrear] = useState(false);
-	const [genero, setGeneros] = useState([]);
+	const [genero, setGeneros] = useState(['Seleccionar Genero']);
 
 	useEffect(() => {
 		retrieveGeneros();
@@ -30,7 +30,7 @@ function Login() {
 		fechaNac: '',
 		idRol: '2',
 		idSector: '2',
-		idSexo: '',
+		genero: '',
 		idVehiculo: '',
 		nombre: '',
 		password: '',
@@ -62,8 +62,8 @@ function Login() {
 	const retrieveGeneros = async () => {
 		await UserDataService.getAllGen()
 			.then((response) => {
-				console.log('Data: ', response.data.generos);
-				setGeneros([{ nombre: 'Seleccionar Genero' }].concat(response.data.generos));
+				console.log('Data: ', response.data);
+				setGeneros(['Seleccionar Genero'].concat(response.data));
 			})
 			.catch((e) => {
 				console.log(e);
@@ -156,12 +156,11 @@ function Login() {
 					<label>Fecha de Nacimiento</label>
 					<input className="form-control" type="date" maxLength="300" name="fechaNac" id="fechaNacField" onChange={handleChangeCreate} value={selectedUser.fechaNac} />
 					<label>Genero</label>
-					<select className="form-select" name="clase" id="claseField" onChange={handleChange} value={selectedUser.genero} aria-label="Default select example">
+					<select className="form-select" name="genero" id="generoField" onChange={handleChangeCreate} value={selectedUser.genero} aria-label="Default select example">
 						{genero.map((genero) => {
-							const id = `${genero._id}`;
-							const nombre = `${genero.nombre}`;
+							const nombre = `${genero}`;
 							return (
-								<option key={id} value={id}>
+								<option key={nombre} value={nombre}>
 									{nombre}
 								</option>
 							);

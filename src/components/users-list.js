@@ -18,8 +18,7 @@ const UsersList = () => {
 		fechaNac: '',
 		idRol: '',
 		idSector: '',
-		idSexo: '',
-		idVehiculo: '',
+		idGenero: '',
 		nombre: '',
 		password: '',
 		telefono: '',
@@ -81,6 +80,7 @@ const UsersList = () => {
 			.then((response) => {
 				console.log('Resultados: ', response.data);
 				setIdRoles(['All IdRoles'].concat(response.data));
+				console.log('roles: ' + idRols);
 			})
 			.catch((e) => {
 				console.log(e);
@@ -291,16 +291,6 @@ const UsersList = () => {
 								);
 							})}
 						</select>
-						<label>idVehiculo</label>
-						<input
-							className="form-control"
-							type="number"
-							maxLength="10"
-							name="idVehiculo"
-							id="idVehiculoField"
-							onChange={handleChange}
-							value={selectedUser.idVehiculo}
-						/>
 
 						<label>password</label>
 						<input className="form-control" type="password" maxLength="200" name="password" id="passwordField" onChange={handleChange} value={selectedUser.password} />
