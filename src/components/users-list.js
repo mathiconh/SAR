@@ -8,6 +8,7 @@ const cookies = new Cookies();
 
 const UsersList = () => {
 	const [users, setUsers] = useState([]);
+	const [genero, setGeneros] = useState([]);
 	const [selectedUser, setSelectedUser] = useState({
 		_id: '',
 		apellido: '',
@@ -35,6 +36,7 @@ const UsersList = () => {
 	useEffect(() => {
 		retrieveUsers();
 		retrieveIdRol();
+		retrieveGeneros();
 	}, []);
 
 	const onChangeSearchId = (e) => {
@@ -57,6 +59,17 @@ const UsersList = () => {
 			.then((response) => {
 				console.log(response.data);
 				setUsers(response.data.users);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	};
+
+	const retrieveGeneros = async () => {
+		await UserDataService.getAllGen()
+			.then((response) => {
+				console.log('Data: ', response.data.generos);
+				setGeneros([{ nombre: 'Seleccionar Genero' }].concat(response.data.generos));
 			})
 			.catch((e) => {
 				console.log(e);
@@ -252,6 +265,8 @@ const UsersList = () => {
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedUser._id} placeholder="Auto-Incremental ID" />
 						<label>apellido</label>
 						<input className="form-control" type="text" maxLength="50" name="apellido" id="apellidoField" onChange={handleChange} value={selectedUser.apellido} />
+						<label>nombre</label>
+						<input className="form-control" type="text" maxLength="300" name="nombre" id="nombreField" onChange={handleChange} value={selectedUser.nombre} />
 						<label>correoE</label>
 						<input className="form-control" type="text" maxLength="50" name="correoE" id="correoEField" onChange={handleChange} value={selectedUser.correoE} />
 						<label>direccion</label>
@@ -259,13 +274,23 @@ const UsersList = () => {
 						<label>dni</label>
 						<input className="form-control" type="number" maxLength="10" name="dni" id="dniField" onChange={handleChange} value={selectedUser.dni} />
 						<label>fechaNac</label>
-						<input className="form-control" type="text" maxLength="300" name="fechaNac" id="fechaNacField" onChange={handleChange} value={selectedUser.fechaNac} />
+						<input className="form-control" type="date" maxLength="300" name="fechaNac" id="fechaNacField" onChange={handleChange} value={selectedUser.fechaNac} />
 						<label>idRol</label>
 						<input className="form-control" type="text" maxLength="200" name="idRol" id="idRolField" onChange={handleChange} value={selectedUser.idRol} />
 						<label>idSector</label>
 						<input className="form-control" type="text" maxLength="50" name="idSector" id="idSectorField" onChange={handleChange} value={selectedUser.idSector} />
-						<label>idSexo</label>
-						<input className="form-control" type="text" maxLength="100" name="idSexo" id="idSexoField" onChange={handleChange} value={selectedUser.idSexo} />
+						<label>Genero</label>
+						<select className="form-select" name="clase" id="claseField" onChange={handleChange} value={selectedUser.genero} aria-label="Default select example">
+							{genero.map((genero) => {
+								const id = `${genero._id}`;
+								const nombre = `${genero.nombre}`;
+								return (
+									<option key={id} value={id}>
+										{nombre}
+									</option>
+								);
+							})}
+						</select>
 						<label>idVehiculo</label>
 						<input
 							className="form-control"
@@ -276,10 +301,9 @@ const UsersList = () => {
 							onChange={handleChange}
 							value={selectedUser.idVehiculo}
 						/>
-						<label>nombre</label>
-						<input className="form-control" type="text" maxLength="300" name="nombre" id="nombreField" onChange={handleChange} value={selectedUser.nombre} />
+
 						<label>password</label>
-						<input className="form-control" type="text" maxLength="200" name="password" id="passwordField" onChange={handleChange} value={selectedUser.password} />
+						<input className="form-control" type="password" maxLength="200" name="password" id="passwordField" onChange={handleChange} value={selectedUser.password} />
 						<label>telefono</label>
 						<input className="form-control" type="text" maxLength="50" name="telefono" id="telefonoField" onChange={handleChange} value={selectedUser.telefono} />
 					</ModalBody>

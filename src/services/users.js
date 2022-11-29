@@ -25,7 +25,7 @@ class UsersDataService {
 
 	async createUser({ nombre, apellido, direccion, correoE, dni, fechaNac, telefono, idRol, idSector, idSexo, idVehiculo, password }) {
 		let result;
-		result = this.validateUserPayload({ nombre, apellido, direccion, correoE, dni, fechaNac, telefono });
+		result = this.validateUserPayload({ nombre, apellido, direccion, correoE, dni, fechaNac, telefono, password });
 		if (!result.status) return result;
 
 		const passwordHash = await bcrypt.hash(password, 8);

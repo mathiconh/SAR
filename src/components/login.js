@@ -99,6 +99,7 @@ function Login() {
 			console.log('creación exitosa');
 			setValidationErrorMessage('');
 			setModalCrear(false);
+			logIn(selectedUser);
 		} else {
 			setValidationErrorMessage(result?.errorMessage);
 		}
@@ -130,6 +131,8 @@ function Login() {
 					<button className="btn btn-primary" onClick={() => logIn(user)}>
 						Iniciar Sesión
 					</button>
+					<br></br>
+					<br></br>
 					<button className="btn btn-primary" onClick={() => selectUser(selectedUser)}>
 						Registrarse
 					</button>
@@ -139,15 +142,18 @@ function Login() {
 
 			<Modal isOpen={modalCrear}>
 				<ModalBody>
-					<label>ID</label>
 					<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedUser._id} placeholder="Auto-Incremental ID" />
-					<label>apellido</label>
+					<label>Nombre</label>
+					<input className="form-control" type="text" maxLength="300" name="nombre" id="nombreField" onChange={handleChangeCreate} value={selectedUser.nombre} />
+					<label>Apellido</label>
 					<input className="form-control" type="text" maxLength="50" name="apellido" id="apellidoField" onChange={handleChangeCreate} value={selectedUser.apellido} />
-					<label>correoE</label>
+					<label>CorreoE</label>
+					<input className="form-control" type="text" maxLength="100" name="correoE" id="correoEField" onChange={handleChangeCreate} value={selectedUser.correoE} />
+					<label>Dirección</label>
 					<input className="form-control" type="text" maxLength="100" name="direccion" id="direccionField" onChange={handleChangeCreate} value={selectedUser.direccion} />
-					<label>dni</label>
+					<label>DNI</label>
 					<input className="form-control" type="number" maxLength="10" name="dni" id="dniField" onChange={handleChangeCreate} value={selectedUser.dni} />
-					<label>fechaNac</label>
+					<label>Fecha de Nacimiento</label>
 					<input className="form-control" type="date" maxLength="300" name="fechaNac" id="fechaNacField" onChange={handleChangeCreate} value={selectedUser.fechaNac} />
 					<label>Genero</label>
 					<select className="form-select" name="clase" id="claseField" onChange={handleChange} value={selectedUser.genero} aria-label="Default select example">
@@ -161,9 +167,7 @@ function Login() {
 							);
 						})}
 					</select>
-					<label>nombre</label>
-					<input className="form-control" type="text" maxLength="300" name="nombre" id="nombreField" onChange={handleChangeCreate} value={selectedUser.nombre} />
-					<label>password</label>
+					<label>Password</label>
 					<input
 						className="form-control"
 						type="password"
@@ -173,8 +177,8 @@ function Login() {
 						onChange={handleChangeCreate}
 						value={selectedUser.password}
 					/>
-					<label>telefono</label>
-					<input className="form-control" type="text" maxLength="50" name="telefono" id="telefonoField" onChange={handleChangeCreate} value={selectedUser.telefono} />
+					<label>Telefono</label>
+					<input className="form-control" type="number" maxLength="50" name="telefono" id="telefonoField" onChange={handleChangeCreate} value={selectedUser.telefono} />
 				</ModalBody>
 				<ModalFooter>
 					{buildErrorMessage()}
