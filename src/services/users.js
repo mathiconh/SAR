@@ -8,8 +8,8 @@ class UsersDataService {
 		return http.get(`users?page=${page}`);
 	}
 
-	getAllGen() {
-		return http.get(`/generos`);
+	getAllGen(page = 0) {
+		return http.get(`/generos?page=${page}`);
 	}
 
 	get(id) {
@@ -23,7 +23,7 @@ class UsersDataService {
 		return result;
 	}
 
-	async createUser({ nombre, apellido, direccion, correoE, dni, fechaNac, telefono, idRol, idSector, genero, password }) {
+	async createUser({ nombre, apellido, direccion, correoE, dni, fechaNac, telefono, idRol, idSector, idGenero, password }) {
 		let result;
 		result = this.validateUserPayload({ nombre, apellido, direccion, correoE, dni, fechaNac, telefono, password });
 		if (!result.status) return result;
@@ -31,7 +31,7 @@ class UsersDataService {
 		const passwordHash = await bcrypt.hash(password, 8);
 
 		result = await http.post(
-			`/createUser?nombre=${nombre}&apellido=${apellido}&direccion=${direccion}&correoE=${correoE}&dni=${dni}&fechaNac=${fechaNac}&telefono=${telefono}&idRol=${idRol}&idSector=${idSector}&genero=${genero}&password=${passwordHash}`
+			`/createUser?nombre=${nombre}&apellido=${apellido}&direccion=${direccion}&correoE=${correoE}&dni=${dni}&fechaNac=${fechaNac}&telefono=${telefono}&idRol=${idRol}&idSector=${idSector}&idGenero=${idGenero}&password=${passwordHash}`
 		);
 		console.log('Result: ', result);
 		return result;

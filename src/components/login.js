@@ -30,7 +30,7 @@ function Login() {
 		fechaNac: '',
 		idRol: '2',
 		idSector: '2',
-		genero: '',
+		idGenero: '',
 		idVehiculo: '',
 		nombre: '',
 		password: '',
@@ -63,7 +63,7 @@ function Login() {
 		await UserDataService.getAllGen()
 			.then((response) => {
 				console.log('Data: ', response.data);
-				setGeneros(['Seleccionar Genero'].concat(response.data));
+				setGeneros([{ nombre: 'Seleccionar Genero' }].concat(response.data.generos));
 			})
 			.catch((e) => {
 				console.log(e);
@@ -156,11 +156,19 @@ function Login() {
 					<label>Fecha de Nacimiento</label>
 					<input className="form-control" type="date" maxLength="300" name="fechaNac" id="fechaNacField" onChange={handleChangeCreate} value={selectedUser.fechaNac} />
 					<label>Genero</label>
-					<select className="form-select" name="genero" id="generoField" onChange={handleChangeCreate} value={selectedUser.genero} aria-label="Default select example">
+					<select
+						className="form-select"
+						name="idGenero"
+						id="idGeneroField"
+						onChange={handleChangeCreate}
+						value={selectedUser.idGenero}
+						aria-label="Default select example"
+					>
 						{genero.map((genero) => {
-							const nombre = `${genero}`;
+							const id = `${genero.idGenero}`;
+							const nombre = `${genero.nombre}`;
 							return (
-								<option key={nombre} value={nombre}>
+								<option key={id} value={id}>
 									{nombre}
 								</option>
 							);
