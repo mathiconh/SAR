@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-key */
 import React, { useState, useEffect } from 'react';
 import InscripcionDataService from '../services/inscripcion';
+import UserDataService from '../services/users';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, ModalBody, ModalFooter, Alert } from 'reactstrap';
 import Cookies from 'universal-cookie';
@@ -9,6 +10,8 @@ import QRcode from 'qrcode';
 
 const InscripcionesList = () => {
 	const [inscripciones, setinscripciones] = useState([]);
+	const [users, setUsers] = useState([]);
+	const [searchName, setSearchName] = useState('');
 	const [entriesPerPage, setEntriesPerPage] = useState([]);
 	const [totalResults, setTotalResults] = useState([]);
 	const [searchParam, setSearchParam] = useState('_id');
@@ -19,7 +22,6 @@ const InscripcionesList = () => {
 		carreraId: '',
 		claseId: '',
 		idUsuario: '',
-		pagarMP: 'off',
 		vehiculoId: '',
 		fechaSprint: '',
 		matcheado: 'no',
@@ -45,6 +47,11 @@ const InscripcionesList = () => {
 		setSearchValue(searchValue);
 	};
 
+	const onChangeSearchName = (e) => {
+		const searchName = e.target.value;
+		setSearchName(searchName);
+	};
+
 	const selectInscripcion = (action, inscripcion = {}) => {
 		console.log('Selected: ', inscripcion);
 		setSelectedInscripcion(inscripcion);
@@ -57,6 +64,23 @@ const InscripcionesList = () => {
 
 	const findByParamRegularUser = () => {
 		findRegularUser(searchValue, searchParam);
+	};
+
+	const findByName = () => {
+		findUser(searchName, 'nombre');
+		// TODO: finish
+		// retrieveCars();
+	};
+
+	const findUser = async (query, by) => {
+		await UserDataService.find(query, by)
+			.then((response) => {
+				console.log(response.data);
+				setUsers(response.data.users);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
 	};
 
 	const retrieveInscripciones = async () => {
@@ -191,7 +215,6 @@ const InscripcionesList = () => {
 				inscripcion.carreraId = selectedInscripcion.carreraId;
 				inscripcion.claseId = selectedInscripcion.claseId;
 				inscripcion.idUsuario = selectedInscripcion.idUsuario;
-				inscripcion.pagarMP = selectedInscripcion.pagarMP;
 				inscripcion.vehiculoId = selectedInscripcion.vehiculoId;
 				inscripcion.fechaSprint = selectedInscripcion.fechaSprint;
 				inscripcion.matcheado = selectedInscripcion.matcheado;
@@ -272,7 +295,6 @@ const InscripcionesList = () => {
 										<th>carreraId</th>
 										<th>claseId</th>
 										<th>idUsuario</th>
-										<th>pagarMP</th>
 										<th>vehiculoId</th>
 										<th>precio</th>
 										<th>fechaSprint</th>
@@ -286,7 +308,6 @@ const InscripcionesList = () => {
 										const carreraId = `${inscripcion.carreraId}`;
 										const claseId = `${inscripcion.claseId}`;
 										const idUsuario = `${inscripcion.idUsuario}`;
-										const pagarMP = `${inscripcion.pagarMP}`;
 										const vehiculoId = `${inscripcion.vehiculoId}`;
 										const precio = `${inscripcion.precio}`;
 										const fechaSprint = `${inscripcion.fechaSprint}`;
@@ -298,7 +319,6 @@ const InscripcionesList = () => {
 												<th>{carreraId}</th>
 												<th>{claseId}</th>
 												<th>{idUsuario}</th>
-												<th>{pagarMP}</th>
 												<th>{vehiculoId}</th>
 												<th>{precio}</th>
 												<th>{fechaSprint}</th>
@@ -354,7 +374,7 @@ const InscripcionesList = () => {
 						/>
 						<label>claseId</label>
 						<input className="form-control" type="text" maxLength="100" name="claseId" id="claseIdField" onChange={handleChange} value={selectedInscripcion.claseId} />
-						<label>idUsuario</label>
+						{/* <label>idUsuario</label>
 						<input
 							className="form-control"
 							type="text"
@@ -363,9 +383,30 @@ const InscripcionesList = () => {
 							id="idUsuarioField"
 							onChange={handleChange}
 							value={selectedInscripcion.idUsuario}
-						/>
-						<label>pagarMP</label>
-						<input className="form-control" type="text" maxLength="100" name="pagarMP" id="pagarMPField" onChange={handleChange} value={selectedInscripcion.pagarMP} />
+						/> */}
+						<label>Buscador de Usuarios</label>
+						<input type="text" className="form-control" placeholder="Search by name" value={searchName} onChange={onChangeSearchName} />
+						<div className="input-group-append">
+							<button className="btn btn-outline-secondary" type="button" onClick={findByName}>
+								Search
+							</button>
+						</div>
+						<label>ID Usuario</label>
+						<select
+							className="form-select"
+							name="idUsuario"
+							id="idUsuarioField"
+							onChange={handleChange}
+							value={selectedInscripcion.idUsuario}
+							aria-label="Default select example"
+						>
+							{users.map((user) => {
+								const id = `${user._id}`;
+								const nombre = `${user.nombre}`;
+								const apellido = `${user.apellido}`;
+								return <option value={id}>{`${nombre} ${apellido} | ID: ${id}`}</option>;
+							})}
+						</select>
 						<label>vehiculoId</label>
 						<input
 							className="form-control"
@@ -455,7 +496,6 @@ const InscripcionesList = () => {
 										<th>carreraId</th>
 										<th>claseId</th>
 										<th>idUsuario</th>
-										<th>pagarMP</th>
 										<th>vehiculoId</th>
 										<th>precio</th>
 										<th>fechaSprint</th>
@@ -469,7 +509,6 @@ const InscripcionesList = () => {
 										const carreraId = `${inscripcion.carreraId}`;
 										const claseId = `${inscripcion.claseId}`;
 										const idUsuario = `${inscripcion.idUsuario}`;
-										const pagarMP = `${inscripcion.pagarMP}`;
 										const vehiculoId = `${inscripcion.vehiculoId}`;
 										const precio = `${inscripcion.precio}`;
 										const fechaSprint = `${inscripcion.fechaSprint}`;
@@ -481,7 +520,6 @@ const InscripcionesList = () => {
 												<th>{carreraId}</th>
 												<th>{claseId}</th>
 												<th>{idUsuario}</th>
-												<th>{pagarMP}</th>
 												<th>{vehiculoId}</th>
 												<th>{precio}</th>
 												<th>{fechaSprint}</th>
@@ -509,7 +547,7 @@ const InscripcionesList = () => {
 				<Modal isOpen={modalCodigoQR}>
 					<ModalBody>
 						<p className="h1 text-center">Codigo de Inscripcion</p>
-						<label>Con el siguiente codigo QR, usted podra ingresar al predio por la entrada preferencial:</label>
+						<label>Con el siguiente codigo QR, usted podra ingresar al predio por la entrada preferencial y abonar en efectivo:</label>
 						{qrcode && (
 							<>
 								<img src={qrcode} />

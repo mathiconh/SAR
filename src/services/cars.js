@@ -29,6 +29,7 @@ class CarsDataService {
 		let idUsuarioDuenio = cookies.get('_id');
 
 		result = validatePayload({ patente, modelo, anio });
+		result = this.validarVehiculo(anio);
 		if (!result.status) return result;
 
 		result = await http.post(
@@ -48,6 +49,7 @@ class CarsDataService {
 		let idUsuarioModif = cookies.get('_id');
 
 		result = validatePayload({ idUsuarioDuenio, patente, modelo, anio });
+		result = this.validarVehiculo(anio);
 		if (!result.status) return result;
 
 		result = await http.put(
@@ -55,6 +57,20 @@ class CarsDataService {
 		);
 		console.log('Result: ', result);
 		return result;
+	}
+
+	validarVehiculo(anio) {
+		const resultValidaciones = {
+			status: true,
+		};
+
+		const anioActual = new Date().getFullYear();
+		if (anio < 1900 || anio > anioActual) {
+			resultValidaciones.status = false;
+			resultValidaciones.errorMessage = 'El año no puede ser mayor al actual ni menor a 1900';
+		}
+
+		return resultValidaciones;
 	}
 
 	//-------------------------------------------------------------verificación técnica---------------------------------------------

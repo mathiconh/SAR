@@ -14,7 +14,6 @@ const CarsList = () => {
 		claseId: '',
 		idUsuario: cookies.get('_id'),
 		vehiculoSeleccionado: '',
-		pagarMP: 'off',
 		fechaSprint: '',
 	};
 
@@ -55,14 +54,14 @@ const CarsList = () => {
 		document.getElementById('tiempoClaseData').value = eventoData.tiempoClase;
 	};
 
-	function onChangeValue(event) {
-		// console.log(`Name: ${event.target.name} Value: ${event.target.value}`);
-		const { name, value } = event.target;
-		setInscripcion((prevState) => ({
-			...prevState,
-			[name]: value,
-		}));
-	}
+	// function onChangeValue(event) {
+	// 	// console.log(`Name: ${event.target.name} Value: ${event.target.value}`);
+	// 	const { name, value } = event.target;
+	// 	setInscripcion((prevState) => ({
+	// 		...prevState,
+	// 		[name]: value,
+	// 	}));
+	// }
 
 	function onChangeValueCompetidor() {
 		setInscribirOtroCompetidor((prevState) => !prevState);
@@ -388,11 +387,6 @@ const CarsList = () => {
 									Precio de la inscripcion: {eventoSeleccionada.precio}
 								</label>
 								<br></br>
-								<div onChange={onChangeValue}>
-									<input className="radio-class" type="radio" value="off" name="pagarMP" defaultChecked /> Abonar con efectivo al ingresar al predio
-									<br></br>
-									<input className="radio-class" type="radio" value="on" name="pagarMP" /> Abonar con MercadoPago
-								</div>
 							</div>
 							<hr className="rounded"></hr>
 							<button className="btn btn-primary col-md-3" onClick={enviarInscripcion}>
@@ -404,7 +398,7 @@ const CarsList = () => {
 				<Modal isOpen={modalCodigoQR}>
 					<ModalBody>
 						<p className="h1 text-center">Gracias por inscribirse</p>
-						<label>Con el siguiente codigo QR, usted podra ingresar al predio por la entrada preferencial:</label>
+						<label>Con el siguiente codigo QR, usted podra ingresar al predio por la entrada preferencial y abonar en efectivo:</label>
 						{qrcode && (
 							<>
 								<img src={qrcode} />

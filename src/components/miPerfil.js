@@ -322,7 +322,7 @@ const MiPerfil = (props) => {
 			console.log('creación exitosa');
 			setValidationErrorMessage('');
 			setModalEditarAuto(false);
-			getAutos();
+			getAutos(props.match.params._id);
 		} else {
 			setValidationErrorMessage(result?.errorMessage);
 		}
@@ -510,7 +510,6 @@ const MiPerfil = (props) => {
 											<thead>
 												<tr>
 													<th>Fecha</th>
-													<th>Campeonato</th>
 													<th>Usuario 1</th>
 													<th>Vehiculo 1</th>
 													<th>Reacción</th>
@@ -528,10 +527,7 @@ const MiPerfil = (props) => {
 											</thead>
 											<tbody>
 												{carreras.map((selectedCarrera) => {
-													// TODO: valor del _id ? esta ok ? deberia ser uno nuevo ? revisar
-													// const _id = `${selectedCarrera.idUsuarioP1}`;
 													const fecha = `${selectedCarrera.fecha}`;
-													const idCampeonato = `${selectedCarrera.idCampeonato}`;
 													const idUsuarioP1 = `${selectedCarrera.idUsuarioP1}`;
 													const idUsuarioP2 = `${selectedCarrera.idUsuarioP2}`;
 													const idVehiculoP1 = `${selectedCarrera.idVehiculoP1}`;
@@ -547,7 +543,6 @@ const MiPerfil = (props) => {
 													return (
 														<tr>
 															<td>{fecha}</td>
-															<td>{idCampeonato}</td>
 															<td>{idUsuarioP1}</td>
 															<td>{idVehiculoP1}</td>
 															<td>{reaccionP1}</td>
@@ -640,7 +635,7 @@ const MiPerfil = (props) => {
 							value={selectedCar.tallerAsociado}
 						/>
 						<label>ID Verificación Técnica</label>
-						<input className="form-control" type="text" maxLength="50" name="tallerAsociado" id="workshopField" onChange={handleChangeAuto} value={selectedCar.idVt} />
+						<input className="form-control" type="text" maxLength="50" name="idVt" id="idVtField" onChange={handleChangeAuto} value={selectedCar.idVt} />
 					</ModalBody>
 					<ModalFooter>
 						{buildErrorMessage()}

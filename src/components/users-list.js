@@ -280,7 +280,6 @@ const UsersList = () => {
 						<label>idSector</label>
 						<input className="form-control" type="text" maxLength="50" name="idSector" id="idSectorField" onChange={handleChange} value={selectedUser.idSector} />
 						<label>Genero</label>
-						{/* <input className="form-control" type="text" maxLength="50" name="idSector" id="idSectorField" onChange={handleChange} value={selectedUser.idSector} /> */}
 						<select
 							className="form-select"
 							name="idGenero"

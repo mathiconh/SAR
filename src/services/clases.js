@@ -15,11 +15,12 @@ class ClasesDataService {
 		return await http.get(`/clases?id=${id}`);
 	}
 
-	async createClase({ idClase, nombre, tiempo }) {
+	async createClase({ idClase, nombre, tiempo }, allClases) {
 		let result;
 		let idUsuarioModif = cookies.get('_id');
 
 		result = validatePayload({ idClase, nombre, tiempo });
+		result = this.validarClase(idClase, tiempo, allClases);
 		if (!result.status) return result;
 
 		result = await http.post(`/createClase?idClase=${idClase}&nombre=${nombre}&tiempo=${tiempo}&idUsuarioModif=${idUsuarioModif}`);
@@ -31,11 +32,12 @@ class ClasesDataService {
 		return await http.delete(`/deleteClase?_id=${id}`);
 	}
 
-	async editClase({ _id, idClase, nombre, tiempo }) {
+	async editClase({ _id, idClase, nombre, tiempo }, allClases) {
 		let result;
 		let idUsuarioModif = cookies.get('_id');
 
 		result = validatePayload({ idClase, nombre, tiempo });
+		result = this.validarClase(idClase, tiempo, allClases);
 		if (!result.status) return result;
 
 		result = await http.put(`/editClase?_id=${_id}&idClase=${idClase}&nombre=${nombre}&tiempo=${tiempo}&idUsuarioModif=${idUsuarioModif}`);
@@ -43,12 +45,12 @@ class ClasesDataService {
 		return result;
 	}
 
-	validarEvento(idClase, tiempo, allClases) {
+	validarClase(idClase, tiempo, allClases) {
 		const resultValidaciones = {
 			status: true,
 		};
 
-		if (parseInt(tiempo) === '0') {
+		if (parseInt(tiempo) === 0 || !tiempo || tiempo === '') {
 			resultValidaciones.status = false;
 			resultValidaciones.errorMessage = 'Debe configurar un tiempo mayor a 0';
 		}

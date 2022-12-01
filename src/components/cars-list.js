@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-key */
 import React, { useState, useEffect } from 'react';
 import CarsDataService from '../services/cars';
+import UserDataService from '../services/users';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, ModalBody, ModalFooter, Alert } from 'reactstrap';
 import Cookies from 'universal-cookie';
@@ -8,6 +9,8 @@ const cookies = new Cookies();
 
 const CarsList = () => {
 	const [cars, setCars] = useState([]);
+	const [users, setUsers] = useState([]);
+	const [searchName, setSearchName] = useState('');
 	const [entriesPerPage, setEntriesPerPage] = useState([]);
 	const [totalResults, setTotalResults] = useState([]);
 	const [searchParam, setSearchParam] = useState('_id');
@@ -42,6 +45,11 @@ const CarsList = () => {
 		setSearchValue(searchValue);
 	};
 
+	const onChangeSearchName = (e) => {
+		const searchName = e.target.value;
+		setSearchName(searchName);
+	};
+
 	const selectCar = (action, car = {}) => {
 		console.log('Selected: ', car);
 		setSelectedCar(car);
@@ -50,6 +58,22 @@ const CarsList = () => {
 
 	const findByParam = () => {
 		find(searchValue, searchParam);
+	};
+
+	const findByName = () => {
+		findUser(searchName, 'nombre');
+		retrieveCars();
+	};
+
+	const findUser = async (query, by) => {
+		await UserDataService.find(query, by)
+			.then((response) => {
+				console.log(response.data);
+				setUsers(response.data.users);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
 	};
 
 	const retrieveCars = async () => {
@@ -278,7 +302,7 @@ const CarsList = () => {
 					<ModalBody>
 						<label>ID</label>
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedCar._id} placeholder="Auto-Incremental ID" />
-						<label>ID Usuario Dueño</label>
+						{/* <label>ID Usuario Dueño</label>
 						<input
 							className="form-control"
 							type="text"
@@ -287,7 +311,30 @@ const CarsList = () => {
 							id="idUsuarioDuenioField"
 							onChange={handleChange}
 							value={selectedCar.idUsuarioDuenio}
-						/>
+						/> */}
+						<label>Buscador de Usuarios</label>
+						<input type="text" className="form-control" placeholder="Search by name" value={searchName} onChange={onChangeSearchName} />
+						<div className="input-group-append">
+							<button className="btn btn-outline-secondary" type="button" onClick={findByName}>
+								Search
+							</button>
+						</div>
+						<label>ID Usuario Dueño</label>
+						<select
+							className="form-select"
+							name="idUsuarioDuenio"
+							id="idUsuarioDuenioField"
+							onChange={handleChange}
+							value={selectedCar.idUsuarioDuenio}
+							aria-label="Default select example"
+						>
+							{users.map((user) => {
+								const id = `${user._id}`;
+								const nombre = `${user.nombre}`;
+								const apellido = `${user.apellido}`;
+								return <option value={id}>{`${nombre} ${apellido} | ID: ${id}`}</option>;
+							})}
+						</select>
 						<label>Patente</label>
 						<input className="form-control" type="text" maxLength="50" name="patente" id="patenteField" onChange={handleChange} value={selectedCar.patente} />
 						<label>Modelo</label>
