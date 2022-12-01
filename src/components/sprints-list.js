@@ -10,7 +10,11 @@ const cookies = new Cookies();
 
 const SprintsList = () => {
 	const [sprints, setSprints] = useState([]);
-	const [users, setUsers] = useState([]);
+	const [usersP1, setUsersP1] = useState([]);
+	const [carsP1, setCarsP1] = useState([]);
+	const [usersP2, setUsersP2] = useState([]);
+	const [searchNameP1, setSearchNameP1] = useState('');
+	const [searchNameP2, setSearchNameP2] = useState('');
 	const [clases, setClases] = useState([]);
 	const [entriesPerPage, setEntriesPerPage] = useState([]);
 	const [totalResults, setTotalResults] = useState([]);
@@ -41,14 +45,38 @@ const SprintsList = () => {
 	useEffect(() => {
 		retrieveSprints();
 		retrieveClases();
-		retrieveUsers();
+		retrieveUsersP1();
+		retrieveUsersP2();
 	}, []);
 
-	const retrieveUsers = () => {
+	const retrieveUsersP1 = () => {
 		UserDataService.getAll()
 			.then((response) => {
 				console.log(response.data);
-				setUsers([{ nombre: 'Seleccionar Usuario' }].concat(response.data.users));
+				setUsersP1([{ nombre: 'Seleccionar Usuario' }].concat(response.data.users));
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	};
+
+	const retrieveCarsP1 = () => {
+		console.log('usersP1 tiene: ', usersP1[1]._id);
+		UserDataService.findCar(usersP1[1]._id)
+			.then((response) => {
+				console.log('Autos tiene', response.data);
+				setCarsP1([{ modelo: 'Seleccionar Auto' }].concat(response.data.cars));
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	};
+
+	const retrieveUsersP2 = () => {
+		UserDataService.getAll()
+			.then((response) => {
+				console.log(response.data);
+				setUsersP2([{ nombre: 'Seleccionar Usuario' }].concat(response.data.users));
 			})
 			.catch((e) => {
 				console.log(e);
@@ -64,6 +92,25 @@ const SprintsList = () => {
 			.catch((e) => {
 				console.log(e);
 			});
+	};
+
+	const onChangeSearchNameP1 = (e) => {
+		const searchName = e.target.value;
+		setSearchNameP1(searchName);
+	};
+
+	const onChangeSearchNameP2 = (e) => {
+		const searchName = e.target.value;
+		setSearchNameP2(searchName);
+	};
+
+	const findByNameP1 = () => {
+		findUserP1(searchNameP1, 'nombre');
+		retrieveCarsP1();
+	};
+
+	const findByNameP2 = () => {
+		findUserP2(searchNameP2, 'nombre');
 	};
 
 	const onChangeSearchParam = (e) => {
@@ -112,6 +159,28 @@ const SprintsList = () => {
 
 	const refreshList = () => {
 		retrieveSprints();
+	};
+
+	const findUserP1 = async (query, by) => {
+		await UserDataService.find(query, by)
+			.then((response) => {
+				console.log(response.data);
+				setUsersP1(response.data.users);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	};
+
+	const findUserP2 = async (query, by) => {
+		await UserDataService.find(query, by)
+			.then((response) => {
+				console.log(response.data);
+				setUsersP2(response.data.users);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
 	};
 
 	const find = async (query, by) => {
@@ -342,6 +411,13 @@ const SprintsList = () => {
 								return <option value={id}>{nombre}</option>;
 							})}
 						</select>
+						<label>Buscador UsuarioP1</label>
+						<input type="text" className="form-control" placeholder="Search by name" value={searchNameP1} onChange={onChangeSearchNameP1} />
+						<div className="input-group-append">
+							<button className="btn btn-outline-secondary" type="button" onClick={findByNameP1}>
+								Search
+							</button>
+						</div>
 						<label>ID UsuarioP1</label>
 						<select
 							className="form-select"
@@ -351,22 +427,44 @@ const SprintsList = () => {
 							value={selectedSprint.idUsuarioP1}
 							aria-label="Default select example"
 						>
-							{users.map((user) => {
-								const id = `${user._id}`;
-								const nombre = `${user.nombre}`;
+							{usersP1.map((user1) => {
+								const id = `${user1._id}`;
+								const nombre = `${user1.nombre}`;
 								return <option value={id}>{nombre}</option>;
 							})}
 						</select>
 						<label>ID VehiculoP1</label>
-						<input
+						<select
+							className="form-select"
+							name="idVehiculoP1"
+							id="idVehiculoP1Field"
+							onChange={handleChange}
+							value={selectedSprint.idVehiculoP1}
+							aria-label="Default select example"
+						>
+							{carsP1.map((car) => {
+								const id = `${car._id}`;
+								const modelo = `${car.modelo}`;
+								return <option value={id}>{modelo}</option>;
+							})}
+						</select>
+						<br></br>
+						{/* <input
 							className="form-control"
 							type="text"
 							maxLength="50"
 							name="idVehiculoP1"
-							id="workshopField"
+							id="idVehiculoP1"
 							onChange={handleChange}
 							value={selectedSprint.idVehiculoP1}
-						/>
+						/> */}
+						<label>Buscador UsuarioP2</label>
+						<input type="text" className="form-control" placeholder="Search by name" value={searchNameP2} onChange={onChangeSearchNameP2} />
+						<div className="input-group-append">
+							<button className="btn btn-outline-secondary" type="button" onClick={findByNameP2}>
+								Search
+							</button>
+						</div>
 						<label>ID UsuarioP2</label>
 						<select
 							className="form-select"
@@ -376,9 +474,9 @@ const SprintsList = () => {
 							value={selectedSprint.idUsuarioP2}
 							aria-label="Default select example"
 						>
-							{users.map((user) => {
-								const id = `${user._id}`;
-								const nombre = `${user.nombre}`;
+							{usersP2.map((user2) => {
+								const id = `${user2._id}`;
+								const nombre = `${user2.nombre}`;
 								return <option value={id}>{nombre}</option>;
 							})}
 						</select>

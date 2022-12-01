@@ -68,7 +68,7 @@ const UsersList = () => {
 		await UserDataService.getAllGen()
 			.then((response) => {
 				console.log('Data: ', response.data);
-				setGeneros(response.data);
+				setGeneros([{ nombre: 'Seleccionar Genero' }].concat(response.data.generos));
 			})
 			.catch((e) => {
 				console.log(e);
@@ -281,12 +281,19 @@ const UsersList = () => {
 						<input className="form-control" type="text" maxLength="50" name="idSector" id="idSectorField" onChange={handleChange} value={selectedUser.idSector} />
 						<label>Genero</label>
 						{/* <input className="form-control" type="text" maxLength="50" name="idSector" id="idSectorField" onChange={handleChange} value={selectedUser.idSector} /> */}
-						<select className="form-select" name="clase" id="claseField" onChange={handleChange} value={selectedUser.genero} aria-label="Default select example">
+						<select
+							className="form-select"
+							name="idGenero"
+							id="idGeneroField"
+							onChange={handleChange}
+							value={selectedUser.idGenero}
+							aria-label="Default select example"
+						>
 							{genero.map((genero) => {
-								// const id = `${genero.idGenero}`;
-								const nombre = `${genero}`;
+								const id = `${genero.idGenero}`;
+								const nombre = `${genero.nombre}`;
 								return (
-									<option key="genero" value={nombre}>
+									<option key={id} value={id}>
 										{nombre}
 									</option>
 								);
