@@ -1,6 +1,8 @@
 import http from '../http-common';
 import Cookies from 'universal-cookie';
 import bcrypt from 'bcryptjs';
+import { validateUserPayload, validateUserDate } from '../utils/utils';
+
 const cookies = new Cookies();
 
 class UsersDataService {
@@ -53,7 +55,8 @@ class UsersDataService {
 		let result = { status: false };
 		let idUsuarioModif = cookies.get('_id');
 
-		result = this.validateUserPayload({ nombre, apellido, direccion, correoE, dni, fechaNac, telefono, profilePic });
+		result = validateUserPayload({ nombre, apellido, direccion, correoE, dni, fechaNac, telefono, profilePic });
+		result = validateUserDate(fechaNac);
 		if (!result.status) return result;
 
 		result = await http.put(
@@ -65,34 +68,6 @@ class UsersDataService {
 
 	getIdRol() {
 		return http.get(`/usersIdRoles`);
-	}
-
-	validateUserPayload(payload) {
-		let validationResult = {
-			status: true,
-		};
-		const errorProperties = [];
-
-		Object.keys(payload).forEach((property) => {
-			console.log(`Evaluating ${property} value ${payload[property]}`);
-
-			if (payload[property] === undefined || !payload[property]) {
-				errorProperties.push(property);
-			}
-		});
-
-		if (errorProperties.length) {
-			validationResult.status = false;
-			validationResult.errorMessage =
-				errorProperties.length > 1
-					? `Las siguientes propiedades no pueden estar vacias: ${errorProperties}.`
-					: `La siguiente propiedad no puede estar vacia: ${errorProperties}.`;
-
-			console.log('', validationResult.errorMessage);
-			return validationResult;
-		}
-
-		return validationResult;
 	}
 }
 

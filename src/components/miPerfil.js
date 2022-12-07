@@ -42,6 +42,7 @@ const MiPerfil = (props) => {
 		correoE: '',
 		dni: '',
 		telefono: '',
+		fechaNac: '',
 		profilePic: '',
 		idRol: '',
 	};
@@ -86,6 +87,7 @@ const MiPerfil = (props) => {
 
 	useEffect(() => {
 		getPerfilById(props.match.params._id);
+		retrieveUser(props.match.params._id);
 		getAutos(props.match.params._id);
 	}, [props.match.params._id]);
 
@@ -105,6 +107,17 @@ const MiPerfil = (props) => {
 
 				setUserFechaNac(`${fechaNacDay}/${fechaNacMonth}/${fechaNacYear}`);
 
+				setPerfil(response.data.users[0]);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	};
+
+	const retrieveUser = async (_id) => {
+		await UsersDataService.get(_id)
+			.then((response) => {
+				console.log('Data: ', response.data);
 				setPerfil(response.data.users[0]);
 			})
 			.catch((e) => {
@@ -317,6 +330,7 @@ const MiPerfil = (props) => {
 	};
 
 	const crearAuto = async (selectedCar) => {
+		selectedCar.idUsuarioDuenio = props.match.params._id;
 		const result = await CarsDataService.createCar(selectedCar);
 		if (result?.status) {
 			console.log('creación exitosa');
@@ -399,7 +413,7 @@ const MiPerfil = (props) => {
 													<span className="display-26 text-secondary me-2 font-weight-600">DNI:</span> {perfil.dni}
 												</li>
 												<li className="display-28">
-													<span className="display-26 text-secondary me-2 font-weight-600">Fecha de nacimiento:</span> {userFechaNac}
+													<span className="display-26 text-secondary me-2 font-weight-600">Fecha de nacimiento:</span> {perfil.fechaNac}
 												</li>
 												<li>
 													<button className="btn btn-primary" onClick={() => editData('Editar', perfil)}>
@@ -730,7 +744,7 @@ const MiPerfil = (props) => {
 						<label>Telefono</label>
 						<input className="form-control" type="number" maxLength="100" name="telefono" id="telefonoField" onChange={handleChange} value={perfil.telefono} />
 						<label>Email</label>
-						<input className="form-control" type="text" maxLength="10" name="email" id="emailField" onChange={handleChange} value={perfil.correoE} />
+						<input className="form-control" type="text" maxLength="50" name="correoE" id="correoEField" onChange={handleChange} value={perfil.correoE} />
 						<label>DNI</label>
 						<input className="form-control" type="number" maxLength="300" name="dni" id="dniField" onChange={handleChange} value={perfil.dni} />
 						<label>Fecha de nacimiento</label>

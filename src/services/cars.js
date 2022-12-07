@@ -22,11 +22,10 @@ class CarsDataService {
 		return result;
 	}
 
-	async createCar({ patente, modelo, anio, agregados = '', historia = '', tallerAsociado = '' }) {
+	async createCar({ patente, modelo, anio, agregados = '', historia = '', tallerAsociado = '', idUsuarioDuenio }) {
 		console.log('About to create car: ', patente, modelo, anio, agregados, historia, tallerAsociado);
 		let result;
 		let idUsuarioModif = cookies.get('_id');
-		let idUsuarioDuenio = cookies.get('_id');
 
 		result = validatePayload({ patente, modelo, anio });
 		result = this.validarVehiculo(anio);

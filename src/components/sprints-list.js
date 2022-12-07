@@ -52,7 +52,7 @@ const SprintsList = () => {
 	const retrieveUsersP1 = () => {
 		UserDataService.getAll()
 			.then((response) => {
-				console.log(response.data);
+				console.log('le va:', response.data);
 				setUsersP1([{ nombre: 'Seleccionar Usuario' }].concat(response.data.users));
 			})
 			.catch((e) => {
@@ -60,8 +60,8 @@ const SprintsList = () => {
 			});
 	};
 
-	const retrieveCarsP1 = () => {
-		console.log('usersP1 tiene: ', usersP1[1]._id);
+	const retrieveCarsP1 = (userP1) => {
+		console.log('userP1 tiene: ', userP1);
 		UserDataService.findCar(usersP1[1]._id)
 			.then((response) => {
 				console.log('Autos tiene', response.data);
@@ -75,7 +75,7 @@ const SprintsList = () => {
 	const retrieveUsersP2 = () => {
 		UserDataService.getAll()
 			.then((response) => {
-				console.log(response.data);
+				console.log('Data: ', response.data);
 				setUsersP2([{ nombre: 'Seleccionar Usuario' }].concat(response.data.users));
 			})
 			.catch((e) => {
@@ -104,9 +104,9 @@ const SprintsList = () => {
 		setSearchNameP2(searchName);
 	};
 
-	const findByNameP1 = () => {
-		findUserP1(searchNameP1, 'nombre');
-		retrieveCarsP1();
+	const findByNameP1 = async () => {
+		const userP1 = await findUserP1(searchNameP1, 'nombre');
+		retrieveCarsP1(userP1);
 	};
 
 	const findByNameP2 = () => {

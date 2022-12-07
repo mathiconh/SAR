@@ -26,6 +26,48 @@ export function validatePayload(payload) {
 	return validationResult;
 }
 
+export function validateUserDate(fechaNac) {
+	const resultValidaciones = {
+		status: true,
+	};
+
+	const anioActual = new Date().getFullYear();
+	if (fechaNac < 1700 || fechaNac > anioActual) {
+		resultValidaciones.status = false;
+		resultValidaciones.errorMessage = 'El año no puede ser mayor al actual ni menor a 1700';
+	}
+
+	return resultValidaciones;
+}
+
+export function validateUserPayload(payload) {
+	let validationResult = {
+		status: true,
+	};
+	const errorProperties = [];
+
+	Object.keys(payload).forEach((property) => {
+		console.log(`Evaluating ${property} value ${payload[property]}`);
+
+		if (payload[property] === undefined || !payload[property]) {
+			errorProperties.push(property);
+		}
+	});
+
+	if (errorProperties.length) {
+		validationResult.status = false;
+		validationResult.errorMessage =
+			errorProperties.length > 1
+				? `Las siguientes propiedades no pueden estar vacias: ${errorProperties}.`
+				: `La siguiente propiedad no puede estar vacia: ${errorProperties}.`;
+
+		console.log('', validationResult.errorMessage);
+		return validationResult;
+	}
+
+	return validationResult;
+}
+
 // Valida que la fecha ingresada como string sea una fecha válida formateada como "yyyy/mm/dd"
 export function fechaValida(dateString) {
 	// Primero verifica el patrón
