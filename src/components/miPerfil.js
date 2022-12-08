@@ -380,7 +380,6 @@ const MiPerfil = (props) => {
 	};
 
 	if (perfil._id === cookies.get('_id') || cookies.get('idRol') === '1') {
-		console.log('Entro');
 		return (
 			<div>
 				<div className="container">

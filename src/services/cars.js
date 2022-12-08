@@ -22,7 +22,7 @@ class CarsDataService {
 		return result;
 	}
 
-	async createCar({ patente, modelo, anio, agregados = '', historia = '', tallerAsociado = '', idUsuarioDuenio }) {
+	async createCar({ patente, modelo, anio, agregados = '', historia = '', tallerAsociado = '', idUsuarioDuenio, idVt = '' }) {
 		console.log('About to create car: ', patente, modelo, anio, agregados, historia, tallerAsociado);
 		let result;
 		let idUsuarioModif = cookies.get('_id');
@@ -32,7 +32,7 @@ class CarsDataService {
 		if (!result.status) return result;
 
 		result = await http.post(
-			`/createCar?patente=${patente}&modelo=${modelo}&anio=${anio}&agregados=${agregados}&historia=${historia}&tallerAsociado=${tallerAsociado}&idUsuarioModif=${idUsuarioModif}&idUsuarioDuenio=${idUsuarioDuenio}`
+			`/createCar?patente=${patente}&modelo=${modelo}&anio=${anio}&agregados=${agregados}&historia=${historia}&tallerAsociado=${tallerAsociado}&idUsuarioModif=${idUsuarioModif}&idVt=${idVt}&idUsuarioDuenio=${idUsuarioDuenio}`
 		);
 		console.log('Result: ', result);
 		return result;

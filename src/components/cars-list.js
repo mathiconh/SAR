@@ -163,7 +163,7 @@ const CarsList = () => {
 				car.idUsuarioDuenio = selectedCar.idUsuarioDuenio;
 			}
 		});
-		const result = await CarsDataService.editCar(selectedCar);
+		const result = await CarsDataService.editCar(cars);
 		if (result.status) {
 			console.log('Edicion exitosa');
 			setValidationErrorMessage('');
