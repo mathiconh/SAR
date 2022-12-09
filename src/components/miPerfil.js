@@ -219,7 +219,7 @@ const MiPerfil = (props) => {
 			console.log('Edicion exitosa');
 			setValidationErrorMessage('');
 			setVt(vt);
-			setModalEditarAuto(false);
+			setModalEditarVt(false);
 		} else {
 			setValidationErrorMessage(result?.errorMessage);
 		}
@@ -351,7 +351,7 @@ const MiPerfil = (props) => {
 		console.log('Car to be deleted', carId);
 		await CarsDataService.deleteCar(carId)
 			.then(() => {
-				getAutos();
+				getAutos(props.match.params._id);
 			})
 			.catch((e) => {
 				console.log(e);
@@ -435,73 +435,77 @@ const MiPerfil = (props) => {
 						<hr className="rounded"></hr>
 						<div>
 							<div className="container-xl">
-								<div className="table-responsive">
-									<div className="table-wrapper">
-										<div className="table-title">
-											<div className="row">
-												<div className="col-sm-6">
-													<h2>
-														Administra tus <b>Autos</b>
-													</h2>
-													<button className="btn btn-success" onClick={() => selectCar('EditarAuto')}>
-														Añadir un nuevo Auto
-													</button>
-												</div>
+								<div className="col-lg-10 align-self-center">
+									<div className="row">
+										<div className="row">
+											<div className="col-sm-6">
+												<h2>
+													Administra tus <b>Autos</b>
+												</h2>
+												<button className="btn btn-success" onClick={() => selectCar('EditarAuto')}>
+													Añadir un nuevo Auto
+												</button>
 											</div>
 										</div>
-										<table className="table table-striped w-auto table-hover">
-											<thead>
-												<tr>
-													<th>Id</th>
-													<th>Patente</th>
-													<th>Modelo</th>
-													<th>Año</th>
-													<th>Agregados</th>
-													<th>Historia</th>
-													<th>Workshop Asociado</th>
-													<th>Id Dueño</th>
-													<th>Id Verificación Técnica</th>
-													<th>Acciones</th>
-												</tr>
-											</thead>
-											<tbody>
-												{autos.map((selectedCar) => {
-													const id = `${selectedCar._id}`;
-													const patente = `${selectedCar.patente}`;
-													const modelo = `${selectedCar.modelo}`;
-													const anio = `${selectedCar.anio}`;
-													const agregados = `${selectedCar.agregados}`;
-													const historia = `${selectedCar.historia}`;
-													const tallerAsociado = `${selectedCar.tallerAsociado}`;
-													const idUsuarioDuenio = `${selectedCar.idUsuarioDuenio}`;
-													const idVt = `${selectedCar.idVt}`;
-													return (
-														<tr>
-															<td>{id}</td>
-															<td>{patente}</td>
-															<td>{modelo}</td>
-															<td>{anio}</td>
-															<td>{agregados}</td>
-															<td width="">{historia}</td>
-															<td>{tallerAsociado}</td>
-															<td>{idUsuarioDuenio}</td>
-															<td>{idVt}</td>
-															<td>
-																<button className="btn btn-primary" onClick={() => selectCar('EditarAuto', selectedCar)}>
+										{autos.map((selectedCar) => {
+											const id = `${selectedCar._id}`;
+											const patente = `${selectedCar.patente}`;
+											const modelo = `${selectedCar.modelo}`;
+											const anio = `${selectedCar.anio}`;
+											const agregados = `${selectedCar.agregados}`;
+											const historia = `${selectedCar.historia}`;
+											const tallerAsociado = `${selectedCar.tallerAsociado}`;
+											const idVt = `${selectedCar.idVt}`;
+											return (
+												<div className="col-lg-4 pb-1">
+													<div className="card">
+														<div className="card-body">
+															<h5 className="card-title">Patente: {patente}</h5>
+															<p className="card-text">
+																<strong>Id: </strong>
+																{id}
+																<br />
+																<strong>Modelo: </strong>
+																{modelo}
+																<br />
+																<strong>Año: </strong>
+																{anio}
+																<br />
+																<strong>Agregados: </strong>
+																{agregados}
+																<br />
+																<strong>Historia: </strong>
+																{historia}
+																<br />
+																<strong>Taller Asociado: </strong>
+																{tallerAsociado}
+																<br />
+																<strong>Verificación Técnica: </strong>
+																{idVt}
+															</p>
+															<div className="container">
+																<button className="btn btn-primary col-6" onClick={() => selectCar('EditarAuto', selectedCar)}>
 																	Edit
 																</button>
-																<button className="btn btn-danger" onClick={() => selectCar('Eliminar', selectedCar)}>
+																<button className="btn btn-danger col-6" onClick={() => selectCar('Eliminar', selectedCar)}>
 																	Delete
 																</button>
-																<button className="btn btn-primary" onClick={() => selectVt('EditarVt', selectedCar)}>
+																<br></br>
+																<br></br>
+																<button className="btn btn-success col-12" onClick={() => selectVt('EditarVt', selectedCar)}>
 																	Verificación Técnica
 																</button>
-															</td>
-														</tr>
-													);
-												})}
-											</tbody>
-										</table>
+															</div>
+															{/* <div className="row">
+																<Link to={'/miperfil/' + user._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
+																	View Car
+																</Link>
+															</div> */}
+														</div>
+													</div>
+												</div>
+											);
+										})}
 									</div>
 								</div>
 							</div>
@@ -620,11 +624,11 @@ const MiPerfil = (props) => {
 						<label>ID Auto</label>
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedCar._id} placeholder="ID Auto-Incremental" />
 						<label>Patente</label>
-						<input className="form-control" type="text" maxLength="50" name="patente" id="patenteField" onChange={handleChangeAuto} value={selectedCar.patente} />
+						<input className="form-control" type="text" maxLength="10" name="patente" id="patenteField" onChange={handleChangeAuto} value={selectedCar.patente} />
 						<label>Modelo</label>
-						<input className="form-control" type="text" maxLength="100" name="modelo" id="modeloField" onChange={handleChangeAuto} value={selectedCar.modelo} />
+						<input className="form-control" type="text" maxLength="50" name="modelo" id="modeloField" onChange={handleChangeAuto} value={selectedCar.modelo} />
 						<label>Año</label>
-						<input className="form-control" type="number" maxLength="10" name="anio" id="anioField" onChange={handleChangeAuto} value={selectedCar.anio} />
+						<input className="form-control" type="number" maxLength="4" name="anio" id="anioField" onChange={handleChangeAuto} value={selectedCar.anio} />
 						<label>Agregados</label>
 						<input
 							className="form-control"
@@ -648,7 +652,7 @@ const MiPerfil = (props) => {
 							value={selectedCar.tallerAsociado}
 						/>
 						<label>ID Verificación Técnica</label>
-						<input className="form-control" type="text" maxLength="50" name="idVt" id="idVtField" onChange={handleChangeAuto} value={selectedCar.idVt} />
+						<input className="form-control" readOnly type="text" maxLength="50" name="idVt" id="idVtField" value={selectedCar.idVt} placeholder="ID Auto-Incremental" />
 					</ModalBody>
 					<ModalFooter>
 						{buildErrorMessage()}
@@ -682,17 +686,9 @@ const MiPerfil = (props) => {
 						<label>Estado</label>
 						<input className="form-control" type="text" maxLength="300" name="estado" id="estadoField" onChange={handleChangeVt} value={selectedVt.estado} />
 						<label>id Dueño del auto</label>
-						<input
-							className="form-control"
-							type="text"
-							maxLength="200"
-							name="idUsuarioDuenio"
-							id="idUsuarioDuenioField"
-							onChange={handleChangeVt}
-							value={selectedVt.idUsuarioDuenio}
-						/>
+						<input className="form-control" readOnly type="text" maxLength="200" name="idUsuarioDuenio" id="idUsuarioDuenioField" placeholder="ID Dueño" />
 						<label>id Auto</label>
-						<input className="form-control" type="text" maxLength="50" name="idAuto" id="idAutoField" onChange={handleChangeVt} value={selectedVt.idAuto} />
+						<input className="form-control" readOnly type="text" maxLength="50" name="idAuto" id="idAutoField" placeholder="ID Auto" />
 					</ModalBody>
 					<ModalFooter>
 						{buildErrorMessage()}
