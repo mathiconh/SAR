@@ -66,7 +66,7 @@ function App() {
 								</a>
 							</li>
 							<li key="UserCerrarSesion">
-								<a onClick={cerrarSesion} href="./login" className="dropdown-item" style={{ cursor: 'pointer' }}>
+								<a onClick={cerrarSesion} className="dropdown-item" style={{ cursor: 'pointer' }}>
 									Cerrar Sesión
 								</a>
 							</li>
@@ -122,7 +122,7 @@ function App() {
 								</a>
 							</li>
 							<li key="AdminCerrarSesion">
-								<a onClick={cerrarSesion} href="./login" className="dropdown-item" style={{ cursor: 'pointer' }}>
+								<a onClick={cerrarSesion} className="dropdown-item" style={{ cursor: 'pointer' }}>
 									Cerrar Sesión
 								</a>
 							</li>
@@ -138,7 +138,8 @@ function App() {
 			return completarMenu();
 		} else {
 			return (
-				<a onClick={cerrarSesion} href="./login" className="nav-link text-white" style={{ cursor: 'pointer' }}>
+				// <a onClick={cerrarSesion} className="nav-link text-white" style={{ cursor: 'pointer' }}>
+				<a href="/login" className="nav-link text-white" style={{ cursor: 'pointer' }}>
 					<strong> Ingresar</strong>
 				</a>
 			);
@@ -150,7 +151,7 @@ function App() {
 		cookies.remove('nombre', { path: '/' });
 		cookies.remove('apellido', { path: '/' });
 		cookies.remove('idRol', { path: '/' });
-		window.location.href = './inicio';
+		window.location.href = '../inicio';
 	}
 
 	return (

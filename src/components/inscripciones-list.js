@@ -461,6 +461,12 @@ const InscripcionesList = () => {
 				</Modal>
 			</div>
 		);
+	} else if (!cookies.get('_id')) {
+		window.location.href = './errorPage';
+		console.log('Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla');
+		<Alert id="errorMessage" className="alert alert-danger fade show" key="danger" variant="danger">
+			Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla
+		</Alert>;
 	} else {
 		return (
 			<div>
