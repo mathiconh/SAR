@@ -60,9 +60,8 @@ const CarsList = () => {
 		find(searchValue, searchParam);
 	};
 
-	const findByName = () => {
-		findUser(searchName, 'nombre');
-		retrieveCars();
+	const findByName = async () => {
+		await findUser(searchName, 'nombre');
 	};
 
 	const findUser = async (query, by) => {
@@ -70,6 +69,13 @@ const CarsList = () => {
 			.then((response) => {
 				console.log(response.data);
 				setUsers(response.data.users);
+				if (response.data.users.length) {
+					console.log('Se cambio el ID user Dueño a: ', response.data.users[0]._id);
+					setSelectedCar((prevState) => ({
+						...prevState,
+						idUsuarioDuenio: response.data.users[0]._id,
+					}));
+				}
 			})
 			.catch((e) => {
 				console.log(e);
@@ -163,7 +169,7 @@ const CarsList = () => {
 				car.idUsuarioDuenio = selectedCar.idUsuarioDuenio;
 			}
 		});
-		const result = await CarsDataService.editCar(cars);
+		const result = await CarsDataService.editCar(selectedCar);
 		if (result.status) {
 			console.log('Edicion exitosa');
 			setValidationErrorMessage('');
@@ -302,18 +308,8 @@ const CarsList = () => {
 					<ModalBody>
 						<label>ID</label>
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedCar._id} placeholder="Auto-Incremental ID" />
-						{/* <label>ID Usuario Dueño</label>
-						<input
-							className="form-control"
-							type="text"
-							maxLength="50"
-							name="idUsuarioDuenio"
-							id="idUsuarioDuenioField"
-							onChange={handleChange}
-							value={selectedCar.idUsuarioDuenio}
-						/> */}
 						<label>Buscador de Usuarios</label>
-						<input type="text" className="form-control" placeholder="Search by name" value={searchName} onChange={onChangeSearchName} />
+						<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchName} onChange={onChangeSearchName} />
 						<div className="input-group-append">
 							<button className="btn btn-outline-secondary" type="button" onClick={findByName}>
 								Search

@@ -412,7 +412,7 @@ const SprintsList = () => {
 							})}
 						</select>
 						<label>Buscador UsuarioP1</label>
-						<input type="text" className="form-control" placeholder="Search by name" value={searchNameP1} onChange={onChangeSearchNameP1} />
+						<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchNameP1} onChange={onChangeSearchNameP1} />
 						<div className="input-group-append">
 							<button className="btn btn-outline-secondary" type="button" onClick={findByNameP1}>
 								Search
@@ -459,7 +459,7 @@ const SprintsList = () => {
 							value={selectedSprint.idVehiculoP1}
 						/> */}
 						<label>Buscador UsuarioP2</label>
-						<input type="text" className="form-control" placeholder="Search by name" value={searchNameP2} onChange={onChangeSearchNameP2} />
+						<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchNameP2} onChange={onChangeSearchNameP2} />
 						<div className="input-group-append">
 							<button className="btn btn-outline-secondary" type="button" onClick={findByNameP2}>
 								Search

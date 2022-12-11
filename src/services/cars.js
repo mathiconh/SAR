@@ -22,12 +22,13 @@ class CarsDataService {
 		return result;
 	}
 
-	async createCar({ patente, modelo, anio, agregados = '', historia = '', tallerAsociado = '', idUsuarioDuenio, idVt = '' }) {
-		console.log('About to create car: ', patente, modelo, anio, agregados, historia, tallerAsociado);
+	async createCar({ idUsuarioDuenio, modelo, anio, patente = '', agregados = '', historia = '', tallerAsociado = '', idVt = '' }) {
+		console.log('About to create car: ', patente, modelo, anio, agregados, historia, tallerAsociado, idUsuarioDuenio);
 		let result;
 		let idUsuarioModif = cookies.get('_id');
 
-		result = validatePayload({ patente, modelo, anio });
+		result = validatePayload({ idUsuarioDuenio, modelo, anio });
+		if (!result.status) return result;
 		result = this.validarVehiculo(anio);
 		if (!result.status) return result;
 
@@ -42,13 +43,14 @@ class CarsDataService {
 		return await http.delete(`/deleteCar?_id=${id}`);
 	}
 
-	async editCar({ _id, patente, modelo, anio, agregados = '', historia = '', tallerAsociado = '', idUsuarioDuenio }) {
+	async editCar({ _id, idUsuarioDuenio, modelo, anio, patente = '', agregados = '', historia = '', tallerAsociado = '' }) {
 		console.log('About to edit car: ', _id, patente, modelo, anio, agregados, historia, tallerAsociado, idUsuarioDuenio);
 		let result;
 		let idUsuarioModif = cookies.get('_id');
 
-		result = validatePayload({ idUsuarioDuenio, patente, modelo, anio });
-		// result = this.validarVehiculo(anio);
+		result = validatePayload({ idUsuarioDuenio, modelo, anio });
+		if (!result.status) return result;
+		result = this.validarVehiculo(anio);
 		if (!result.status) return result;
 
 		result = await http.put(
@@ -64,7 +66,7 @@ class CarsDataService {
 		};
 
 		const anioActual = new Date().getFullYear();
-		if (anio < 1900 || anio > anioActual) {
+		if (anio === undefined || anio < 1900 || anio > anioActual) {
 			resultValidaciones.status = false;
 			resultValidaciones.errorMessage = 'El año no puede ser mayor al actual ni menor a 1900';
 		}

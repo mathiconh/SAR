@@ -385,7 +385,7 @@ const InscripcionesList = () => {
 							value={selectedInscripcion.idUsuario}
 						/> */}
 						<label>Buscador de Usuarios</label>
-						<input type="text" className="form-control" placeholder="Search by name" value={searchName} onChange={onChangeSearchName} />
+						<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchName} onChange={onChangeSearchName} />
 						<div className="input-group-append">
 							<button className="btn btn-outline-secondary" type="button" onClick={findByName}>
 								Search

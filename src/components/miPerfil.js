@@ -303,23 +303,20 @@ const MiPerfil = (props) => {
 	};
 
 	const editarAuto = async (selectedCar) => {
-		// REVISAR: Cuando se trata de editar, se modifica una property, pero luego se cancela la operacion, la property queda modificada localmente.
-		// NO, tiene que volver a como estaba antes
-
-		autos.forEach((car) => {
-			if (car._id === selectedCar._id) {
-				car.patente = selectedCar.patente;
-				car.modelo = selectedCar.modelo;
-				car.anio = selectedCar.anio;
-				car.agregados = selectedCar.agregados;
-				car.historia = selectedCar.historia;
-				car.tallerAsociado = selectedCar.tallerAsociado;
-				car.idUsuarioDuenio = selectedCar.idUsuarioDuenio;
-				car.idVt = selectedCar.idVt;
-			}
-		});
 		const result = await CarsDataService.editCar(selectedCar);
 		if (result.status) {
+			autos.forEach((car) => {
+				if (car._id === selectedCar._id) {
+					car.patente = selectedCar.patente;
+					car.modelo = selectedCar.modelo;
+					car.anio = selectedCar.anio;
+					car.agregados = selectedCar.agregados;
+					car.historia = selectedCar.historia;
+					car.tallerAsociado = selectedCar.tallerAsociado;
+					car.idUsuarioDuenio = selectedCar.idUsuarioDuenio;
+					car.idVt = selectedCar.idVt;
+				}
+			});
 			console.log('Edicion exitosa');
 			setValidationErrorMessage('');
 			setAutos(autos);
@@ -377,6 +374,25 @@ const MiPerfil = (props) => {
 	const closeModalAuto = () => {
 		setModalEditarAuto(false);
 		setValidationErrorMessage('');
+	};
+
+	let idRolCampos = () => {
+		if (cookies.get('idRol') === '1') {
+			return (
+				<div>
+					<label>Id Rol</label>
+					<input
+						className="form-control"
+						type="text"
+						placeholder="Puede elegir entre Rol 1 o 2"
+						name="idRol"
+						id="idRolField"
+						onChange={handleChange}
+						value={perfil.idRol}
+					/>
+				</div>
+			);
+		}
 	};
 
 	if (perfil._id === cookies.get('_id') || cookies.get('idRol') === '1') {
@@ -496,11 +512,6 @@ const MiPerfil = (props) => {
 																	Verificación Técnica
 																</button>
 															</div>
-															{/* <div className="row">
-																<Link to={'/miperfil/' + user._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
-																	View Car
-																</Link>
-															</div> */}
 														</div>
 													</div>
 												</div>
@@ -734,6 +745,7 @@ const MiPerfil = (props) => {
 								))}
 							</div>
 						</div>
+						{idRolCampos()}
 						<label>Dirección</label>
 						<input className="form-control" type="text" maxLength="50" name="direccion" id="direccionField" onChange={handleChange} value={perfil.direccion} />
 						<label>Telefono</label>

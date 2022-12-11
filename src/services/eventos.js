@@ -28,8 +28,8 @@ class EventosDataService {
 		let idUsuarioModif = cookies.get('_id');
 
 		result = validatePayload({ idCarrera, fecha, cupos, idClase, cupoMaximo, precio });
+		if (!result.status) return result;
 		result = this.validarEvento(idCarrera, fecha, cupos, cupoMaximo, precio, allEventos);
-
 		if (!result.status) return result;
 
 		result = await http.post(
@@ -49,8 +49,8 @@ class EventosDataService {
 		let idUsuarioModif = cookies.get('_id');
 
 		result = validatePayload({ idCarrera, fecha, cupos, idClase, cupoMaximo, precio });
+		if (!result.status) return result;
 		result = this.validarEvento('skip', fecha, cupos, cupoMaximo, precio, allEventos);
-
 		if (!result.status) return result;
 
 		result = await http.put(

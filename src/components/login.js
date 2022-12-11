@@ -29,7 +29,6 @@ function Login() {
 		dni: '',
 		fechaNac: '',
 		idRol: '2',
-		idSector: '2',
 		idGenero: '',
 		idVehiculo: '',
 		nombre: '',

@@ -15,11 +15,19 @@ class ClasesDataService {
 		return await http.get(`/clases?id=${id}`);
 	}
 
+	async find(query, by = '_id', page = 0) {
+		console.log(`Searching by: ${by} value: ${query}`);
+		const result = await http.get(`clases?page=${page}&${by}=${query}`);
+		console.log('DB Result: ', result);
+		return result;
+	}
+
 	async createClase({ idClase, nombre, tiempo }, allClases) {
 		let result;
 		let idUsuarioModif = cookies.get('_id');
 
 		result = validatePayload({ idClase, nombre, tiempo });
+		if (!result.status) return result;
 		result = this.validarClase(idClase, tiempo, allClases);
 		if (!result.status) return result;
 
@@ -37,6 +45,7 @@ class ClasesDataService {
 		let idUsuarioModif = cookies.get('_id');
 
 		result = validatePayload({ idClase, nombre, tiempo });
+		if (!result.status) return result;
 		result = this.validarClase(idClase, tiempo, allClases);
 		if (!result.status) return result;
 

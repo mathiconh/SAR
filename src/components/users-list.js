@@ -17,7 +17,6 @@ const UsersList = () => {
 		dni: '',
 		fechaNac: '',
 		idRol: '',
-		idSector: '',
 		genero: '',
 		nombre: '',
 		password: '',
@@ -178,7 +177,7 @@ const UsersList = () => {
 			<div className="align-self-center">
 				<div className="container-lg align-self-center">
 					<div className="input-group col-lg-12">
-						<input type="text" className="form-control" placeholder="Search by name" value={searchName} onChange={onChangeSearchName} />
+						<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchName} onChange={onChangeSearchName} />
 						<div className="input-group-append">
 							<button className="btn btn-outline-secondary" type="button" onClick={findByName}>
 								Search
@@ -277,8 +276,6 @@ const UsersList = () => {
 						<input className="form-control" type="date" maxLength="300" name="fechaNac" id="fechaNacField" onChange={handleChange} value={selectedUser.fechaNac} />
 						<label>idRol</label>
 						<input className="form-control" type="text" maxLength="200" name="idRol" id="idRolField" onChange={handleChange} value={selectedUser.idRol} />
-						<label>idSector</label>
-						<input className="form-control" type="text" maxLength="50" name="idSector" id="idSectorField" onChange={handleChange} value={selectedUser.idSector} />
 						<label>Genero</label>
 						<select
 							className="form-select"
@@ -333,7 +330,7 @@ const UsersList = () => {
 			<div className="align-self-center">
 				<div className="container-lg align-self-center">
 					<div className="input-group col-lg-12">
-						<input type="text" className="form-control" placeholder="Search by name" value={searchName} onChange={onChangeSearchName} />
+						<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchName} onChange={onChangeSearchName} />
 						<div className="input-group-append">
 							<button className="btn btn-outline-secondary" type="button" onClick={findByName}>
 								Search
