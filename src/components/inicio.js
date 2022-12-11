@@ -1,8 +1,31 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/inicio.css';
+// import Cookies from 'universal-cookie';
 
-const CarsList = () => {
+// const cookies = new Cookies();
+
+const Inicio = () => {
+	// let sesion = () => {
+	// 	if (cookies.get('_id')) {
+	// 		return (
+	// 			<div>
+	// 				<a href={'/miperfil/' + cookies.get('_id')} className="justify-center btn botonSecundario">
+	// 					Ver Mi Perfil
+	// 				</a>
+	// 			</div>
+	// 		);
+	// 	} else {
+	// 		return (
+	// 			<div>
+	// 				<a href="/login" className="justify-center btn botonSecundario">
+	// 					INICIAR SESION
+	// 				</a>
+	// 			</div>
+	// 		);
+	// 	}
+	// };
+
 	return (
 		<section className="vh-100 d-flex justify-content-center align-items-center img-fluid  imagenFondo">
 			<div className="col-auto  ">
@@ -19,10 +42,13 @@ const CarsList = () => {
 							INICIAR SESION
 						</a>
 					</div>
+					{/* <div className="m-4"> */}
+					{/* {sesion} */}
+					{/* </div> */}
 				</div>
 			</div>
 		</section>
 	);
 };
 
-export default CarsList;
+export default Inicio;

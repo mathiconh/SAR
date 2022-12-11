@@ -138,7 +138,6 @@ function App() {
 			return completarMenu();
 		} else {
 			return (
-				// <a onClick={cerrarSesion} className="nav-link text-white" style={{ cursor: 'pointer' }}>
 				<a href="/login" className="nav-link text-white" style={{ cursor: 'pointer' }}>
 					<strong> Ingresar</strong>
 				</a>
