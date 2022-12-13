@@ -153,6 +153,18 @@ function App() {
 		window.location.href = '../inicio';
 	}
 
+	let inscripcionACarrera = () => {
+		if (cookies.get('_id')) {
+			return (
+				<div>
+					<a href="/inscripcion" className="nav-link text-light float-right">
+						<strong>Inscripcion a Carrera</strong>
+					</a>
+				</div>
+			);
+		}
+	};
+
 	return (
 		<div>
 			<div className="navbar navbar-dark d-flex bg-dark box-shadow">
@@ -165,11 +177,7 @@ function App() {
 					<div className="col-4">
 						<strong className="text-white">Bienvenido {cookies.get('nombre')}</strong>
 					</div>
-					<div className="col-5">
-						<a href="/inscripcion" className="nav-link text-light float-right">
-							<strong>Inscripcion a Carrera</strong>
-						</a>
-					</div>
+					<div className="col-5">{inscripcionACarrera()}</div>
 					<div className="col-1 m-1">{sesion()}</div>
 				</div>
 			</div>

@@ -25,9 +25,9 @@ class UsersDataService {
 		return result;
 	}
 
-	findCar(query, by = 'idUsuarioDuenio', page = 0) {
+	async findCar(query, by = 'idUsuarioDuenio', page = 0) {
 		console.log(`Searching by ${by} and value ${query}`);
-		const result = http.get(`cars?page=${page}&${by}=${query}`);
+		const result = await http.get(`cars?page=${page}&${by}=${query}`);
 		console.log('DB Result: ', result);
 		return result;
 	}

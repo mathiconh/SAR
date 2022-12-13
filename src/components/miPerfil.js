@@ -631,7 +631,6 @@ const MiPerfil = (props) => {
 
 				<Modal isOpen={modalEditarAuto}>
 					<ModalBody>
-						<label>ID Usuario</label>
 						<label>ID Auto</label>
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedCar._id} placeholder="ID Auto-Incremental" />
 						<label>Patente</label>

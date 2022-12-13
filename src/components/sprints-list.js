@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-key */
 import React, { useState, useEffect } from 'react';
 import SprintsDataService from '../services/sprints';
-import ClasesDataService from '../services/clases';
+import EventosDataService from '../services/eventos';
+import CarsDataService from '../services/cars';
 import UserDataService from '../services/users';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, ModalBody, ModalFooter, Alert } from 'reactstrap';
@@ -12,10 +13,11 @@ const SprintsList = () => {
 	const [sprints, setSprints] = useState([]);
 	const [usersP1, setUsersP1] = useState([]);
 	const [carsP1, setCarsP1] = useState([]);
+	const [carsP2, setCarsP2] = useState([]);
 	const [usersP2, setUsersP2] = useState([]);
 	const [searchNameP1, setSearchNameP1] = useState('');
 	const [searchNameP2, setSearchNameP2] = useState('');
-	const [clases, setClases] = useState([]);
+	const [eventos, setEventos] = useState([]);
 	const [entriesPerPage, setEntriesPerPage] = useState([]);
 	const [totalResults, setTotalResults] = useState([]);
 	const [searchParam, setSearchParam] = useState('_id');
@@ -34,8 +36,7 @@ const SprintsList = () => {
 		tiempo100mtsP2: '',
 		tiempoLlegadaP1: '',
 		tiempoLllegadaP2: '',
-		clase: '',
-		carreraId: '',
+		idEvento: '',
 	});
 	const [searchableParams] = useState(Object.keys(selectedSprint));
 
@@ -44,50 +45,60 @@ const SprintsList = () => {
 
 	useEffect(() => {
 		retrieveSprints();
-		retrieveClases();
-		retrieveUsersP1();
-		retrieveUsersP2();
+		retrieveEventos();
 	}, []);
 
-	const retrieveUsersP1 = () => {
-		UserDataService.getAll()
+	const retrieveCarsP1 = async (userId) => {
+		console.log('userId tiene: ', userId);
+		await CarsDataService.find(userId, 'idUsuarioDuenio')
 			.then((response) => {
-				console.log('le va:', response.data);
-				setUsersP1([{ nombre: 'Seleccionar Usuario' }].concat(response.data.users));
+				console.log('Autos tiene', response.data.cars);
+				setCarsP1(response.data.cars);
+				if (response.data.cars.length) {
+					// console.log('Se cambio el ID Vehiculo P1 a: ', response.data.cars[0]._id);
+					setSelectedSprint((prevState) => ({
+						...prevState,
+						idVehiculoP1: response.data.cars[0]._id,
+					}));
+				}
 			})
 			.catch((e) => {
 				console.log(e);
 			});
 	};
 
-	const retrieveCarsP1 = (userP1) => {
-		console.log('userP1 tiene: ', userP1);
-		UserDataService.findCar(usersP1[1]._id)
+	const retrieveCarsP2 = async (userId) => {
+		console.log('userId tiene: ', userId);
+		await CarsDataService.find(userId, 'idUsuarioDuenio')
 			.then((response) => {
-				console.log('Autos tiene', response.data);
-				setCarsP1([{ modelo: 'Seleccionar Auto' }].concat(response.data.cars));
+				console.log('Autos tiene', response.data.cars);
+				setCarsP2(response.data.cars);
+				if (response.data.cars.length) {
+					// console.log('Se cambio el ID Vehiculo P2 a: ', response.data.cars[0]._id);
+					setSelectedSprint((prevState) => ({
+						...prevState,
+						idVehiculoP2: response.data.cars[0]._id,
+					}));
+				}
 			})
 			.catch((e) => {
 				console.log(e);
 			});
 	};
 
-	const retrieveUsersP2 = () => {
-		UserDataService.getAll()
+	const retrieveEventos = async () => {
+		await EventosDataService.getAll()
 			.then((response) => {
-				console.log('Data: ', response.data);
-				setUsersP2([{ nombre: 'Seleccionar Usuario' }].concat(response.data.users));
-			})
-			.catch((e) => {
-				console.log(e);
-			});
-	};
-
-	const retrieveClases = async () => {
-		await ClasesDataService.getAll()
-			.then((response) => {
-				console.log('Data: ', response.data);
-				setClases([{ nombre: 'Seleccionar Clase' }].concat(response.data.clases));
+				console.log('Data Eventos: ', response.data);
+				setEventos(response.data.eventos);
+				if (response.data.eventos.length) {
+					// console.log('Se cambio el ID Vehiculo P2 a: ', response.data.cars[0]._id);
+					setSelectedSprint((prevState) => ({
+						...prevState,
+						idEvento: response.data.eventos[0]._id,
+					}));
+					document.getElementById('tiempoClaseData').value = response.data.eventos[0].tiempoClase;
+				}
 			})
 			.catch((e) => {
 				console.log(e);
@@ -105,12 +116,11 @@ const SprintsList = () => {
 	};
 
 	const findByNameP1 = async () => {
-		const userP1 = await findUserP1(searchNameP1, 'nombre');
-		retrieveCarsP1(userP1);
+		await findUserP1(searchNameP1, 'nombre');
 	};
 
-	const findByNameP2 = () => {
-		findUserP2(searchNameP2, 'nombre');
+	const findByNameP2 = async () => {
+		await findUserP2(searchNameP2, 'nombre');
 	};
 
 	const onChangeSearchParam = (e) => {
@@ -163,9 +173,14 @@ const SprintsList = () => {
 
 	const findUserP1 = async (query, by) => {
 		await UserDataService.find(query, by)
-			.then((response) => {
+			.then(async (response) => {
 				console.log(response.data);
 				setUsersP1(response.data.users);
+				setSelectedSprint((prevState) => ({
+					...prevState,
+					idUsuarioP1: response.data.users[0]._id,
+				}));
+				await retrieveCarsP1(response.data.users[0]._id);
 			})
 			.catch((e) => {
 				console.log(e);
@@ -174,9 +189,14 @@ const SprintsList = () => {
 
 	const findUserP2 = async (query, by) => {
 		await UserDataService.find(query, by)
-			.then((response) => {
+			.then(async (response) => {
 				console.log(response.data);
 				setUsersP2(response.data.users);
+				setSelectedSprint((prevState) => ({
+					...prevState,
+					idUsuarioP2: response.data.users[0]._id,
+				}));
+				await retrieveCarsP2(response.data.users[0]._id);
 			})
 			.catch((e) => {
 				console.log(e);
@@ -224,10 +244,39 @@ const SprintsList = () => {
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
+		// console.log('Id Vehiculo cambiado a: ', value);
 		setSelectedSprint((prevState) => ({
 			...prevState,
 			[name]: value,
 		}));
+	};
+
+	const handleChangeEvento = (e) => {
+		const { name, value } = e.target;
+		setSelectedSprint((prevState) => ({
+			...prevState,
+			[name]: value,
+		}));
+		// TODO: Buscar el nombre de la clase correspondiente. No hace falta mas Fecha ya qeu esta dentro de los datos del evento
+		// document.getElementById('tiempoClaseData').value = value.idClase;
+	};
+
+	const handleChangeUserP1 = (e) => {
+		const { name, value } = e.target;
+		setSelectedSprint((prevState) => ({
+			...prevState,
+			[name]: value,
+		}));
+		retrieveCarsP1(value);
+	};
+
+	const handleChangeUserP2 = (e) => {
+		const { name, value } = e.target;
+		setSelectedSprint((prevState) => ({
+			...prevState,
+			[name]: value,
+		}));
+		retrieveCarsP2(value);
 	};
 
 	const editar = async (selectedSprint) => {
@@ -403,14 +452,26 @@ const SprintsList = () => {
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedSprint._id} placeholder="Auto-Incremental ID" />
 						<label>Fecha</label>
 						<input className="form-control" type="date" maxLength="50" name="fecha" id="fechaField" onChange={handleChange} value={selectedSprint.fecha} />
-						<label>Clase</label>
-						<select className="form-select" name="clase" id="claseField" onChange={handleChange} value={selectedSprint.clase} aria-label="Default select example">
-							{clases.map((clase) => {
-								const id = `${clase._id}`;
-								const nombre = `${clase.nombre}`;
-								return <option value={id}>{nombre}</option>;
+						<label>Evento</label>
+						<select
+							className="form-select"
+							name="idEvento"
+							id="idEventoField"
+							onChange={handleChangeEvento}
+							value={selectedSprint.eventos}
+							aria-label="Default select example"
+						>
+							{eventos.map((evento) => {
+								const id = `${evento.idCarrera}`;
+								return <option value={id}>Carrera {id}</option>;
 							})}
 						</select>
+						{/* <label className="label-class" htmlFor="tiempoClase">
+							{' '}
+							Clase del evento:{' '}
+						</label>
+						<input type="text" id="tiempoClaseData" name="tiempoDataInput" className="col-md-1" data-readonly required />
+						<br></br> */}
 						<label>Buscador UsuarioP1</label>
 						<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchNameP1} onChange={onChangeSearchNameP1} />
 						<div className="input-group-append">
@@ -423,7 +484,7 @@ const SprintsList = () => {
 							className="form-select"
 							name="idUsuarioP1"
 							id="idUsuarioP1Field"
-							onChange={handleChange}
+							onChange={handleChangeUserP1}
 							value={selectedSprint.idUsuarioP1}
 							aria-label="Default select example"
 						>
@@ -449,15 +510,6 @@ const SprintsList = () => {
 							})}
 						</select>
 						<br></br>
-						{/* <input
-							className="form-control"
-							type="text"
-							maxLength="50"
-							name="idVehiculoP1"
-							id="idVehiculoP1"
-							onChange={handleChange}
-							value={selectedSprint.idVehiculoP1}
-						/> */}
 						<label>Buscador UsuarioP2</label>
 						<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchNameP2} onChange={onChangeSearchNameP2} />
 						<div className="input-group-append">
@@ -470,7 +522,7 @@ const SprintsList = () => {
 							className="form-select"
 							name="idUsuarioP2"
 							id="idUsuarioP2Field"
-							onChange={handleChange}
+							onChange={handleChangeUserP2}
 							value={selectedSprint.idUsuarioP2}
 							aria-label="Default select example"
 						>
@@ -481,15 +533,20 @@ const SprintsList = () => {
 							})}
 						</select>
 						<label>ID VehiculoP2</label>
-						<input
-							className="form-control"
-							type="text"
-							maxLength="50"
+						<select
+							className="form-select"
 							name="idVehiculoP2"
 							id="idVehiculoP2Field"
 							onChange={handleChange}
 							value={selectedSprint.idVehiculoP2}
-						/>
+							aria-label="Default select example"
+						>
+							{carsP2.map((car) => {
+								const id = `${car._id}`;
+								const modelo = `${car.modelo}`;
+								return <option value={id}>{modelo}</option>;
+							})}
+						</select>
 						<label>Reacción P1</label>
 						<input
 							className="form-control"

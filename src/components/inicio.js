@@ -1,30 +1,38 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/inicio.css';
-// import Cookies from 'universal-cookie';
+import Cookies from 'universal-cookie';
 
-// const cookies = new Cookies();
+const cookies = new Cookies();
 
 const Inicio = () => {
-	// let sesion = () => {
-	// 	if (cookies.get('_id')) {
-	// 		return (
-	// 			<div>
-	// 				<a href={'/miperfil/' + cookies.get('_id')} className="justify-center btn botonSecundario">
-	// 					Ver Mi Perfil
-	// 				</a>
-	// 			</div>
-	// 		);
-	// 	} else {
-	// 		return (
-	// 			<div>
-	// 				<a href="/login" className="justify-center btn botonSecundario">
-	// 					INICIAR SESION
-	// 				</a>
-	// 			</div>
-	// 		);
-	// 	}
-	// };
+	let sesion = () => {
+		if (cookies.get('_id')) {
+			return (
+				<div>
+					<div className="m-4">
+						<a href="/inscripcion" className="justify-center btn botonPrincipal ml-4">
+							INSCRIBITE
+						</a>
+					</div>
+					<div className="m-4">
+						<a href={'/miperfil/' + cookies.get('_id')} className="justify-center btn botonSecundario">
+							Ver Mi Perfil
+						</a>
+					</div>
+				</div>
+			);
+		} else {
+			return (
+				<div>
+					<a href="/login" className="justify-center btn botonSecundario">
+						INICIAR SESION
+					</a>
+				</div>
+			);
+		}
+	};
 
 	return (
 		<section className="vh-100 d-flex justify-content-center align-items-center img-fluid  imagenFondo">
@@ -32,19 +40,15 @@ const Inicio = () => {
 				<p className="  h3 text-white text-center">Veni a probar los tiempos de tu auto</p>
 				<p className="  h1 text-white text-center">EN EL GRAN AUTODROMO DE BUENOS AIRES</p>
 				<div className="d-flex justify-content-center">
-					<div className="m-4">
-						<a href="/inscripcion" className="justify-center btn botonPrincipal ml-4">
-							INSCRIBITE
-						</a>
-					</div>
-					<div className="m-4">
+					
+					{/* <div className="m-4">
 						<a href="/login" className="justify-center btn botonSecundario">
 							INICIAR SESION
 						</a>
+					</div> */}
+					<div className="m-4">
+						{sesion()}
 					</div>
-					{/* <div className="m-4"> */}
-					{/* {sesion} */}
-					{/* </div> */}
 				</div>
 			</div>
 		</section>
