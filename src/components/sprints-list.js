@@ -25,7 +25,7 @@ const SprintsList = () => {
 	const [validationErrorMessage, setValidationErrorMessage] = useState('');
 	const [selectedSprint, setSelectedSprint] = useState({
 		_id: '',
-		fecha: '',
+		idEvento: '',
 		idUsuarioP1: '',
 		idUsuarioP2: '',
 		idVehiculoP1: '',
@@ -35,8 +35,7 @@ const SprintsList = () => {
 		tiempo100mtsP1: '',
 		tiempo100mtsP2: '',
 		tiempoLlegadaP1: '',
-		tiempoLllegadaP2: '',
-		idEvento: '',
+		tiempoLlegadaP2: '',
 	});
 	const [searchableParams] = useState(Object.keys(selectedSprint));
 
@@ -92,12 +91,11 @@ const SprintsList = () => {
 				console.log('Data Eventos: ', response.data);
 				setEventos(response.data.eventos);
 				if (response.data.eventos.length) {
-					// console.log('Se cambio el ID Vehiculo P2 a: ', response.data.cars[0]._id);
+					// console.log('Se cambio el ID Evento a: ', response.data.eventos[0].idCarrera);
 					setSelectedSprint((prevState) => ({
 						...prevState,
-						idEvento: response.data.eventos[0]._id,
+						idEvento: response.data.eventos[0].idCarrera,
 					}));
-					document.getElementById('tiempoClaseData').value = response.data.eventos[0].tiempoClase;
 				}
 			})
 			.catch((e) => {
@@ -285,7 +283,7 @@ const SprintsList = () => {
 
 		sprints.forEach((sprint) => {
 			if (sprint._id === selectedSprint._id) {
-				sprint.fecha = selectedSprint.fecha;
+				sprint.idEvento = selectedSprint.idEvento;
 				sprint.idUsuarioP1 = selectedSprint.idUsuarioP1;
 				sprint.idUsuarioP2 = selectedSprint.idUsuarioP2;
 				sprint.idVehiculoP1 = selectedSprint.idVehiculoP1;
@@ -294,9 +292,8 @@ const SprintsList = () => {
 				sprint.reaccionP2 = selectedSprint.reaccionP2;
 				sprint.tiempo100mtsP1 = selectedSprint.tiempo100mtsP1;
 				sprint.tiempo100mtsP2 = selectedSprint.tiempo100mtsP2;
-				sprint.tiempoLlegadaP1 = selectedSprint.tiempoLllegadaP2;
-				sprint.pista = selectedSprint.pista;
-				sprint.clase = selectedSprint.clase;
+				sprint.tiempoLlegadaP1 = selectedSprint.tiempoLlegadaP1;
+				sprint.tiempoLlegadaP2 = selectedSprint.tiempoLlegadaP2;
 			}
 		});
 		const result = await SprintsDataService.editSprint(selectedSprint);
@@ -370,8 +367,7 @@ const SprintsList = () => {
 								<thead>
 									<tr>
 										<th>Id</th>
-										<th>fecha</th>
-										<th>clase</th>
+										<th>idEvento</th>
 										<th>idUsuarioP1</th>
 										<th>idUsuarioP2</th>
 										<th>idVehiculoP1</th>
@@ -380,16 +376,15 @@ const SprintsList = () => {
 										<th>reaccionP2</th>
 										<th>tiempo100mtsP1</th>
 										<th>tiempo100mtsP2</th>
-										<th>carrera</th>
+										<th>tiempoLlegadaP1</th>
+										<th>tiempoLlegadaP2</th>
 										<th>Acciones</th>
 									</tr>
 								</thead>
 								<tbody>
 									{sprints.map((sprint) => {
 										const id = `${sprint._id}`;
-										const fecha = `${sprint.fecha}`;
-										const clase = `${sprint.clase}`;
-										const carreraId = `${sprint.carreraId}`;
+										const idEvento = `${sprint.idEvento}`;
 										const idUsuarioP1 = `${sprint.idUsuarioP1}`;
 										const idUsuarioP2 = `${sprint.idUsuarioP2}`;
 										const idVehiculoP1 = `${sprint.idVehiculoP1}`;
@@ -398,20 +393,22 @@ const SprintsList = () => {
 										const reaccionP2 = `${sprint.reaccionP2}`;
 										const tiempo100mtsP1 = `${sprint.tiempo100mtsP1}`;
 										const tiempo100mtsP2 = `${sprint.tiempo100mtsP2}`;
+										const tiempoLlegadaP1 = `${sprint.tiempoLlegadaP1}`;
+										const tiempoLlegadaP2 = `${sprint.tiempoLlegadaP2}`;
 										return (
 											<tr>
 												<td>{id}</td>
-												<td>{fecha}</td>
-												<td>{clase}</td>
+												<td>{idEvento}</td>
 												<td>{idUsuarioP1}</td>
-												<td width="">{idUsuarioP2}</td>
+												<td>{idUsuarioP2}</td>
 												<td>{idVehiculoP1}</td>
 												<td>{idVehiculoP2}</td>
 												<td>{reaccionP1}</td>
 												<td>{reaccionP2}</td>
 												<td>{tiempo100mtsP1}</td>
 												<td>{tiempo100mtsP2}</td>
-												<td>{carreraId}</td>
+												<td>{tiempoLlegadaP1}</td>
+												<td>{tiempoLlegadaP2}</td>
 												<td>
 													<button className="btn btn-primary" onClick={() => selectSprint('Editar', sprint)}>
 														Edit
@@ -450,8 +447,6 @@ const SprintsList = () => {
 					<ModalBody>
 						<label>ID</label>
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedSprint._id} placeholder="Auto-Incremental ID" />
-						<label>Fecha</label>
-						<input className="form-control" type="date" maxLength="50" name="fecha" id="fechaField" onChange={handleChange} value={selectedSprint.fecha} />
 						<label>Evento</label>
 						<select
 							className="form-select"
@@ -607,8 +602,6 @@ const SprintsList = () => {
 							onChange={handleChange}
 							value={selectedSprint.tiempoLlegadaP2}
 						/>
-						<label>Pista</label>
-						<input className="form-control" type="text" maxLength="50" name="pista" id="pistaField" onChange={handleChange} value={selectedSprint.pista} />
 					</ModalBody>
 					<ModalFooter>
 						{buildErrorMessage()}
