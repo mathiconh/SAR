@@ -91,10 +91,10 @@ const SprintsList = () => {
 				console.log('Data Eventos: ', response.data);
 				setEventos(response.data.eventos);
 				if (response.data.eventos.length) {
-					// console.log('Se cambio el ID Evento a: ', response.data.eventos[0].idCarrera);
+					// console.log('Se cambio el ID Evento a: ', response.data.eventos[0].idEvento);
 					setSelectedSprint((prevState) => ({
 						...prevState,
-						idEvento: response.data.eventos[0].idCarrera,
+						idEvento: response.data.eventos[0].idEvento,
 					}));
 				}
 			})
@@ -356,12 +356,14 @@ const SprintsList = () => {
 											</button>
 										</div>
 									</div>
+									<br></br>
 									<div className="col-lg-6">
 										<button className="btn btn-success" onClick={() => selectSprint('Editar')}>
 											Añadir una Carrera
 										</button>
 									</div>
 								</div>
+								<hr className="rounded"></hr>
 							</div>
 							<table className="table table-striped w-auto table-hover">
 								<thead>
@@ -457,7 +459,7 @@ const SprintsList = () => {
 							aria-label="Default select example"
 						>
 							{eventos.map((evento) => {
-								const id = `${evento.idCarrera}`;
+								const id = `${evento.idEvento}`;
 								return <option value={id}>Carrera {id}</option>;
 							})}
 						</select>

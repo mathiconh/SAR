@@ -15,25 +15,25 @@ class EventosDataService {
 		return await http.get(`/eventos?_id=${id}`);
 	}
 
-	async find(query, by = 'idCarrera') {
+	async find(query, by = 'idEvento') {
 		console.log(`Searching by: ${by} value: ${query}`);
 		const result = await http.get(`eventos?${by}=${query}`);
 		console.log('DB Result: ', result);
 		return result;
 	}
 
-	async createEvento({ idCarrera, fecha, cupos, idClase, cupoMaximo, precio }, allEventos) {
-		console.log('About to create evento: ', idCarrera, fecha, cupos, idClase, cupoMaximo, precio);
+	async createEvento({ idEvento, fecha, cupos, idClase, cupoMaximo, precio }, allEventos) {
+		console.log('About to create evento: ', idEvento, fecha, cupos, idClase, cupoMaximo, precio);
 		let result;
 		let idUsuarioModif = cookies.get('_id');
 
-		result = validatePayload({ idCarrera, fecha, cupos, idClase, cupoMaximo, precio });
+		result = validatePayload({ idEvento, fecha, cupos, idClase, cupoMaximo, precio });
 		if (!result.status) return result;
-		result = this.validarEvento(idCarrera, fecha, cupos, cupoMaximo, precio, allEventos);
+		result = this.validarEvento(idEvento, fecha, cupos, cupoMaximo, precio, allEventos);
 		if (!result.status) return result;
 
 		result = await http.post(
-			`/createEvento?idCarrera=${idCarrera}&fecha=${fecha}&cupos=${cupos}&idClase=${idClase}&cupoMaximo=${cupoMaximo}&precio=${precio}&idUsuarioModif=${idUsuarioModif}`
+			`/createEvento?idEvento=${idEvento}&fecha=${fecha}&cupos=${cupos}&idClase=${idClase}&cupoMaximo=${cupoMaximo}&precio=${precio}&idUsuarioModif=${idUsuarioModif}`
 		);
 		console.log('Result: ', result);
 		return result;
@@ -43,24 +43,24 @@ class EventosDataService {
 		return await http.delete(`/deleteEvento?_id=${id}`);
 	}
 
-	async editEvento({ _id, idCarrera, fecha, cupos, idClase, cupoMaximo, precio }, allEventos) {
-		console.log('About to edit evento: ', _id, idCarrera, fecha, cupos, idClase, cupoMaximo, precio);
+	async editEvento({ _id, idEvento, fecha, cupos, idClase, cupoMaximo, precio }, allEventos) {
+		console.log('About to edit evento: ', _id, idEvento, fecha, cupos, idClase, cupoMaximo, precio);
 		let result;
 		let idUsuarioModif = cookies.get('_id');
 
-		result = validatePayload({ idCarrera, fecha, cupos, idClase, cupoMaximo, precio });
+		result = validatePayload({ idEvento, fecha, cupos, idClase, cupoMaximo, precio });
 		if (!result.status) return result;
 		result = this.validarEvento('skip', fecha, cupos, cupoMaximo, precio, allEventos);
 		if (!result.status) return result;
 
 		result = await http.put(
-			`/editEvento?_id=${_id}&idCarrera=${idCarrera}&fecha=${fecha}&cupos=${cupos}&idClase=${idClase}&cupoMaximo=${cupoMaximo}&precio=${precio}&idUsuarioModif=${idUsuarioModif}`
+			`/editEvento?_id=${_id}&idEvento=${idEvento}&fecha=${fecha}&cupos=${cupos}&idClase=${idClase}&cupoMaximo=${cupoMaximo}&precio=${precio}&idUsuarioModif=${idUsuarioModif}`
 		);
 		console.log('Result: ', result);
 		return result;
 	}
 
-	validarEvento(idCarrera, fecha, cupos, cupoMaximo, precio, allEventos) {
+	validarEvento(idEvento, fecha, cupos, cupoMaximo, precio, allEventos) {
 		const resultValidaciones = {
 			status: true,
 		};
@@ -73,10 +73,10 @@ class EventosDataService {
 			resultValidaciones.status = false;
 			resultValidaciones.errorMessage = 'Debe configurar un precio mayor a 0';
 		}
-		if (idCarrera !== 'skip') {
+		if (idEvento !== 'skip') {
 			allEventos.forEach((evento) => {
-				console.log(`Actual ${idCarrera} VS ${evento.idCarrera}`);
-				if (idCarrera === evento.idCarrera) {
+				console.log(`Actual ${idEvento} VS ${evento.idEvento}`);
+				if (idEvento === evento.idEvento) {
 					resultValidaciones.status = false;
 					resultValidaciones.errorMessage = 'No puede usar el ID Carrera de un evento que ya exista';
 				}

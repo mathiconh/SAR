@@ -7,6 +7,33 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 const UsersList = () => {
+	const getUserKeys = () => {
+		if (cookies.get('_id') && cookies.get('idRol') === '1') {
+			return {
+				_id: '',
+				apellido: '',
+				correoE: '',
+				direccion: '',
+				dni: '',
+				fechaNac: '',
+				idRol: '',
+				nombre: '',
+				telefono: '',
+			};
+		} else {
+			return {
+				_id: '',
+				apellido: '',
+				correoE: '',
+				direccion: '',
+				dni: '',
+				fechaNac: '',
+				nombre: '',
+				telefono: '',
+			};
+		}
+	};
+
 	const [users, setUsers] = useState([]);
 	const [genero, setGeneros] = useState([]);
 	const [selectedUser, setSelectedUser] = useState({
@@ -25,9 +52,12 @@ const UsersList = () => {
 	const [modalCrear, setModalCrear] = useState(false);
 	const [modalEliminar, setModalEliminar] = useState(false);
 
-	const [searchName, setSearchName] = useState('');
-	const [searchId, setSearchId] = useState('');
-	const [searchIdRol, setSearchIdRol] = useState('');
+	// const [searchName, setSearchName] = useState('');
+	// const [searchId, setSearchId] = useState('');
+	const [searchParam, setSearchParam] = useState('_id');
+	const [searchValue, setSearchValue] = useState('');
+	const [searchableParams] = useState(Object.keys(getUserKeys()));
+	// const [searchIdRol, setSearchIdRol] = useState('');
 	const [validationErrorMessage, setValidationErrorMessage] = useState('');
 	const [idRols, setIdRoles] = useState(['All IdRoles']);
 
@@ -37,20 +67,30 @@ const UsersList = () => {
 		retrieveGeneros();
 	}, []);
 
-	const onChangeSearchId = (e) => {
-		const searchId = e.target.value;
-		setSearchId(searchId);
+	const onChangeSearchParam = (e) => {
+		const searchParam = e.target.value;
+		setSearchParam(searchParam);
 	};
 
-	const onChangeSearchName = (e) => {
-		const searchName = e.target.value;
-		setSearchName(searchName);
+	const onChangeSearchValue = (e) => {
+		const searchValue = e.target.value;
+		setSearchValue(searchValue);
 	};
 
-	const onChangeSearchIdRol = (e) => {
-		const searchIdRol = e.target.value;
-		setSearchIdRol(searchIdRol);
-	};
+	// const onChangeSearchId = (e) => {
+	// 	const searchId = e.target.value;
+	// 	setSearchId(searchId);
+	// };
+
+	// const onChangeSearchName = (e) => {
+	// 	const searchName = e.target.value;
+	// 	setSearchName(searchName);
+	// };
+
+	// const onChangeSearchIdRol = (e) => {
+	// 	const searchIdRol = e.target.value;
+	// 	setSearchIdRol(searchIdRol);
+	// };
 
 	const retrieveUsers = () => {
 		UserDataService.getAll()
@@ -101,21 +141,25 @@ const UsersList = () => {
 			});
 	};
 
-	const findByName = () => {
-		find(searchName, 'nombre');
+	// const findByName = () => {
+	// 	find(searchName, 'nombre');
+	// };
+
+	// const findById = () => {
+	// 	find(searchId, '_id');
+	// };
+
+	const findByParam = () => {
+		find(searchValue, searchParam);
 	};
 
-	const findById = () => {
-		find(searchId, '_id');
-	};
-
-	const findByIdRol = () => {
-		if (searchIdRol === 'All IdRoles') {
-			refreshList();
-		} else {
-			find(searchIdRol, 'idRol');
-		}
-	};
+	// const findByIdRol = () => {
+	// 	if (searchIdRol === 'All IdRoles') {
+	// 		refreshList();
+	// 	} else {
+	// 		find(searchIdRol, 'idRol');
+	// 	}
+	// };
 
 	const buildErrorMessage = () => {
 		if (validationErrorMessage !== '') {
@@ -176,39 +220,27 @@ const UsersList = () => {
 		return (
 			<div className="align-self-center">
 				<div className="container-lg align-self-center">
-					<div className="input-group col-lg-12">
-						<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchName} onChange={onChangeSearchName} />
-						<div className="input-group-append">
-							<button className="btn btn-outline-secondary" type="button" onClick={findByName}>
-								Search
-							</button>
-						</div>
-					</div>
+					<br></br>
 					<div className="input-group col-lg-4">
-						<input type="text" className="form-control" placeholder="Search by ID" value={searchId} onChange={onChangeSearchId} />
-						<div className="input-group-append">
-							<button className="btn btn-outline-secondary" type="button" onClick={findById}>
-								Search
-							</button>
-						</div>
-					</div>
-					<div className="input-group col-lg-4">
-						<select onChange={onChangeSearchIdRol}>
-							{idRols.map((idRol) => {
-								return <option value={idRol}> {idRol.substr(0, 20)} </option>;
+						<input type="text" className="form-control" placeholder="Buscar usuario por " value={searchValue} onChange={onChangeSearchValue} />
+						<select onChange={onChangeSearchParam}>
+							{searchableParams.map((param) => {
+								return <option value={param}> {param.replace('_', '')} </option>;
 							})}
 						</select>
 						<div className="input-group-append">
-							<button className="btn btn-outline-secondary" type="button" onClick={findByIdRol}>
+							<button className="btn btn-outline-secondary" type="button" onClick={findByParam}>
 								Search
 							</button>
 						</div>
 					</div>
+					<br></br>
 					<div className="col-lg-6">
 						<button className="btn btn-success" onClick={() => selectUser('Crear')}>
 							Añadir un nuevo Usuario
 						</button>
 					</div>
+					<hr className="rounded"></hr>
 				</div>
 				<div className="col-lg-10 align-self-center">
 					<div className="row">
@@ -329,35 +361,21 @@ const UsersList = () => {
 		return (
 			<div className="align-self-center">
 				<div className="container-lg align-self-center">
-					<div className="input-group col-lg-12">
-						<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchName} onChange={onChangeSearchName} />
-						<div className="input-group-append">
-							<button className="btn btn-outline-secondary" type="button" onClick={findByName}>
-								Search
-							</button>
-						</div>
-					</div>
 					<div className="input-group col-lg-4">
-						<input type="text" className="form-control" placeholder="Search by ID" value={searchId} onChange={onChangeSearchId} />
-						<div className="input-group-append">
-							<button className="btn btn-outline-secondary" type="button" onClick={findById}>
-								Search
-							</button>
-						</div>
-					</div>
-					<div className="input-group col-lg-4">
-						<select onChange={onChangeSearchIdRol}>
-							{idRols.map((idRol) => {
-								return <option value={idRol}> {idRol.substr(0, 20)} </option>;
+						<input type="text" className="form-control" placeholder="Buscar usuario por " value={searchValue} onChange={onChangeSearchValue} />
+						<select onChange={onChangeSearchParam}>
+							{searchableParams.map((param) => {
+								return <option value={param}> {param.replace('_', '')} </option>;
 							})}
 						</select>
 						<div className="input-group-append">
-							<button className="btn btn-outline-secondary" type="button" onClick={findByIdRol}>
+							<button className="btn btn-outline-secondary" type="button" onClick={findByParam}>
 								Search
 							</button>
 						</div>
 					</div>
 				</div>
+				<hr className="rounded"></hr>
 				<div className="col-lg-10 align-self-center">
 					<div className="row">
 						{users.map((user) => {

@@ -19,7 +19,7 @@ const InscripcionesList = () => {
 	const [validationErrorMessage, setValidationErrorMessage] = useState('');
 	const [selectedInscripcion, setSelectedInscripcion] = useState({
 		_id: '',
-		carreraId: '',
+		idEvento: '',
 		claseId: '',
 		idUsuario: '',
 		vehiculoId: '',
@@ -212,7 +212,7 @@ const InscripcionesList = () => {
 	const editar = async (selectedInscripcion) => {
 		inscripciones.forEach((inscripcion) => {
 			if (inscripcion._id === selectedInscripcion._id) {
-				inscripcion.carreraId = selectedInscripcion.carreraId;
+				inscripcion.idEvento = selectedInscripcion.idEvento;
 				inscripcion.claseId = selectedInscripcion.claseId;
 				inscripcion.idUsuario = selectedInscripcion.idUsuario;
 				inscripcion.vehiculoId = selectedInscripcion.vehiculoId;
@@ -281,18 +281,20 @@ const InscripcionesList = () => {
 											</button>
 										</div>
 									</div>
+									<br></br>
 									<div className="col-lg-6">
 										<button className="btn btn-success" onClick={() => selectInscripcion('Editar')}>
 											Añadir una nueva Inscripciones
 										</button>
 									</div>
 								</div>
+								<hr className="rounded"></hr>
 							</div>
 							<table className="table table-striped w-auto table-hover">
 								<thead>
 									<tr>
 										<th>_id</th>
-										<th>carreraId</th>
+										<th>idEvento</th>
 										<th>claseId</th>
 										<th>idUsuario</th>
 										<th>vehiculoId</th>
@@ -305,7 +307,7 @@ const InscripcionesList = () => {
 								<tbody>
 									{inscripciones.map((inscripcion) => {
 										const id = `${inscripcion._id}`;
-										const carreraId = `${inscripcion.carreraId}`;
+										const idEvento = `${inscripcion.idEvento}`;
 										const claseId = `${inscripcion.claseId}`;
 										const idUsuario = `${inscripcion.idUsuario}`;
 										const vehiculoId = `${inscripcion.vehiculoId}`;
@@ -316,7 +318,7 @@ const InscripcionesList = () => {
 										return (
 											<tr>
 												<th>{id}</th>
-												<th>{carreraId}</th>
+												<th>{idEvento}</th>
 												<th>{claseId}</th>
 												<th>{idUsuario}</th>
 												<th>{vehiculoId}</th>
@@ -362,15 +364,15 @@ const InscripcionesList = () => {
 					<ModalBody>
 						<label>ID</label>
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedInscripcion._id} placeholder="Auto-Incremental ID" />
-						<label>carreraId</label>
+						<label>idEvento</label>
 						<input
 							className="form-control"
 							type="text"
 							maxLength="50"
-							name="carreraId"
-							id="carreraIdField"
+							name="idEvento"
+							id="idEventoField"
 							onChange={handleChange}
-							value={selectedInscripcion.carreraId}
+							value={selectedInscripcion.idEvento}
 						/>
 						<label>claseId</label>
 						<input className="form-control" type="text" maxLength="100" name="claseId" id="claseIdField" onChange={handleChange} value={selectedInscripcion.claseId} />
@@ -499,7 +501,7 @@ const InscripcionesList = () => {
 								<thead>
 									<tr>
 										<th>_id</th>
-										<th>carreraId</th>
+										<th>idEvento</th>
 										<th>claseId</th>
 										<th>idUsuario</th>
 										<th>vehiculoId</th>
@@ -512,7 +514,7 @@ const InscripcionesList = () => {
 								<tbody>
 									{inscripciones.map((inscripcion) => {
 										const id = `${inscripcion._id}`;
-										const carreraId = `${inscripcion.carreraId}`;
+										const idEvento = `${inscripcion.idEvento}`;
 										const claseId = `${inscripcion.claseId}`;
 										const idUsuario = `${inscripcion.idUsuario}`;
 										const vehiculoId = `${inscripcion.vehiculoId}`;
@@ -523,7 +525,7 @@ const InscripcionesList = () => {
 										return (
 											<tr>
 												<th>{id}</th>
-												<th>{carreraId}</th>
+												<th>{idEvento}</th>
 												<th>{claseId}</th>
 												<th>{idUsuario}</th>
 												<th>{vehiculoId}</th>

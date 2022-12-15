@@ -229,12 +229,14 @@ const CarsList = () => {
 											</button>
 										</div>
 									</div>
+									<br></br>
 									<div className="col-lg-6">
 										<button className="btn btn-success" onClick={() => selectCar('Editar')}>
 											Añadir un nuevo Auto
 										</button>
 									</div>
 								</div>
+								<hr className="rounded"></hr>
 							</div>
 							<table className="table table-striped w-auto table-hover">
 								<thead>

@@ -11,33 +11,31 @@ class InscripcionDataService {
 		return result;
 	}
 
-	async createInscripcion({ carreraId, claseId, idUsuario, vehiculoSeleccionado, fechaSprint }) {
-		console.log('About inscribir: ', carreraId, claseId, idUsuario, vehiculoSeleccionado, fechaSprint);
+	async createInscripcion({ idEvento, claseId, idUsuario, vehiculoSeleccionado, fechaSprint }) {
+		console.log('About inscribir: ', idEvento, claseId, idUsuario, vehiculoSeleccionado, fechaSprint);
 		let result;
 
-		result = validatePayload({ carreraId, claseId, idUsuario, vehiculoSeleccionado });
+		result = validatePayload({ idEvento, claseId, idUsuario, vehiculoSeleccionado });
 		if (!result.status) return result;
 
-		result = await http.post(
-			`/createInscripcion?carreraId=${carreraId}&claseId=${claseId}&idUsuario=${idUsuario}&vehiculoId=${vehiculoSeleccionado}&fechaSprint=${fechaSprint}`
-		);
+		result = await http.post(`/createInscripcion?idEvento=${idEvento}&claseId=${claseId}&idUsuario=${idUsuario}&vehiculoId=${vehiculoSeleccionado}&fechaSprint=${fechaSprint}`);
 		// Testing purposes
 		// result.status = 200;
 		console.log('Result: ', result);
 		return result;
 	}
 
-	async createInscripcionABM({ carreraId, claseId, idUsuario, vehiculoId, fechaSprint, matcheado, ingreso }) {
-		console.log('About inscribir: ', carreraId, claseId, idUsuario, vehiculoId, fechaSprint, matcheado, ingreso);
+	async createInscripcionABM({ idEvento, claseId, idUsuario, vehiculoId, fechaSprint, matcheado, ingreso }) {
+		console.log('About inscribir: ', idEvento, claseId, idUsuario, vehiculoId, fechaSprint, matcheado, ingreso);
 		let result;
 
-		result = validatePayload({ carreraId, claseId, idUsuario, vehiculoId, fechaSprint, matcheado, ingreso });
+		result = validatePayload({ idEvento, claseId, idUsuario, vehiculoId, fechaSprint, matcheado, ingreso });
 		if (!result.status) return result;
 		result = this.validarInscripcion(matcheado, ingreso);
 		if (!result.status) return result;
 
 		result = await http.post(
-			`/createInscripcion?carreraId=${carreraId}&claseId=${claseId}&idUsuario=${idUsuario}&vehiculoId=${vehiculoId}&fechaSprint=${fechaSprint}&matcheado=${matcheado}&ingreso=${ingreso}`
+			`/createInscripcion?idEvento=${idEvento}&claseId=${claseId}&idUsuario=${idUsuario}&vehiculoId=${vehiculoId}&fechaSprint=${fechaSprint}&matcheado=${matcheado}&ingreso=${ingreso}`
 		);
 
 		console.log('Result: ', result);
@@ -50,14 +48,14 @@ class InscripcionDataService {
 		return result;
 	}
 
-	async get(query, by = 'carreraId', page = 0) {
+	async get(query, by = 'idEvento', page = 0) {
 		console.log(`Searching by: ${by} value: ${query}`);
 		const result = await http.get(`/inscripciones?page=${page}&${by}=${query}`);
 		console.log('DB Result: ', result);
 		return result;
 	}
 
-	async getRegularUser(query, by = 'carreraId', userId) {
+	async getRegularUser(query, by = 'idEvento', userId) {
 		let result;
 		console.log(`Searching by: ${by} value: ${query} for User: ${userId}`);
 		if (query === '') {
@@ -73,29 +71,24 @@ class InscripcionDataService {
 		return await http.delete(`/deleteInscripcion?_id=${id}`);
 	}
 
-	async editInscripcion({ _id, carreraId, claseId, idUsuario, vehiculoId, fechaSprint, matcheado, ingreso }) {
-		console.log('About edit: ', _id, carreraId, claseId, idUsuario, vehiculoId, fechaSprint, matcheado, ingreso);
+	async editInscripcion({ _id, idEvento, claseId, idUsuario, vehiculoId, fechaSprint, matcheado, ingreso }) {
+		console.log('About edit: ', _id, idEvento, claseId, idUsuario, vehiculoId, fechaSprint, matcheado, ingreso);
 		let result;
 		let idUsuarioModif = cookies.get('_id');
 
-		result = validatePayload({ carreraId, claseId, idUsuario, vehiculoId, fechaSprint, matcheado, ingreso });
+		result = validatePayload({ idEvento, claseId, idUsuario, vehiculoId, fechaSprint, matcheado, ingreso });
 		if (!result.status) return result;
 		result = this.validarInscripcion(matcheado, ingreso);
 		if (!result.status) return result;
 
 		result = await http.put(
-			`/editInscripcion?_id=${_id}&carreraId=${carreraId}&claseId=${claseId}&idUsuario=${idUsuario}&vehiculoId=${vehiculoId}&fechaSprint=${fechaSprint}&matcheado=${matcheado}&idUsuarioModif=${idUsuarioModif}&ingreso=${ingreso}`
+			`/editInscripcion?_id=${_id}&idEvento=${idEvento}&claseId=${claseId}&idUsuario=${idUsuario}&vehiculoId=${vehiculoId}&fechaSprint=${fechaSprint}&matcheado=${matcheado}&idUsuarioModif=${idUsuarioModif}&ingreso=${ingreso}`
 		);
 		console.log('Result: ', result);
 		return result;
 	}
 
 	validarInscripcion(matcheado, ingreso) {
-		/* TODO: Validar:
-		- Id de carrera valido
-		- Id de clase valido
-		- fecha sprint unicamente puede caer un viernes
-		*/
 		const resultValidaciones = {
 			status: true,
 		};

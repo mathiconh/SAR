@@ -177,7 +177,7 @@ const ClasesList = () => {
 								<div className="row">
 									<div className="col-sm-6">
 										<h2>
-											Administrar <b>Autos</b>
+											Administrar <b>Clases</b>
 										</h2>
 									</div>
 									<div className="input-group col-lg-4">
@@ -193,12 +193,14 @@ const ClasesList = () => {
 											</button>
 										</div>
 									</div>
+									<br></br>
 									<div className="col-lg-6">
 										<button className="btn btn-success" onClick={() => selectClase('Editar')}>
 											Añadir una nueva Clase
 										</button>
 									</div>
 								</div>
+								<hr className="rounded"></hr>
 							</div>
 							<table className="table table-striped w-auto table-hover">
 								<thead>

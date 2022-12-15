@@ -10,7 +10,7 @@ const cookies = new Cookies();
 
 const CarsList = () => {
 	const defaultInsc = {
-		carreraId: '',
+		idEvento: '',
 		claseId: '',
 		idUsuario: cookies.get('_id'),
 		vehiculoSeleccionado: '',
@@ -46,22 +46,13 @@ const CarsList = () => {
 			setEventoSeleccionada(eventoData);
 			setInscripcion((prevState) => ({
 				...prevState,
-				carreraId: eventoData.carreraId,
-				claseId: eventoData.carreraIdClase,
+				idEvento: eventoData.idEvento,
+				claseId: eventoData.idEventoClase,
 				fechaSprint: fechaSprint,
 			}));
 		}
 		document.getElementById('tiempoClaseData').value = eventoData.tiempoClase;
 	};
-
-	// function onChangeValue(event) {
-	// 	// console.log(`Name: ${event.target.name} Value: ${event.target.value}`);
-	// 	const { name, value } = event.target;
-	// 	setInscripcion((prevState) => ({
-	// 		...prevState,
-	// 		[name]: value,
-	// 	}));
-	// }
 
 	function onChangeValueCompetidor() {
 		setInscribirOtroCompetidor((prevState) => !prevState);

@@ -462,7 +462,9 @@ const MiPerfil = (props) => {
 													Añadir un nuevo Auto
 												</button>
 											</div>
+											<br></br>
 										</div>
+										<hr className="rounded"></hr>
 										{autos.map((selectedCar) => {
 											const id = `${selectedCar._id}`;
 											const patente = `${selectedCar.patente}`;
@@ -537,7 +539,7 @@ const MiPerfil = (props) => {
 										<table className="table table-striped w-auto table-hover">
 											<thead>
 												<tr>
-													<th>Fecha</th>
+													<th>ID Evento</th>
 													<th>Usuario 1</th>
 													<th>Vehiculo 1</th>
 													<th>Reacción</th>
@@ -548,14 +550,11 @@ const MiPerfil = (props) => {
 													<th>Reacción</th>
 													<th>Tiempo 100 mts</th>
 													<th>Tiempo Lllegada</th>
-													<th>Clase</th>
-													<th>Pista</th>
 													<th>Acciones</th>
 												</tr>
 											</thead>
 											<tbody>
 												{carreras.map((selectedCarrera) => {
-													const fecha = `${selectedCarrera.fecha}`;
 													const idUsuarioP1 = `${selectedCarrera.idUsuarioP1}`;
 													const idUsuarioP2 = `${selectedCarrera.idUsuarioP2}`;
 													const idVehiculoP1 = `${selectedCarrera.idVehiculoP1}`;
@@ -566,11 +565,10 @@ const MiPerfil = (props) => {
 													const tiempo100mtsP2 = `${selectedCarrera.tiempo100mtsP2}`;
 													const tiempoLlegadaP1 = `${selectedCarrera.tiempoLlegadaP1}`;
 													const tiempoLlegadaP2 = `${selectedCarrera.tiempoLlegadaP2}`;
-													const pista = `${selectedCarrera.pista}`;
-													const clase = `${selectedCarrera.clase}`;
+													const idEvento = `${selectedCarrera.idEvento}`;
 													return (
 														<tr>
-															<td>{fecha}</td>
+															<td>{idEvento}</td>
 															<td>{idUsuarioP1}</td>
 															<td>{idVehiculoP1}</td>
 															<td>{reaccionP1}</td>
@@ -581,8 +579,6 @@ const MiPerfil = (props) => {
 															<td>{reaccionP2}</td>
 															<td>{tiempo100mtsP2}</td>
 															<td>{tiempoLlegadaP2}</td>
-															<td>{pista}</td>
-															<td>{clase}</td>
 															<td>
 																<a className="btn btn-primary" href={'/miperfil/' + selectedCarrera.idUsuarioP1}>
 																	Ver

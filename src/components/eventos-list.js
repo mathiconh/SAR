@@ -18,7 +18,7 @@ const EventosList = () => {
 	const [validationErrorMessage, setValidationErrorMessage] = useState('');
 	const [selectedEvento, setSelectedEvento] = useState({
 		_id: '',
-		idCarrera: '',
+		idEvento: '',
 		fecha: '',
 		cupos: '',
 		idClase: '',
@@ -147,7 +147,7 @@ const EventosList = () => {
 	const editar = async (selectedEvento) => {
 		eventos.forEach((evento) => {
 			if (evento._id === selectedEvento._id) {
-				evento.idCarrera = selectedEvento.idCarrera;
+				evento.idEvento = selectedEvento.idEvento;
 				evento.fecha = selectedEvento.fecha;
 				evento.cupos = selectedEvento.cupos;
 				evento.idClase = selectedEvento.idClase;
@@ -215,18 +215,20 @@ const EventosList = () => {
 											</button>
 										</div>
 									</div>
+									<br></br>
 									<div className="col-lg-6">
 										<button className="btn btn-success" onClick={() => selectEvento('Editar')}>
 											Añadir un nuevo Evento
 										</button>
 									</div>
 								</div>
+								<hr className="rounded"></hr>
 							</div>
 							<table className="table table-striped w-auto table-hover">
 								<thead>
 									<tr>
 										<th>Id</th>
-										<th>idCarrera</th>
+										<th>idEvento</th>
 										<th>fecha</th>
 										<th>cupos</th>
 										<th>idClase</th>
@@ -237,7 +239,7 @@ const EventosList = () => {
 								<tbody>
 									{eventos.map((evento) => {
 										const id = `${evento._id}`;
-										const idCarrera = `${evento.idCarrera}`;
+										const idEvento = `${evento.idEvento}`;
 										const fecha = `${evento.fecha}`;
 										const cupos = `${evento.cupos}`;
 										const idClase = `${evento.idClase}`;
@@ -246,7 +248,7 @@ const EventosList = () => {
 										return (
 											<tr>
 												<td>{id}</td>
-												<td>{idCarrera}</td>
+												<td>{idEvento}</td>
 												<td>{fecha}</td>
 												<td>{cupos}</td>
 												<td>{idClase}</td>
@@ -291,7 +293,7 @@ const EventosList = () => {
 						<label>ID</label>
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedEvento._id} placeholder="Auto-Incremental ID" />
 						<label>ID Carrera</label>
-						<input className="form-control" type="text" maxLength="50" name="idCarrera" id="idCarreraField" onChange={handleChange} value={selectedEvento.idCarrera} />
+						<input className="form-control" type="text" maxLength="50" name="idEvento" id="idEventoField" onChange={handleChange} value={selectedEvento.idEvento} />
 						<label>Clase</label>
 						<select className="form-select" name="idClase" id="idClaseField" onChange={handleChange} value={selectedEvento.idClase} aria-label="Default select example">
 							{clases.map((clase) => {
