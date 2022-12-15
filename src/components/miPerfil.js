@@ -395,6 +395,14 @@ const MiPerfil = (props) => {
 		}
 	};
 
+	const getIdVerContrincante = (idUsuarioP1, idUsuarioP2) => {
+		if (cookies.get('_id') === idUsuarioP1) {
+			return idUsuarioP2;
+		} else {
+			return idUsuarioP1;
+		}
+	};
+
 	if (perfil._id === cookies.get('_id') || cookies.get('idRol') === '1') {
 		return (
 			<div>
@@ -580,8 +588,11 @@ const MiPerfil = (props) => {
 															<td>{tiempo100mtsP2}</td>
 															<td>{tiempoLlegadaP2}</td>
 															<td>
-																<a className="btn btn-primary" href={'/miperfil/' + selectedCarrera.idUsuarioP1}>
-																	Ver
+																<a
+																	className="btn btn-primary"
+																	href={'/miperfil/' + getIdVerContrincante(selectedCarrera.idUsuarioP1, selectedCarrera.idUsuarioP2)}
+																>
+																	Ver Contrincante
 																</a>
 															</td>
 														</tr>
@@ -868,6 +879,108 @@ const MiPerfil = (props) => {
 											</tbody>
 										</table>
 									</div>
+								</div>
+							</div>
+						</div>
+						<hr className="rounded"></hr>
+
+						<div>
+							<div className="container-xl">
+								<div className="table-responsive">
+									<div className="table-wrapper">
+										<div className="table-title">
+											<div className="row">
+												<div className="col-sm-6">
+													<h2>Tus Carreras</h2>
+												</div>
+											</div>
+										</div>
+										<table className="table table-striped w-auto table-hover">
+											<thead>
+												<tr>
+													<th>ID Evento</th>
+													<th>Usuario 1</th>
+													<th>Vehiculo 1</th>
+													<th>Reacción</th>
+													<th>Tiempo 100 mts</th>
+													<th>Tiempo Lllegada</th>
+													<th>Usuario 2</th>
+													<th>Vehiculo 2</th>
+													<th>Reacción</th>
+													<th>Tiempo 100 mts</th>
+													<th>Tiempo Lllegada</th>
+													<th>Acciones</th>
+												</tr>
+											</thead>
+											<tbody>
+												{carreras.map((selectedCarrera) => {
+													const idUsuarioP1 = `${selectedCarrera.idUsuarioP1}`;
+													const idUsuarioP2 = `${selectedCarrera.idUsuarioP2}`;
+													const idVehiculoP1 = `${selectedCarrera.idVehiculoP1}`;
+													const idVehiculoP2 = `${selectedCarrera.idVehiculoP2}`;
+													const reaccionP1 = `${selectedCarrera.reaccionP1}`;
+													const reaccionP2 = `${selectedCarrera.reaccionP2}`;
+													const tiempo100mtsP1 = `${selectedCarrera.tiempo100mtsP1}`;
+													const tiempo100mtsP2 = `${selectedCarrera.tiempo100mtsP2}`;
+													const tiempoLlegadaP1 = `${selectedCarrera.tiempoLlegadaP1}`;
+													const tiempoLlegadaP2 = `${selectedCarrera.tiempoLlegadaP2}`;
+													const idEvento = `${selectedCarrera.idEvento}`;
+													return (
+														<tr>
+															<td>{idEvento}</td>
+															<td>{idUsuarioP1}</td>
+															<td>{idVehiculoP1}</td>
+															<td>{reaccionP1}</td>
+															<td>{tiempo100mtsP1}</td>
+															<td>{tiempoLlegadaP1}</td>
+															<td>{idUsuarioP2}</td>
+															<td>{idVehiculoP2}</td>
+															<td>{reaccionP2}</td>
+															<td>{tiempo100mtsP2}</td>
+															<td>{tiempoLlegadaP2}</td>
+															<td>
+																<a
+																	className="btn btn-primary"
+																	href={'/miperfil/' + getIdVerContrincante(selectedCarrera.idUsuarioP1, selectedCarrera.idUsuarioP2)}
+																>
+																	Ver Contrincante
+																</a>
+															</td>
+														</tr>
+													);
+												})}
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div id="graficos">
+									<hr className="rounded"></hr>
+									<ChartComponent
+										id="chartsReaccion"
+										tooltip={{ enable: true }}
+										primaryXAxis={{ valueType: 'Category', title: 'Auto' }}
+										primaryYAxis={{ title: 'Tiempo' }}
+										title="Promedio de Tiempo de Reaccion por Auto"
+									>
+										<Inject services={[ColumnSeries, Legend, Tooltip, DataLabel, Category]} />
+										<SeriesCollectionDirective>
+											<SeriesDirective dataSource={reporte} xName="auto" yName="avgReaccion" type="Column" fill="red"></SeriesDirective>
+										</SeriesCollectionDirective>
+									</ChartComponent>
+									<hr className="rounded"></hr>
+									<ChartComponent
+										id="chartsCien"
+										tooltip={{ enable: true }}
+										primaryXAxis={{ valueType: 'Category', title: 'Auto' }}
+										primaryYAxis={{ title: 'Tiempo' }}
+										title="Promedio de Tiempo de 100mts por Auto"
+									>
+										<Inject services={[ColumnSeries, Legend, Tooltip, DataLabel, Category]} />
+										<SeriesCollectionDirective>
+											<SeriesDirective dataSource={reporte} xName="auto" yName="avgCien" type="Column" fill="#fbb00e"></SeriesDirective>
+										</SeriesCollectionDirective>
+									</ChartComponent>
+									<hr className="rounded"></hr>
 								</div>
 							</div>
 						</div>

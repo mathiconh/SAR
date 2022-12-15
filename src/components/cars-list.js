@@ -217,7 +217,7 @@ const CarsList = () => {
 										</h2>
 									</div>
 									<div className="input-group col-lg-4">
-										<input type="text" className="form-control" placeholder="Buscar por " value={searchValue} onChange={onChangeSearchValue} />
+										<input type="text" className="form-control" placeholder="Buscar autos por " value={searchValue} onChange={onChangeSearchValue} />
 										<select onChange={onChangeSearchParam}>
 											{searchableParams.map((param) => {
 												return <option value={param}> {param.replace('_', '')} </option>;

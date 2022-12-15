@@ -376,16 +376,6 @@ const InscripcionesList = () => {
 						/>
 						<label>claseId</label>
 						<input className="form-control" type="text" maxLength="100" name="claseId" id="claseIdField" onChange={handleChange} value={selectedInscripcion.claseId} />
-						{/* <label>idUsuario</label>
-						<input
-							className="form-control"
-							type="text"
-							maxLength="50"
-							name="idUsuario"
-							id="idUsuarioField"
-							onChange={handleChange}
-							value={selectedInscripcion.idUsuario}
-						/> */}
 						<label>Buscador de Usuarios</label>
 						<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchName} onChange={onChangeSearchName} />
 						<div className="input-group-append">

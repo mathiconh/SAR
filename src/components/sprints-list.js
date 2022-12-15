@@ -18,6 +18,7 @@ const SprintsList = () => {
 	const [searchNameP1, setSearchNameP1] = useState('');
 	const [searchNameP2, setSearchNameP2] = useState('');
 	const [eventos, setEventos] = useState([]);
+	const [eventoIdDefault, setEventoIdDefault] = useState([]);
 	const [entriesPerPage, setEntriesPerPage] = useState([]);
 	const [totalResults, setTotalResults] = useState([]);
 	const [searchParam, setSearchParam] = useState('_id');
@@ -91,11 +92,8 @@ const SprintsList = () => {
 				console.log('Data Eventos: ', response.data);
 				setEventos(response.data.eventos);
 				if (response.data.eventos.length) {
-					// console.log('Se cambio el ID Evento a: ', response.data.eventos[0].idEvento);
-					setSelectedSprint((prevState) => ({
-						...prevState,
-						idEvento: response.data.eventos[0].idEvento,
-					}));
+					console.log('Se cambio el ID Evento a: ', response.data.eventos[0].idEvento);
+					setEventoIdDefault(response.data.eventos[0].idEvento);
 				}
 			})
 			.catch((e) => {
@@ -131,9 +129,9 @@ const SprintsList = () => {
 		setSearchValue(searchValue);
 	};
 
-	const selectSprint = (action, sprint = {}) => {
-		console.log('Selected: ', sprint);
+	const selectSprint = (action, sprint = { idEvento: eventoIdDefault }) => {
 		setSelectedSprint(sprint);
+		console.log('Selected: ', sprint);
 		action === 'Editar' ? setModalEditar(true) : setModalElminar(true);
 	};
 
@@ -463,12 +461,6 @@ const SprintsList = () => {
 								return <option value={id}>Carrera {id}</option>;
 							})}
 						</select>
-						{/* <label className="label-class" htmlFor="tiempoClase">
-							{' '}
-							Clase del evento:{' '}
-						</label>
-						<input type="text" id="tiempoClaseData" name="tiempoDataInput" className="col-md-1" data-readonly required />
-						<br></br> */}
 						<label>Buscador UsuarioP1</label>
 						<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchNameP1} onChange={onChangeSearchNameP1} />
 						<div className="input-group-append">
@@ -485,10 +477,11 @@ const SprintsList = () => {
 							value={selectedSprint.idUsuarioP1}
 							aria-label="Default select example"
 						>
-							{usersP1.map((user1) => {
-								const id = `${user1._id}`;
-								const nombre = `${user1.nombre}`;
-								return <option value={id}>{nombre}</option>;
+							{usersP1.map((user) => {
+								const id = `${user._id}`;
+								const nombre = `${user.nombre}`;
+								const apellido = `${user.apellido}`;
+								return <option value={id}>{`${nombre} ${apellido} | ID: ${id}`}</option>;
 							})}
 						</select>
 						<label>ID VehiculoP1</label>
@@ -503,7 +496,9 @@ const SprintsList = () => {
 							{carsP1.map((car) => {
 								const id = `${car._id}`;
 								const modelo = `${car.modelo}`;
-								return <option value={id}>{modelo}</option>;
+								const patente = `${car.patente}`;
+								const anio = `${car.anio}`;
+								return <option value={id}>{`${anio} - ${modelo} ${patente} | ID: ${id}`}</option>;
 							})}
 						</select>
 						<br></br>
@@ -523,10 +518,11 @@ const SprintsList = () => {
 							value={selectedSprint.idUsuarioP2}
 							aria-label="Default select example"
 						>
-							{usersP2.map((user2) => {
-								const id = `${user2._id}`;
-								const nombre = `${user2.nombre}`;
-								return <option value={id}>{nombre}</option>;
+							{usersP2.map((user) => {
+								const id = `${user._id}`;
+								const nombre = `${user.nombre}`;
+								const apellido = `${user.apellido}`;
+								return <option value={id}>{`${nombre} ${apellido} | ID: ${id}`}</option>;
 							})}
 						</select>
 						<label>ID VehiculoP2</label>
@@ -541,7 +537,9 @@ const SprintsList = () => {
 							{carsP2.map((car) => {
 								const id = `${car._id}`;
 								const modelo = `${car.modelo}`;
-								return <option value={id}>{modelo}</option>;
+								const patente = `${car.patente}`;
+								const anio = `${car.anio}`;
+								return <option value={id}>{`${anio} - ${modelo} ${patente} | ID: ${id}`}</option>;
 							})}
 						</select>
 						<label>Reacción P1</label>

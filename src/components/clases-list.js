@@ -181,7 +181,7 @@ const ClasesList = () => {
 										</h2>
 									</div>
 									<div className="input-group col-lg-4">
-										<input type="text" className="form-control" placeholder="Busclase por " value={searchValue} onChange={onChangeSearchValue} />
+										<input type="text" className="form-control" placeholder="Buscar clases por " value={searchValue} onChange={onChangeSearchValue} />
 										<select onChange={onChangeSearchParam}>
 											{searchableParams.map((param) => {
 												return <option value={param}> {param.replace('_', '')} </option>;

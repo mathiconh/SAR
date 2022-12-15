@@ -220,7 +220,11 @@ const UsersList = () => {
 		return (
 			<div className="align-self-center">
 				<div className="container-lg align-self-center">
-					<br></br>
+					<div className="col-lg-12">
+						<h2>
+							Administrar <b>Usuarios</b>
+						</h2>
+					</div>
 					<div className="input-group col-lg-4">
 						<input type="text" className="form-control" placeholder="Buscar usuario por " value={searchValue} onChange={onChangeSearchValue} />
 						<select onChange={onChangeSearchParam}>
@@ -361,6 +365,11 @@ const UsersList = () => {
 		return (
 			<div className="align-self-center">
 				<div className="container-lg align-self-center">
+					<div className="col-lg-12">
+						<h2>
+							<b>Usuarios</b>
+						</h2>
+					</div>
 					<div className="input-group col-lg-4">
 						<input type="text" className="form-control" placeholder="Buscar usuario por " value={searchValue} onChange={onChangeSearchValue} />
 						<select onChange={onChangeSearchParam}>

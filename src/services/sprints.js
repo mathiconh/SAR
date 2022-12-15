@@ -52,7 +52,21 @@ class SprintsDataService {
 		let result;
 		let idUsuarioModif = cookies.get('_id');
 
-		result = validatePayload({ idUsuarioP1, idUsuarioP2, idVehiculoP1, idVehiculoP2 });
+		result = validatePayload({
+			idEvento,
+			idUsuarioP1,
+			idUsuarioP2,
+			idVehiculoP1,
+			idVehiculoP2,
+			reaccionP1,
+			reaccionP2,
+			tiempo100mtsP1,
+			tiempo100mtsP2,
+			tiempoLlegadaP1,
+			tiempoLlegadaP2,
+		});
+		if (!result.status) return result;
+		result = this.validarTiempos({ reaccionP1, reaccionP2, tiempo100mtsP1, tiempo100mtsP2, tiempoLlegadaP1, tiempoLlegadaP2 });
 		if (!result.status) return result;
 
 		result = await http.post(
@@ -98,7 +112,21 @@ class SprintsDataService {
 		let result;
 		let idUsuarioModif = cookies.get('_id');
 
-		result = validatePayload({ idUsuarioP1, idUsuarioP2, idVehiculoP1, idVehiculoP2 });
+		result = validatePayload({
+			idEvento,
+			idUsuarioP1,
+			idUsuarioP2,
+			idVehiculoP1,
+			idVehiculoP2,
+			reaccionP1,
+			reaccionP2,
+			tiempo100mtsP1,
+			tiempo100mtsP2,
+			tiempoLlegadaP1,
+			tiempoLlegadaP2,
+		});
+		if (!result.status) return result;
+		result = this.validarTiempos({ reaccionP1, reaccionP2, tiempo100mtsP1, tiempo100mtsP2, tiempoLlegadaP1, tiempoLlegadaP2 });
 		if (!result.status) return result;
 
 		result = await http.put(
@@ -106,6 +134,22 @@ class SprintsDataService {
 		);
 		console.log('Result: ', result);
 		return result;
+	}
+
+	validarTiempos(tiempos) {
+		const resultValidaciones = {
+			status: true,
+		};
+
+		Object.keys(tiempos).forEach((tiempoProperty) => {
+			console.log(parseFloat(tiempos[tiempoProperty]));
+			if (parseFloat(tiempos[tiempoProperty]) <= 0) {
+				resultValidaciones.status = false;
+				resultValidaciones.errorMessage = `La propiedad ${tiempoProperty} no puede ser menor o igual a 0`;
+			}
+		});
+
+		return resultValidaciones;
 	}
 }
 
