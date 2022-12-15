@@ -90,6 +90,9 @@ class CarsDataService {
 
 		result = validatePayload({ mataFuego, traje, motor, electricidad, estado });
 		if (!result.status) return result;
+		// Descomentar la linea de abajo para activar la llamada a la validacion de datos por campo
+		// result = this.validarDatosVt(mataFuego, traje, motor, electricidad, estado);
+		// if (!result.status) return result;
 
 		result = await http.put(
 			`/editVt?_id=${_id}&mataFuego=${mataFuego}&traje=${traje}&motor=${motor}&electricidad=${electricidad}&estado=${estado}&idUsuarioDuenio=${idUsuarioDuenio}&idAuto=${idAuto}&idUsuarioModif=${idUsuarioModif}`
@@ -105,12 +108,41 @@ class CarsDataService {
 
 		result = validatePayload({ mataFuego, traje, motor, electricidad, estado });
 		if (!result.status) return result;
+		// Descomentar la linea de abajo para activar la llamada a la validacion de datos por campo
+		// result = this.validarDatosVt(mataFuego, traje, motor, electricidad, estado);
+		// if (!result.status) return result;
 
 		result = await http.post(
 			`/completeVt?mataFuego=${mataFuego}&traje=${traje}&motor=${motor}&electricidad=${electricidad}&estado=${estado}&idUsuarioDuenio=${idUsuarioDuenio}&idUsuarioModif=${idUsuarioModif}&idAuto=${idAuto}`
 		);
 		console.log('Result: ', result);
 		return result;
+	}
+
+	// validarDatosVt(mataFuego, traje, motor, electricidad, estado){
+	// Borrar la linea de abajo y completar la función
+	validarDatosVt() {
+		const resultValidaciones = {
+			status: true,
+		};
+
+		// if (mataFuego) {
+
+		// }
+		// if (traje) {
+
+		// }
+		// if (motor) {
+
+		// }
+		// if (electricidad) {
+
+		// }
+		// if (estado) {
+
+		// }
+
+		return resultValidaciones;
 	}
 }
 

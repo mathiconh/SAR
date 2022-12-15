@@ -9,20 +9,51 @@ const cookies = new Cookies();
 const Inicio = () => {
 	let sesion = () => {
 		if (cookies.get('_id')) {
-			return (
-				<div>
-					<div className="m-4">
-						<a href="/inscripcion" className="justify-center btn botonPrincipal ml-4">
-							INSCRIBITE
-						</a>
+			if (cookies.get('idRol') === '1') {
+				return (
+					<div className="d-flex">
+						<div className="m-4">
+							<div className="m-4">
+								<a href="/users" className="justify-center btn botonPrincipal ml-4">
+									Usuarios
+								</a>
+							</div>
+							<div className="m-4">
+								<a href="/sprints" className="justify-center btn botonPrincipal ml-4">
+									ABM Sprints
+								</a>
+							</div>
+						</div>
+						<div className="m-4">
+							<div className="m-4">
+								<a href="/inscripciones" className="justify-center btn botonPrincipal ml-4">
+									ABM Inscripciones
+								</a>
+							</div>
+							<div className="m-4">
+								<a href={'/miperfil/' + cookies.get('_id')} className="justify-center btn botonSecundario">
+									Ver Mi Perfil
+								</a>
+							</div>
+						</div>
 					</div>
-					<div className="m-4">
-						<a href={'/miperfil/' + cookies.get('_id')} className="justify-center btn botonSecundario">
-							Ver Mi Perfil
-						</a>
+				);
+			} else {
+				return (
+					<div>
+						<div className="m-4">
+							<a href="/inscripcion" className="justify-center btn botonPrincipal ml-4">
+								INSCRIBITE
+							</a>
+						</div>
+						<div className="m-4">
+							<a href={'/miperfil/' + cookies.get('_id')} className="justify-center btn botonSecundario">
+								Ver Mi Perfil
+							</a>
+						</div>
 					</div>
-				</div>
-			);
+				);
+			}
 		} else {
 			return (
 				<div>
@@ -46,7 +77,7 @@ const Inicio = () => {
 							INICIAR SESION
 						</a>
 					</div> */}
-					<div className="m-4">
+					<div className="d-flex">
 						{sesion()}
 					</div>
 				</div>
