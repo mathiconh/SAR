@@ -68,8 +68,6 @@ const InscripcionesList = () => {
 
 	const findByName = () => {
 		findUser(searchName, 'nombre');
-		// TODO: finish
-		// retrieveCars();
 	};
 
 	const findUser = async (query, by) => {

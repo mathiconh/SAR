@@ -90,15 +90,18 @@ class CarsDataService {
 
 		result = validatePayload({ mataFuego, traje, motor, electricidad, estado });
 		if (!result.status) return result;
-		// Descomentar la linea de abajo para activar la llamada a la validacion de datos por campo
-		// result = this.validarDatosVt(mataFuego, traje, motor, electricidad, estado);
-		// if (!result.status) return result;
+		result = this.validarDatosVt({ mataFuego, traje, motor, electricidad, estado });
+		if (!result.status) return result;
 
 		result = await http.put(
 			`/editVt?_id=${_id}&mataFuego=${mataFuego}&traje=${traje}&motor=${motor}&electricidad=${electricidad}&estado=${estado}&idUsuarioDuenio=${idUsuarioDuenio}&idAuto=${idAuto}&idUsuarioModif=${idUsuarioModif}`
 		);
 		console.log('Result: ', result);
 		return result;
+	}
+
+	async deleteVt(idVt, idAuto) {
+		return await http.delete(`/deleteVt?_id=${idVt}&idAuto=${idAuto}`);
 	}
 
 	async completarVt({ mataFuego, traje, motor, electricidad, estado, idUsuarioDuenio, idAuto }) {
@@ -108,9 +111,8 @@ class CarsDataService {
 
 		result = validatePayload({ mataFuego, traje, motor, electricidad, estado });
 		if (!result.status) return result;
-		// Descomentar la linea de abajo para activar la llamada a la validacion de datos por campo
-		// result = this.validarDatosVt(mataFuego, traje, motor, electricidad, estado);
-		// if (!result.status) return result;
+		result = this.validarDatosVt({ mataFuego, traje, motor, electricidad, estado });
+		if (!result.status) return result;
 
 		result = await http.post(
 			`/completeVt?mataFuego=${mataFuego}&traje=${traje}&motor=${motor}&electricidad=${electricidad}&estado=${estado}&idUsuarioDuenio=${idUsuarioDuenio}&idUsuarioModif=${idUsuarioModif}&idAuto=${idAuto}`
@@ -119,28 +121,18 @@ class CarsDataService {
 		return result;
 	}
 
-	// validarDatosVt(mataFuego, traje, motor, electricidad, estado){
-	// Borrar la linea de abajo y completar la función
-	validarDatosVt() {
+	validarDatosVt(datosVt) {
 		const resultValidaciones = {
 			status: true,
 		};
 
-		// if (mataFuego) {
-
-		// }
-		// if (traje) {
-
-		// }
-		// if (motor) {
-
-		// }
-		// if (electricidad) {
-
-		// }
-		// if (estado) {
-
-		// }
+		Object.keys(datosVt).forEach((datosVtProperty) => {
+			console.log(parseFloat(datosVt[datosVtProperty]));
+			if (datosVt[datosVtProperty].toLowerCase() !== 'si' && datosVt[datosVtProperty].toLowerCase() !== 'no') {
+				resultValidaciones.status = false;
+				resultValidaciones.errorMessage = `La propiedad ${datosVtProperty} no puede tener un valor diferente a Si o No`;
+			}
+		});
 
 		return resultValidaciones;
 	}

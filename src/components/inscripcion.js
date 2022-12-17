@@ -216,7 +216,6 @@ const CarsList = () => {
 
 	// Funcion de custom validation basada en la documentacion de Bootstrap
 	(function () {
-		// TODO: Revisar si esto de use strict al sacarlo cambia algo en esta pantalla o no
 		'use strict';
 		// Obtiene todos los formularios a los que queremos aplicarles la validacion custom
 		var forms = document.querySelectorAll('.needs-validation');

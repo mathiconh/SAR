@@ -152,6 +152,7 @@ const MiPerfil = (props) => {
 			setValidationErrorMessage('');
 			setPerfil(perfil);
 			setModalEditar(false);
+			refreshList();
 		} else {
 			setValidationErrorMessage(result?.errorMessage);
 		}
@@ -168,19 +169,25 @@ const MiPerfil = (props) => {
 		return;
 	};
 
+	const refreshList = () => {
+		getPerfilById(props.match.params._id);
+		retrieveUser(props.match.params._id);
+		getAutos(props.match.params._id);
+	};
+
 	//--------------------------------------------------------------Verificación Técnica--------------------------------------------------
 
 	let setModalButtonVt = (selectedVt) => {
 		console.log('SelectecVt tiene:', selectedVt);
 		if (selectedVt._id) {
 			return (
-				<button className="btn btn-danger" onClick={() => editarVt(selectedVt)}>
+				<button className="btn btn-success" onClick={() => editarVt(selectedVt)}>
 					Actualizar
 				</button>
 			);
 		} else {
 			return (
-				<button className="btn btn-danger" onClick={() => completarVt(selectedVt)}>
+				<button className="btn btn-success" onClick={() => completarVt(selectedVt)}>
 					Completar
 				</button>
 			);
@@ -194,7 +201,7 @@ const MiPerfil = (props) => {
 			console.log('creación exitosa');
 			setValidationErrorMessage('');
 			setModalEditarVt(false);
-			getAutos();
+			refreshList();
 		} else {
 			setValidationErrorMessage(result?.errorMessage);
 		}
@@ -218,9 +225,26 @@ const MiPerfil = (props) => {
 			setValidationErrorMessage('');
 			setVt(vt);
 			setModalEditarVt(false);
+			refreshList();
 		} else {
 			setValidationErrorMessage(result?.errorMessage);
 		}
+	};
+
+	const eliminarVt = (idVt, idAuto) => {
+		deleteVt(idVt, idAuto);
+		setModalEditarVt(false);
+	};
+
+	const deleteVt = async (idVt, idAuto) => {
+		console.log('VT to be deleted', idVt, idAuto);
+		await CarsDataService.deleteVt(idVt, idAuto)
+			.then(() => {
+				refreshList();
+			})
+			.catch((e) => {
+				console.log(e);
+			});
 	};
 
 	const selectVt = async (action, car = {}) => {
@@ -255,10 +279,51 @@ const MiPerfil = (props) => {
 
 	//--------------------------------------------------------------------auto------------------------------------------------------------
 
+	let getEstadoVt = async (idVt) => {
+		if (idVt) {
+			return await CarsDataService.findVt(idVt, '_id')
+				.then((response) => {
+					let estadoVt = true;
+					const vt = response.data.vts[0];
+
+					Object.keys(vt).map((datosVtProperty) => {
+						if (
+							datosVtProperty !== 'idUsuarioDuenio' &&
+							datosVtProperty !== '_id' &&
+							datosVtProperty !== 'idAuto' &&
+							datosVtProperty !== 'tipoModif' &&
+							datosVtProperty !== 'fechaUltModif' &&
+							datosVtProperty !== 'idUsuarioModif'
+						) {
+							if (estadoVt === true && vt[datosVtProperty].toLowerCase() === 'si') {
+								estadoVt = true;
+							} else if (vt[datosVtProperty].toLowerCase() === 'no') {
+								estadoVt = false;
+							}
+						}
+					});
+					return estadoVt ? 'Verificacion OK' : 'Verificacion NO OK';
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		} else {
+			console.log('No tiene VT');
+			return 'No Verificado';
+		}
+	};
+
 	const getAutos = async (_id) => {
 		await CarsDataService.find(_id, 'idUsuarioDuenio')
-			.then((response) => {
+			.then(async (response) => {
 				console.log('autos tiene', response.data.cars);
+				await Promise.all(
+					response.data.cars.map(async (car) => {
+						const estadoVt = await getEstadoVt(car.idVt);
+						console.log('Resultado Estado VT: ', estadoVt);
+						car.estadoVt = estadoVt;
+					})
+				);
 				setAutos(response.data.cars);
 			})
 			.catch((e) => {
@@ -319,6 +384,7 @@ const MiPerfil = (props) => {
 			setValidationErrorMessage('');
 			setAutos(autos);
 			setModalEditarAuto(false);
+			refreshList();
 		} else {
 			setValidationErrorMessage(result?.errorMessage);
 		}
@@ -332,6 +398,7 @@ const MiPerfil = (props) => {
 			setValidationErrorMessage('');
 			setModalEditarAuto(false);
 			getAutos(props.match.params._id);
+			refreshList();
 		} else {
 			setValidationErrorMessage(result?.errorMessage);
 		}
@@ -347,6 +414,7 @@ const MiPerfil = (props) => {
 		await CarsDataService.deleteCar(carId)
 			.then(() => {
 				getAutos(props.match.params._id);
+				refreshList();
 			})
 			.catch((e) => {
 				console.log(e);
@@ -479,7 +547,7 @@ const MiPerfil = (props) => {
 											const agregados = `${selectedCar.agregados}`;
 											const historia = `${selectedCar.historia}`;
 											const tallerAsociado = `${selectedCar.tallerAsociado}`;
-											const idVt = `${selectedCar.idVt}`;
+											const estadoVt = `${selectedCar.estadoVt}`;
 											return (
 												<div className="col-lg-4 pb-1">
 													<div className="card">
@@ -505,7 +573,7 @@ const MiPerfil = (props) => {
 																{tallerAsociado}
 																<br />
 																<strong>Verificación Técnica: </strong>
-																{idVt}
+																{estadoVt}
 															</p>
 															<div className="container">
 																<button className="btn btn-primary col-6" onClick={() => selectCar('EditarAuto', selectedCar)}>
@@ -684,7 +752,7 @@ const MiPerfil = (props) => {
 						<input
 							className="form-control"
 							type="text"
-							placeholder="COMPLETAR CON LOS VALORES ACEPTADOS"
+							placeholder="Valores permitidos: Si | No"
 							maxLength="50"
 							name="mataFuego"
 							id="mataFuegoField"
@@ -695,7 +763,7 @@ const MiPerfil = (props) => {
 						<input
 							className="form-control"
 							type="text"
-							placeholder="COMPLETAR CON LOS VALORES ACEPTADOS"
+							placeholder="Valores permitidos: Si | No"
 							maxLength="50"
 							name="traje"
 							id="trajeField"
@@ -706,7 +774,7 @@ const MiPerfil = (props) => {
 						<input
 							className="form-control"
 							type="text"
-							placeholder="COMPLETAR CON LOS VALORES ACEPTADOS"
+							placeholder="Valores permitidos: Si | No"
 							maxLength="100"
 							name="motor"
 							id="motorField"
@@ -716,8 +784,9 @@ const MiPerfil = (props) => {
 						<label>Electricidad</label>
 						<input
 							className="form-control"
-							type="number"
-							maxLength="10"
+							type="text"
+							placeholder="Valores permitidos: Si | No"
+							maxLength="300"
 							name="electricidad"
 							id="electricidadField"
 							onChange={handleChangeVt}
@@ -727,7 +796,7 @@ const MiPerfil = (props) => {
 						<input
 							className="form-control"
 							type="text"
-							placeholder="COMPLETAR CON LOS VALORES ACEPTADOS"
+							placeholder="Valores permitidos: Si | No"
 							maxLength="300"
 							name="estado"
 							id="estadoField"
@@ -751,6 +820,9 @@ const MiPerfil = (props) => {
 					<ModalFooter>
 						{buildErrorMessage()}
 						{setModalButtonVt(selectedVt)}
+						<button className="btn btn-danger" onClick={() => eliminarVt(selectedVt._id, selectedVt.idAuto)}>
+							Borrar Verificacion Tecnica
+						</button>
 						<button className="btn btn-secondary" onClick={() => closeModalVt()}>
 							Cancelar
 						</button>

@@ -253,8 +253,6 @@ const SprintsList = () => {
 			...prevState,
 			[name]: value,
 		}));
-		// TODO: Buscar el nombre de la clase correspondiente. No hace falta mas Fecha ya qeu esta dentro de los datos del evento
-		// document.getElementById('tiempoClaseData').value = value.idClase;
 	};
 
 	const handleChangeUserP1 = (e) => {
