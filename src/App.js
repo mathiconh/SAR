@@ -15,6 +15,7 @@ import Eventos from './components/eventos-list';
 import Clases from './components/clases-list';
 import Cookies from 'universal-cookie';
 import './styles/inicio.css';
+import './styles/buttons.css';
 
 const cookies = new Cookies();
 
@@ -36,7 +37,7 @@ function App() {
 			<div>
 				<li key="DropdownUser">
 					<div className="dropdown bugermenu">
-						<button className="btn btn-secondary navbar-toggler" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+						<button className="btn btn-dark navbar-toggler" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 							<span className="navbar-toggler-icon"></span>
 						</button>
 						<ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -82,7 +83,7 @@ function App() {
 			<div>
 				<li key="DropdownAdmin">
 					<div className="dropdown bugermenu">
-						<button className="btn btn-secondary navbar-toggler" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+						<button className="btn btn-dark navbar-toggler" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 							<span className="navbar-toggler-icon"></span>
 						</button>
 						<ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">

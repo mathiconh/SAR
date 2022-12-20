@@ -1,0 +1,25 @@
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: #21ae6a !important;
+    border-color: #21ae6a !important;
+}
+
+.btn-secondary, .btn-secondary:hover, .btn-secondary:active, .btn-secondary:visited {
+    background-color: #1b4793 !important;
+    border-color: #1b4793 !important;
+}
+
+.btn-danger, .btn-danger:hover, .btn-danger:active, .btn-danger:visited {
+    background-color: #ef3c23 !important;
+    border-color: #ef3c23 !important;
+}
+
+.btn-warning, .btn-warning:hover, .btn-warning:active, .btn-warning:visited {
+    background-color: #fac92c !important;
+    border-color: #fac92c !important;
+}
+
+.btn-info, .btn-info:hover, .btn-info:active, .btn-info:visited {
+    background-color: #e90a2b !important;
+    border-color: #e90a2b !important;
+    color: white !important;
+}

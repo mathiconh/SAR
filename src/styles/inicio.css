@@ -1,10 +1,11 @@
 .imagenFondo{
     background-size: cover;
-    background-image: url('../assets/profilePics/galvez.jpg');
+    background-image: url('../assets/profilePics/readyRaceInicio.jpg');
     background-repeat:no-repeat; 
     background-position: center;
+    overflow: hidden;
+    background-attachment: fixed;
 }
-
 
 .bienvenido{
   position: absolute;
@@ -21,4 +22,8 @@
 .botonSecundario{
  border-color: #E71E62;
  color: white;
+}
+
+.sombraTexto {
+  text-shadow: 1px 1px 2px black;
 }

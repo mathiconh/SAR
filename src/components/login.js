@@ -4,6 +4,7 @@ import UserDataService from '../services/users';
 import { Modal, ModalBody, ModalFooter, Alert } from 'reactstrap';
 import Cookies from 'universal-cookie';
 import '../styles/login.css';
+import '../styles/buttons.css';
 
 const cookies = new Cookies();
 
@@ -187,10 +188,10 @@ function Login() {
 				</ModalBody>
 				<ModalFooter>
 					{buildErrorMessage()}
-					<button className="btn btn-secondary" onClick={() => crear(selectedUser)}>
+					<button className="btn btn-primary" onClick={() => crear(selectedUser)}>
 						Crear
 					</button>
-					<button className="btn btn-secondary" onClick={() => setModalCrear(false)}>
+					<button className="btn btn-danger" onClick={() => setModalCrear(false)}>
 						Cancelar
 					</button>
 				</ModalFooter>
