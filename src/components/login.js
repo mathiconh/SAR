@@ -117,22 +117,24 @@ function Login() {
 
 	return (
 		<div className="App">
-			<div className="text-center col">
-				<div className="form-signin">
-					<h1 className="h3 mb-3 font-weight-normal">Por favor, ingresa</h1>
-					<label className="sr-only">Usuario</label>
-					<input type="text" className="form-control" name="correoE" onChange={handleChange} />
-					<label className="sr-only">Contraseña</label>
-					<input type="password" className="form-control" name="password" onChange={handleChange} />{' '}
-					<div className="d-grid gap-2 d-md-block">
-						<button className="btn mx-2 btn-success" type="button" onClick={() => logIn(user)}>
-							Iniciar Sesión
-						</button>
-						<button className="btn mx-2 btn-secondary" type="button" onClick={() => selectUser(selectedUser)}>
-							Registrarse
-						</button>
+			<div className="container">
+				<div className="d-flex vh-85 p-5 justify-content-center align-items-center">
+					<div className="col card sombraCard form-signin">
+						<h1 className="h3 mb-3 font-weight-normal">BIENVENIDOS A S4R</h1>
+						<label className="sr-only align-content-start d-flex">Usuario</label>
+						<input type="text" placeholder="email@email.com" className="form-control" name="correoE" onChange={handleChange} />
+						<label className="sr-only  align-content-start d-flex">Contraseña</label>
+						<input type="password" placeholder="Escribe tu contraseña" className="form-control" name="password" onChange={handleChange} />{' '}
+						<div className="d-grid gap-2 d-md-block">
+							<button className="btn mt-4 mx-2 btn-primary" type="button" onClick={() => logIn(user)}>
+								Iniciar Sesión
+							</button>
+							<button className="btn mt-4 mx-2 btn-secondary" type="button" onClick={() => selectUser(selectedUser)}>
+								Registrarse
+							</button>
+						</div>
+						{buildErrorMessage()}
 					</div>
-					{buildErrorMessage()}
 				</div>
 			</div>
 
