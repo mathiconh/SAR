@@ -170,10 +170,12 @@ function App() {
 		<div>
 			<div className="navbar navbar-dark d-flex bg-dark box-shadow">
 				<div className="container  justify-content-between">
-					<div className="col-1">
+					<div className="col-1 btn">
+						<span className="icon"></span>
 						<a href="/inicio" className=" navbar-brand d-flex align-items-center">
 							<strong>S4R</strong>
 						</a>
+						<span></span>
 					</div>
 					<div className="col-4">
 						<strong className="text-white">Bienvenido {cookies.get('nombre')}</strong>

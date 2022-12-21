@@ -8,6 +8,12 @@
   pointer-events: none;
 }
 
+.btn span.icon {
+  background: url(./assets/otherPics/LogoS4R.png) no-repeat;
+  float: left;
+  width: 10px;
+  height: 40px;
+}
 
 
 @media (prefers-reduced-motion: no-preference) {
