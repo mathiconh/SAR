@@ -3,7 +3,7 @@ import LoginDataService from '../services/login';
 import UserDataService from '../services/users';
 import { Modal, ModalBody, ModalFooter, Alert } from 'reactstrap';
 import Cookies from 'universal-cookie';
-import '../styles/login.css';
+import '../styles/baseStyles.css';
 import '../styles/buttons.css';
 
 const cookies = new Cookies();
