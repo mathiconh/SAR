@@ -246,8 +246,8 @@ const CarsList = () => {
 	if (cookies.get('_id')) {
 		return (
 			<div className="App">
-				<div className="container">
-					<div className="d-flex vh-85 p-5 justify-content-center align-self-center">
+				<div className="container-fluid">
+					<div className="d-flex vh-85 p-2 justify-content-center align-self-center">
 						<div className="container-lg align-self-center col card sombraCard form-signin">
 							<form className="container-fluid align-self-center needs-validation" onSubmit={formPreventDefault} noValidate>
 								<p className="h1 text-center">Inscripcion a Evento</p>
@@ -307,8 +307,8 @@ const CarsList = () => {
 									</div>
 									<hr className="rounded"></hr>
 									<div>
-										<div className="container-xl">
-											<div className="table-responsive noHorScroll">
+										<div className="container">
+											<div className="table-responsive-sm">
 												<div className="table-wrapper">
 													<div className="table-title">
 														<div className="row">

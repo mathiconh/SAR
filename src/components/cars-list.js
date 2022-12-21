@@ -126,13 +126,13 @@ const CarsList = () => {
 	let setModalButton = (selectedCar) => {
 		if (selectedCar._id) {
 			return (
-				<button className="btn btn-danger" onClick={() => editar(selectedCar)}>
+				<button className="btn btn-primary" onClick={() => editar(selectedCar)}>
 					Actualizar
 				</button>
 			);
 		} else {
 			return (
-				<button className="btn btn-danger" onClick={() => crear(selectedCar)}>
+				<button className="btn btn-primary" onClick={() => crear(selectedCar)}>
 					Crear
 				</button>
 			);
@@ -205,89 +205,99 @@ const CarsList = () => {
 
 	if (cookies.get('_id') && cookies.get('idRol') === '1') {
 		return (
-			<div>
-				<div className="container-xl">
-					<div className="table-responsive">
-						<div className="table-wrapper">
-							<div className="table-title">
-								<div className="row">
-									<div className="col-sm-6">
-										<h2>
-											Administrar <b>Autos</b>
-										</h2>
+			<div className="App">
+				<div className="container-fluid">
+					<div className="d-flex vh-85 p-2 justify-content-center align-self-center">
+						<div className="container-fluid align-self-center col card sombraCard form-abm">
+							<div className="table-responsive-sm">
+								<div className="table-wrapper">
+									<div className="table-title">
+										<div className="row">
+											<div className="col-sm-6 w-auto">
+												<h2>
+													Administrar <b>Autos</b>
+												</h2>
+											</div>
+											<div className="input-group col-sm-6">
+												<input
+													type="text"
+													className="form-control w-auto"
+													placeholder="Buscar autos por "
+													value={searchValue}
+													onChange={onChangeSearchValue}
+												/>
+												<select onChange={onChangeSearchParam}>
+													{searchableParams.map((param) => {
+														return <option value={param}> {param.replace('_', '')} </option>;
+													})}
+												</select>
+												<div className="input-group-append">
+													<button className="btn btn-secondary" type="button" onClick={findByParam}>
+														Search
+													</button>
+												</div>
+											</div>
+											<br></br>
+											<div className="col-sm-6">
+												<button className="btn btn-success" onClick={() => selectCar('Editar')}>
+													Añadir un nuevo Auto
+												</button>
+											</div>
+										</div>
+										<hr className="rounded"></hr>
 									</div>
-									<div className="input-group col-lg-4">
-										<input type="text" className="form-control" placeholder="Buscar autos por " value={searchValue} onChange={onChangeSearchValue} />
-										<select onChange={onChangeSearchParam}>
-											{searchableParams.map((param) => {
-												return <option value={param}> {param.replace('_', '')} </option>;
+									<table className="table-responsive-sm table-striped w-auto table-hover">
+										<thead>
+											<tr>
+												<th>Id</th>
+												<th>Patente</th>
+												<th>Modelo</th>
+												<th>Año</th>
+												<th>Agregados</th>
+												<th>Historia</th>
+												<th>Workshop Asociado</th>
+												<th>Id Dueño</th>
+												<th>Acciones</th>
+											</tr>
+										</thead>
+										<tbody>
+											{cars.map((car) => {
+												const id = `${car._id}`;
+												const patente = `${car.patente}`;
+												const modelo = `${car.modelo}`;
+												const anio = `${car.anio}`;
+												const agregados = `${car.agregados}`;
+												const historia = `${car.historia}`;
+												const tallerAsociado = `${car.tallerAsociado}`;
+												const idUsuarioDuenio = `${car.idUsuarioDuenio}`;
+												return (
+													<tr>
+														<td>{id}</td>
+														<td>{patente}</td>
+														<td>{modelo}</td>
+														<td>{anio}</td>
+														<td>{agregados}</td>
+														<td width="">{historia}</td>
+														<td>{tallerAsociado}</td>
+														<td>{idUsuarioDuenio}</td>
+														<td>
+															<button className="btn btn-warning" onClick={() => selectCar('Editar', car)}>
+																Edit
+															</button>
+															<button className="btn btn-danger" onClick={() => selectCar('Eliminar', car)}>
+																Delete
+															</button>
+														</td>
+													</tr>
+												);
 											})}
-										</select>
-										<div className="input-group-append">
-											<button className="btn btn-outline-secondary" type="button" onClick={findByParam}>
-												Search
-											</button>
+										</tbody>
+									</table>
+									<div className="clearfix">
+										<div className="hint-text">
+											Showing <b>{`${entriesPerPage}`}</b> out of <b>{`${totalResults}`}</b> entries
 										</div>
 									</div>
-									<br></br>
-									<div className="col-lg-6">
-										<button className="btn btn-success" onClick={() => selectCar('Editar')}>
-											Añadir un nuevo Auto
-										</button>
-									</div>
-								</div>
-								<hr className="rounded"></hr>
-							</div>
-							<table className="table table-striped w-auto table-hover">
-								<thead>
-									<tr>
-										<th>Id</th>
-										<th>Patente</th>
-										<th>Modelo</th>
-										<th>Año</th>
-										<th>Agregados</th>
-										<th>Historia</th>
-										<th>Workshop Asociado</th>
-										<th>Id Dueño</th>
-										<th>Acciones</th>
-									</tr>
-								</thead>
-								<tbody>
-									{cars.map((car) => {
-										const id = `${car._id}`;
-										const patente = `${car.patente}`;
-										const modelo = `${car.modelo}`;
-										const anio = `${car.anio}`;
-										const agregados = `${car.agregados}`;
-										const historia = `${car.historia}`;
-										const tallerAsociado = `${car.tallerAsociado}`;
-										const idUsuarioDuenio = `${car.idUsuarioDuenio}`;
-										return (
-											<tr>
-												<td>{id}</td>
-												<td>{patente}</td>
-												<td>{modelo}</td>
-												<td>{anio}</td>
-												<td>{agregados}</td>
-												<td width="">{historia}</td>
-												<td>{tallerAsociado}</td>
-												<td>{idUsuarioDuenio}</td>
-												<td>
-													<button className="btn btn-primary" onClick={() => selectCar('Editar', car)}>
-														Edit
-													</button>
-													<button className="btn btn-danger" onClick={() => selectCar('Eliminar', car)}>
-														Delete
-													</button>
-												</td>
-											</tr>
-										);
-									})}
-								</tbody>
-							</table>
-							<div className="clearfix">
-								<div className="hint-text">
-									Showing <b>{`${entriesPerPage}`}</b> out of <b>{`${totalResults}`}</b> entries
 								</div>
 							</div>
 						</div>
@@ -297,10 +307,10 @@ const CarsList = () => {
 				<Modal isOpen={modalEliminar}>
 					<ModalBody>Estás seguro que deseas eliminar el registro? Id: {selectedCar._id}</ModalBody>
 					<ModalFooter>
-						<button className="btn btn-danger" onClick={() => eliminar(selectedCar._id)}>
+						<button className="btn btn-success" onClick={() => eliminar(selectedCar._id)}>
 							Sí
 						</button>
-						<button className="btn btn-secondary" onClick={() => setModalElminar(false)}>
+						<button className="btn btn-danger" onClick={() => setModalElminar(false)}>
 							No
 						</button>
 					</ModalFooter>
@@ -310,12 +320,18 @@ const CarsList = () => {
 					<ModalBody>
 						<label>ID</label>
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedCar._id} placeholder="Auto-Incremental ID" />
-						<label>Buscador de Usuarios</label>
-						<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchName} onChange={onChangeSearchName} />
-						<div className="input-group-append">
-							<button className="btn btn-outline-secondary" type="button" onClick={findByName}>
-								Search
-							</button>
+						<div>
+							<div className="col-sm-6">
+								<label>Buscador de Usuarios</label>
+								<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchName} onChange={onChangeSearchName} />
+							</div>
+							<div className="col-sm-6">
+								<div className="input-group-append">
+									<button className="btn btn-secondary" type="button" onClick={findByName}>
+										Search
+									</button>
+								</div>
+							</div>
 						</div>
 						<label>ID Usuario Dueño</label>
 						<select
@@ -357,7 +373,7 @@ const CarsList = () => {
 					<ModalFooter>
 						{buildErrorMessage()}
 						{setModalButton(selectedCar)}
-						<button className="btn btn-secondary" onClick={() => closeModal()}>
+						<button className="btn btn-danger" onClick={() => closeModal()}>
 							Cancelar
 						</button>
 					</ModalFooter>
