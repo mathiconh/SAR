@@ -16,6 +16,7 @@ import Clases from './components/clases-list';
 import Cookies from 'universal-cookie';
 import './styles/inicio.css';
 import './styles/buttons.css';
+import Logo from './assets/otherPics/LogoS4Rok.png';
 
 const cookies = new Cookies();
 
@@ -158,7 +159,7 @@ function App() {
 		if (cookies.get('_id')) {
 			return (
 				<div>
-					<a href="/inscripcion" className="nav-link text-light float-right">
+					<a href="/inscripcion" className=" btn btn-info text-light float-right">
 						<strong>Inscripcion a Carrera</strong>
 					</a>
 				</div>
@@ -168,18 +169,15 @@ function App() {
 
 	return (
 		<div>
-			<div className="navbar navbar-dark d-flex bg-dark box-shadow">
+			<div className="navbar navbar-dark d-flex bg-dark navBlack box-shadow">
 				<div className="container  justify-content-between">
 					<div className="col-1 btn">
-						<span className="icon"></span>
 						<a href="/inicio" className=" navbar-brand d-flex align-items-center">
-							<strong>S4R</strong>
+							<img className="logo" src={Logo}></img>
 						</a>
 						<span></span>
 					</div>
-					<div className="col-4">
-						<strong className="text-white">Bienvenido {cookies.get('nombre')}</strong>
-					</div>
+					<div className="col-4"></div>
 					<div className="col-5">{inscripcionACarrera()}</div>
 					<div className="col-1 m-1">{sesion()}</div>
 				</div>

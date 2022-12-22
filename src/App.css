@@ -8,11 +8,16 @@
   pointer-events: none;
 }
 
-.btn span.icon {
-  background: url(./assets/otherPics/LogoS4R.png) no-repeat;
-  float: left;
-  width: 10px;
-  height: 40px;
+.logo{
+  position: absolute;
+  width: 60px;
+  height: 50px;
+  top: 10px;
+}
+
+.navBlack{
+  min-height: 67px;
+  background-color: #192024 !important;
 }
 
 
@@ -29,7 +34,7 @@
 .bugermenu{
   display: flex;
   justify-content: center;
-  margin-top: -15px;
+  margin-top: -23px;
 }
 
 .App-header {

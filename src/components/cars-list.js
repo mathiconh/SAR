@@ -232,13 +232,13 @@ const CarsList = () => {
 													})}
 												</select>
 												<div className="input-group-append">
-													<button className="btn btn-secondary" type="button" onClick={findByParam}>
+													<button className="btn btn-secondary mx-2 mt-2" type="button" onClick={findByParam}>
 														Search
 													</button>
 												</div>
 											</div>
 											<br></br>
-											<div className="col-sm-6">
+											<div className="d-flex mt-2">
 												<button className="btn btn-success" onClick={() => selectCar('Editar')}>
 													Añadir un nuevo Auto
 												</button>
@@ -281,10 +281,10 @@ const CarsList = () => {
 														<td>{tallerAsociado}</td>
 														<td>{idUsuarioDuenio}</td>
 														<td>
-															<button className="btn btn-warning" onClick={() => selectCar('Editar', car)}>
+															<button className="btn btn-warning mx-1 mt-1" onClick={() => selectCar('Editar', car)}>
 																Edit
 															</button>
-															<button className="btn btn-danger" onClick={() => selectCar('Eliminar', car)}>
+															<button className="btn btn-danger mx-1 mt-1" onClick={() => selectCar('Eliminar', car)}>
 																Delete
 															</button>
 														</td>
