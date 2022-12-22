@@ -177,7 +177,7 @@ function App() {
 						</a>
 						<span></span>
 					</div>
-					<div className="col-4"></div>
+					<div className="col-4 text-light">{cookies.get('nombre')}</div>
 					<div className="col-5">{inscripcionACarrera()}</div>
 					<div className="col-1 m-1">{sesion()}</div>
 				</div>
