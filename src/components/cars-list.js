@@ -210,7 +210,7 @@ const CarsList = () => {
 					<div className="d-flex vh-85 p-2 justify-content-center align-self-center">
 						<div className="container-fluid align-self-center col card sombraCard form-abm">
 							<div className="table-responsive-sm">
-								<div className="table-wrapper">
+								<div className="table-wrapper overflowAuto">
 									<div className="table-title">
 										<div className="row">
 											<div className="col-sm-6 w-auto">
@@ -246,7 +246,7 @@ const CarsList = () => {
 										</div>
 										<hr className="rounded"></hr>
 									</div>
-									<table className="table-responsive-sm table-striped w-auto table-hover">
+									<table className="table-responsive table-striped w-auto table-hover">
 										<thead>
 											<tr>
 												<th>Id</th>
@@ -257,7 +257,7 @@ const CarsList = () => {
 												<th>Historia</th>
 												<th>Workshop Asociado</th>
 												<th>Id Dueño</th>
-												<th>Acciones</th>
+												<th className="fixedCol">Acciones</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -320,13 +320,11 @@ const CarsList = () => {
 					<ModalBody>
 						<label>ID</label>
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedCar._id} placeholder="Auto-Incremental ID" />
-						<div>
-							<div className="col-sm-6">
-								<label>Buscador de Usuarios</label>
-								<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchName} onChange={onChangeSearchName} />
-							</div>
-							<div className="col-sm-6">
-								<div className="input-group-append">
+						<label>Buscador de Usuarios</label>
+						<div className="input-group mb-3 col-sm-12">
+							<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchName} onChange={onChangeSearchName} />
+							<div className="input-group-append">
+								<div>
 									<button className="btn btn-secondary" type="button" onClick={findByName}>
 										Search
 									</button>

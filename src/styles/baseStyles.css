@@ -49,6 +49,9 @@ body {
   border-top-right-radius: 0;
 }
 
+.overflowAuto{
+  overflow: auto;
+}
 
 .form-abm {
   width: 100%;
@@ -58,6 +61,7 @@ body {
   background-color: white;
   opacity: 0.9;
   backdrop-filter: blur(5px);
+  /* overflow: auto; */
 }
 
 .form-abm .checkbox {
@@ -73,3 +77,20 @@ body {
 .form-abm .form-control:focus {
   z-index: 2;
 }
+
+/*
+https://stackoverflow.com/questions/1312236/how-do-i-create-an-html-table-with-a-fixed-frozen-left-column-and-a-scrollable-b 
+.fixedCol {
+  position: absolute;
+  width: 5em;
+  left: 0;
+  top: auto;
+  border-top-width: 1px;
+  only relevant for first row
+  margin-top: -1px;
+  compensate for top border
+} */
+
+/* .fixedCol:after {
+  content: 'Row ';
+} */

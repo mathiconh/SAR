@@ -215,13 +215,13 @@ const SprintsList = () => {
 	let setModalButton = (selectedSprint) => {
 		if (selectedSprint._id) {
 			return (
-				<button className="btn btn-danger" onClick={() => editar(selectedSprint)}>
+				<button className="btn btn-primary" onClick={() => editar(selectedSprint)}>
 					Actualizar
 				</button>
 			);
 		} else {
 			return (
-				<button className="btn btn-danger" onClick={() => crear(selectedSprint)}>
+				<button className="btn btn-primary" onClick={() => crear(selectedSprint)}>
 					Crear
 				</button>
 			);
@@ -328,101 +328,112 @@ const SprintsList = () => {
 
 	if (cookies.get('_id') && cookies.get('idRol') === '1') {
 		return (
-			<div>
-				<div className="container-xl">
-					<div className="table-responsive">
-						<div className="table-wrapper">
-							<div className="table-title">
-								<div className="row">
-									<div className="col-lg-12">
-										<h2>
-											Administrar <b>Carreras</b>
-										</h2>
+			<div className="App">
+				<div className="container-fluid">
+					<div className="d-flex vh-85 p-2 justify-content-center align-self-center">
+						<div className="container-fluid align-self-center col card sombraCard form-abm">
+							<div className="table-responsive-sm">
+								<div className="table-wrapper overflowAuto">
+									<div className="table-title">
+										<div className="row">
+											<div className="col-sm-6 w-auto">
+												<h2>
+													Administrar <b>Carreras</b>
+												</h2>
+											</div>
+											<div className="input-group col-sm-6">
+												<input
+													type="text"
+													className="form-control w-auto"
+													placeholder="Buscar sprint por "
+													value={searchValue}
+													onChange={onChangeSearchValue}
+												/>
+												<select onChange={onChangeSearchParam}>
+													{searchableParams.map((param) => {
+														return <option value={param}> {param.replace('_', '')} </option>;
+													})}
+												</select>
+												<div className="input-group-append">
+													<button className="btn btn-secondary mx-2 mt-2" type="button" onClick={findByParam}>
+														Search
+													</button>
+												</div>
+											</div>
+											<br></br>
+											<div className="d-flex mt-2">
+												<button className="btn btn-success" onClick={() => selectSprint('Editar')}>
+													Añadir una Carrera
+												</button>
+											</div>
+										</div>
+										<hr className="rounded"></hr>
 									</div>
-									<div className="input-group col-lg-4">
-										<input type="text" className="form-control" placeholder="Buscar sprint por " value={searchValue} onChange={onChangeSearchValue} />
-										<select onChange={onChangeSearchParam}>
-											{searchableParams.map((param) => {
-												return <option value={param}> {param.replace('_', '')} </option>;
+									<table className="table-responsive table-striped w-auto table-hover">
+										<thead>
+											<tr>
+												<th>Id</th>
+												<th>idEvento</th>
+												<th>idUsuarioP1</th>
+												<th>idUsuarioP2</th>
+												<th>idVehiculoP1</th>
+												<th>idVehiculoP2</th>
+												<th>reaccionP1</th>
+												<th>reaccionP2</th>
+												<th>tiempo100mtsP1</th>
+												<th>tiempo100mtsP2</th>
+												<th>tiempoLlegadaP1</th>
+												<th>tiempoLlegadaP2</th>
+												<th>Acciones</th>
+												{/* <th className="fixedCol">Acciones</th> */}
+											</tr>
+										</thead>
+										<tbody>
+											{sprints.map((sprint) => {
+												const id = `${sprint._id}`;
+												const idEvento = `${sprint.idEvento}`;
+												const idUsuarioP1 = `${sprint.idUsuarioP1}`;
+												const idUsuarioP2 = `${sprint.idUsuarioP2}`;
+												const idVehiculoP1 = `${sprint.idVehiculoP1}`;
+												const idVehiculoP2 = `${sprint.idVehiculoP2}`;
+												const reaccionP1 = `${sprint.reaccionP1}`;
+												const reaccionP2 = `${sprint.reaccionP2}`;
+												const tiempo100mtsP1 = `${sprint.tiempo100mtsP1}`;
+												const tiempo100mtsP2 = `${sprint.tiempo100mtsP2}`;
+												const tiempoLlegadaP1 = `${sprint.tiempoLlegadaP1}`;
+												const tiempoLlegadaP2 = `${sprint.tiempoLlegadaP2}`;
+												return (
+													<tr>
+														<td>{id}</td>
+														<td>{idEvento}</td>
+														<td>{idUsuarioP1}</td>
+														<td>{idUsuarioP2}</td>
+														<td>{idVehiculoP1}</td>
+														<td>{idVehiculoP2}</td>
+														<td>{reaccionP1}</td>
+														<td>{reaccionP2}</td>
+														<td>{tiempo100mtsP1}</td>
+														<td>{tiempo100mtsP2}</td>
+														<td>{tiempoLlegadaP1}</td>
+														<td>{tiempoLlegadaP2}</td>
+														<td>
+															<button className="btn btn-warning mx-1 mt-1" onClick={() => selectSprint('Editar', sprint)}>
+																Edit
+															</button>
+															<button className="btn btn-danger mx-1 mt-1" onClick={() => selectSprint('Eliminar', sprint)}>
+																Delete
+															</button>
+														</td>
+													</tr>
+												);
 											})}
-										</select>
-										<div className="input-group-append">
-											<button className="btn btn-outline-secondary" type="button" onClick={findByParam}>
-												Search
-											</button>
+										</tbody>
+									</table>
+									<div className="clearfix">
+										<div className="hint-text">
+											Showing <b>{`${entriesPerPage}`}</b> out of <b>{`${totalResults}`}</b> entries
 										</div>
 									</div>
-									<br></br>
-									<div className="col-lg-6">
-										<button className="btn btn-success" onClick={() => selectSprint('Editar')}>
-											Añadir una Carrera
-										</button>
-									</div>
-								</div>
-								<hr className="rounded"></hr>
-							</div>
-							<table className="table table-striped w-auto table-hover">
-								<thead>
-									<tr>
-										<th>Id</th>
-										<th>idEvento</th>
-										<th>idUsuarioP1</th>
-										<th>idUsuarioP2</th>
-										<th>idVehiculoP1</th>
-										<th>idVehiculoP2</th>
-										<th>reaccionP1</th>
-										<th>reaccionP2</th>
-										<th>tiempo100mtsP1</th>
-										<th>tiempo100mtsP2</th>
-										<th>tiempoLlegadaP1</th>
-										<th>tiempoLlegadaP2</th>
-										<th>Acciones</th>
-									</tr>
-								</thead>
-								<tbody>
-									{sprints.map((sprint) => {
-										const id = `${sprint._id}`;
-										const idEvento = `${sprint.idEvento}`;
-										const idUsuarioP1 = `${sprint.idUsuarioP1}`;
-										const idUsuarioP2 = `${sprint.idUsuarioP2}`;
-										const idVehiculoP1 = `${sprint.idVehiculoP1}`;
-										const idVehiculoP2 = `${sprint.idVehiculoP2}`;
-										const reaccionP1 = `${sprint.reaccionP1}`;
-										const reaccionP2 = `${sprint.reaccionP2}`;
-										const tiempo100mtsP1 = `${sprint.tiempo100mtsP1}`;
-										const tiempo100mtsP2 = `${sprint.tiempo100mtsP2}`;
-										const tiempoLlegadaP1 = `${sprint.tiempoLlegadaP1}`;
-										const tiempoLlegadaP2 = `${sprint.tiempoLlegadaP2}`;
-										return (
-											<tr>
-												<td>{id}</td>
-												<td>{idEvento}</td>
-												<td>{idUsuarioP1}</td>
-												<td>{idUsuarioP2}</td>
-												<td>{idVehiculoP1}</td>
-												<td>{idVehiculoP2}</td>
-												<td>{reaccionP1}</td>
-												<td>{reaccionP2}</td>
-												<td>{tiempo100mtsP1}</td>
-												<td>{tiempo100mtsP2}</td>
-												<td>{tiempoLlegadaP1}</td>
-												<td>{tiempoLlegadaP2}</td>
-												<td>
-													<button className="btn btn-primary" onClick={() => selectSprint('Editar', sprint)}>
-														Edit
-													</button>
-													<button className="btn btn-danger" onClick={() => selectSprint('Eliminar', sprint)}>
-														Delete
-													</button>
-												</td>
-											</tr>
-										);
-									})}
-								</tbody>
-							</table>
-							<div className="clearfix">
-								<div className="hint-text">
-									Showing <b>{`${entriesPerPage}`}</b> out of <b>{`${totalResults}`}</b> entries
 								</div>
 							</div>
 						</div>
@@ -432,10 +443,10 @@ const SprintsList = () => {
 				<Modal isOpen={modalEliminar}>
 					<ModalBody>Estás seguro que deseas eliminar el registro? Id: {selectedSprint._id}</ModalBody>
 					<ModalFooter>
-						<button className="btn btn-danger" onClick={() => eliminar(selectedSprint._id)}>
+						<button className="btn btn-success" onClick={() => eliminar(selectedSprint._id)}>
 							Sí
 						</button>
-						<button className="btn btn-secondary" onClick={() => setModalElminar(false)}>
+						<button className="btn btn-danger" onClick={() => setModalElminar(false)}>
 							No
 						</button>
 					</ModalFooter>
@@ -459,14 +470,18 @@ const SprintsList = () => {
 								return <option value={id}>Carrera {id}</option>;
 							})}
 						</select>
-						<label>Buscador UsuarioP1</label>
-						<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchNameP1} onChange={onChangeSearchNameP1} />
-						<div className="input-group-append">
-							<button className="btn btn-outline-secondary" type="button" onClick={findByNameP1}>
-								Search
-							</button>
+						<label>Buscador de Usuarios P1</label>
+						<div className="input-group mb-3 col-sm-12">
+							<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchNameP1} onChange={onChangeSearchNameP1} />
+							<div className="input-group-append">
+								<div>
+									<button className="btn btn-secondary" type="button" onClick={findByNameP1}>
+										Search
+									</button>
+								</div>
+							</div>
 						</div>
-						<label>ID UsuarioP1</label>
+						<label>ID Usuario P1</label>
 						<select
 							className="form-select"
 							name="idUsuarioP1"
@@ -482,7 +497,7 @@ const SprintsList = () => {
 								return <option value={id}>{`${nombre} ${apellido} | ID: ${id}`}</option>;
 							})}
 						</select>
-						<label>ID VehiculoP1</label>
+						<label>ID Vehiculo P1</label>
 						<select
 							className="form-select"
 							name="idVehiculoP1"
@@ -500,12 +515,16 @@ const SprintsList = () => {
 							})}
 						</select>
 						<br></br>
-						<label>Buscador UsuarioP2</label>
-						<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchNameP2} onChange={onChangeSearchNameP2} />
-						<div className="input-group-append">
-							<button className="btn btn-outline-secondary" type="button" onClick={findByNameP2}>
-								Search
-							</button>
+						<label>Buscador de Usuarios P2</label>
+						<div className="input-group mb-3 col-sm-12">
+							<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchNameP2} onChange={onChangeSearchNameP2} />
+							<div className="input-group-append">
+								<div>
+									<button className="btn btn-secondary" type="button" onClick={findByNameP2}>
+										Search
+									</button>
+								</div>
+							</div>
 						</div>
 						<label>ID UsuarioP2</label>
 						<select
@@ -604,7 +623,7 @@ const SprintsList = () => {
 					<ModalFooter>
 						{buildErrorMessage()}
 						{setModalButton(selectedSprint)}
-						<button className="btn btn-secondary" onClick={() => closeModal()}>
+						<button className="btn btn-danger" onClick={() => closeModal()}>
 							Cancelar
 						</button>
 					</ModalFooter>
