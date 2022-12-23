@@ -49,10 +49,6 @@ body {
   border-top-right-radius: 0;
 }
 
-.overflowAuto{
-  overflow: auto;
-}
-
 .form-abm {
   width: 100%;
   max-width: 3040px;
@@ -78,19 +74,54 @@ body {
   z-index: 2;
 }
 
-/*
-https://stackoverflow.com/questions/1312236/how-do-i-create-an-html-table-with-a-fixed-frozen-left-column-and-a-scrollable-b 
-.fixedCol {
-  position: absolute;
-  width: 5em;
-  left: 0;
-  top: auto;
-  border-top-width: 1px;
-  only relevant for first row
-  margin-top: -1px;
-  compensate for top border
-} */
+.overflowAuto{
+  overflow: auto;
+}
+.overflowHidden{
+  overflow: hidden;
+}
 
-/* .fixedCol:after {
-  content: 'Row ';
-} */
+/* CSS Para columna de acciones Fixed */
+
+.tableData {
+  border-spacing: 0;
+}
+.tdData, .thData {
+  margin: 0;
+  white-space: nowrap;
+  border-top-width: 0px;
+  line-height: 37px;
+}
+
+.tdDataButtons {
+  margin: 0;
+  white-space: nowrap;
+  border-top-width: 0px;
+}
+
+.divTableABMCarsAdmin {
+  margin-left: 14%;
+  padding: 0;
+}
+
+.divTableInscripcionesAdmin {
+  margin-left: 21.2%;
+  padding: 0;
+}
+.divTableInscripcionesUser {
+  margin-left: 7.5%;
+  padding: 0;
+}
+
+.fixedColHead {
+  justify-content: center;
+  position: absolute;
+  width: auto;
+  left: 3%;
+  margin-top: -1px;
+}
+.fixedColRow {
+  position: absolute;
+  width: auto;
+  left: 3%;
+}

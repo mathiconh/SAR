@@ -218,99 +218,117 @@ const UsersList = () => {
 
 	if (cookies.get('_id') && cookies.get('idRol') === '1') {
 		return (
-			<div className="align-self-center">
-				<div className="container-lg align-self-center">
-					<div className="col-lg-12">
-						<h2>
-							Administrar <b>Usuarios</b>
-						</h2>
-					</div>
-					<div className="input-group col-lg-4">
-						<input type="text" className="form-control" placeholder="Buscar usuario por " value={searchValue} onChange={onChangeSearchValue} />
-						<select onChange={onChangeSearchParam}>
-							{searchableParams.map((param) => {
-								return <option value={param}> {param.replace('_', '')} </option>;
-							})}
-						</select>
-						<div className="input-group-append">
-							<button className="btn btn-outline-secondary" type="button" onClick={findByParam}>
-								Search
-							</button>
-						</div>
-					</div>
-					<br></br>
-					<div className="col-lg-6">
-						<button className="btn btn-success" onClick={() => selectUser('Crear')}>
-							Añadir un nuevo Usuario
-						</button>
-					</div>
-					<hr className="rounded"></hr>
-				</div>
-				<div className="col-lg-10 align-self-center">
-					<div className="row">
-						{users.map((user) => {
-							const id = `${user._id}`;
-							const name = `${user.nombre}`;
-							const Lastname = `${user.apellido}`;
-							const idrol = `${user.idRol}`;
-							const address = `${user.direccion}`;
-							const email = `${user.correoE}`;
-							return (
-								<div className="col-lg-4 pb-1">
-									<div className="card">
-										<div className="card-body">
-											<h5 className="card-title">{user.nombre}</h5>
-											<p className="card-text">
-												<strong>Id: </strong>
-												{id}
-												<br />
-												<strong>name: </strong>
-												{name}
-												<br />
-												<strong>Id Rol: </strong>
-												{idrol}
-												<br />
-												<strong>Lastname: </strong>
-												{Lastname}
-												<br />
-												<strong>Address: </strong>
-												{address}
-												<br />
-												<strong>Email: </strong>
-												{email}
-											</p>
-											<div className="row">
-												<Link to={'/miperfil/' + user._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
-													View User
-												</Link>
-												<button className="btn btn-success" onClick={() => selectUser('Eliminar', user)}>
-													Delete
+			<div className="App">
+				<div className="container-fluid">
+					<div className="d-flex vh-85 p-2 justify-content-center align-self-center">
+						<div className="container-fluid align-self-center col card sombraCard form-abm">
+							<div className="table">
+								<div className="table-wrapper">
+									<div className="table-title">
+										<div className="row">
+											<div className="col-sm-6 w-auto">
+												<h2>
+													Administrar <b>Usuarios</b>
+												</h2>
+											</div>
+											<div className="input-group">
+												<input
+													type="text"
+													className="form-control w-auto"
+													placeholder="Buscar usuario por "
+													value={searchValue}
+													onChange={onChangeSearchValue}
+												/>
+												<select onChange={onChangeSearchParam}>
+													{searchableParams.map((param) => {
+														return <option value={param}> {param.replace('_', '')} </option>;
+													})}
+												</select>
+												<div className="input-group-append">
+													<button className="btn btn-secondary mx-2 mt-1" type="button" onClick={findByParam}>
+														Buscar
+													</button>
+												</div>
+											</div>
+											<br></br>
+											<div className="d-flex mt-2">
+												<button className="btn btn-success" onClick={() => selectUser('Crear')}>
+													Añadir un nuevo Usuario
 												</button>
+											</div>
+										</div>
+										<div className="col-lg-12 align-self-center">
+											<div className="row">
+												{users.map((user) => {
+													const id = `${user._id}`;
+													const nombre = `${user.nombre}`;
+													const apellido = `${user.apellido}`;
+													const idRol = `${user.idRol}`;
+													const direccion = `${user.direccion}`;
+													const email = `${user.correoE}`;
+													return (
+														<div className="col-lg-4 pb-1">
+															<div className="card">
+																<div className="card-body">
+																	<h5 className="card-title">{`${user.nombre} ${user.apellido}`}</h5>
+																	<p className="card-text">
+																		<strong>ID: </strong>
+																		{id}
+																		<br />
+																		<strong>Nombre: </strong>
+																		{nombre}
+																		<br />
+																		<strong>Apellido: </strong>
+																		{apellido}
+																		<br />
+																		<strong>Domicilio: </strong>
+																		{direccion}
+																		<br />
+																		<strong>Email: </strong>
+																		{email}
+																		<br />
+																		<strong>ID Rol: </strong>
+																		{idRol}
+																		<br />
+																	</p>
+																	<div className="row col-lg-12">
+																		<Link to={'/miperfil/' + user._id} className="btn btn-warning mx-2 mt-1">
+																			View User
+																		</Link>
+																		<button className="btn btn-danger mx-2 mt-1" onClick={() => selectUser('Eliminar', user)}>
+																			Delete
+																		</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+													);
+												})}
 											</div>
 										</div>
 									</div>
 								</div>
-							);
-						})}
+							</div>
+						</div>
 					</div>
 				</div>
 				<Modal isOpen={modalCrear}>
 					<ModalBody>
 						<label>ID</label>
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedUser._id} placeholder="Auto-Incremental ID" />
-						<label>apellido</label>
-						<input className="form-control" type="text" maxLength="50" name="apellido" id="apellidoField" onChange={handleChange} value={selectedUser.apellido} />
-						<label>nombre</label>
+						<label>Nombre</label>
 						<input className="form-control" type="text" maxLength="300" name="nombre" id="nombreField" onChange={handleChange} value={selectedUser.nombre} />
-						<label>correoE</label>
+						<label>Apellido</label>
+						<input className="form-control" type="text" maxLength="50" name="apellido" id="apellidoField" onChange={handleChange} value={selectedUser.apellido} />
+						<label>Correo Electronico</label>
 						<input className="form-control" type="text" maxLength="50" name="correoE" id="correoEField" onChange={handleChange} value={selectedUser.correoE} />
-						<label>direccion</label>
+						<label>Direccion</label>
 						<input className="form-control" type="text" maxLength="100" name="direccion" id="direccionField" onChange={handleChange} value={selectedUser.direccion} />
-						<label>dni</label>
+						<label>DNI</label>
 						<input className="form-control" type="number" maxLength="10" name="dni" id="dniField" onChange={handleChange} value={selectedUser.dni} />
-						<label>fechaNac</label>
+						<label>Fecha De Nacimiento</label>
 						<input className="form-control" type="date" maxLength="300" name="fechaNac" id="fechaNacField" onChange={handleChange} value={selectedUser.fechaNac} />
-						<label>idRol</label>
+						<label>ID Rol</label>
 						<input className="form-control" type="text" maxLength="200" name="idRol" id="idRolField" onChange={handleChange} value={selectedUser.idRol} />
 						<label>Genero</label>
 						<select
@@ -331,18 +349,17 @@ const UsersList = () => {
 								);
 							})}
 						</select>
-
-						<label>password</label>
+						<label>Contraseña</label>
 						<input className="form-control" type="password" maxLength="200" name="password" id="passwordField" onChange={handleChange} value={selectedUser.password} />
-						<label>telefono</label>
+						<label>Telefono</label>
 						<input className="form-control" type="text" maxLength="50" name="telefono" id="telefonoField" onChange={handleChange} value={selectedUser.telefono} />
 					</ModalBody>
 					<ModalFooter>
 						{buildErrorMessage()}
-						<button className="btn btn-secondary" onClick={() => crear(selectedUser)}>
+						<button className="btn btn-success" onClick={() => crear(selectedUser)}>
 							Crear
 						</button>
-						<button className="btn btn-secondary" onClick={() => setModalCrear(false)}>
+						<button className="btn btn-danger" onClick={() => setModalCrear(false)}>
 							Cancelar
 						</button>
 					</ModalFooter>
@@ -351,10 +368,10 @@ const UsersList = () => {
 				<Modal isOpen={modalEliminar}>
 					<ModalBody>Estás seguro que deseas eliminar el registro? Id: {selectedUser._id}</ModalBody>
 					<ModalFooter>
-						<button className="btn btn-danger" onClick={() => eliminar(selectedUser._id)}>
+						<button className="btn btn-success" onClick={() => eliminar(selectedUser._id)}>
 							Sí
 						</button>
-						<button className="btn btn-secondary" onClick={() => setModalEliminar(false)}>
+						<button className="btn btn-danger" onClick={() => setModalEliminar(false)}>
 							No
 						</button>
 					</ModalFooter>
@@ -363,71 +380,88 @@ const UsersList = () => {
 		);
 	} else if (cookies.get('_id') && cookies.get('idRol') === '2') {
 		return (
-			<div className="align-self-center">
-				<div className="container-lg align-self-center">
-					<div className="col-lg-12">
-						<h2>
-							<b>Usuarios</b>
-						</h2>
-					</div>
-					<div className="input-group col-lg-4">
-						<input type="text" className="form-control" placeholder="Buscar usuario por " value={searchValue} onChange={onChangeSearchValue} />
-						<select onChange={onChangeSearchParam}>
-							{searchableParams.map((param) => {
-								return <option value={param}> {param.replace('_', '')} </option>;
-							})}
-						</select>
-						<div className="input-group-append">
-							<button className="btn btn-outline-secondary" type="button" onClick={findByParam}>
-								Search
-							</button>
-						</div>
-					</div>
-				</div>
-				<hr className="rounded"></hr>
-				<div className="col-lg-10 align-self-center">
-					<div className="row">
-						{users.map((user) => {
-							const id = `${user._id}`;
-							const name = `${user.nombre}`;
-							const Lastname = `${user.apellido}`;
-							const idrol = `${user.idRol}`;
-							const address = `${user.direccion}`;
-							const email = `${user.correoE}`;
-							return (
-								<div className="col-lg-4 pb-1">
-									<div className="card">
-										<div className="card-body">
-											<h5 className="card-title">{user.nombre}</h5>
-											<p className="card-text">
-												<strong>Id: </strong>
-												{id}
-												<br />
-												<strong>name: </strong>
-												{name}
-												<br />
-												<strong>Id Rol: </strong>
-												{idrol}
-												<br />
-												<strong>Lastname: </strong>
-												{Lastname}
-												<br />
-												<strong>Address: </strong>
-												{address}
-												<br />
-												<strong>Email: </strong>
-												{email}
-											</p>
+			<div className="App">
+				<div className="container-fluid">
+					<div className="d-flex vh-85 p-2 justify-content-center align-self-center">
+						<div className="container-fluid align-self-center col card sombraCard form-abm">
+							<div className="table">
+								<div className="table-wrapper">
+									<div className="table-title">
+										<div className="row">
+											<div className="col-sm-6 w-auto">
+												<h2>
+													<b>Usuarios</b>
+												</h2>
+											</div>
+											<div className="input-group">
+												<input
+													type="text"
+													className="form-control w-auto"
+													placeholder="Buscar usuario por "
+													value={searchValue}
+													onChange={onChangeSearchValue}
+												/>
+												<select onChange={onChangeSearchParam}>
+													{searchableParams.map((param) => {
+														return <option value={param}> {param.replace('_', '')} </option>;
+													})}
+												</select>
+												<div className="input-group-append">
+													<button className="btn btn-secondary mx-2 mt-1" type="button" onClick={findByParam}>
+														Buscar
+													</button>
+												</div>
+											</div>
+										</div>
+										<div className="col-lg-12 align-self-center">
 											<div className="row">
-												<Link to={'/miperfil/' + user._id} className="btn btn-primary col-lg-5 mx-1 mb-1">
-													View User
-												</Link>
+												{users.map((user) => {
+													const id = `${user._id}`;
+													const nombre = `${user.nombre}`;
+													const apellido = `${user.apellido}`;
+													const idRol = `${user.idRol}`;
+													const direccion = `${user.direccion}`;
+													const email = `${user.correoE}`;
+													return (
+														<div className="col-lg-4 pb-1">
+															<div className="card">
+																<div className="card-body">
+																	<h5 className="card-title">{`${user.nombre} ${user.apellido}`}</h5>
+																	<p className="card-text">
+																		<strong>ID: </strong>
+																		{id}
+																		<br />
+																		<strong>Nombre: </strong>
+																		{nombre}
+																		<br />
+																		<strong>Apellido: </strong>
+																		{apellido}
+																		<br />
+																		<strong>ID Rol: </strong>
+																		{idRol}
+																		<br />
+																		<strong>Direccion: </strong>
+																		{direccion}
+																		<br />
+																		<strong>Email: </strong>
+																		{email}
+																	</p>
+																	<div className="row col-lg-12">
+																		<Link to={'/miperfil/' + user._id} className="btn btn-warning mx-2 mt-1">
+																			View User
+																		</Link>
+																	</div>
+																</div>
+															</div>
+														</div>
+													);
+												})}
 											</div>
 										</div>
 									</div>
 								</div>
-							);
-						})}
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

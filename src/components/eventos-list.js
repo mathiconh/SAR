@@ -111,13 +111,13 @@ const EventosList = () => {
 	let setModalButton = (selectedEvento) => {
 		if (selectedEvento._id) {
 			return (
-				<button className="btn btn-danger" onClick={() => editar(selectedEvento)}>
+				<button className="btn btn-success" onClick={() => editar(selectedEvento)}>
 					Actualizar
 				</button>
 			);
 		} else {
 			return (
-				<button className="btn btn-danger" onClick={() => crear(selectedEvento)}>
+				<button className="btn btn-success" onClick={() => crear(selectedEvento)}>
 					Crear
 				</button>
 			);
@@ -191,85 +191,100 @@ const EventosList = () => {
 
 	if (cookies.get('_id') && cookies.get('idRol') === '1') {
 		return (
-			<div>
-				<div className="container-xl">
-					<div className="table-responsive">
-						<div className="table-wrapper">
-							<div className="table-title">
-								<div className="row">
-									<div className="col-sm-6">
-										<h2>
-											Administrar <b>Eventos</b>
-										</h2>
+			<div className="App">
+				<div className="container-fluid">
+					<div className="d-flex vh-85 p-2 justify-content-center align-self-center">
+						<div className="container-fluid align-self-center col card sombraCard form-abm">
+							<div className="table">
+								<div className="table-wrapper">
+									<div className="table-title">
+										<div className="row">
+											<div className="col-sm-6 w-auto">
+												<h2>
+													Administrar <b>Eventos</b>
+												</h2>
+											</div>
+											<div className="input-group">
+												<input
+													type="text"
+													className="form-control w-auto"
+													placeholder="Buscar evento por "
+													value={searchValue}
+													onChange={onChangeSearchValue}
+												/>
+												<select onChange={onChangeSearchParam}>
+													{searchableParams.map((param) => {
+														return <option value={param}> {param.replace('_', '')} </option>;
+													})}
+												</select>
+												<div className="input-group-append">
+													<button className="btn btn-secondary mx-2 mt-1" type="button" onClick={findByParam}>
+														Buscar
+													</button>
+												</div>
+											</div>
+											<br></br>
+											<div className="d-flex mt-2">
+												<button className="btn btn-success" onClick={() => selectEvento('Editar')}>
+													Añadir un nuevo Evento
+												</button>
+											</div>
+										</div>
+										<hr className="rounded"></hr>
 									</div>
-									<div className="input-group col-lg-4">
-										<input type="text" className="form-control" placeholder="Buscar evento por " value={searchValue} onChange={onChangeSearchValue} />
-										<select onChange={onChangeSearchParam}>
-											{searchableParams.map((param) => {
-												return <option value={param}> {param.replace('_', '')} </option>;
-											})}
-										</select>
-										<div className="input-group-append">
-											<button className="btn btn-outline-secondary" type="button" onClick={findByParam}>
-												Search
-											</button>
+									<div className="overflowAuto">
+										<div className="container-fluid divTableABMCarsAdmin">
+											<table className="table table-responsive table-striped w-auto table-hover tableData">
+												<thead>
+													<tr>
+														<th className="thData fixedColHead">Acciones</th>
+														<th className="thData">ID</th>
+														<th className="thData">ID Evento</th>
+														<th className="thData">Fecha</th>
+														<th className="thData">Cupos</th>
+														<th className="thData">ID Clase</th>
+														<th className="thData">Cupo Maximo</th>
+														<th className="thData">Precio</th>
+													</tr>
+												</thead>
+												<tbody>
+													{eventos.map((evento) => {
+														const id = `${evento._id}`;
+														const idEvento = `${evento.idEvento}`;
+														const fecha = `${evento.fecha}`;
+														const cupos = `${evento.cupos}`;
+														const idClase = `${evento.idClase}`;
+														const cupoMaximo = `${evento.cupoMaximo}`;
+														const precio = `${evento.precio}`;
+														return (
+															<tr>
+																<td className="tdData fixedColRow">
+																	<button className="btn btn-warning mx-1" onClick={() => selectEvento('Editar', evento)}>
+																		Edit
+																	</button>
+																	<button className="btn btn-danger mx-1" onClick={() => selectEvento('Eliminar', evento)}>
+																		Delete
+																	</button>
+																</td>
+																<td className="tdData">{id}</td>
+																<td className="tdData">{idEvento}</td>
+																<td className="tdData">{fecha}</td>
+																<td className="tdData">{cupos}</td>
+																<td className="tdData">{idClase}</td>
+																<td className="tdData">{cupoMaximo}</td>
+																<td className="tdData">{precio}</td>
+															</tr>
+														);
+													})}
+												</tbody>
+											</table>
 										</div>
 									</div>
-									<br></br>
-									<div className="col-lg-6">
-										<button className="btn btn-success" onClick={() => selectEvento('Editar')}>
-											Añadir un nuevo Evento
-										</button>
+									<div className="clearfix">
+										<div className="hint-text">
+											Mostrando <b>{`${entriesPerPage}`}</b> de <b>{`${totalResults}`}</b> registros
+										</div>
 									</div>
-								</div>
-								<hr className="rounded"></hr>
-							</div>
-							<table className="table table-striped w-auto table-hover">
-								<thead>
-									<tr>
-										<th>Id</th>
-										<th>idEvento</th>
-										<th>fecha</th>
-										<th>cupos</th>
-										<th>idClase</th>
-										<th>cupoMaximo</th>
-										<th>precio</th>
-									</tr>
-								</thead>
-								<tbody>
-									{eventos.map((evento) => {
-										const id = `${evento._id}`;
-										const idEvento = `${evento.idEvento}`;
-										const fecha = `${evento.fecha}`;
-										const cupos = `${evento.cupos}`;
-										const idClase = `${evento.idClase}`;
-										const cupoMaximo = `${evento.cupoMaximo}`;
-										const precio = `${evento.precio}`;
-										return (
-											<tr>
-												<td>{id}</td>
-												<td>{idEvento}</td>
-												<td>{fecha}</td>
-												<td>{cupos}</td>
-												<td>{idClase}</td>
-												<td>{cupoMaximo}</td>
-												<td>{precio}</td>
-												<td>
-													<button className="btn btn-primary" onClick={() => selectEvento('Editar', evento)}>
-														Edit
-													</button>
-													<button className="btn btn-danger" onClick={() => selectEvento('Eliminar', evento)}>
-														Delete
-													</button>
-												</td>
-											</tr>
-										);
-									})}
-								</tbody>
-							</table>
-							<div className="clearfix">
-								<div className="hint-text">
-									Showing <b>{`${entriesPerPage}`}</b> out of <b>{`${totalResults}`}</b> entries
 								</div>
 							</div>
 						</div>
@@ -279,10 +294,10 @@ const EventosList = () => {
 				<Modal isOpen={modalEliminar}>
 					<ModalBody>Estás seguro que deseas eliminar el registro? Id: {selectedEvento._id}</ModalBody>
 					<ModalFooter>
-						<button className="btn btn-danger" onClick={() => eliminar(selectedEvento._id)}>
+						<button className="btn btn-success" onClick={() => eliminar(selectedEvento._id)}>
 							Sí
 						</button>
-						<button className="btn btn-secondary" onClick={() => setModalElminar(false)}>
+						<button className="btn btn-danger" onClick={() => setModalElminar(false)}>
 							No
 						</button>
 					</ModalFooter>
@@ -331,7 +346,7 @@ const EventosList = () => {
 					<ModalFooter>
 						{buildErrorMessage()}
 						{setModalButton(selectedEvento)}
-						<button className="btn btn-secondary" onClick={() => closeModal()}>
+						<button className="btn btn-danger" onClick={() => closeModal()}>
 							Cancelar
 						</button>
 					</ModalFooter>

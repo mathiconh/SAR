@@ -332,8 +332,8 @@ const SprintsList = () => {
 				<div className="container-fluid">
 					<div className="d-flex vh-85 p-2 justify-content-center align-self-center">
 						<div className="container-fluid align-self-center col card sombraCard form-abm">
-							<div className="table-responsive-sm">
-								<div className="table-wrapper overflowAuto">
+							<div className="table">
+								<div className="table-wrapper">
 									<div className="table-title">
 										<div className="row">
 											<div className="col-sm-6 w-auto">
@@ -355,8 +355,8 @@ const SprintsList = () => {
 													})}
 												</select>
 												<div className="input-group-append">
-													<button className="btn btn-secondary mx-2 mt-2" type="button" onClick={findByParam}>
-														Search
+													<button className="btn btn-secondary mx-2 mt-1" type="button" onClick={findByParam}>
+														Buscar
 													</button>
 												</div>
 											</div>
@@ -369,69 +369,72 @@ const SprintsList = () => {
 										</div>
 										<hr className="rounded"></hr>
 									</div>
-									<table className="table-responsive table-striped w-auto table-hover">
-										<thead>
-											<tr>
-												<th>Id</th>
-												<th>idEvento</th>
-												<th>idUsuarioP1</th>
-												<th>idUsuarioP2</th>
-												<th>idVehiculoP1</th>
-												<th>idVehiculoP2</th>
-												<th>reaccionP1</th>
-												<th>reaccionP2</th>
-												<th>tiempo100mtsP1</th>
-												<th>tiempo100mtsP2</th>
-												<th>tiempoLlegadaP1</th>
-												<th>tiempoLlegadaP2</th>
-												<th>Acciones</th>
-												{/* <th className="fixedCol">Acciones</th> */}
-											</tr>
-										</thead>
-										<tbody>
-											{sprints.map((sprint) => {
-												const id = `${sprint._id}`;
-												const idEvento = `${sprint.idEvento}`;
-												const idUsuarioP1 = `${sprint.idUsuarioP1}`;
-												const idUsuarioP2 = `${sprint.idUsuarioP2}`;
-												const idVehiculoP1 = `${sprint.idVehiculoP1}`;
-												const idVehiculoP2 = `${sprint.idVehiculoP2}`;
-												const reaccionP1 = `${sprint.reaccionP1}`;
-												const reaccionP2 = `${sprint.reaccionP2}`;
-												const tiempo100mtsP1 = `${sprint.tiempo100mtsP1}`;
-												const tiempo100mtsP2 = `${sprint.tiempo100mtsP2}`;
-												const tiempoLlegadaP1 = `${sprint.tiempoLlegadaP1}`;
-												const tiempoLlegadaP2 = `${sprint.tiempoLlegadaP2}`;
-												return (
+									<div className="overflowAuto">
+										<div className="container-fluid divTableABMCarsAdmin">
+											<table className="table table-responsive table-striped w-auto table-hover tableData">
+												<thead>
 													<tr>
-														<td>{id}</td>
-														<td>{idEvento}</td>
-														<td>{idUsuarioP1}</td>
-														<td>{idUsuarioP2}</td>
-														<td>{idVehiculoP1}</td>
-														<td>{idVehiculoP2}</td>
-														<td>{reaccionP1}</td>
-														<td>{reaccionP2}</td>
-														<td>{tiempo100mtsP1}</td>
-														<td>{tiempo100mtsP2}</td>
-														<td>{tiempoLlegadaP1}</td>
-														<td>{tiempoLlegadaP2}</td>
-														<td>
-															<button className="btn btn-warning mx-1 mt-1" onClick={() => selectSprint('Editar', sprint)}>
-																Edit
-															</button>
-															<button className="btn btn-danger mx-1 mt-1" onClick={() => selectSprint('Eliminar', sprint)}>
-																Delete
-															</button>
-														</td>
+														<th className="thData fixedColHead">Acciones</th>
+														<th className="thData">ID</th>
+														<th className="thData">ID Evento</th>
+														<th className="thData">ID Usuario P1</th>
+														<th className="thData">ID Usuario P2</th>
+														<th className="thData">ID Vehiculo P1</th>
+														<th className="thData">ID Vehiculo P2</th>
+														<th className="thData">Reaccion P1</th>
+														<th className="thData">Reaccion P2</th>
+														<th className="thData">Tiempo 100mts P1</th>
+														<th className="thData">Tiempo 100mts P2</th>
+														<th className="thData">Tiempo Llegada P1</th>
+														<th className="thData">Tiempo Llegada P2</th>
 													</tr>
-												);
-											})}
-										</tbody>
-									</table>
+												</thead>
+												<tbody>
+													{sprints.map((sprint) => {
+														const id = `${sprint._id}`;
+														const idEvento = `${sprint.idEvento}`;
+														const idUsuarioP1 = `${sprint.idUsuarioP1}`;
+														const idUsuarioP2 = `${sprint.idUsuarioP2}`;
+														const idVehiculoP1 = `${sprint.idVehiculoP1}`;
+														const idVehiculoP2 = `${sprint.idVehiculoP2}`;
+														const reaccionP1 = `${sprint.reaccionP1}`;
+														const reaccionP2 = `${sprint.reaccionP2}`;
+														const tiempo100mtsP1 = `${sprint.tiempo100mtsP1}`;
+														const tiempo100mtsP2 = `${sprint.tiempo100mtsP2}`;
+														const tiempoLlegadaP1 = `${sprint.tiempoLlegadaP1}`;
+														const tiempoLlegadaP2 = `${sprint.tiempoLlegadaP2}`;
+														return (
+															<tr>
+																<td className="tdData fixedColRow">
+																	<button className="btn btn-warning mx-1" onClick={() => selectSprint('Editar', sprint)}>
+																		Edit
+																	</button>
+																	<button className="btn btn-danger mx-1" onClick={() => selectSprint('Eliminar', sprint)}>
+																		Delete
+																	</button>
+																</td>
+																<td className="tdData">{id}</td>
+																<td className="tdData">{idEvento}</td>
+																<td className="tdData">{idUsuarioP1}</td>
+																<td className="tdData">{idUsuarioP2}</td>
+																<td className="tdData">{idVehiculoP1}</td>
+																<td className="tdData">{idVehiculoP2}</td>
+																<td className="tdData">{reaccionP1}</td>
+																<td className="tdData">{reaccionP2}</td>
+																<td className="tdData">{tiempo100mtsP1}</td>
+																<td className="tdData">{tiempo100mtsP2}</td>
+																<td className="tdData">{tiempoLlegadaP1}</td>
+																<td className="tdData">{tiempoLlegadaP2}</td>
+															</tr>
+														);
+													})}
+												</tbody>
+											</table>
+										</div>
+									</div>
 									<div className="clearfix">
 										<div className="hint-text">
-											Showing <b>{`${entriesPerPage}`}</b> out of <b>{`${totalResults}`}</b> entries
+											Mostrando <b>{`${entriesPerPage}`}</b> de <b>{`${totalResults}`}</b> registros
 										</div>
 									</div>
 								</div>
@@ -475,8 +478,8 @@ const SprintsList = () => {
 							<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchNameP1} onChange={onChangeSearchNameP1} />
 							<div className="input-group-append">
 								<div>
-									<button className="btn btn-secondary" type="button" onClick={findByNameP1}>
-										Search
+									<button className="btn btn-secondary mx-1" type="button" onClick={findByNameP1}>
+										Buscar
 									</button>
 								</div>
 							</div>
@@ -520,8 +523,8 @@ const SprintsList = () => {
 							<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchNameP2} onChange={onChangeSearchNameP2} />
 							<div className="input-group-append">
 								<div>
-									<button className="btn btn-secondary" type="button" onClick={findByNameP2}>
-										Search
+									<button className="btn btn-secondary mx-1" type="button" onClick={findByNameP2}>
+										Buscar
 									</button>
 								</div>
 							</div>

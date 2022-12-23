@@ -170,7 +170,7 @@ function App() {
 	return (
 		<div>
 			<div className="navbar navbar-dark d-flex bg-dark navBlack box-shadow">
-				<div className="container  justify-content-between">
+				<div className="container justify-content-center">
 					<div className="col-1 btn">
 						<a href="/inicio" className=" navbar-brand d-flex align-items-center">
 							<img className="logo" src={Logo}></img>

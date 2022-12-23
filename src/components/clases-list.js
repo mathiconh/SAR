@@ -94,13 +94,13 @@ const ClasesList = () => {
 	let setModalButton = (selectedClase) => {
 		if (selectedClase._id) {
 			return (
-				<button className="btn btn-danger" onClick={() => editar(selectedClase)}>
+				<button className="btn btn-success" onClick={() => editar(selectedClase)}>
 					Actualizar
 				</button>
 			);
 		} else {
 			return (
-				<button className="btn btn-danger" onClick={() => crear(selectedClase)}>
+				<button className="btn btn-success" onClick={() => crear(selectedClase)}>
 					Crear
 				</button>
 			);
@@ -169,76 +169,91 @@ const ClasesList = () => {
 
 	if (cookies.get('_id') && cookies.get('idRol') === '1') {
 		return (
-			<div>
-				<div className="container-xl">
-					<div className="table-responsive">
-						<div className="table-wrapper">
-							<div className="table-title">
-								<div className="row">
-									<div className="col-sm-6">
-										<h2>
-											Administrar <b>Clases</b>
-										</h2>
+			<div className="App">
+				<div className="container-fluid">
+					<div className="d-flex vh-85 p-2 justify-content-center align-self-center">
+						<div className="container-fluid align-self-center col card sombraCard form-abm">
+							<div className="table">
+								<div className="table-wrapper">
+									<div className="table-title">
+										<div className="row">
+											<div className="col-sm-6 w-auto">
+												<h2>
+													Administrar <b>Clases</b>
+												</h2>
+											</div>
+											<div className="input-group">
+												<input
+													type="text"
+													className="form-control w-auto"
+													placeholder="Buscar clases por "
+													value={searchValue}
+													onChange={onChangeSearchValue}
+												/>
+												<select onChange={onChangeSearchParam}>
+													{searchableParams.map((param) => {
+														return <option value={param}> {param.replace('_', '')} </option>;
+													})}
+												</select>
+												<div className="input-group-append">
+													<button className="btn btn-secondary mx-2 mt-1" type="button" onClick={findByParam}>
+														Buscar
+													</button>
+												</div>
+											</div>
+											<br></br>
+											<div className="d-flex mt-2">
+												<button className="btn btn-success" onClick={() => selectClase('Editar')}>
+													Añadir una nueva Clase
+												</button>
+											</div>
+										</div>
+										<hr className="rounded"></hr>
 									</div>
-									<div className="input-group col-lg-4">
-										<input type="text" className="form-control" placeholder="Buscar clases por " value={searchValue} onChange={onChangeSearchValue} />
-										<select onChange={onChangeSearchParam}>
-											{searchableParams.map((param) => {
-												return <option value={param}> {param.replace('_', '')} </option>;
-											})}
-										</select>
-										<div className="input-group-append">
-											<button className="btn btn-outline-secondary" type="button" onClick={findByParam}>
-												Search
-											</button>
+									<div className="overflowAuto">
+										<div className="container-fluid divTableABMCarsAdmin">
+											<table className="table table-responsive table-striped w-auto table-hover tableData">
+												<thead>
+													<tr>
+														<th className="thData fixedColHead">Acciones</th>
+														<th className="thData">ID</th>
+														<th className="thData">ID Clase</th>
+														<th className="thData">Nombre</th>
+														<th className="thData">Tiempo</th>
+													</tr>
+												</thead>
+												<tbody>
+													{clases.map((clase) => {
+														const id = `${clase._id}`;
+														const idClase = `${clase.idClase}`;
+														const nombre = `${clase.nombre}`;
+														const tiempo = `${clase.tiempo}`;
+														return (
+															<tr>
+																<td className="tdData fixedColRow">
+																	<button className="btn btn-warning mx-1" onClick={() => selectClase('Editar', clase)}>
+																		Edit
+																	</button>
+																	<button className="btn btn-danger mx-1" onClick={() => selectClase('Eliminar', clase)}>
+																		Delete
+																	</button>
+																</td>
+																<td className="tdData">{id}</td>
+																<td className="tdData">{idClase}</td>
+																<td className="tdData">{nombre}</td>
+																<td className="tdData">{tiempo}</td>
+															</tr>
+														);
+													})}
+												</tbody>
+											</table>
 										</div>
 									</div>
-									<br></br>
-									<div className="col-lg-6">
-										<button className="btn btn-success" onClick={() => selectClase('Editar')}>
-											Añadir una nueva Clase
-										</button>
+									<div className="clearfix">
+										<div className="hint-text">
+											Mostrando <b>{`${entriesPerPage}`}</b> de <b>{`${totalResults}`}</b> registros
+										</div>
 									</div>
-								</div>
-								<hr className="rounded"></hr>
-							</div>
-							<table className="table table-striped w-auto table-hover">
-								<thead>
-									<tr>
-										<th>Id</th>
-										<th>idClase</th>
-										<th>Nombre</th>
-										<th>Tiempo</th>
-									</tr>
-								</thead>
-								<tbody>
-									{clases.map((clase) => {
-										const id = `${clase._id}`;
-										const idClase = `${clase.idClase}`;
-										const nombre = `${clase.nombre}`;
-										const tiempo = `${clase.tiempo}`;
-										return (
-											<tr>
-												<td>{id}</td>
-												<td>{idClase}</td>
-												<td>{nombre}</td>
-												<td>{tiempo}</td>
-												<td>
-													<button className="btn btn-primary" onClick={() => selectClase('Editar', clase)}>
-														Edit
-													</button>
-													<button className="btn btn-danger" onClick={() => selectClase('Eliminar', clase)}>
-														Delete
-													</button>
-												</td>
-											</tr>
-										);
-									})}
-								</tbody>
-							</table>
-							<div className="clearfix">
-								<div className="hint-text">
-									Showing <b>{`${entriesPerPage}`}</b> out of <b>{`${totalResults}`}</b> entries
 								</div>
 							</div>
 						</div>
@@ -248,10 +263,10 @@ const ClasesList = () => {
 				<Modal isOpen={modalEliminar}>
 					<ModalBody>Estás seguro que deseas eliminar el registro? Id: {selectedClase._id}</ModalBody>
 					<ModalFooter>
-						<button className="btn btn-danger" onClick={() => eliminar(selectedClase._id)}>
+						<button className="btn btn-success" onClick={() => eliminar(selectedClase._id)}>
 							Sí
 						</button>
-						<button className="btn btn-secondary" onClick={() => setModalElminar(false)}>
+						<button className="btn btn-danger" onClick={() => setModalElminar(false)}>
 							No
 						</button>
 					</ModalFooter>
@@ -271,7 +286,7 @@ const ClasesList = () => {
 					<ModalFooter>
 						{buildErrorMessage()}
 						{setModalButton(selectedClase)}
-						<button className="btn btn-secondary" onClick={() => closeModal()}>
+						<button className="btn btn-danger" onClick={() => closeModal()}>
 							Cancelar
 						</button>
 					</ModalFooter>

@@ -161,7 +161,8 @@ const CarsList = () => {
 
 	// Generador de codigo QR
 	function generateQrCode() {
-		const message = `Usuario ${inscripcion.idUsuario} abonado`;
+		// console.log('Datos de Inscripcion: ', inscripcion);
+		const message = `Usuario ID: ${inscripcion.idUsuario} inscripto en el Evento ID: ${inscripcion.idEvento} Clase ID: ${inscripcion.claseId}`;
 		QRcode.toDataURL(message, (err, message) => {
 			if (err) return console.error(err);
 
@@ -384,14 +385,14 @@ const CarsList = () => {
 								{qrcode && (
 									<>
 										<img src={qrcode} />
-										<a href={qrcode} download="qrcode.png">
+										<a className="btn btn-warning" href={qrcode} download="qrcode.png">
 											Download
 										</a>
 									</>
 								)}
 							</ModalBody>
 							<ModalFooter>
-								<button className="btn btn-success" onClick={() => closeModalCodigoQR()}>
+								<button className="btn btn-danger" onClick={() => closeModalCodigoQR()}>
 									Cerrar
 								</button>
 							</ModalFooter>

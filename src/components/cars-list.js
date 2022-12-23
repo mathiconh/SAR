@@ -209,8 +209,8 @@ const CarsList = () => {
 				<div className="container-fluid">
 					<div className="d-flex vh-85 p-2 justify-content-center align-self-center">
 						<div className="container-fluid align-self-center col card sombraCard form-abm">
-							<div className="table-responsive-sm">
-								<div className="table-wrapper overflowAuto">
+							<div className="table">
+								<div className="table-wrapper">
 									<div className="table-title">
 										<div className="row">
 											<div className="col-sm-6 w-auto">
@@ -232,8 +232,8 @@ const CarsList = () => {
 													})}
 												</select>
 												<div className="input-group-append">
-													<button className="btn btn-secondary mx-2 mt-2" type="button" onClick={findByParam}>
-														Search
+													<button className="btn btn-secondary mx-2 mt-1" type="button" onClick={findByParam}>
+														Buscar
 													</button>
 												</div>
 											</div>
@@ -246,56 +246,60 @@ const CarsList = () => {
 										</div>
 										<hr className="rounded"></hr>
 									</div>
-									<table className="table-responsive table-striped w-auto table-hover">
-										<thead>
-											<tr>
-												<th>Id</th>
-												<th>Patente</th>
-												<th>Modelo</th>
-												<th>Año</th>
-												<th>Agregados</th>
-												<th>Historia</th>
-												<th>Workshop Asociado</th>
-												<th>Id Dueño</th>
-												<th className="fixedCol">Acciones</th>
-											</tr>
-										</thead>
-										<tbody>
-											{cars.map((car) => {
-												const id = `${car._id}`;
-												const patente = `${car.patente}`;
-												const modelo = `${car.modelo}`;
-												const anio = `${car.anio}`;
-												const agregados = `${car.agregados}`;
-												const historia = `${car.historia}`;
-												const tallerAsociado = `${car.tallerAsociado}`;
-												const idUsuarioDuenio = `${car.idUsuarioDuenio}`;
-												return (
+									<div className="overflowAuto">
+										<div className="container-fluid divTableABMCarsAdmin">
+											<table className="table table-responsive table-striped w-auto table-hover tableData">
+												<thead>
 													<tr>
-														<td>{id}</td>
-														<td>{patente}</td>
-														<td>{modelo}</td>
-														<td>{anio}</td>
-														<td>{agregados}</td>
-														<td width="">{historia}</td>
-														<td>{tallerAsociado}</td>
-														<td>{idUsuarioDuenio}</td>
-														<td>
-															<button className="btn btn-warning mx-1 mt-1" onClick={() => selectCar('Editar', car)}>
-																Edit
-															</button>
-															<button className="btn btn-danger mx-1 mt-1" onClick={() => selectCar('Eliminar', car)}>
-																Delete
-															</button>
-														</td>
+														<th className="thData fixedColHead">Acciones</th>
+														<th className="thData">Id</th>
+														<th className="thData">Patente</th>
+														<th className="thData">Modelo</th>
+														<th className="thData">Año</th>
+														<th className="thData">Agregados</th>
+														<th className="thData">Historia</th>
+														<th className="thData">Workshop Asociado</th>
+														<th className="thData">Id Dueño</th>
 													</tr>
-												);
-											})}
-										</tbody>
-									</table>
+												</thead>
+												<tbody>
+													{cars.map((car) => {
+														const id = `${car._id}`;
+														const patente = `${car.patente}`;
+														const modelo = `${car.modelo}`;
+														const anio = `${car.anio}`;
+														const agregados = `${car.agregados}`;
+														const historia = `${car.historia}`;
+														const tallerAsociado = `${car.tallerAsociado}`;
+														const idUsuarioDuenio = `${car.idUsuarioDuenio}`;
+														return (
+															<tr>
+																<td className="tdDataButtons fixedColRow">
+																	<button className="btn btn-warning mx-1" onClick={() => selectCar('Editar', car)}>
+																		Edit
+																	</button>
+																	<button className="btn btn-danger mx-1" onClick={() => selectCar('Eliminar', car)}>
+																		Delete
+																	</button>
+																</td>
+																<td className="tdData">{id}</td>
+																<td className="tdData">{patente}</td>
+																<td className="tdData">{modelo}</td>
+																<td className="tdData">{anio}</td>
+																<td className="tdData">{agregados}</td>
+																<td className="tdData">{historia}</td>
+																<td className="tdData">{tallerAsociado}</td>
+																<td className="tdData">{idUsuarioDuenio}</td>
+															</tr>
+														);
+													})}
+												</tbody>
+											</table>
+										</div>
+									</div>
 									<div className="clearfix">
 										<div className="hint-text">
-											Showing <b>{`${entriesPerPage}`}</b> out of <b>{`${totalResults}`}</b> entries
+											Mostrando <b>{`${entriesPerPage}`}</b> de <b>{`${totalResults}`}</b> registros
 										</div>
 									</div>
 								</div>
@@ -325,8 +329,8 @@ const CarsList = () => {
 							<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchName} onChange={onChangeSearchName} />
 							<div className="input-group-append">
 								<div>
-									<button className="btn btn-secondary" type="button" onClick={findByName}>
-										Search
+									<button className="btn btn-secondary mx-1 mt-1" type="button" onClick={findByName}>
+										Buscar
 									</button>
 								</div>
 							</div>

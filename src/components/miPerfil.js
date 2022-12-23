@@ -708,7 +708,7 @@ const MiPerfil = (props) => {
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedCar._id} placeholder="ID Auto-Incremental" />
 						<label>Patente</label>
 						<input className="form-control" type="text" maxLength="10" name="patente" id="patenteField" onChange={handleChangeAuto} value={selectedCar.patente} />
-						<label>Modelo</label>
+						<label>Marca & Modelo</label>
 						<input className="form-control" type="text" maxLength="50" name="modelo" id="modeloField" onChange={handleChangeAuto} value={selectedCar.modelo} />
 						<label>Año</label>
 						<input className="form-control" type="number" maxLength="4" name="anio" id="anioField" onChange={handleChangeAuto} value={selectedCar.anio} />
@@ -832,10 +832,10 @@ const MiPerfil = (props) => {
 				<Modal isOpen={modalEliminarAuto}>
 					<ModalBody>Estás seguro que deseas eliminar el registro? Id: {selectedCar._id}</ModalBody>
 					<ModalFooter>
-						<button className="btn btn-danger" onClick={() => eliminarAuto(selectedCar._id)}>
+						<button className="btn btn-success" onClick={() => eliminarAuto(selectedCar._id)}>
 							Sí
 						</button>
-						<button className="btn btn-secondary" onClick={() => setModalElminarAuto(false)}>
+						<button className="btn btn-danger" onClick={() => setModalElminarAuto(false)}>
 							No
 						</button>
 					</ModalFooter>
@@ -1127,7 +1127,7 @@ const MiPerfil = (props) => {
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedCar._id} placeholder="ID Auto-Incremental" />
 						<label>Patente</label>
 						<input className="form-control" type="text" maxLength="10" name="patente" id="patenteField" onChange={handleChangeAuto} value={selectedCar.patente} />
-						<label>Modelo</label>
+						<label>Marca & Modelo</label>
 						<input className="form-control" type="text" maxLength="50" name="modelo" id="modeloField" onChange={handleChangeAuto} value={selectedCar.modelo} />
 						<label>Año</label>
 						<input className="form-control" type="number" maxLength="4" name="anio" id="anioField" onChange={handleChangeAuto} value={selectedCar.anio} />

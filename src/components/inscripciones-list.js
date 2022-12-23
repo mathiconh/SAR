@@ -156,13 +156,13 @@ const InscripcionesList = () => {
 	let setModalButton = (selectedInscripcion) => {
 		if (selectedInscripcion._id) {
 			return (
-				<button className="btn btn-danger" onClick={() => editar(selectedInscripcion)}>
+				<button className="btn btn-success" onClick={() => editar(selectedInscripcion)}>
 					Actualizar
 				</button>
 			);
 		} else {
 			return (
-				<button className="btn btn-danger" onClick={() => crear(selectedInscripcion)}>
+				<button className="btn btn-success" onClick={() => crear(selectedInscripcion)}>
 					Crear
 				</button>
 			);
@@ -189,7 +189,8 @@ const InscripcionesList = () => {
 
 	// Generador de codigo QR
 	function generateQrCode(inscripcion) {
-		const message = `Usuario ${inscripcion.idUsuario} abonado`;
+		// console.log('Datos de Inscripcion: ', inscripcion);
+		const message = `Usuario ID: ${inscripcion.idUsuario} inscripto en el Evento ID: ${inscripcion.idEvento} Clase ID: ${inscripcion.claseId}`;
 		QRcode.toDataURL(message, (err, message) => {
 			if (err) return console.error(err);
 
@@ -255,91 +256,109 @@ const InscripcionesList = () => {
 
 	if (cookies.get('_id') && cookies.get('idRol') === '1') {
 		return (
-			<div>
-				<div className="container-xl">
-					<div className="table-responsive">
-						<div className="table-wrapper">
-							<div className="table-title">
-								<div className="row">
-									<div className="col-sm-6">
-										<h2>
-											Administrar <b>Inscripciones</b>
-										</h2>
+			<div className="App">
+				<div className="container-fluid">
+					<div className="d-flex vh-85 p-2 justify-content-center align-self-center">
+						<div className="container-fluid align-self-center col card sombraCard form-abm">
+							<div className="table">
+								<div className="table-wrapper">
+									<div className="table-title">
+										<div className="row">
+											<div className="col-sm-6 w-auto">
+												<h2>
+													Administrar <b>Inscripciones</b>
+												</h2>
+											</div>
+											<div className="input-group col-sm-6">
+												<input
+													type="text"
+													className="form-control w-auto"
+													placeholder="Buscar inscripcion por "
+													value={searchValue}
+													onChange={onChangeSearchValue}
+												/>
+												<select onChange={onChangeSearchParam}>
+													{searchableParams.map((param) => {
+														return <option value={param}> {param.replace('_', '')} </option>;
+													})}
+												</select>
+												<div className="input-group-append">
+													<button className="btn btn-secondary mx-2 mt-1" type="button" onClick={findByParam}>
+														Buscar
+													</button>
+												</div>
+											</div>
+											<br></br>
+											<div className="d-flex mt-2">
+												<button className="btn btn-success" onClick={() => selectInscripcion('Editar')}>
+													Añadir una nueva Inscripcion
+												</button>
+											</div>
+										</div>
+										<hr className="rounded"></hr>
 									</div>
-									<div className="input-group col-lg-4">
-										<input type="text" className="form-control" placeholder="Buscar inscripcion por " value={searchValue} onChange={onChangeSearchValue} />
-										<select onChange={onChangeSearchParam}>
-											{searchableParams.map((param) => {
-												return <option value={param}> {param.replace('_', '')} </option>;
-											})}
-										</select>
-										<div className="input-group-append">
-											<button className="btn btn-outline-secondary" type="button" onClick={findByParam}>
-												Search
-											</button>
+									<div className="overflowAuto">
+										<div className="container-fluid divTableInscripcionesAdmin">
+											<table className="table table-responsive table-striped w-auto table-hover tableData">
+												<thead>
+													<tr>
+														<th className="thData fixedColHead">Acciones</th>
+														<th className="thData">ID</th>
+														<th className="thData">ID Usuario</th>
+														<th className="thData">Fecha</th>
+														<th className="thData">Matcheado</th>
+														<th className="thData">Ingresó</th>
+														<th className="thData">ID Evento</th>
+														<th className="thData">ID Clase</th>
+														<th className="thData">ID Vehiculo</th>
+														<th className="thData">Precio</th>
+													</tr>
+												</thead>
+												<tbody>
+													{inscripciones.map((inscripcion) => {
+														const id = `${inscripcion._id}`;
+														const idEvento = `${inscripcion.idEvento}`;
+														const claseId = `${inscripcion.claseId}`;
+														const idUsuario = `${inscripcion.idUsuario}`;
+														const vehiculoId = `${inscripcion.vehiculoId}`;
+														const precio = `${inscripcion.precio}`;
+														const fechaSprint = `${inscripcion.fechaSprint}`;
+														const matcheado = `${inscripcion.matcheado}`;
+														const ingreso = `${inscripcion.ingreso}`;
+														return (
+															<tr>
+																<td className="tdDataButtons fixedColRow">
+																	<button className="btn btn-secondary mx-1" onClick={() => verQr(inscripcion)}>
+																		Ver QR
+																	</button>
+																	<button className="btn btn-warning mx-1" onClick={() => selectInscripcion('Editar', inscripcion)}>
+																		Edit
+																	</button>
+																	<button className="btn btn-danger mx-1" onClick={() => selectInscripcion('Eliminar', inscripcion)}>
+																		Delete
+																	</button>
+																</td>
+																<td className="tdData">{id}</td>
+																<td className="tdData">{idUsuario}</td>
+																<td className="tdData">{fechaSprint}</td>
+																<td className="tdData">{matcheado}</td>
+																<td className="tdData">{ingreso}</td>
+																<td className="tdData">{idEvento}</td>
+																<td className="tdData">{claseId}</td>
+																<td className="tdData">{vehiculoId}</td>
+																<td className="tdData">{precio}</td>
+															</tr>
+														);
+													})}
+												</tbody>
+											</table>
 										</div>
 									</div>
-									<br></br>
-									<div className="col-lg-6">
-										<button className="btn btn-success" onClick={() => selectInscripcion('Editar')}>
-											Añadir una nueva Inscripciones
-										</button>
+									<div className="clearfix">
+										<div className="hint-text">
+											Mostrando <b>{`${entriesPerPage}`}</b> de <b>{`${totalResults}`}</b> registros
+										</div>
 									</div>
-								</div>
-								<hr className="rounded"></hr>
-							</div>
-							<table className="table table-striped w-auto table-hover">
-								<thead>
-									<tr>
-										<th>_id</th>
-										<th>idEvento</th>
-										<th>claseId</th>
-										<th>idUsuario</th>
-										<th>vehiculoId</th>
-										<th>precio</th>
-										<th>fechaSprint</th>
-										<th>matcheado</th>
-										<th>ingreso</th>
-									</tr>
-								</thead>
-								<tbody>
-									{inscripciones.map((inscripcion) => {
-										const id = `${inscripcion._id}`;
-										const idEvento = `${inscripcion.idEvento}`;
-										const claseId = `${inscripcion.claseId}`;
-										const idUsuario = `${inscripcion.idUsuario}`;
-										const vehiculoId = `${inscripcion.vehiculoId}`;
-										const precio = `${inscripcion.precio}`;
-										const fechaSprint = `${inscripcion.fechaSprint}`;
-										const matcheado = `${inscripcion.matcheado}`;
-										const ingreso = `${inscripcion.ingreso}`;
-										return (
-											<tr>
-												<th>{id}</th>
-												<th>{idEvento}</th>
-												<th>{claseId}</th>
-												<th>{idUsuario}</th>
-												<th>{vehiculoId}</th>
-												<th>{precio}</th>
-												<th>{fechaSprint}</th>
-												<th>{matcheado}</th>
-												<th>{ingreso}</th>
-												<td>
-													<button className="btn btn-primary" onClick={() => selectInscripcion('Editar', inscripcion)}>
-														Edit
-													</button>
-													<button className="btn btn-danger" onClick={() => selectInscripcion('Eliminar', inscripcion)}>
-														Delete
-													</button>
-												</td>
-											</tr>
-										);
-									})}
-								</tbody>
-							</table>
-							<div className="clearfix">
-								<div className="hint-text">
-									Showing <b>{`${entriesPerPage}`}</b> out of <b>{`${totalResults}`}</b> entries
 								</div>
 							</div>
 						</div>
@@ -349,10 +368,10 @@ const InscripcionesList = () => {
 				<Modal isOpen={modalEliminar}>
 					<ModalBody>Estás seguro que deseas eliminar el registro? Id: {selectedInscripcion._id}</ModalBody>
 					<ModalFooter>
-						<button className="btn btn-danger" onClick={() => eliminar(selectedInscripcion._id)}>
+						<button className="btn btn-success" onClick={() => eliminar(selectedInscripcion._id)}>
 							Sí
 						</button>
-						<button className="btn btn-secondary" onClick={() => setModalElminar(false)}>
+						<button className="btn btn-danger" onClick={() => setModalElminar(false)}>
 							No
 						</button>
 					</ModalFooter>
@@ -375,11 +394,15 @@ const InscripcionesList = () => {
 						<label>claseId</label>
 						<input className="form-control" type="text" maxLength="100" name="claseId" id="claseIdField" onChange={handleChange} value={selectedInscripcion.claseId} />
 						<label>Buscador de Usuarios</label>
-						<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchName} onChange={onChangeSearchName} />
-						<div className="input-group-append">
-							<button className="btn btn-outline-secondary" type="button" onClick={findByName}>
-								Search
-							</button>
+						<div className="input-group mb-3 col-sm-12">
+							<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchName} onChange={onChangeSearchName} />
+							<div className="input-group-append">
+								<div>
+									<button className="btn btn-secondary mx-1 mt-1" type="button" onClick={findByName}>
+										Buscar
+									</button>
+								</div>
+							</div>
 						</div>
 						<label>ID Usuario</label>
 						<select
@@ -444,8 +467,27 @@ const InscripcionesList = () => {
 					<ModalFooter>
 						{buildErrorMessage()}
 						{setModalButton(selectedInscripcion)}
-						<button className="btn btn-secondary" onClick={() => closeModal()}>
+						<button className="btn btn-danger" onClick={() => closeModal()}>
 							Cancelar
+						</button>
+					</ModalFooter>
+				</Modal>
+				<Modal isOpen={modalCodigoQR}>
+					<ModalBody>
+						<p className="h1 text-center">Codigo de Inscripcion</p>
+						<label>Con el siguiente codigo QR, usted podra ingresar al predio por la entrada preferencial y abonar en efectivo:</label>
+						{qrcode && (
+							<>
+								<img src={qrcode} />
+								<a className="btn btn-warning" href={qrcode} download="qrcode.png">
+									Download
+								</a>
+							</>
+						)}
+					</ModalBody>
+					<ModalFooter>
+						<button className="btn btn-danger" onClick={() => closeModalCodigoQR()}>
+							Cerrar
 						</button>
 					</ModalFooter>
 				</Modal>
@@ -459,81 +501,96 @@ const InscripcionesList = () => {
 		</Alert>;
 	} else {
 		return (
-			<div>
-				<div className="container-xl">
-					<div className="table-responsive">
-						<div className="table-wrapper">
-							<div className="table-title">
-								<div className="row">
-									<div className="col-sm-6">
-										<h2>
-											Mis <b>Inscripciones</b>
-										</h2>
-									</div>
-									<div className="input-group col-lg-4">
-										<input type="text" className="form-control" placeholder="Buscar inscripcion por " value={searchValue} onChange={onChangeSearchValue} />
-										<select onChange={onChangeSearchParam}>
-											{searchableParams.map((param) => {
-												return <option value={param}> {param.replace('_', '')} </option>;
-											})}
-										</select>
-										<div className="input-group-append">
-											<button className="btn btn-outline-secondary" type="button" onClick={findByParamRegularUser}>
-												Search
-											</button>
+			<div className="App">
+				<div className="container-fluid">
+					<div className="d-flex vh-85 p-2 justify-content-center align-self-center">
+						<div className="container-fluid align-self-center col card sombraCard form-abm">
+							<div className="table">
+								<div className="table-wrapper">
+									<div className="table-title">
+										<div className="row">
+											<div className="col-sm-6 w-auto">
+												<h2>
+													Mis <b>Inscripciones</b>
+												</h2>
+											</div>
+											<div className="input-group mb-3 col-sm-12">
+												<input
+													type="text"
+													className="form-control w-auto"
+													placeholder="Buscar inscripcion por "
+													value={searchValue}
+													onChange={onChangeSearchValue}
+												/>
+												<select onChange={onChangeSearchParam}>
+													{searchableParams.map((param) => {
+														return <option value={param}> {param.replace('_', '')} </option>;
+													})}
+												</select>
+												<div className="input-group-append">
+													<button className="btn btn-secondary mx-2 mt-1" type="button" onClick={findByParamRegularUser}>
+														Buscar
+													</button>
+												</div>
+											</div>
 										</div>
 									</div>
-								</div>
-							</div>
-							<table className="table table-striped w-auto table-hover">
-								<thead>
-									<tr>
-										<th>_id</th>
-										<th>idEvento</th>
-										<th>claseId</th>
-										<th>idUsuario</th>
-										<th>vehiculoId</th>
-										<th>precio</th>
-										<th>fechaSprint</th>
-										<th>matcheado</th>
-										<th>ingreso</th>
-									</tr>
-								</thead>
-								<tbody>
-									{inscripciones.map((inscripcion) => {
-										const id = `${inscripcion._id}`;
-										const idEvento = `${inscripcion.idEvento}`;
-										const claseId = `${inscripcion.claseId}`;
-										const idUsuario = `${inscripcion.idUsuario}`;
-										const vehiculoId = `${inscripcion.vehiculoId}`;
-										const precio = `${inscripcion.precio}`;
-										const fechaSprint = `${inscripcion.fechaSprint}`;
-										const matcheado = `${inscripcion.matcheado}`;
-										const ingreso = `${inscripcion.ingreso}`;
-										return (
-											<tr>
-												<th>{id}</th>
-												<th>{idEvento}</th>
-												<th>{claseId}</th>
-												<th>{idUsuario}</th>
-												<th>{vehiculoId}</th>
-												<th>{precio}</th>
-												<th>{fechaSprint}</th>
-												<th>{matcheado}</th>
-												<th>{ingreso}</th>
-												<td>
-													<button className="btn btn-primary" onClick={() => verQr(inscripcion)}>
-														Ver QR
-													</button>
-												</td>
-											</tr>
-										);
-									})}
-								</tbody>
-							</table>
-							<div className="clearfix">
-								<div className="hint-text">
-									Showing <b>{`${entriesPerPage}`}</b> out of <b>{`${totalResults}`}</b> entries
+									<div className="overflowAuto">
+										<div className="container-fluid divTableInscripcionesUser">
+											<table className="table table-striped w-auto table-hover tableData">
+												<thead>
+													<tr>
+														<th className="thData fixedColHead">Acciones</th>
+														<th className="thData">Id</th>
+														<th className="thData">ID Evento</th>
+														<th className="thData">ID Clase</th>
+														<th className="thData">ID Usuario</th>
+														<th className="thData">ID Vehiculo</th>
+														<th className="thData">Precio</th>
+														<th className="thData">Fecha</th>
+														<th className="thData">Matcheado</th>
+														<th className="thData">Ingreso</th>
+													</tr>
+												</thead>
+												<tbody>
+													{inscripciones.map((inscripcion) => {
+														const id = `${inscripcion._id}`;
+														const idEvento = `${inscripcion.idEvento}`;
+														const claseId = `${inscripcion.claseId}`;
+														const idUsuario = `${inscripcion.idUsuario}`;
+														const vehiculoId = `${inscripcion.vehiculoId}`;
+														const precio = `${inscripcion.precio}`;
+														const fechaSprint = `${inscripcion.fechaSprint}`;
+														const matcheado = `${inscripcion.matcheado}`;
+														const ingreso = `${inscripcion.ingreso}`;
+														return (
+															<tr>
+																<td className="tdData">
+																	<button className="btn btn-primary fixedColRow" onClick={() => verQr(inscripcion)}>
+																		Ver QR
+																	</button>
+																</td>
+																<td className="tdData">{id}</td>
+																<td className="tdData">{idEvento}</td>
+																<td className="tdData">{claseId}</td>
+																<td className="tdData">{idUsuario}</td>
+																<td className="tdData">{vehiculoId}</td>
+																<td className="tdData">{precio}</td>
+																<td className="tdData">{fechaSprint}</td>
+																<td className="tdData">{matcheado}</td>
+																<td className="tdData">{ingreso}</td>
+															</tr>
+														);
+													})}
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div className="clearfix">
+										<div className="hint-text">
+											Mostrando <b>{`${entriesPerPage}`}</b> de <b>{`${totalResults}`}</b> registros
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -547,14 +604,14 @@ const InscripcionesList = () => {
 						{qrcode && (
 							<>
 								<img src={qrcode} />
-								<a href={qrcode} download="qrcode.png">
+								<a className="btn btn-warning" href={qrcode} download="qrcode.png">
 									Download
 								</a>
 							</>
 						)}
 					</ModalBody>
 					<ModalFooter>
-						<button className="btn btn-success" onClick={() => closeModalCodigoQR()}>
+						<button className="btn btn-danger" onClick={() => closeModalCodigoQR()}>
 							Cerrar
 						</button>
 					</ModalFooter>

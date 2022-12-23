@@ -39,7 +39,7 @@ const Inicio = () => {
 					<div className="d-flex">
 						<div className="m-4">
 							<a href="/inscripcion" className="justify-center btn btn-warning ml-4">
-								INSCRIBITE
+								Inscribite
 							</a>
 						</div>
 						<div className="m-4">
