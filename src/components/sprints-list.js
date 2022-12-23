@@ -171,7 +171,8 @@ const SprintsList = () => {
 		await UserDataService.find(query, by)
 			.then(async (response) => {
 				console.log(response.data);
-				setUsersP1(response.data.users);
+				const usersList = response.data.users.sort((a, b) => a.apellido.localeCompare(b.apellido));
+				setUsersP1(usersList);
 				setSelectedSprint((prevState) => ({
 					...prevState,
 					idUsuarioP1: response.data.users[0]._id,
@@ -187,7 +188,8 @@ const SprintsList = () => {
 		await UserDataService.find(query, by)
 			.then(async (response) => {
 				console.log(response.data);
-				setUsersP2(response.data.users);
+				const usersList = response.data.users.sort((a, b) => a.apellido.localeCompare(b.apellido));
+				setUsersP2(usersList);
 				setSelectedSprint((prevState) => ({
 					...prevState,
 					idUsuarioP2: response.data.users[0]._id,
@@ -255,22 +257,22 @@ const SprintsList = () => {
 		}));
 	};
 
-	const handleChangeUserP1 = (e) => {
+	const handleChangeUserP1 = async (e) => {
 		const { name, value } = e.target;
 		setSelectedSprint((prevState) => ({
 			...prevState,
 			[name]: value,
 		}));
-		retrieveCarsP1(value);
+		await retrieveCarsP1(value);
 	};
 
-	const handleChangeUserP2 = (e) => {
+	const handleChangeUserP2 = async (e) => {
 		const { name, value } = e.target;
 		setSelectedSprint((prevState) => ({
 			...prevState,
 			[name]: value,
 		}));
-		retrieveCarsP2(value);
+		await retrieveCarsP2(value);
 	};
 
 	const editar = async (selectedSprint) => {

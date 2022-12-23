@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import InscripcionDataService from '../services/inscripcion';
 import UserDataService from '../services/users';
+import CarsDataService from '../services/cars';
+import EventosDataService from '../services/eventos';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, ModalBody, ModalFooter, Alert } from 'reactstrap';
 import Cookies from 'universal-cookie';
@@ -11,6 +13,11 @@ import QRcode from 'qrcode';
 const InscripcionesList = () => {
 	const [inscripciones, setinscripciones] = useState([]);
 	const [users, setUsers] = useState([]);
+	const [cars, setCars] = useState([]);
+	const [eventos, setEventos] = useState([]);
+	const [eventoIdDefault, setEventoIdDefault] = useState([]);
+	const [ClaseIdDefault, setClaseIdDefault] = useState([]);
+	const [fechaSprintDefault, setFechaSprintDefault] = useState([]);
 	const [searchName, setSearchName] = useState('');
 	const [entriesPerPage, setEntriesPerPage] = useState([]);
 	const [totalResults, setTotalResults] = useState([]);
@@ -35,6 +42,7 @@ const InscripcionesList = () => {
 
 	useEffect(() => {
 		retrieveInscripciones();
+		retrieveEventos();
 	}, []);
 
 	const onChangeSearchParam = (e) => {
@@ -52,7 +60,7 @@ const InscripcionesList = () => {
 		setSearchName(searchName);
 	};
 
-	const selectInscripcion = (action, inscripcion = {}) => {
+	const selectInscripcion = (action, inscripcion = { idEvento: eventoIdDefault, claseId: ClaseIdDefault, fechaSprint: fechaSprintDefault }) => {
 		console.log('Selected: ', inscripcion);
 		setSelectedInscripcion(inscripcion);
 		action === 'Editar' ? setModalEditar(true) : setModalElminar(true);
@@ -70,11 +78,50 @@ const InscripcionesList = () => {
 		findUser(searchName, 'nombre');
 	};
 
+	const retrieveEventos = async () => {
+		await EventosDataService.getAll()
+			.then((response) => {
+				console.log('Data Eventos: ', response.data);
+				setEventos(response.data.eventos);
+				if (response.data.eventos.length) {
+					console.log('Se cambio el ID Evento a: ', response.data.eventos[0].idEvento);
+				}
+				setEventoIdDefault(response.data.eventos[0].idEvento);
+				setClaseIdDefault(response.data.eventos[0].idClase);
+				const fecha = response.data.eventos[0].fecha.split('T')[0];
+				setFechaSprintDefault(fecha);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	};
+
+	const retrieveCars = async (userId) => {
+		console.log('userId tiene: ', userId);
+		await CarsDataService.find(userId, 'idUsuarioDuenio')
+			.then((response) => {
+				console.log('Autos tiene', response.data.cars);
+				setCars(response.data.cars);
+				if (response.data.cars.length) {
+					// console.log('Se cambio el ID Vehiculo P1 a: ', response.data.cars[0]._id);
+					setSelectedInscripcion((prevState) => ({
+						...prevState,
+						vehiculoId: response.data.cars[0]._id,
+					}));
+				}
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	};
+
 	const findUser = async (query, by) => {
 		await UserDataService.find(query, by)
-			.then((response) => {
+			.then(async (response) => {
 				console.log(response.data);
-				setUsers(response.data.users);
+				const usersList = response.data.users.sort((a, b) => a.apellido.localeCompare(b.apellido));
+				setUsers(usersList);
+				await retrieveCars(response.data.users[0]._id);
 			})
 			.catch((e) => {
 				console.log(e);
@@ -184,6 +231,30 @@ const InscripcionesList = () => {
 		setSelectedInscripcion((prevState) => ({
 			...prevState,
 			[name]: value,
+		}));
+	};
+
+	const handleChangeUser = async (e) => {
+		const { name, value } = e.target;
+		setSelectedInscripcion((prevState) => ({
+			...prevState,
+			[name]: value,
+		}));
+		await retrieveCars(value);
+	};
+
+	const handleChangeEvento = (e) => {
+		const { name, value } = e.target;
+		// console.log('Evento', value);
+
+		const evento = eventos.find((evento) => evento.idEvento === value);
+		// console.log('Fecha', name);
+		const fecha = evento.fecha.split('T')[0];
+		setSelectedInscripcion((prevState) => ({
+			...prevState,
+			[name]: evento.idEvento,
+			claseId: evento.idClase,
+			fechaSprint: fecha,
 		}));
 	};
 
@@ -381,24 +452,37 @@ const InscripcionesList = () => {
 					<ModalBody>
 						<label>ID</label>
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedInscripcion._id} placeholder="Auto-Incremental ID" />
-						<label>idEvento</label>
+						<label>ID Evento</label>
+						<select
+							className="form-select"
+							name="idEvento"
+							id="idEventoField"
+							onChange={handleChangeEvento}
+							value={selectedInscripcion.idEvento}
+							aria-label="Default select example"
+						>
+							{eventos.map((evento) => {
+								const id = `${evento.idEvento}`;
+								return <option value={id}>Carrera {id}</option>;
+							})}
+						</select>
+						<label>ID Clase</label>
 						<input
 							className="form-control"
 							type="text"
-							maxLength="50"
-							name="idEvento"
-							id="idEventoField"
+							maxLength="100"
+							name="claseId"
+							id="claseIdField"
 							onChange={handleChange}
-							value={selectedInscripcion.idEvento}
+							value={selectedInscripcion.claseId}
+							readOnly
 						/>
-						<label>claseId</label>
-						<input className="form-control" type="text" maxLength="100" name="claseId" id="claseIdField" onChange={handleChange} value={selectedInscripcion.claseId} />
 						<label>Buscador de Usuarios</label>
 						<div className="input-group mb-3 col-sm-12">
 							<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchName} onChange={onChangeSearchName} />
 							<div className="input-group-append">
 								<div>
-									<button className="btn btn-secondary mx-1 mt-1" type="button" onClick={findByName}>
+									<button className="btn btn-secondary mx-1" type="button" onClick={findByName}>
 										Buscar
 									</button>
 								</div>
@@ -409,7 +493,7 @@ const InscripcionesList = () => {
 							className="form-select"
 							name="idUsuario"
 							id="idUsuarioField"
-							onChange={handleChange}
+							onChange={handleChangeUser}
 							value={selectedInscripcion.idUsuario}
 							aria-label="Default select example"
 						>
@@ -420,17 +504,24 @@ const InscripcionesList = () => {
 								return <option value={id}>{`${nombre} ${apellido} | ID: ${id}`}</option>;
 							})}
 						</select>
-						<label>vehiculoId</label>
-						<input
-							className="form-control"
-							type="text"
-							maxLength="50"
+						<label>ID Vehiculo</label>
+						<select
+							className="form-select"
 							name="vehiculoId"
 							id="vehiculoIdField"
 							onChange={handleChange}
 							value={selectedInscripcion.vehiculoId}
-						/>
-						<label>fechaSprint</label>
+							aria-label="Default select example"
+						>
+							{cars.map((car) => {
+								const id = `${car._id}`;
+								const modelo = `${car.modelo}`;
+								const patente = `${car.patente}`;
+								const anio = `${car.anio}`;
+								return <option value={id}>{`${anio} - ${modelo} ${patente} | ID: ${id}`}</option>;
+							})}
+						</select>
+						<label>Fecha</label>
 						<input
 							className="form-control"
 							type="text"
@@ -439,9 +530,10 @@ const InscripcionesList = () => {
 							id="fechaSprintField"
 							onChange={handleChange}
 							value={selectedInscripcion.fechaSprint}
-							placeholder="Formato de fecha: año(yyyy)-mes(mm)-dia(dd)"
+							// placeholder="Formato de fecha: año(yyyy)-mes(mm)-dia(dd)"
+							readOnly
 						/>
-						<label>matcheado</label>
+						<label>Matcheado</label>
 						<input
 							className="form-control"
 							type="text"
@@ -452,7 +544,7 @@ const InscripcionesList = () => {
 							value={selectedInscripcion.matcheado}
 							placeholder="Valores posibles: si - no"
 						/>
-						<label>ingreso</label>
+						<label>Ingreso</label>
 						<input
 							className="form-control"
 							type="text"

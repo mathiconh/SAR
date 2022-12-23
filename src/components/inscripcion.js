@@ -297,11 +297,11 @@ const CarsList = () => {
 										<div className="form-group align-items-center">
 											<label className="label-class" htmlFor="idCompetidor">
 												{' '}
-												Id del competidor:{' '}
+												ID del competidor:{' '}
 											</label>
-											<input type="text" id="otroCompetidorData" name="otroCompetidorDataInput" className="col-md-3" readOnly={inscribrOtroCompetidor} />
+											<input type="text" id="otroCompetidorData" name="otroCompetidorDataInput" className="mt-1" readOnly={inscribrOtroCompetidor} />
 											<div className="invalid-feedback">Por favor ingrese el ID de un competidor.</div>
-											<button className="btn btn-dark" id="buscarVehiculsButton" type="button" onClick={buscarVehiculosCompetidor}>
+											<button className="btn btn-dark mx-2" id="buscarVehiculsButton" type="button" onClick={buscarVehiculosCompetidor}>
 												Buscar Vehiculos
 											</button>
 										</div>
@@ -367,7 +367,7 @@ const CarsList = () => {
 									<div className="form-group align-items-center form-check">
 										<label className="font-weight-bold" htmlFor="tiempoClase">
 											{' '}
-											Precio de la inscripcion: {eventoSeleccionada.precio}
+											Precio de la inscripcion: ${eventoSeleccionada.precio}
 										</label>
 										<br></br>
 									</div>

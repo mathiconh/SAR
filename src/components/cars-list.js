@@ -68,7 +68,8 @@ const CarsList = () => {
 		await UserDataService.find(query, by)
 			.then((response) => {
 				console.log(response.data);
-				setUsers(response.data.users);
+				const usersList = response.data.users.sort((a, b) => a.apellido.localeCompare(b.apellido));
+				setUsers(usersList);
 				if (response.data.users.length) {
 					console.log('Se cambio el ID user Dueño a: ', response.data.users[0]._id);
 					setSelectedCar((prevState) => ({
@@ -329,7 +330,7 @@ const CarsList = () => {
 							<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchName} onChange={onChangeSearchName} />
 							<div className="input-group-append">
 								<div>
-									<button className="btn btn-secondary mx-1 mt-1" type="button" onClick={findByName}>
+									<button className="btn btn-secondary mx-1" type="button" onClick={findByName}>
 										Buscar
 									</button>
 								</div>
