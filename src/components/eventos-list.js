@@ -328,6 +328,10 @@ const EventosList = () => {
 							value={selectedEvento.fecha}
 							placeholder="Formato de fecha: año(yyyy)-mes(mm)-dia(dd)"
 						/>
+						<small id="fechaHelp" className="form-text text-muted">
+							La fecha debe corresponder a un viernes proximo para ser detectada por el sistema.
+						</small>
+						<br></br>
 						<label>Cupos</label>
 						<input className="form-control" type="number" maxLength="100" name="cupos" id="cuposField" onChange={handleChange} value={selectedEvento.cupos} />
 						<label>Cupo Maximo</label>
