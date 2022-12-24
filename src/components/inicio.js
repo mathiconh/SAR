@@ -64,7 +64,6 @@ const Inicio = () => {
 	return (
 		<section className="vh-100 d-flex justify-content-center align-items-center img-fluid imagenFondo">
 			<div className="col-auto">
-				<p className="h3 text-white text-center sombraTexto">ARE YOU READY?</p>
 				<p className="h3 text-white text-center sombraTexto">Veni a probar los tiempos de tu auto</p>
 				<p className="h1 text-white text-center sombraTexto">EN EL GRAN AUTODROMO DE BUENOS AIRES</p>
 				<div className="d-flex justify-content-center">
