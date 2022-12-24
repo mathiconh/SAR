@@ -6,22 +6,30 @@ const ErrorPage = () => {
 	};
 
 	return (
-		<body className="notFoundPage">
-			<section className="notFound">
-				<div className="img">
-					<img src="https://assets.codepen.io/5647096/backToTheHomepage.png" alt="Back to the Homepage" />
-					<img src="https://assets.codepen.io/5647096/Delorean.png" alt="El Delorean, El Doc y Marti McFly" />
-				</div>
-				<div className="textNotFound">
-					<h1>Sos rápido, pero banca ahí</h1>
-					<h2>Permisos infusicientes</h2>
-					<h3>BACK TO HOME?</h3>
-					<label className="yes" onClick={redirect}>
-						YES
-					</label>
-				</div>
-			</section>
-		</body>
+		<div className="col-lg-12">
+			<div className="notFoundPage">
+				<section className="notFound">
+					<div>
+						<div className="col-lg-6 img w-auto">
+							<img className="img-fluid" src="https://assets.codepen.io/5647096/backToTheHomepage.png" alt="Back to the Homepage" />
+						</div>
+						<br></br>
+						<div className="col-lg-6 img w-auto">
+							<img className="img-fluid" src="https://assets.codepen.io/5647096/Delorean.png" alt="El Delorean, El Doc y Marti McFly" />
+						</div>
+					</div>
+					<br></br>
+					<div className="textNotFound">
+						<h1>Sos rápido, pero banca ahí</h1>
+						<h2>Permisos infusicientes</h2>
+						<h3>BACK TO HOME?</h3>
+						<label className="yes" onClick={redirect}>
+							YES
+						</label>
+					</div>
+				</section>
+			</div>
+		</div>
 	);
 };
 
