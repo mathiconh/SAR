@@ -87,6 +87,9 @@ const CarsList = () => {
 		await CarsDataService.find(_id, 'idUsuarioDuenio')
 			.then((response) => {
 				console.log('autos tiene', response.data.cars);
+				if (!response.data.cars.length) {
+					alert('Debe tener al menos un auto cargado en el sistema para poder inscribirse');
+				}
 				setAutos(response.data.cars);
 			})
 			.catch((e) => {
@@ -140,7 +143,7 @@ const CarsList = () => {
 					.then((response) => {
 						console.log('autos tiene', response.data.cars);
 						if (!response.data.cars.length) {
-							alert('Por favor ingrese el Id de un usuario existente y vuelva a buscar sus vehiculos');
+							alert('Debe ingresar el ID de un usuario registrado el cual debe tener al menos un auto cargado en el sistema para poder inscribirse');
 						}
 						setAutos(response.data.cars);
 					})
