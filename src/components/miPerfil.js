@@ -556,7 +556,7 @@ const MiPerfil = (props) => {
 																	<div className="card-body">
 																		<h5 className="card-title">Patente: {patente}</h5>
 																		<p className="card-text">
-																			<strong>Modelo: </strong>
+																			<strong>Marca & Modelo: </strong>
 																			{modelo}
 																			<br />
 																			<strong>Año: </strong>
@@ -994,7 +994,7 @@ const MiPerfil = (props) => {
 																	<div className="card-body">
 																		<h5 className="card-title">Patente: {patente}</h5>
 																		<p className="card-text">
-																			<strong>Modelo: </strong>
+																			<strong>Marca & Modelo: </strong>
 																			{modelo}
 																			<br />
 																			<strong>Año: </strong>

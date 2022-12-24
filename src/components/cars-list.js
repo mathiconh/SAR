@@ -255,7 +255,7 @@ const CarsList = () => {
 														<th className="thData fixedColHead">Acciones</th>
 														<th className="thData">Id</th>
 														<th className="thData">Patente</th>
-														<th className="thData">Modelo</th>
+														<th className="thData">Marca & Modelo</th>
 														<th className="thData">Año</th>
 														<th className="thData">Agregados</th>
 														<th className="thData">Historia</th>
@@ -354,7 +354,7 @@ const CarsList = () => {
 						</select>
 						<label>Patente</label>
 						<input className="form-control" type="text" maxLength="50" name="patente" id="patenteField" onChange={handleChange} value={selectedCar.patente} />
-						<label>Modelo</label>
+						<label>Marca & Modelo</label>
 						<input className="form-control" type="text" maxLength="100" name="modelo" id="modeloField" onChange={handleChange} value={selectedCar.modelo} />
 						<label>Año</label>
 						<input className="form-control" type="number" maxLength="10" name="anio" id="anioField" onChange={handleChange} value={selectedCar.anio} />

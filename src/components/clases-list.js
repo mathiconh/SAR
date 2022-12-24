@@ -276,7 +276,7 @@ const ClasesList = () => {
 					<ModalBody>
 						<label>ID</label>
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedClase._id} placeholder="Auto-Incremental ID" />
-						<label>Id Clase</label>
+						<label>ID Clase</label>
 						<input className="form-control" type="text" maxLength="50" name="idClase" id="idClaseField" onChange={handleChange} value={selectedClase.idClase} />
 						<label>Nombre</label>
 						<input className="form-control" type="text" maxLength="50" name="nombre" id="nombreField" onChange={handleChange} value={selectedClase.nombre} />

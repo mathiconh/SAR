@@ -19,9 +19,9 @@ const EventosList = () => {
 	const [selectedEvento, setSelectedEvento] = useState({
 		_id: '',
 		idEvento: '',
+		idClase: '',
 		fecha: '',
 		cupos: '',
-		idClase: '',
 		cupoMaximo: '',
 		precio: '',
 	});
@@ -148,13 +148,14 @@ const EventosList = () => {
 		eventos.forEach((evento) => {
 			if (evento._id === selectedEvento._id) {
 				evento.idEvento = selectedEvento.idEvento;
+				evento.idClase = selectedEvento.idClase;
 				evento.fecha = selectedEvento.fecha;
 				evento.cupos = selectedEvento.cupos;
-				evento.idClase = selectedEvento.idClase;
 				evento.cupoMaximo = selectedEvento.cupoMaximo;
 				evento.precio = selectedEvento.precio;
 			}
 		});
+		// console.log('Evento a editar: ', selectedEvento);
 		const result = await EventosDataService.editEvento(selectedEvento, allEventos);
 		if (result.status) {
 			console.log('Edicion exitosa');
@@ -240,9 +241,9 @@ const EventosList = () => {
 														<th className="thData fixedColHead">Acciones</th>
 														<th className="thData">ID</th>
 														<th className="thData">ID Evento</th>
+														<th className="thData">ID Clase</th>
 														<th className="thData">Fecha</th>
 														<th className="thData">Cupos</th>
-														<th className="thData">ID Clase</th>
 														<th className="thData">Cupo Maximo</th>
 														<th className="thData">Precio</th>
 													</tr>
@@ -251,9 +252,9 @@ const EventosList = () => {
 													{eventos.map((evento) => {
 														const id = `${evento._id}`;
 														const idEvento = `${evento.idEvento}`;
+														const idClase = `${evento.idClase}`;
 														const fecha = `${evento.fecha}`;
 														const cupos = `${evento.cupos}`;
-														const idClase = `${evento.idClase}`;
 														const cupoMaximo = `${evento.cupoMaximo}`;
 														const precio = `${evento.precio}`;
 														return (
@@ -268,11 +269,11 @@ const EventosList = () => {
 																</td>
 																<td className="tdData">{id}</td>
 																<td className="tdData">{idEvento}</td>
+																<td className="tdData">{idClase}</td>
 																<td className="tdData">{fecha}</td>
 																<td className="tdData">{cupos}</td>
-																<td className="tdData">{idClase}</td>
 																<td className="tdData">{cupoMaximo}</td>
-																<td className="tdData">{precio}</td>
+																<td className="tdData">${precio}</td>
 															</tr>
 														);
 													})}
