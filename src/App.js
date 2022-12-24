@@ -43,6 +43,11 @@ function App() {
 						</button>
 						<ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 							<li key="UserPerfil">
+								<a href={'/miperfil/' + cookies.get('_id')} className="dropdown-item">
+									Mi Perfil
+								</a>
+							</li>
+							<li key="UserPerfil">
 								<a href={'/inicio'} className="dropdown-item">
 									Inicio
 								</a>
@@ -50,11 +55,6 @@ function App() {
 							<li key="AdminUsuarios">
 								<a href="/users" className="dropdown-item">
 									Usuarios
-								</a>
-							</li>
-							<li key="UserPerfil">
-								<a href={'/miperfil/' + cookies.get('_id')} className="dropdown-item">
-									Mi Perfil
 								</a>
 							</li>
 							<li key="UserPerfil">
@@ -88,14 +88,19 @@ function App() {
 							<span className="navbar-toggler-icon"></span>
 						</button>
 						<ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-							<li key="AdminUsuarios">
-								<a href="/users" className="dropdown-item">
-									Usuarios
-								</a>
-							</li>
 							<li key="AdminPerfil">
 								<a href={'/miperfil/' + cookies.get('_id')} className="dropdown-item">
 									Mi Perfil
+								</a>
+							</li>
+							<li key="AdminPerfil">
+								<a href={'/inicio'} className="dropdown-item">
+									Inicio
+								</a>
+							</li>
+							<li key="AdminUsuarios">
+								<a href="/users" className="dropdown-item">
+									ABM Usuarios
 								</a>
 							</li>
 							<li key="AdminAutos">
@@ -141,7 +146,7 @@ function App() {
 		} else {
 			return (
 				<a href="/login" className="nav-link text-white" style={{ cursor: 'pointer' }}>
-					<strong> Ingresar</strong>
+					<strong>Ingresar</strong>
 				</a>
 			);
 		}
@@ -159,7 +164,7 @@ function App() {
 		if (cookies.get('_id')) {
 			return (
 				<div>
-					<a href="/inscripcion" className=" btn btn-info text-light float-right">
+					<a href="/inscripcion" className=" btn btn-info text-light float-right mx-1">
 						<strong>Inscripcion a Carrera</strong>
 					</a>
 				</div>
