@@ -325,7 +325,7 @@ const CarsList = () => {
 														<thead>
 															<tr>
 																<th>Patente</th>
-																<th>Modelo</th>
+																<th>Marca & Modelo</th>
 																<th>Año</th>
 																<th>Taller Asociado</th>
 																<th>Acciones</th>
