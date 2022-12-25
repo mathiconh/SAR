@@ -52,12 +52,9 @@ const UsersList = () => {
 	const [modalCrear, setModalCrear] = useState(false);
 	const [modalEliminar, setModalEliminar] = useState(false);
 
-	// const [searchName, setSearchName] = useState('');
-	// const [searchId, setSearchId] = useState('');
 	const [searchParam, setSearchParam] = useState('_id');
 	const [searchValue, setSearchValue] = useState('');
 	const [searchableParams] = useState(Object.keys(getUserKeys()));
-	// const [searchIdRol, setSearchIdRol] = useState('');
 	const [validationErrorMessage, setValidationErrorMessage] = useState('');
 	const [idRols, setIdRoles] = useState(['All IdRoles']);
 
@@ -76,21 +73,6 @@ const UsersList = () => {
 		const searchValue = e.target.value;
 		setSearchValue(searchValue);
 	};
-
-	// const onChangeSearchId = (e) => {
-	// 	const searchId = e.target.value;
-	// 	setSearchId(searchId);
-	// };
-
-	// const onChangeSearchName = (e) => {
-	// 	const searchName = e.target.value;
-	// 	setSearchName(searchName);
-	// };
-
-	// const onChangeSearchIdRol = (e) => {
-	// 	const searchIdRol = e.target.value;
-	// 	setSearchIdRol(searchIdRol);
-	// };
 
 	const retrieveUsers = () => {
 		UserDataService.getAll()
@@ -141,25 +123,9 @@ const UsersList = () => {
 			});
 	};
 
-	// const findByName = () => {
-	// 	find(searchName, 'nombre');
-	// };
-
-	// const findById = () => {
-	// 	find(searchId, '_id');
-	// };
-
 	const findByParam = () => {
 		find(searchValue, searchParam);
 	};
-
-	// const findByIdRol = () => {
-	// 	if (searchIdRol === 'All IdRoles') {
-	// 		refreshList();
-	// 	} else {
-	// 		find(searchIdRol, 'idRol');
-	// 	}
-	// };
 
 	const buildErrorMessage = () => {
 		if (validationErrorMessage !== '') {
@@ -198,7 +164,6 @@ const UsersList = () => {
 	};
 
 	const deleteUser = async (_id) => {
-		console.log('Car to be deleted', _id);
 		await UserDataService.deleteUser(_id)
 			.then(() => {
 				refreshList();
