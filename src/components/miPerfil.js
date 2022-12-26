@@ -343,7 +343,8 @@ const MiPerfil = (props) => {
 			.then((response) => {
 				console.log('carreras tiene', response.data.sprints);
 				console.log('reporte tiene', response.data.reporte);
-				setCarreras(response.data.sprints);
+				const sprintsOrdenados = response.data.sprints.slice().sort((a, b) => new Date(b.fechaSprint) - new Date(a.fechaSprint));
+				setCarreras(sprintsOrdenados);
 				setReporte(response.data.reporte);
 			})
 			.catch((e) => {
