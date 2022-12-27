@@ -61,7 +61,7 @@ const CarsList = () => {
 		if (inscribrOtroCompetidor) {
 			vaciarVehiculoSeleccionado();
 			setAutos([]);
-			alert('Necesita seleccionar el boton "Buscar Vehiculos" para seleccionar un vehiculo antes de finalizar la inscripcion');
+			alert('Necesita seleccionar el botón "Buscar Vehículos" para seleccionar un vehículo antes de finalizar la inscripción');
 			document.getElementById('buscarVehiculsButton').setAttribute('class', 'btn btn-dark');
 			document.getElementById('buscarVehiculsButton').disabled = false;
 		} else {
@@ -143,7 +143,7 @@ const CarsList = () => {
 					.then((response) => {
 						console.log('autos tiene', response.data.cars);
 						if (!response.data.cars.length) {
-							alert('Debe ingresar el ID de un usuario registrado el cual debe tener al menos un auto cargado en el sistema para poder inscribirse');
+							alert('Debe ingresar el ID de un usuario registrádo el cual debe tener al menos un auto cargado en el sistema para poder inscribírse');
 						}
 						setAutos(response.data.cars);
 					})
@@ -151,7 +151,7 @@ const CarsList = () => {
 						console.log(e);
 					});
 			} else {
-				alert('Por favor ingrese el Id de un usuario existente y vuelva a buscar sus vehiculos');
+				alert('Por favor ingrese el Id de un usuario existente y vuelva a buscar sus vehículos');
 			}
 		}
 	}
@@ -184,9 +184,6 @@ const CarsList = () => {
 		}
 
 		const result = await InscripcionDataService.createInscripcion(inscripcion);
-		// Testing purposes
-		// const result = {status:200}
-		// const result = { errorMessage: 'Datos erroneos' }
 		if (result.status) {
 			console.log('Inscripcion exitosa');
 			setInscripcion(defaultInsc);
@@ -243,7 +240,7 @@ const CarsList = () => {
 	})();
 
 	function formPreventDefault(e) {
-		alert('Inscripcion enviada');
+		alert('Inscripción enviada');
 		e.preventDefault();
 	}
 
@@ -327,7 +324,7 @@ const CarsList = () => {
 																<th>Patente</th>
 																<th>Marca & Modelo</th>
 																<th>Año</th>
-																<th>Taller Asociado</th>
+																<th>Taller Mecánico</th>
 																<th>Acciones</th>
 															</tr>
 														</thead>
@@ -363,14 +360,14 @@ const CarsList = () => {
 												Vehiculo Seleccionado:{' '}
 											</label>
 											<input type="text" id="carData" name="carDataInput" className="col-md-6" data-readonly required />
-											<div className="invalid-feedback">Por favor seleccione uno de sus vehiculos en la tabla.</div>
+											<div className="invalid-feedback">Por favor seleccione uno de sus vehículos en la tabla.</div>
 										</div>
 									</div>
 									<hr className="rounded"></hr>
 									<div className="form-group align-items-center form-check">
 										<label className="font-weight-bold" htmlFor="tiempoClase">
 											{' '}
-											Precio de la inscripcion: ${eventoSeleccionada.precio}
+											Precio de la inscripción: ${eventoSeleccionada.precio}
 										</label>
 										<br></br>
 									</div>
@@ -384,12 +381,12 @@ const CarsList = () => {
 						<Modal isOpen={modalCodigoQR}>
 							<ModalBody>
 								<p className="h1 text-center">Gracias por inscribirse</p>
-								<label>Con el siguiente codigo QR, usted podra ingresar al predio por la entrada preferencial y abonar en efectivo:</label>
+								<label>Con el siguiente código QR, usted podra ingresár al predio por la entrada preferencial y abonar en efectivo:</label>
 								{qrcode && (
 									<>
 										<img src={qrcode} />
 										<a className="btn btn-warning" href={qrcode} download="qrcode.png">
-											Download
+											Descargar
 										</a>
 									</>
 								)}
@@ -419,9 +416,9 @@ const CarsList = () => {
 		);
 	} else {
 		window.location.href = './errorPage';
-		console.log('Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla');
+		console.log('Necesita iniciar sesión y tener los permisos suficientes para poder acceder a esta pantalla');
 		<Alert id="errorMessage" className="alert alert-danger fade show" key="danger" variant="danger">
-			Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla
+			Necesita iniciar sesión y tener los permisos suficientes para poder acceder a esta pantalla
 		</Alert>;
 	}
 };

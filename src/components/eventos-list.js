@@ -155,7 +155,6 @@ const EventosList = () => {
 				evento.precio = selectedEvento.precio;
 			}
 		});
-		// console.log('Evento a editar: ', selectedEvento);
 		const result = await EventosDataService.editEvento(selectedEvento, allEventos);
 		if (result.status) {
 			console.log('Edicion exitosa');
@@ -261,10 +260,10 @@ const EventosList = () => {
 															<tr>
 																<td className="tdData fixedColRow">
 																	<button className="btn btn-warning mx-1" onClick={() => selectEvento('Editar', evento)}>
-																		Edit
+																		Editar
 																	</button>
 																	<button className="btn btn-danger mx-1" onClick={() => selectEvento('Eliminar', evento)}>
-																		Delete
+																		Borrar
 																	</button>
 																</td>
 																<td className="tdData">{id}</td>
@@ -330,12 +329,12 @@ const EventosList = () => {
 							placeholder="Formato de fecha: año(yyyy)-mes(mm)-dia(dd)"
 						/>
 						<small id="fechaHelp" className="form-text text-muted">
-							La fecha debe corresponder a un viernes proximo para ser detectada por el sistema.
+							La fecha debe corresponder a un viernes próximo para ser detectada por el sistema.
 						</small>
 						<br></br>
 						<label>Cupos</label>
 						<input className="form-control" type="number" maxLength="100" name="cupos" id="cuposField" onChange={handleChange} value={selectedEvento.cupos} />
-						<label>Cupo Maximo</label>
+						<label>Cupo Máximo</label>
 						<input
 							className="form-control"
 							type="number"
@@ -360,9 +359,9 @@ const EventosList = () => {
 		);
 	} else {
 		window.location.href = './errorPage';
-		console.log('Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla');
+		console.log('Necesita iniciar sesión y tener los permisos suficientes para poder acceder a esta pantalla');
 		<Alert id="errorMessage" className="alert alert-danger fade show" key="danger" variant="danger">
-			Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla
+			Necesita iniciar sesión y tener los permisos suficientes para poder acceder a esta pantalla
 		</Alert>;
 	}
 };

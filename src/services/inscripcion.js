@@ -19,8 +19,6 @@ class InscripcionDataService {
 		if (!result.status) return result;
 
 		result = await http.post(`/createInscripcion?idEvento=${idEvento}&claseId=${claseId}&idUsuario=${idUsuario}&vehiculoId=${vehiculoSeleccionado}&fechaSprint=${fechaSprint}`);
-		// Testing purposes
-		// result.status = 200;
 		console.log('Result: ', result);
 		return result;
 	}

@@ -172,7 +172,7 @@ const CarsList = () => {
 		});
 		const result = await CarsDataService.editCar(selectedCar);
 		if (result.status) {
-			console.log('Edicion exitosa');
+			console.log('Edición exitosa');
 			setValidationErrorMessage('');
 			setCars(cars);
 			setModalEditar(false);
@@ -253,14 +253,14 @@ const CarsList = () => {
 												<thead>
 													<tr>
 														<th className="thData fixedColHead">Acciones</th>
-														<th className="thData">Id</th>
+														<th className="thData">ID</th>
 														<th className="thData">Patente</th>
 														<th className="thData">Marca & Modelo</th>
 														<th className="thData">Año</th>
 														<th className="thData">Agregados</th>
 														<th className="thData">Historia</th>
 														<th className="thData">Workshop Asociado</th>
-														<th className="thData">Id Dueño</th>
+														<th className="thData">ID Dueño</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -277,10 +277,10 @@ const CarsList = () => {
 															<tr>
 																<td className="tdDataButtons fixedColRow">
 																	<button className="btn btn-warning mx-1" onClick={() => selectCar('Editar', car)}>
-																		Edit
+																		Editar
 																	</button>
 																	<button className="btn btn-danger mx-1" onClick={() => selectCar('Eliminar', car)}>
-																		Delete
+																		Borrar
 																	</button>
 																</td>
 																<td className="tdData">{id}</td>
@@ -362,7 +362,7 @@ const CarsList = () => {
 						<input className="form-control" type="text" maxLength="300" name="agregados" id="agregadosField" onChange={handleChange} value={selectedCar.agregados} />
 						<label>Historia</label>
 						<input className="form-control" type="text" maxLength="200" name="historia" id="historiaField" onChange={handleChange} value={selectedCar.historia} />
-						<label>Taller Mecanico</label>
+						<label>Taller Mecánico</label>
 						<input
 							className="form-control"
 							type="text"
@@ -385,9 +385,9 @@ const CarsList = () => {
 		);
 	} else {
 		window.location.href = './errorPage';
-		console.log('Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla');
+		console.log('Necesita iniciar sesión y tener los permisos suficientes para poder acceder a esta pantalla');
 		<Alert id="errorMessage" className="alert alert-danger fade show" key="danger" variant="danger">
-			Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla
+			Necesita iniciar sesión y tener los permisos suficientes para poder acceder a esta pantalla
 		</Alert>;
 	}
 };

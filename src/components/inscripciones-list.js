@@ -366,7 +366,7 @@ const InscripcionesList = () => {
 											<br></br>
 											<div className="d-flex mt-2">
 												<button className="btn btn-success" onClick={() => selectInscripcion('Editar')}>
-													Añadir una nueva Inscripcion
+													Añadir una nueva Inscripción
 												</button>
 											</div>
 										</div>
@@ -385,7 +385,7 @@ const InscripcionesList = () => {
 														<th className="thData">Ingresó</th>
 														<th className="thData">ID Evento</th>
 														<th className="thData">ID Clase</th>
-														<th className="thData">ID Vehiculo</th>
+														<th className="thData">ID Vehículo</th>
 														<th className="thData">Precio</th>
 													</tr>
 												</thead>
@@ -407,10 +407,10 @@ const InscripcionesList = () => {
 																		Ver QR
 																	</button>
 																	<button className="btn btn-warning mx-1" onClick={() => selectInscripcion('Editar', inscripcion)}>
-																		Edit
+																		Editar
 																	</button>
 																	<button className="btn btn-danger mx-1" onClick={() => selectInscripcion('Eliminar', inscripcion)}>
-																		Delete
+																		Borrar
 																	</button>
 																</td>
 																<td className="tdData">{id}</td>
@@ -508,7 +508,7 @@ const InscripcionesList = () => {
 								return <option value={id}>{`${nombre} ${apellido} | ID: ${id}`}</option>;
 							})}
 						</select>
-						<label>ID Vehiculo</label>
+						<label>ID Vehículo</label>
 						<select
 							className="form-select"
 							name="vehiculoId"
@@ -534,7 +534,6 @@ const InscripcionesList = () => {
 							id="fechaSprintField"
 							onChange={handleChange}
 							value={selectedInscripcion.fechaSprint}
-							// placeholder="Formato de fecha: año(yyyy)-mes(mm)-dia(dd)"
 							readOnly
 						/>
 						<label>Matcheado</label>
@@ -548,7 +547,7 @@ const InscripcionesList = () => {
 							value={selectedInscripcion.matcheado}
 							placeholder="Valores posibles: si - no"
 						/>
-						<label>Ingreso</label>
+						<label>Ingresó</label>
 						<input
 							className="form-control"
 							type="text"
@@ -570,13 +569,13 @@ const InscripcionesList = () => {
 				</Modal>
 				<Modal isOpen={modalCodigoQR}>
 					<ModalBody>
-						<p className="h1 text-center">Codigo de Inscripcion</p>
-						<label>Con el siguiente codigo QR, usted podra ingresar al predio por la entrada preferencial y abonar en efectivo:</label>
+						<p className="h1 text-center">Codigo de Inscripción</p>
+						<label>Con el siguiente código QR, usted podrá ingresar al predio por la entrada preferencial y abonar en efectivo:</label>
 						{qrcode && (
 							<>
 								<img src={qrcode} />
 								<a className="btn btn-warning" href={qrcode} download="qrcode.png">
-									Download
+									Descargar
 								</a>
 							</>
 						)}
@@ -591,9 +590,9 @@ const InscripcionesList = () => {
 		);
 	} else if (!cookies.get('_id')) {
 		window.location.href = './errorPage';
-		console.log('Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla');
+		console.log('Necesita iniciar sesión y tener los permisos suficientes para poder acceder a esta pantalla');
 		<Alert id="errorMessage" className="alert alert-danger fade show" key="danger" variant="danger">
-			Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla
+			Necesita iniciar sesión y tener los permisos suficientes para poder acceder a esta pantalla
 		</Alert>;
 	} else {
 		return (
@@ -637,7 +636,7 @@ const InscripcionesList = () => {
 												<thead>
 													<tr>
 														<th className="thData fixedColHead">Acciones</th>
-														<th className="thData">Id</th>
+														<th className="thData">ID</th>
 														<th className="thData">ID Evento</th>
 														<th className="thData">ID Clase</th>
 														<th className="thData">ID Usuario</th>
@@ -695,13 +694,13 @@ const InscripcionesList = () => {
 
 				<Modal isOpen={modalCodigoQR}>
 					<ModalBody>
-						<p className="h1 text-center">Codigo de Inscripcion</p>
-						<label>Con el siguiente codigo QR, usted podra ingresar al predio por la entrada preferencial y abonar en efectivo:</label>
+						<p className="h1 text-center">Codigo de Inscripción</p>
+						<label>Con el siguiente código QR, usted podrá ingresar al predio por la entrada preferencial y abonar en efectivo:</label>
 						{qrcode && (
 							<>
 								<img src={qrcode} />
 								<a className="btn btn-warning" href={qrcode} download="qrcode.png">
-									Download
+									Descargar
 								</a>
 							</>
 						)}

@@ -232,10 +232,10 @@ const ClasesList = () => {
 															<tr>
 																<td className="tdData fixedColRow">
 																	<button className="btn btn-warning mx-1" onClick={() => selectClase('Editar', clase)}>
-																		Edit
+																		Editar
 																	</button>
 																	<button className="btn btn-danger mx-1" onClick={() => selectClase('Eliminar', clase)}>
-																		Delete
+																		Borrar
 																	</button>
 																</td>
 																<td className="tdData">{id}</td>
@@ -295,9 +295,9 @@ const ClasesList = () => {
 		);
 	} else {
 		window.location.href = './errorPage';
-		console.log('Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla');
+		console.log('Necesita iniciar sesión y tener los permisos suficientes para poder acceder a esta pantalla');
 		<Alert id="errorMessage" className="alert alert-danger fade show" key="danger" variant="danger">
-			Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla
+			Necesita iniciar sesión y tener los permisos suficientes para poder acceder a esta pantalla
 		</Alert>;
 	}
 };

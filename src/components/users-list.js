@@ -246,7 +246,7 @@ const UsersList = () => {
 																		<strong>Apellido: </strong>
 																		{apellido}
 																		<br />
-																		<strong>Domicilio: </strong>
+																		<strong>Dirección: </strong>
 																		{direccion}
 																		<br />
 																		<strong>Email: </strong>
@@ -258,10 +258,10 @@ const UsersList = () => {
 																	</p>
 																	<div className="row col-lg-12">
 																		<Link to={'/miperfil/' + user._id} className="btn btn-warning mx-2 mt-1">
-																			View User
+																			Ver Usuario
 																		</Link>
 																		<button className="btn btn-danger mx-2 mt-1" onClick={() => selectUser('Eliminar', user)}>
-																			Delete
+																			Borrar
 																		</button>
 																	</div>
 																</div>
@@ -287,7 +287,7 @@ const UsersList = () => {
 						<input className="form-control" type="text" maxLength="50" name="apellido" id="apellidoField" onChange={handleChange} value={selectedUser.apellido} />
 						<label>Correo Electronico</label>
 						<input className="form-control" type="text" maxLength="50" name="correoE" id="correoEField" onChange={handleChange} value={selectedUser.correoE} />
-						<label>Direccion</label>
+						<label>Dirección</label>
 						<input className="form-control" type="text" maxLength="100" name="direccion" id="direccionField" onChange={handleChange} value={selectedUser.direccion} />
 						<label>DNI</label>
 						<input className="form-control" type="number" maxLength="10" name="dni" id="dniField" onChange={handleChange} value={selectedUser.dni} />
@@ -405,7 +405,7 @@ const UsersList = () => {
 																		<strong>ID Rol: </strong>
 																		{idRol}
 																		<br />
-																		<strong>Direccion: </strong>
+																		<strong>Dirección: </strong>
 																		{direccion}
 																		<br />
 																		<strong>Email: </strong>
@@ -413,7 +413,7 @@ const UsersList = () => {
 																	</p>
 																	<div className="row col-lg-12">
 																		<Link to={'/miperfil/' + user._id} className="btn btn-warning mx-2 mt-1">
-																			View User
+																			Ver Usuario
 																		</Link>
 																	</div>
 																</div>
@@ -433,9 +433,9 @@ const UsersList = () => {
 		);
 	} else {
 		window.location.href = './errorPage';
-		console.log('Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla');
+		console.log('Necesita iniciar sesión y tener los permisos suficientes para poder acceder a esta pantalla');
 		<Alert id="errorMessage" className="alert alert-danger fade show" key="danger" variant="danger">
-			Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla
+			Necesita iniciar sesión y tener los permisos suficientes para poder acceder a esta pantalla
 		</Alert>;
 	}
 };

@@ -165,7 +165,7 @@ function App() {
 			return (
 				<div>
 					<a href="/inscripcion" className=" btn btn-info text-light float-right mx-1">
-						<strong>Inscripcion a Carrera</strong>
+						<strong>Inscripción a Carrera</strong>
 					</a>
 				</div>
 			);

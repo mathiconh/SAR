@@ -276,9 +276,6 @@ const SprintsList = () => {
 	};
 
 	const editar = async (selectedSprint) => {
-		// REVISAR: Cuando se trata de editar, se modifica una property, pero luego se cancela la operacion, la property queda modificada localmente.
-		// NO, tiene que volver a como estaba antes
-
 		sprints.forEach((sprint) => {
 			if (sprint._id === selectedSprint._id) {
 				sprint.idEvento = selectedSprint.idEvento;
@@ -381,10 +378,10 @@ const SprintsList = () => {
 														<th className="thData">ID Evento</th>
 														<th className="thData">ID Usuario P1</th>
 														<th className="thData">ID Usuario P2</th>
-														<th className="thData">ID Vehiculo P1</th>
-														<th className="thData">ID Vehiculo P2</th>
-														<th className="thData">Reaccion P1</th>
-														<th className="thData">Reaccion P2</th>
+														<th className="thData">ID Vehículo P1</th>
+														<th className="thData">ID Vehículo P2</th>
+														<th className="thData">Reacción P1</th>
+														<th className="thData">Reacción P2</th>
 														<th className="thData">Tiempo 100mts P1</th>
 														<th className="thData">Tiempo 100mts P2</th>
 														<th className="thData">Tiempo Llegada P1</th>
@@ -409,10 +406,10 @@ const SprintsList = () => {
 															<tr>
 																<td className="tdData fixedColRow">
 																	<button className="btn btn-warning mx-1" onClick={() => selectSprint('Editar', sprint)}>
-																		Edit
+																		Editar
 																	</button>
 																	<button className="btn btn-danger mx-1" onClick={() => selectSprint('Eliminar', sprint)}>
-																		Delete
+																		Borrar
 																	</button>
 																</td>
 																<td className="tdData">{id}</td>
@@ -502,7 +499,7 @@ const SprintsList = () => {
 								return <option value={id}>{`${nombre} ${apellido} | ID: ${id}`}</option>;
 							})}
 						</select>
-						<label>ID Vehiculo P1</label>
+						<label>ID Vehículo P1</label>
 						<select
 							className="form-select"
 							name="idVehiculoP1"
@@ -531,7 +528,7 @@ const SprintsList = () => {
 								</div>
 							</div>
 						</div>
-						<label>ID UsuarioP2</label>
+						<label>ID Usuario P2</label>
 						<select
 							className="form-select"
 							name="idUsuarioP2"
@@ -547,7 +544,7 @@ const SprintsList = () => {
 								return <option value={id}>{`${nombre} ${apellido} | ID: ${id}`}</option>;
 							})}
 						</select>
-						<label>ID VehiculoP2</label>
+						<label>ID Vehículo P2</label>
 						<select
 							className="form-select"
 							name="idVehiculoP2"
@@ -637,9 +634,9 @@ const SprintsList = () => {
 		);
 	} else {
 		window.location.href = './errorPage';
-		console.log('Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla');
+		console.log('Necesita iniciar sesión y tener los permisos suficientes para poder acceder a esta pantalla');
 		<Alert id="errorMessage" className="alert alert-danger fade show" key="danger" variant="danger">
-			Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla
+			Necesita iniciar sesión y tener los permisos suficientes para poder acceder a esta pantalla
 		</Alert>;
 	}
 };

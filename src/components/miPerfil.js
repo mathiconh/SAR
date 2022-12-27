@@ -534,7 +534,7 @@ const MiPerfil = (props) => {
 													<div className="row">
 														<div className="col-sm-4">
 															<h2>
-																Administra tus <b>Autos</b>
+																Administrá tus <b>Autos</b>
 															</h2>
 															<button className="btn btn-success mb-2 d-flex" onClick={() => selectCar('EditarAuto')}>
 																Añadir un nuevo Auto
@@ -569,7 +569,7 @@ const MiPerfil = (props) => {
 																			<strong>Historia: </strong>
 																			{historia}
 																			<br />
-																			<strong>Taller Asociado: </strong>
+																			<strong>Taller Mecánico: </strong>
 																			{tallerAsociado}
 																			<br />
 																			<strong>Verificación Técnica: </strong>
@@ -581,10 +581,10 @@ const MiPerfil = (props) => {
 																		</p>
 																		<div className="container">
 																			<button className="btn btn-warning col-5 mx-1" onClick={() => selectCar('EditarAuto', selectedCar)}>
-																				Edit
+																				Editar
 																			</button>
 																			<button className="btn btn-danger col-5 mx-1" onClick={() => selectCar('Eliminar', selectedCar)}>
-																				Delete
+																				Borrar
 																			</button>
 																			<br></br>
 																			<button className="btn btn-secondary col-11 mt-1" onClick={() => selectVt('EditarVt', selectedCar)}>
@@ -737,7 +737,7 @@ const MiPerfil = (props) => {
 						/>
 						<label>Historia</label>
 						<input className="form-control" type="text" maxLength="200" name="historia" id="historiaField" onChange={handleChangeAuto} value={selectedCar.historia} />
-						<label>Taller Mecanico</label>
+						<label>Taller Mecánico</label>
 						<input
 							className="form-control"
 							type="text"
@@ -816,7 +816,7 @@ const MiPerfil = (props) => {
 							onChange={handleChangeVt}
 							value={selectedVt.estado}
 						/>
-						<label>id Dueño del auto</label>
+						<label>ID Dueño del auto</label>
 						<input
 							className="form-control"
 							readOnly
@@ -827,14 +827,14 @@ const MiPerfil = (props) => {
 							placeholder="ID Dueño"
 							value={selectedVt.idUsuarioDuenio}
 						/>
-						<label>id Auto</label>
+						<label>ID Auto</label>
 						<input className="form-control" readOnly type="text" maxLength="50" name="idAuto" id="idAutoField" placeholder="ID Auto" value={selectedVt.idAuto} />
 					</ModalBody>
 					<ModalFooter>
 						{buildErrorMessage()}
 						{setModalButtonVt(selectedVt)}
 						<button className="btn btn-danger" onClick={() => eliminarVt(selectedVt._id, selectedVt.idAuto)}>
-							Borrar Verificacion Tecnica
+							Borrar Verificación Técnica
 						</button>
 						<button className="btn btn-danger" onClick={() => closeModalVt()}>
 							Cancelar
@@ -861,7 +861,7 @@ const MiPerfil = (props) => {
 						<label>Apellido</label>
 						<input className="form-control" type="text" maxLength="50" name="apellido" id="apellidoField" onChange={handleChange} value={perfil.apellido} />
 						<div className="container">
-							<p>Elegi una imagen de perfil</p>
+							<p>Elegí una imagen de perfil</p>
 							<div className="imgContainer">
 								{keys.map((imageName, index) => (
 									<img
@@ -903,9 +903,9 @@ const MiPerfil = (props) => {
 		);
 	} else if (!cookies.get('_id')) {
 		window.location.href = './errorPage';
-		console.log('Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla');
+		console.log('Necesita iniciar sesión y tener los permisos suficientes para poder acceder a esta pantalla');
 		<Alert id="errorMessage" className="alert alert-danger fade show" key="danger" variant="danger">
-			Necesita logearse y tener los permisos suficientes para poder acceder a esta pantalla
+			Necesita iniciar sesión y tener los permisos suficientes para poder acceder a esta pantalla
 		</Alert>;
 	} else {
 		return (
@@ -971,7 +971,7 @@ const MiPerfil = (props) => {
 													<div className="row">
 														<div className="col-sm-4">
 															<h2>
-																Administra tus <b>Autos</b>
+																Administrá tus <b>Autos</b>
 															</h2>
 															<button className="btn btn-success mb-2 d-flex" onClick={() => selectCar('EditarAuto')}>
 																Añadir un nuevo Auto
@@ -1007,7 +1007,7 @@ const MiPerfil = (props) => {
 																			<strong>Historia: </strong>
 																			{historia}
 																			<br />
-																			<strong>Taller Asociado: </strong>
+																			<strong>Taller Mecánico: </strong>
 																			{tallerAsociado}
 																			<br />
 																			<strong>Verificación Técnica: </strong>
@@ -1019,10 +1019,10 @@ const MiPerfil = (props) => {
 																		</p>
 																		<div className="container">
 																			<button className="btn btn-warning col-5 mx-1" onClick={() => selectCar('EditarAuto', selectedCar)}>
-																				Edit
+																				Editar
 																			</button>
 																			<button className="btn btn-danger col-5 mx-1" onClick={() => selectCar('Eliminar', selectedCar)}>
-																				Delete
+																				Borrar
 																			</button>
 																		</div>
 																	</div>
@@ -1171,7 +1171,7 @@ const MiPerfil = (props) => {
 						/>
 						<label>Historia</label>
 						<input className="form-control" type="text" maxLength="200" name="historia" id="historiaField" onChange={handleChangeAuto} value={selectedCar.historia} />
-						<label>Taller Mecanico</label>
+						<label>Taller Mecánico</label>
 						<input
 							className="form-control"
 							type="text"
@@ -1210,7 +1210,7 @@ const MiPerfil = (props) => {
 						<label>Apellido</label>
 						<input className="form-control" type="text" maxLength="50" name="apellido" id="apellidoField" onChange={handleChange} value={perfil.apellido} />
 						<div className="container">
-							<p>Elegi una imagen de perfil</p>
+							<p>Elegí una imagen de perfil</p>
 							<div className="imgContainer">
 								{keys.map((imageName, index) => (
 									<img

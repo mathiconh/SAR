@@ -24,7 +24,7 @@ const Inicio = () => {
 						</div>
 						<div className="m-4">
 							<a href="/inscripciones" className="justify-center btn btn-warning ml-4">
-								ABM Inscripciones
+								ABM Inscripciónes
 							</a>
 						</div>
 						<div className="m-4">
