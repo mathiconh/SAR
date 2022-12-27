@@ -46,7 +46,7 @@ class ClasesDataService {
 
 		result = validatePayload({ idClase, nombre, tiempo });
 		if (!result.status) return result;
-		result = this.validarClase(idClase, tiempo, allClases);
+		result = this.validarClase(idClase, tiempo, allClases, false);
 		if (!result.status) return result;
 
 		result = await http.put(`/editClase?_id=${_id}&idClase=${idClase}&nombre=${nombre}&tiempo=${tiempo}&idUsuarioModif=${idUsuarioModif}`);
@@ -54,7 +54,7 @@ class ClasesDataService {
 		return result;
 	}
 
-	validarClase(idClase, tiempo, allClases) {
+	validarClase(idClase, tiempo, allClases, creacion = true) {
 		const resultValidaciones = {
 			status: true,
 		};
@@ -63,14 +63,17 @@ class ClasesDataService {
 			resultValidaciones.status = false;
 			resultValidaciones.errorMessage = 'Debe configurar un tiempo mayor a 0';
 		}
-		if (idClase !== 'skip') {
-			allClases.forEach((clase) => {
-				console.log(`Actual ${idClase} VS ${clase.idClase}`);
-				if (idClase === clase.idClase) {
-					resultValidaciones.status = false;
-					resultValidaciones.errorMessage = 'No puede usar el ID Clase de un clase que ya exista';
-				}
-			});
+
+		if (creacion) {
+			if (idClase !== 'skip') {
+				allClases.forEach((clase) => {
+					console.log(`Actual ${idClase} VS ${clase.idClase}`);
+					if (idClase === clase.idClase) {
+						resultValidaciones.status = false;
+						resultValidaciones.errorMessage = 'No puede usar el ID Clase de un clase que ya exista';
+					}
+				});
+			}
 		}
 
 		return resultValidaciones;
