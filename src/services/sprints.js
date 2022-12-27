@@ -112,19 +112,46 @@ class SprintsDataService {
 		let result;
 		let idUsuarioModif = cookies.get('_id');
 
-		result = validatePayload({
-			idEvento,
-			idUsuarioP1,
-			idUsuarioP2,
-			idVehiculoP1,
-			idVehiculoP2,
-			reaccionP1,
-			reaccionP2,
-			tiempo100mtsP1,
-			tiempo100mtsP2,
-			tiempoLlegadaP1,
-			tiempoLlegadaP2,
-		});
+		if (reaccionP1 === 0 && tiempo100mtsP1 === 0 && tiempoLlegadaP1 === 0) {
+			result = validatePayload({
+				idEvento,
+				idUsuarioP2,
+				idVehiculoP2,
+				reaccionP1,
+				reaccionP2,
+				tiempo100mtsP1,
+				tiempo100mtsP2,
+				tiempoLlegadaP1,
+				tiempoLlegadaP2,
+			});
+		} else if (reaccionP2 === 0 && tiempo100mtsP2 === 0 && tiempoLlegadaP2 === 0) {
+			result = validatePayload({
+				idEvento,
+				idUsuarioP1,
+				idVehiculoP1,
+				reaccionP1,
+				reaccionP2,
+				tiempo100mtsP1,
+				tiempo100mtsP2,
+				tiempoLlegadaP1,
+				tiempoLlegadaP2,
+			});
+		} else {
+			result = validatePayload({
+				idEvento,
+				idUsuarioP1,
+				idUsuarioP2,
+				idVehiculoP1,
+				idVehiculoP2,
+				reaccionP1,
+				reaccionP2,
+				tiempo100mtsP1,
+				tiempo100mtsP2,
+				tiempoLlegadaP1,
+				tiempoLlegadaP2,
+			});
+		}
+
 		if (!result.status) return result;
 		result = this.validarTiempos({ reaccionP1, reaccionP2, tiempo100mtsP1, tiempo100mtsP2, tiempoLlegadaP1, tiempoLlegadaP2 });
 		if (!result.status) return result;
