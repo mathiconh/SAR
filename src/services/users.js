@@ -36,7 +36,7 @@ class UsersDataService {
 		let result;
 		result = validatePayload({ nombre, apellido, direccion, correoE, dni, fechaNac, telefono, idRol, idGenero, password });
 		if (!result.status) return result;
-		result = this.validateData(fechaNac, idRol);
+		result = this.validateData(fechaNac, idRol, correoE);
 		if (!result.status) return result;
 
 		const passwordHash = await bcrypt.hash(password, 8);
@@ -58,7 +58,7 @@ class UsersDataService {
 		let result;
 		result = validatePayload({ _id, nombre, apellido, direccion, correoE, dni, fechaNac, telefono, profilePic, idRol });
 		if (!result.status) return result;
-		result = this.validateData(fechaNac, idRol);
+		result = this.validateData(fechaNac, idRol, correoE);
 		if (!result.status) return result;
 
 		result = await http.put(
@@ -68,7 +68,7 @@ class UsersDataService {
 		return result;
 	}
 
-	validateData(fechaNac, idRol) {
+	validateData(fechaNac, idRol, correoE) {
 		const resultValidaciones = {
 			status: true,
 		};
@@ -85,6 +85,13 @@ class UsersDataService {
 		if (idRol !== '1' && idRol !== '2') {
 			resultValidaciones.status = false;
 			resultValidaciones.errorMessage = 'El ID del rol debe ser 1 o 2';
+		}
+
+		var validRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+		if (!validRegex.test(correoE)) {
+			resultValidaciones.status = false;
+			resultValidaciones.errorMessage = 'Debe ingresar un correo electrónico válido';
 		}
 
 		return resultValidaciones;

@@ -6,6 +6,10 @@ export const matchPassword = async (password, hash) => {
 };
 class LoginDataService {
 	async get(correoE, password) {
+		const validationResult = this.validarFormatoCorreo(correoE);
+		console.log('Result Validaciones: ', validationResult);
+		if (!validationResult.data.status) return validationResult;
+
 		const result = await http.get(`/login?correoE=${correoE}`);
 		console.log('DB Result: ', result);
 		if (result.data.errorMessage) {
@@ -20,6 +24,23 @@ class LoginDataService {
 			}
 		}
 		return result;
+	}
+
+	validarFormatoCorreo(correoE) {
+		const resultValidaciones = {
+			data: {
+				status: true,
+			},
+		};
+
+		var validRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+		if (!validRegex.test(correoE)) {
+			resultValidaciones.data.status = false;
+			resultValidaciones.data.errorMessage = 'Debe ingresar un correo electrónico válido';
+		}
+
+		return resultValidaciones;
 	}
 }
 
