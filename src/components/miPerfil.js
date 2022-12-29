@@ -761,7 +761,7 @@ const MiPerfil = (props) => {
 					<ModalBody>
 						<label>ID VT</label>
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedVt._id} placeholder="ID Auto-Incremental" />
-						<label>Mata Fuego</label>
+						<label>Matafuegos</label>
 						<input
 							className="form-control"
 							type="text"
