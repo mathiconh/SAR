@@ -82,12 +82,16 @@ const ClasesList = () => {
 		await ClasesDataService.find(query, by)
 			.then((response) => {
 				console.log('Data: ', response.data);
+				if (!response.data.clases.length) {
+					alert(`No se encontraron datos para la busqueda de ${by} con valor ${query}`);
+				}
 				setClases(response.data.clases);
 				setTotalResults(response.data.total_results);
 				setEntriesPerPage(response.data.clases.length);
 			})
 			.catch((e) => {
 				console.log(e);
+				alert(`No se pudo realizar la busqueda de datos para ${by} con valor ${query}`);
 			});
 	};
 

@@ -115,12 +115,16 @@ const CarsList = () => {
 		await CarsDataService.find(query, by)
 			.then((response) => {
 				console.log('Data: ', response.data);
+				if (!response.data.cars.length) {
+					alert(`No se encontraron datos para la busqueda de ${by} con valor ${query}`);
+				}
 				setCars(response.data.cars);
 				setTotalResults(response.data.total_results);
 				setEntriesPerPage(response.data.cars.length);
 			})
 			.catch((e) => {
 				console.log(e);
+				alert(`No se pudo realizar la busqueda de datos para ${by} con valor ${query}`);
 			});
 	};
 

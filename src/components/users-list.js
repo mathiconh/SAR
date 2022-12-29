@@ -116,10 +116,14 @@ const UsersList = () => {
 		await UserDataService.find(query, by)
 			.then((response) => {
 				console.log(response.data);
+				if (!response.data.users.length) {
+					alert(`No se encontraron datos para la busqueda de ${by} con valor ${query}`);
+				}
 				setUsers(response.data.users);
 			})
 			.catch((e) => {
 				console.log(e);
+				alert(`No se pudo realizar la busqueda de datos para ${by} con valor ${query}`);
 			});
 	};
 

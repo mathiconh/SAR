@@ -205,12 +205,16 @@ const SprintsList = () => {
 		await SprintsDataService.find(query, by)
 			.then((response) => {
 				console.log('Found Sprints: ', response.data);
+				if (!response.data.sprints.length) {
+					alert(`No se encontraron datos para la busqueda de ${by} con valor ${query}`);
+				}
 				setSprints(response.data.sprints);
 				setTotalResults(response.data.total_results);
 				setEntriesPerPage(response.data.sprints.length);
 			})
 			.catch((e) => {
 				console.log(e);
+				alert(`No se pudo realizar la busqueda de datos para ${by} con valor ${query}`);
 			});
 	};
 

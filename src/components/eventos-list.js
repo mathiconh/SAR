@@ -99,12 +99,16 @@ const EventosList = () => {
 		await EventosDataService.find(query, by)
 			.then((response) => {
 				console.log('Data: ', response.data);
+				if (!response.data.eventos.length) {
+					alert(`No se encontraron datos para la busqueda de ${by} con valor ${query}`);
+				}
 				setEventos(response.data.eventos);
 				setTotalResults(response.data.total_results);
 				setEntriesPerPage(response.data.eventos.length);
 			})
 			.catch((e) => {
 				console.log(e);
+				alert(`No se pudo realizar la busqueda de datos para ${by} con valor ${query}`);
 			});
 	};
 
