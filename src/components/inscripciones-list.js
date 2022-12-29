@@ -381,7 +381,7 @@ const InscripcionesList = () => {
 														<th className="thData">ID</th>
 														<th className="thData">ID Usuario</th>
 														<th className="thData">Fecha</th>
-														<th className="thData">Matcheado</th>
+														<th className="thData">Matcheado con otro competidor</th>
 														<th className="thData">Ingresó</th>
 														<th className="thData">ID Evento</th>
 														<th className="thData">ID Clase</th>
@@ -536,7 +536,7 @@ const InscripcionesList = () => {
 							value={selectedInscripcion.fechaSprint}
 							readOnly
 						/>
-						<label>Matcheado</label>
+						<label>Matcheado con otro competidor</label>
 						<input
 							className="form-control"
 							type="text"
@@ -643,7 +643,7 @@ const InscripcionesList = () => {
 														<th className="thData">ID Vehiculo</th>
 														<th className="thData">Precio</th>
 														<th className="thData">Fecha</th>
-														<th className="thData">Matcheado</th>
+														<th className="thData">Matcheado con otro competidor</th>
 														<th className="thData">Ingreso</th>
 													</tr>
 												</thead>
