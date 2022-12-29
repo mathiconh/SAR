@@ -142,18 +142,22 @@ const InscripcionesList = () => {
 					console.log(e);
 				});
 		} else {
-			await InscripcionDataService.get(cookies.get('_id'), 'idUsuario')
-				.then((response) => {
-					console.log('Data: ', response.data);
-					const inscripcionesOrdenadas = response.data.inscripciones.slice().sort((a, b) => new Date(b.fechaSprint) - new Date(a.fechaSprint));
-					setinscripciones(inscripcionesOrdenadas);
-					setTotalResults(response.data.total_results);
-					setEntriesPerPage(response.data.inscripciones.length);
-				})
-				.catch((e) => {
-					console.log(e);
-				});
+			retrieveInscripcionesUsuarioLogeado();
 		}
+	};
+
+	const retrieveInscripcionesUsuarioLogeado = async () => {
+		await InscripcionDataService.get(cookies.get('_id'), 'idUsuario')
+			.then((response) => {
+				console.log('Data: ', response.data);
+				const inscripcionesOrdenadas = response.data.inscripciones.slice().sort((a, b) => new Date(b.fechaSprint) - new Date(a.fechaSprint));
+				setinscripciones(inscripcionesOrdenadas);
+				setTotalResults(response.data.total_results);
+				setEntriesPerPage(response.data.inscripciones.length);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
 	};
 
 	const deleteInscripcion = async (claseId) => {
@@ -373,9 +377,14 @@ const InscripcionesList = () => {
 											</div>
 											<br></br>
 											<div className="d-flex mt-2">
-												<button className="btn btn-success" onClick={() => selectInscripcion('Editar')}>
-													Añadir una nueva Inscripción
-												</button>
+												<div>
+													<button className="btn btn-success mr-1" onClick={() => selectInscripcion('Editar')}>
+														Añadir una nueva Inscripción
+													</button>
+													<button className="btn btn-success mx-1" onClick={() => retrieveInscripcionesUsuarioLogeado()}>
+														Buscar Mis Inscripciones
+													</button>
+												</div>
 											</div>
 										</div>
 										<hr className="rounded"></hr>

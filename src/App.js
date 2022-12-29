@@ -47,7 +47,7 @@ function App() {
 									Mi Perfil
 								</a>
 							</li>
-							<li key="UserPerfil">
+							<li key="UserInicio">
 								<a href={'/inicio'} className="dropdown-item">
 									Inicio
 								</a>
@@ -57,7 +57,7 @@ function App() {
 									Usuarios
 								</a>
 							</li>
-							<li key="UserPerfil">
+							<li key="UserInscribirme">
 								<a href="/inscripcion" className="dropdown-item">
 									Inscribirme
 								</a>
