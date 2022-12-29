@@ -307,7 +307,7 @@ const EventosList = () => {
 					<ModalBody>
 						<label>ID</label>
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedEvento._id} placeholder="Auto-Incremental ID" />
-						<label>ID Carrera</label>
+						<label>ID Evento</label>
 						<input className="form-control" type="text" maxLength="50" name="idEvento" id="idEventoField" onChange={handleChange} value={selectedEvento.idEvento} />
 						<label>Clase</label>
 						<select className="form-select" name="idClase" id="idClaseField" onChange={handleChange} value={selectedEvento.idClase} aria-label="Default select example">

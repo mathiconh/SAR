@@ -78,7 +78,7 @@ class EventosDataService {
 				console.log(`Actual ${idEvento} VS ${evento.idEvento}`);
 				if (idEvento === evento.idEvento) {
 					resultValidaciones.status = false;
-					resultValidaciones.errorMessage = 'No puede usar el ID Carrera de un evento que ya exista';
+					resultValidaciones.errorMessage = 'No puede usar el ID Evento de un evento que ya exista';
 				}
 			});
 		}
