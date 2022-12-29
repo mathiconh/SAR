@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import InscripcionDataService from '../services/inscripcion';
 import UserDataService from '../services/users';
 import CarsDataService from '../services/cars';
-import EventosDataService from '../services/eventos';
+// import EventosDataService from '../services/eventos';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, ModalBody, ModalFooter, Alert } from 'reactstrap';
 import Cookies from 'universal-cookie';
@@ -79,16 +79,16 @@ const InscripcionesList = () => {
 	};
 
 	const retrieveEventos = async () => {
-		await EventosDataService.getAll()
+		await InscripcionDataService.getAvailable()
 			.then((response) => {
 				console.log('Data Eventos: ', response.data);
-				setEventos(response.data.eventos);
-				if (response.data.eventos.length) {
-					console.log('Se cambio el ID Evento a: ', response.data.eventos[0].idEvento);
+				setEventos(response.data.eventosDisponibles);
+				if (response.data.eventosDisponibles.length) {
+					console.log('Se cambio el ID Evento a: ', response.data.eventosDisponibles[0].idEvento);
 				}
-				setEventoIdDefault(response.data.eventos[0].idEvento);
-				setClaseIdDefault(response.data.eventos[0].idClase);
-				const fecha = response.data.eventos[0].fecha.split('T')[0];
+				setEventoIdDefault(response.data.eventosDisponibles[0].idEvento);
+				setClaseIdDefault(response.data.eventosDisponibles[0].idClase);
+				const fecha = response.data.eventosDisponibles[0].fecha.split('T')[0];
 				setFechaSprintDefault(fecha);
 			})
 			.catch((e) => {
