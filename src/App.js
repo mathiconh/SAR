@@ -93,7 +93,7 @@ function App() {
 									Mi Perfil
 								</a>
 							</li>
-							<li key="AdminPerfil">
+							<li key="AdminInicio">
 								<a href={'/inicio'} className="dropdown-item">
 									Inicio
 								</a>
