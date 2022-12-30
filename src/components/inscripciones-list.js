@@ -40,9 +40,9 @@ const InscripcionesList = () => {
 	const [eventosDisponibles, setEventosDisponibles] = useState([]);
 	const [clasesDisponibles, setClasesDisponibles] = useState([]);
 
-	useEffect(async () => {
-		await retrieveInscripciones();
-		await retrieveEventos();
+	useEffect(() => {
+		retrieveInscripciones();
+		retrieveEventos();
 	}, []);
 
 	const onChangeSearchParam = (e) => {
@@ -382,12 +382,12 @@ const InscripcionesList = () => {
 											<div className="input-group col-sm-6">
 												<input
 													type="text"
-													className="form-control w-auto"
+													className="form-control w-75"
 													placeholder="Buscar inscripcion por "
 													value={searchValue}
 													onChange={onChangeSearchValue}
 												/>
-												<select onChange={onChangeSearchParam}>
+												<select className="form-select" onChange={onChangeSearchParam}>
 													{searchableParams.map((param) => {
 														return <option value={param}> {param.replace('_', '')} </option>;
 													})}
