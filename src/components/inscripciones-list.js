@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import InscripcionDataService from '../services/inscripcion';
 import UserDataService from '../services/users';
 import CarsDataService from '../services/cars';
-// import EventosDataService from '../services/eventos';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, ModalBody, ModalFooter, Alert } from 'reactstrap';
 import Cookies from 'universal-cookie';
@@ -14,7 +13,6 @@ const InscripcionesList = () => {
 	const [inscripciones, setinscripciones] = useState([]);
 	const [users, setUsers] = useState([]);
 	const [cars, setCars] = useState([]);
-	const [eventos, setEventos] = useState([]);
 	const [eventoIdDefault, setEventoIdDefault] = useState([]);
 	const [ClaseIdDefault, setClaseIdDefault] = useState([]);
 	const [fechaSprintDefault, setFechaSprintDefault] = useState([]);
@@ -39,10 +37,12 @@ const InscripcionesList = () => {
 	const [modalCodigoQR, setModalCodigoQR] = useState(false);
 	const [modalEditar, setModalEditar] = useState(false);
 	const [modalEliminar, setModalElminar] = useState(false);
+	const [eventosDisponibles, setEventosDisponibles] = useState([]);
+	const [clasesDisponibles, setClasesDisponibles] = useState([]);
 
-	useEffect(() => {
-		retrieveInscripciones();
-		retrieveEventos();
+	useEffect(async () => {
+		await retrieveInscripciones();
+		await retrieveEventos();
 	}, []);
 
 	const onChangeSearchParam = (e) => {
@@ -78,23 +78,55 @@ const InscripcionesList = () => {
 		findUser(searchName, 'nombre');
 	};
 
-	const retrieveEventos = async () => {
-		await InscripcionDataService.getAvailable()
-			.then((response) => {
-				console.log('Data Eventos: ', response.data);
-				setEventos(response.data.eventosDisponibles);
-				if (response.data.eventosDisponibles.length) {
-					console.log('Se cambio el ID Evento a: ', response.data.eventosDisponibles[0].idEvento);
-				}
-				setEventoIdDefault(response.data.eventosDisponibles[0].idEvento);
-				setClaseIdDefault(response.data.eventosDisponibles[0].idClase);
-				const fecha = response.data.eventosDisponibles[0].fecha.split('T')[0];
-				setFechaSprintDefault(fecha);
-			})
-			.catch((e) => {
-				console.log(e);
-			});
+	const onChangesetSelectedClass = (e) => {
+		const clase = e.target.value;
+		console.log('Eventos Disponibles: ', eventosDisponibles);
+
+		const eventoData = eventosDisponibles.find((evento) => evento.carreraNombreClase === clase);
+		console.log('Evento Seleccionada: ', eventoData);
+		const fecha = eventoData.fecha.split('T')[0];
+
+		if (eventoData) {
+			setSelectedInscripcion((prevState) => ({
+				...prevState,
+				idEvento: eventoData.idEvento,
+				claseId: eventoData.idClase,
+				fechaSprint: fecha,
+			}));
+		}
 	};
+
+	const retrieveEventos = async () => {
+		const response = await InscripcionDataService.getAvailable();
+		console.log('Data: ', response.data.eventosDisponibles);
+		const clasesDisponiblesList = response.data.eventosDisponibles.map((evento) => {
+			return { evento: evento.idEvento, idClase: evento.idEventoClase, clase: evento.carreraNombreClase, fecha: evento.fecha };
+		});
+		setEventosDisponibles(response.data.eventosDisponibles);
+
+		ordenarClases(clasesDisponiblesList);
+		console.log('Clases Detectadas: ', clasesDisponiblesList);
+
+		setEventoIdDefault(clasesDisponiblesList[0].evento);
+		setClaseIdDefault(clasesDisponiblesList[0].idClase);
+		const fecha = clasesDisponiblesList[0].fecha;
+		setFechaSprintDefault(fecha);
+
+		setClasesDisponibles(clasesDisponiblesList);
+	};
+
+	function ordenarClases(clasesDisponiblesList) {
+		console.log('Clases Disponibles: ', clasesDisponiblesList);
+		clasesDisponiblesList.sort((claseA, claseB) => {
+			const nameA = claseA.clase.toUpperCase(); // Para ignorar mayusculas y minusculas en la comparacion
+			const nameB = claseB.clase.toUpperCase();
+			if (nameA < nameB) return -1;
+			if (nameA > nameB) return 1;
+
+			// Nombres iguales
+			return 0;
+		});
+	}
 
 	const retrieveCars = async (userId) => {
 		console.log('userId tiene: ', userId);
@@ -121,6 +153,12 @@ const InscripcionesList = () => {
 				console.log(response.data);
 				const usersList = response.data.users.sort((a, b) => a.apellido.localeCompare(b.apellido));
 				setUsers(usersList);
+				if (usersList.length) {
+					setSelectedInscripcion((prevState) => ({
+						...prevState,
+						idUsuario: usersList[0]._id,
+					}));
+				}
 				await retrieveCars(response.data.users[0]._id);
 			})
 			.catch((e) => {
@@ -257,21 +295,6 @@ const InscripcionesList = () => {
 			[name]: value,
 		}));
 		await retrieveCars(value);
-	};
-
-	const handleChangeEvento = (e) => {
-		const { name, value } = e.target;
-		// console.log('Evento', value);
-
-		const evento = eventos.find((evento) => evento.idEvento === value);
-		// console.log('Fecha', name);
-		const fecha = evento.fecha.split('T')[0];
-		setSelectedInscripcion((prevState) => ({
-			...prevState,
-			[name]: evento.idEvento,
-			claseId: evento.idClase,
-			fechaSprint: fecha,
-		}));
 	};
 
 	// Generador de codigo QR
@@ -473,31 +496,14 @@ const InscripcionesList = () => {
 					<ModalBody>
 						<label>ID</label>
 						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedInscripcion._id} placeholder="Auto-Incremental ID" />
-						<label>ID Evento</label>
-						<select
-							className="form-select"
-							name="idEvento"
-							id="idEventoField"
-							onChange={handleChangeEvento}
-							value={selectedInscripcion.idEvento}
-							aria-label="Default select example"
-						>
-							{eventos.map((evento) => {
-								const id = `${evento.idEvento}`;
-								return <option value={id}>Carrera {id}</option>;
+						<label className="label-class" htmlFor="exampleInputEmail1">
+							Clases disponibles para este viernes
+						</label>
+						<select className="form-select" name="idEvento" id="idEventoField" aria-label="Default select example" onChange={onChangesetSelectedClass}>
+							{clasesDisponibles.map((param) => {
+								return <option value={param.clase}>{param.clase}</option>;
 							})}
 						</select>
-						<label>ID Clase</label>
-						<input
-							className="form-control"
-							type="text"
-							maxLength="100"
-							name="claseId"
-							id="claseIdField"
-							onChange={handleChange}
-							value={selectedInscripcion.claseId}
-							readOnly
-						/>
 						<label>Buscador de Usuarios</label>
 						<div className="input-group mb-3 col-sm-12">
 							<input type="text" className="form-control" placeholder="Buscar por nombre" value={searchName} onChange={onChangeSearchName} />

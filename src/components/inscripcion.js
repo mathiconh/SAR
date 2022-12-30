@@ -258,7 +258,13 @@ const CarsList = () => {
 										<label className="label-class" htmlFor="exampleInputEmail1">
 											Clases disponibles para este viernes
 										</label>
-										<select onChange={onChangesetSelectedClass}>
+										<select
+											className="form-select w-auto"
+											name="idEvento"
+											id="idEventoField"
+											aria-label="Default select example"
+											onChange={onChangesetSelectedClass}
+										>
 											{clasesDisponibles.map((param) => {
 												return (
 													<option key={param} value={param}>
