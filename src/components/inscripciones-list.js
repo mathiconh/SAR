@@ -116,7 +116,6 @@ const InscripcionesList = () => {
 	};
 
 	function ordenarClases(clasesDisponiblesList) {
-		console.log('Clases Disponibles: ', clasesDisponiblesList);
 		clasesDisponiblesList.sort((claseA, claseB) => {
 			const nameA = claseA.clase.toUpperCase(); // Para ignorar mayusculas y minusculas en la comparacion
 			const nameB = claseB.clase.toUpperCase();
