@@ -1030,7 +1030,7 @@ const MiPerfil = (props) => {
 					<ModalBody>
 						<label>Contraseña Actual</label>
 						<input className="form-control" type="password" maxLength="200" name="password" id="passwordField" onChange={handleChangeNewPassword} />
-						<label>Contraseña Nueva Contraseña</label>
+						<label>Contraseña Nueva</label>
 						<input className="form-control" type="password" maxLength="200" name="newPassword" id="newPasswordField" onChange={handleChangeNewPassword} />
 						<label>Confirme la nueva contraseña</label>
 						<input className="form-control" type="password" maxLength="200" name="newConfirmPassword" id="newconfirmPasswordField" onChange={handleChangeNewPassword} />
