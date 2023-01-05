@@ -33,6 +33,7 @@ class UsersDataService {
 	}
 
 	async createUser({ nombre, apellido, direccion, correoE, dni, fechaNac, telefono, idRol, idGenero, password }) {
+		console.log('About to create user: ', nombre, apellido, direccion, correoE, dni, fechaNac, telefono, idRol, idGenero, password);
 		let result;
 		result = validatePayload({ nombre, apellido, direccion, correoE, dni, fechaNac, telefono, idRol, idGenero, password });
 		if (!result.status) return result;
@@ -52,8 +53,8 @@ class UsersDataService {
 		return await http.delete(`/deleteUser?_id=${_id}`);
 	}
 
-	async editUser({ _id, nombre, apellido, direccion, correoE, dni, fechaNac, telefono, profilePic, idRol }) {
-		console.log('About to edit car: ', nombre, apellido, direccion, correoE, dni, fechaNac, telefono, profilePic, idRol);
+	async editUser({ _id, nombre, apellido, direccion, correoE, dni, fechaNac, telefono, profilePic, idRol, idGenero, password }) {
+		console.log('About to edit user: ', nombre, apellido, direccion, correoE, dni, fechaNac, telefono, idRol, idGenero, password);
 		let idUsuarioModif = cookies.get('_id');
 		let result;
 		result = validatePayload({ _id, nombre, apellido, direccion, correoE, dni, fechaNac, telefono, profilePic, idRol });
@@ -62,7 +63,7 @@ class UsersDataService {
 		if (!result.status) return result;
 
 		result = await http.put(
-			`/editUser?_id=${_id}&nombre=${nombre}&apellido=${apellido}&direccion=${direccion}&correoE=${correoE}&dni=${dni}&fechaNac=${fechaNac}&telefono=${telefono}&profilePic=${profilePic}&idRol=${idRol}&idUsuarioModif=${idUsuarioModif}`
+			`/editUser?_id=${_id}&nombre=${nombre}&apellido=${apellido}&direccion=${direccion}&correoE=${correoE}&dni=${dni}&fechaNac=${fechaNac}&telefono=${telefono}&profilePic=${profilePic}&idRol=${idRol}&idUsuarioModif=${idUsuarioModif}&idGenero=${idGenero}&password=${password}`
 		);
 		console.log('Result: ', result);
 		return result;

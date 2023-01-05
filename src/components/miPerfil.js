@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-key */
+import bcrypt from 'bcryptjs';
 import React, { useState, useEffect } from 'react';
 import { Modal, ModalBody, ModalFooter, Alert } from 'reactstrap';
 import UsersDataService from '../services/users';
@@ -32,6 +33,7 @@ const imgObj = {
 	avatar8,
 };
 const keys = Object.keys(imgObj);
+const contraseñaReiniciada = '1234Contraseña5678';
 
 const MiPerfil = (props) => {
 	const initialPerfilState = {
@@ -47,9 +49,17 @@ const MiPerfil = (props) => {
 		idRol: '',
 	};
 	const [perfil, setPerfil] = useState(initialPerfilState);
+	const [newContraseña, setNewContraseña] = useState({
+		password: perfil.password,
+		newPassword: '',
+		newConfirmPassword: '',
+	});
+	const [genero, setGeneros] = useState([]);
 	const [selectedImg, setSelectedImg] = useState(undefined);
 	const [userFechaNac, setUserFechaNac] = useState('');
 	const [modalEditar, setModalEditar] = useState(false);
+	const [modalContraseña, setModalContraseña] = useState(false);
+	const [modalReinicioContraseña, setModalReinicioContraseña] = useState(false);
 	//vt = Verificación Técnica
 	const [vt, setVt] = useState([]);
 	const [modalEditarVt, setModalEditarVt] = useState(false);
@@ -88,6 +98,7 @@ const MiPerfil = (props) => {
 	useEffect(() => {
 		getPerfilById(props.match.params._id);
 		retrieveUser(props.match.params._id);
+		retrieveGeneros();
 		getAutos(props.match.params._id);
 	}, [props.match.params._id]);
 
@@ -125,6 +136,17 @@ const MiPerfil = (props) => {
 			});
 	};
 
+	const retrieveGeneros = async () => {
+		await UsersDataService.getAllGen()
+			.then((response) => {
+				console.log('Data: ', response.data);
+				setGeneros([{ nombre: 'Seleccionar Genero' }].concat(response.data.generos));
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	};
+
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setPerfil((prevState) => ({
@@ -133,14 +155,25 @@ const MiPerfil = (props) => {
 		}));
 	};
 
-	const editData = (perfil) => {
+	const handleChangeNewPassword = (e) => {
+		const { name, value } = e.target;
+		setNewContraseña((prevState) => ({
+			...prevState,
+			[name]: value,
+		}));
+	};
+
+	const editData = (action, perfil) => {
 		console.log('Selected: ', perfil);
-		setModalEditar(true);
+
+		action === 'Editar' ? setModalEditar(true) : setModalContraseña(true);
 	};
 
 	const closeModal = () => {
 		setSelectedImg(undefined);
 		setModalEditar(false);
+		setModalContraseña(false);
+		setModalReinicioContraseña(false);
 		setValidationErrorMessage('');
 	};
 
@@ -152,6 +185,84 @@ const MiPerfil = (props) => {
 			setValidationErrorMessage('');
 			setPerfil(perfil);
 			setModalEditar(false);
+			refreshList();
+		} else {
+			setValidationErrorMessage(result?.errorMessage);
+		}
+	};
+
+	const openModalReiniciarContraseña = () => {
+		setModalContraseña(false);
+		setValidationErrorMessage('');
+		setModalReinicioContraseña(true);
+	};
+
+	const reiniciarContraseña = async () => {
+		newContraseña.newPassword = contraseñaReiniciada;
+		const newPasswordHash = await bcrypt.hash(newContraseña.newPassword, 8);
+		perfil.password = newPasswordHash;
+		const result = await UsersDataService.editUser(perfil);
+
+		if (result.status) {
+			console.log('Edicion exitosa');
+			setValidationErrorMessage('');
+			setPerfil(perfil);
+			setModalReinicioContraseña(false);
+			refreshList();
+			setNewContraseña({
+				password: newPasswordHash,
+				newPassword: '',
+				newConfirmPassword: '',
+			});
+		} else {
+			setValidationErrorMessage(result?.errorMessage);
+		}
+	};
+
+	const matchPassword = async (password, hash) => {
+		return await bcrypt.compare(password, hash);
+	};
+
+	const actualizarContraseña = async (newContraseña) => {
+		setValidationErrorMessage('');
+		let result = { status: true };
+
+		if (newContraseña.password === '' || newContraseña.newPassword === '' || newContraseña.newConfirmPassword === '') {
+			result.status = false;
+			result.errorMessage = 'Los campos no pueden estar vacios';
+		}
+
+		if (result.status) {
+			const match = await matchPassword(newContraseña.password, perfil.password);
+			if (!match) {
+				result.status = false;
+				result.errorMessage = 'La contraseña actual no es correcta';
+			} else {
+				result.status = true;
+				result.errorMessage = '';
+			}
+
+			if (result.status && newContraseña.newPassword === newContraseña.newConfirmPassword) {
+				result.status = true;
+				result.errorMessage = '';
+				perfil.password = await bcrypt.hash(newContraseña.newPassword, 8);
+			} else if (result.status && newContraseña.newPassword !== newContraseña.newConfirmPassword) {
+				result.status = false;
+				result.errorMessage = 'La confirmacion de la nueva contraseña no coincide';
+			}
+
+			if (result.status) {
+				console.log('Actualizando Usuario');
+				result.status = true;
+				result = await UsersDataService.editUser(perfil);
+			}
+		}
+
+		if (result.status) {
+			console.log('Edicion exitosa');
+			setValidationErrorMessage('');
+			setPerfil(perfil);
+			setModalContraseña(false);
 			refreshList();
 		} else {
 			setValidationErrorMessage(result?.errorMessage);
@@ -178,7 +289,6 @@ const MiPerfil = (props) => {
 	//--------------------------------------------------------------Verificación Técnica--------------------------------------------------
 
 	let setModalButtonVt = (selectedVt) => {
-		console.log('SelectecVt tiene:', selectedVt);
 		if (selectedVt._id) {
 			return (
 				<button className="btn btn-success" onClick={() => editarVt(selectedVt)}>
@@ -195,7 +305,6 @@ const MiPerfil = (props) => {
 	};
 
 	const completarVt = async (selectedVt) => {
-		console.log('SelectecVt tiene:', selectedVt);
 		const result = await CarsDataService.completarVt(selectedVt);
 		if (result?.status) {
 			console.log('creación exitosa');
@@ -470,7 +579,7 @@ const MiPerfil = (props) => {
 		}
 	};
 
-	if ((perfil._id === cookies.get('_id') && cookies.get('idRol') === '1') || cookies.get('idRol') === '1') {
+	if (perfil._id === cookies.get('_id') || cookies.get('idRol') === '1') {
 		return (
 			<div className="App">
 				<div className="container-fluid">
@@ -509,7 +618,7 @@ const MiPerfil = (props) => {
 															</li>
 															<br></br>
 															<li>
-																<button className="btn btn-secondary" onClick={() => editData('Editar', perfil)}>
+																<button className="btn btn-primary" onClick={() => editData('Editar', perfil)}>
 																	Editar datos
 																</button>
 																<br></br>
@@ -517,6 +626,11 @@ const MiPerfil = (props) => {
 																<a className="btn btn-warning" href="#graficos">
 																	Performance
 																</a>
+																<br></br>
+																<br></br>
+																<button className="btn btn-secondary" onClick={() => editData('Contraseña', perfil)}>
+																	Cambiar Contraseña
+																</button>
 																<br></br>
 																<br></br>
 															</li>
@@ -888,11 +1002,65 @@ const MiPerfil = (props) => {
 						<input className="form-control" type="number" maxLength="300" name="dni" id="dniField" onChange={handleChange} value={perfil.dni} />
 						<label>Fecha de nacimiento</label>
 						<input className="form-control" type="date" maxLength="200" name="fechaNac" id="fechaNacField" onChange={handleChange} value={perfil.fechaNac} />
+						<label>Genero</label>
+						<select className="form-select" name="idGenero" id="idGeneroField" onChange={handleChange} value={perfil.idGenero} aria-label="Default select example">
+							{genero.map((genero) => {
+								const id = `${genero.idGenero}`;
+								const nombre = `${genero.nombre}`;
+								return (
+									<option key={id} value={id}>
+										{nombre}
+									</option>
+								);
+							})}
+						</select>
 					</ModalBody>
 					<ModalFooter>
 						{buildErrorMessage()}
 						<button className="btn btn-success" onClick={() => editar(perfil)}>
 							Actualizar
+						</button>
+						<button className="btn btn-danger" onClick={() => closeModal()}>
+							Cancelar
+						</button>
+					</ModalFooter>
+				</Modal>
+
+				<Modal isOpen={modalContraseña}>
+					<ModalBody>
+						<label>Contraseña Actual</label>
+						<input className="form-control" type="password" maxLength="200" name="password" id="passwordField" onChange={handleChangeNewPassword} />
+						<label>Contraseña Nueva Contraseña</label>
+						<input className="form-control" type="password" maxLength="200" name="newPassword" id="newPasswordField" onChange={handleChangeNewPassword} />
+						<label>Confirme la nueva contraseña</label>
+						<input className="form-control" type="password" maxLength="200" name="newConfirmPassword" id="newconfirmPasswordField" onChange={handleChangeNewPassword} />
+					</ModalBody>
+					<ModalFooter>
+						{buildErrorMessage()}
+						<button className="btn btn-success" onClick={() => actualizarContraseña(newContraseña)}>
+							Actualizar
+						</button>
+						<button className="btn btn-warning" onClick={() => openModalReiniciarContraseña()}>
+							Reiniciar Contraseña
+						</button>
+						<button className="btn btn-danger" onClick={() => closeModal()}>
+							Cancelar
+						</button>
+					</ModalFooter>
+				</Modal>
+
+				<Modal isOpen={modalReinicioContraseña}>
+					<ModalBody>
+						<h1>Esta seguro de que desea reiniciar la contraseña?</h1>
+						<p>
+							La contraseña sera reiniciada a: <strong>{`${contraseñaReiniciada}`}</strong>
+						</p>
+						<small className="form-text text-muted">Esta accion no puede deshacerse y luego debera cambiar la contraseña manualmente.</small>
+					</ModalBody>
+					<ModalFooter>
+						{buildErrorMessage()}
+						<button className="btn btn-success" onClick={() => reiniciarContraseña(newContraseña)}>
+							Confirmar
 						</button>
 						<button className="btn btn-danger" onClick={() => closeModal()}>
 							Cancelar
@@ -946,11 +1114,6 @@ const MiPerfil = (props) => {
 															</li>
 															<br></br>
 															<li>
-																<button className="btn btn-secondary" onClick={() => editData('Editar', perfil)}>
-																	Editar datos
-																</button>
-																<br></br>
-																<br></br>
 																<a className="btn btn-warning" href="#graficos">
 																	Performance
 																</a>
