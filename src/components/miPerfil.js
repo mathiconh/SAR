@@ -33,7 +33,17 @@ const imgObj = {
 	avatar8,
 };
 const keys = Object.keys(imgObj);
-const contraseñaReiniciada = '1234Contraseña5678';
+const contraseñaReiniciada = crearContraseñaReinicio(10);
+
+function crearContraseñaReinicio(longitudContraseña) {
+	let result = '';
+	const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	var caracteresLength = caracteres.length;
+	for (let i = 0; i < longitudContraseña; i++) {
+		result += caracteres.charAt(Math.floor(Math.random() * caracteresLength));
+	}
+	return result;
+}
 
 const MiPerfil = (props) => {
 	const initialPerfilState = {
@@ -1076,7 +1086,10 @@ const MiPerfil = (props) => {
 						<p>
 							La contraseña sera reiniciada a: <strong>{`${contraseñaReiniciada}`}</strong>
 						</p>
-						<small className="form-text text-muted">Esta accion no puede deshacerse y luego debera cambiar la contraseña manualmente.</small>
+						<p>
+							<strong>No pierdas esta contraseña</strong> o no podras ingresar al sistema por tu cuenta
+						</p>
+						<small className="form-text text-muted">Esta accion no puede deshacerse y luego es recomendable cambiarla manualmente.</small>
 					</ModalBody>
 					<ModalFooter>
 						{buildErrorMessage()}
@@ -1322,106 +1335,6 @@ const MiPerfil = (props) => {
 						</div>
 					</div>
 				</div>
-				{/* 
-				<Modal isOpen={modalEditarAuto}>
-					<ModalBody>
-						<label>ID Auto</label>
-						<input className="form-control" readOnly type="text" name="id" id="idField" value={selectedCar._id} placeholder="ID Auto-Incremental" />
-						<label>Patente</label>
-						<input className="form-control" type="text" maxLength="10" name="patente" id="patenteField" onChange={handleChangeAuto} value={selectedCar.patente} />
-						<label>Marca & Modelo</label>
-						<input className="form-control" type="text" maxLength="50" name="modelo" id="modeloField" onChange={handleChangeAuto} value={selectedCar.modelo} />
-						<label>Año</label>
-						<input className="form-control" type="number" maxLength="4" name="anio" id="anioField" onChange={handleChangeAuto} value={selectedCar.anio} />
-						<label>Agregados</label>
-						<input
-							className="form-control"
-							type="text"
-							maxLength="300"
-							name="agregados"
-							id="agregadosField"
-							onChange={handleChangeAuto}
-							value={selectedCar.agregados}
-						/>
-						<label>Historia</label>
-						<input className="form-control" type="text" maxLength="200" name="historia" id="historiaField" onChange={handleChangeAuto} value={selectedCar.historia} />
-						<label>Taller Mecánico</label>
-						<input
-							className="form-control"
-							type="text"
-							maxLength="50"
-							name="tallerAsociado"
-							id="workshopField"
-							onChange={handleChangeAuto}
-							value={selectedCar.tallerAsociado}
-						/>
-					</ModalBody>
-					<ModalFooter>
-						{buildErrorMessage()}
-						{setModalButtonAuto(selectedCar)}
-						<button className="btn btn-danger" onClick={() => closeModalAuto()}>
-							Cancelar
-						</button>
-					</ModalFooter>
-				</Modal>
-
-				<Modal isOpen={modalEliminarAuto}>
-					<ModalBody>Estás seguro que deseas eliminar el registro? Id: {selectedCar._id}</ModalBody>
-					<ModalFooter>
-						<button className="btn btn-success" onClick={() => eliminarAuto(selectedCar._id)}>
-							Sí
-						</button>
-						<button className="btn btn-danger" onClick={() => setModalElminarAuto(false)}>
-							No
-						</button>
-					</ModalFooter>
-				</Modal>
-
-				<Modal isOpen={modalEditar}>
-					<ModalBody>
-						<label>Nombre</label>
-						<input className="form-control" type="text" maxLength="50" name="nombre" id="nombreField" onChange={handleChange} value={perfil.nombre} />
-						<label>Apellido</label>
-						<input className="form-control" type="text" maxLength="50" name="apellido" id="apellidoField" onChange={handleChange} value={perfil.apellido} />
-						<div className="container">
-							<p>Elegí una imagen de perfil</p>
-							<div className="imgContainer">
-								{keys.map((imageName, index) => (
-									<img
-										key={index}
-										src={imgObj[imageName]}
-										alt={`Profile ${index}`}
-										width="20%"
-										style={{
-											border: selectedImg === imageName ? '4px solid purple' : '',
-										}}
-										onClick={() => setSelectedImg(imageName)}
-									></img>
-								))}
-							</div>
-						</div>
-						{idRolCampos()}
-						<label>Dirección</label>
-						<input className="form-control" type="text" maxLength="50" name="direccion" id="direccionField" onChange={handleChange} value={perfil.direccion} />
-						<label>Telefono</label>
-						<input className="form-control" type="number" maxLength="100" name="telefono" id="telefonoField" onChange={handleChange} value={perfil.telefono} />
-						<label>Email</label>
-						<input className="form-control" type="text" maxLength="50" name="correoE" id="correoEField" onChange={handleChange} value={perfil.correoE} />
-						<label>DNI</label>
-						<input className="form-control" type="number" maxLength="300" name="dni" id="dniField" onChange={handleChange} value={perfil.dni} />
-						<label>Fecha de nacimiento</label>
-						<input className="form-control" type="date" maxLength="200" name="fechaNac" id="fechaNacField" onChange={handleChange} value={perfil.fechaNac} />
-					</ModalBody>
-					<ModalFooter>
-						{buildErrorMessage()}
-						<button className="btn btn-success" onClick={() => editar(perfil)}>
-							Actualizar
-						</button>
-						<button className="btn btn-danger" onClick={() => closeModal()}>
-							Cancelar
-						</button>
-					</ModalFooter>
-				</Modal> */}
 			</div>
 		);
 	}
