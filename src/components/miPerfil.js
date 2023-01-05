@@ -531,6 +531,38 @@ const MiPerfil = (props) => {
 			});
 	};
 
+	const accionesPorSesionAutoCards = (car) => {
+		if (cookies.get('idRol') === '1') {
+			return (
+				<div className="container">
+					<button className="btn btn-warning col-5 mx-1" onClick={() => selectCar('EditarAuto', car)}>
+						Editar
+					</button>
+					<button className="btn btn-danger col-5 mx-1" onClick={() => selectCar('Eliminar', car)}>
+						Borrar
+					</button>
+					<br></br>
+					<button className="btn btn-secondary col-11 mt-1" onClick={() => selectVt('EditarVt', car)}>
+						Verificación Técnica
+					</button>
+				</div>
+			);
+		} else if (cookies.get('_id') === props.match.params._id) {
+			return (
+				<div className="container">
+					<button className="btn btn-warning col-5 mx-1" onClick={() => selectCar('EditarAuto', car)}>
+						Editar
+					</button>
+					<button className="btn btn-danger col-5 mx-1" onClick={() => selectCar('Eliminar', car)}>
+						Borrar
+					</button>
+				</div>
+			);
+		} else {
+			return <div></div>;
+		}
+	};
+
 	let setModalButtonAuto = (selectedCar) => {
 		if (selectedCar._id) {
 			return (
@@ -693,18 +725,7 @@ const MiPerfil = (props) => {
 																			{id}
 																			<br />
 																		</p>
-																		<div className="container">
-																			<button className="btn btn-warning col-5 mx-1" onClick={() => selectCar('EditarAuto', selectedCar)}>
-																				Editar
-																			</button>
-																			<button className="btn btn-danger col-5 mx-1" onClick={() => selectCar('Eliminar', selectedCar)}>
-																				Borrar
-																			</button>
-																			<br></br>
-																			<button className="btn btn-secondary col-11 mt-1" onClick={() => selectVt('EditarVt', selectedCar)}>
-																				Verificación Técnica
-																			</button>
-																		</div>
+																		<div className="container">{accionesPorSesionAutoCards(selectedCar)}</div>
 																	</div>
 																</div>
 															</div>
@@ -1136,9 +1157,6 @@ const MiPerfil = (props) => {
 															<h2>
 																Administrá tus <b>Autos</b>
 															</h2>
-															<button className="btn btn-success mb-2 d-flex" onClick={() => selectCar('EditarAuto')}>
-																Añadir un nuevo Auto
-															</button>
 														</div>
 														<br></br>
 													</div>
@@ -1180,14 +1198,7 @@ const MiPerfil = (props) => {
 																			{id}
 																			<br />
 																		</p>
-																		<div className="container">
-																			<button className="btn btn-warning col-5 mx-1" onClick={() => selectCar('EditarAuto', selectedCar)}>
-																				Editar
-																			</button>
-																			<button className="btn btn-danger col-5 mx-1" onClick={() => selectCar('Eliminar', selectedCar)}>
-																				Borrar
-																			</button>
-																		</div>
+																		<div className="container">{accionesPorSesionAutoCards(selectedCar)}</div>
 																	</div>
 																</div>
 															</div>
@@ -1311,7 +1322,7 @@ const MiPerfil = (props) => {
 						</div>
 					</div>
 				</div>
-
+				{/* 
 				<Modal isOpen={modalEditarAuto}>
 					<ModalBody>
 						<label>ID Auto</label>
@@ -1410,7 +1421,7 @@ const MiPerfil = (props) => {
 							Cancelar
 						</button>
 					</ModalFooter>
-				</Modal>
+				</Modal> */}
 			</div>
 		);
 	}
