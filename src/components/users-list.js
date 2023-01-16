@@ -298,7 +298,16 @@ const UsersList = () => {
 						<label>Fecha De Nacimiento</label>
 						<input className="form-control" type="date" maxLength="300" name="fechaNac" id="fechaNacField" onChange={handleChange} value={selectedUser.fechaNac} />
 						<label>ID Rol</label>
-						<input className="form-control" type="text" maxLength="200" name="idRol" id="idRolField" onChange={handleChange} value={selectedUser.idRol} />
+						<input
+							className="form-control"
+							type="text"
+							placeholder="Valores permitidos: 1 | 2"
+							maxLength="200"
+							name="idRol"
+							id="idRolField"
+							onChange={handleChange}
+							value={selectedUser.idRol}
+						/>
 						<label>Genero</label>
 						<select
 							className="form-select"
