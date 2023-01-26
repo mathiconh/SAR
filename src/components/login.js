@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import LoginDataService from '../services/login';
 import UserDataService from '../services/users';
 import { Modal, ModalBody, ModalFooter, Alert } from 'reactstrap';
+import jwt_decode from 'jwt-decode';
 import Cookies from 'universal-cookie';
 import '../styles/baseStyles.css';
 import '../styles/buttons.css';
@@ -9,17 +10,31 @@ import '../styles/buttons.css';
 const cookies = new Cookies();
 
 function Login() {
+	const handleCallbackResponse = (response) => {
+		const userObject = jwt_decode(response.credential);
+		console.log('Encoded JWT ID Token: ', userObject);
+		if (userObject.email_verified) {
+			console.log('Encoded JWT ID Token: ', userObject.email);
+			logIn({ correoE: userObject.email, password: '' }, true);
+		}
+	};
+
 	const [user, setUser] = useState({
 		correoE: '',
 		password: '',
 	});
 	const [validationErrorMessage, setValidationErrorMessage] = useState('');
-
 	const [modalCrear, setModalCrear] = useState(false);
 	const [genero, setGeneros] = useState(['Seleccionar Genero']);
 
 	useEffect(() => {
 		retrieveGeneros();
+		/* global google */
+		google.accounts.id.initialize({
+			client_id: '552005328858-9p56qe7i9bpvq6oqfv9rcd216ucs6ljb.apps.googleusercontent.com',
+			callback: handleCallbackResponse,
+		});
+		google.accounts.id.renderButton(document.getElementById('signInDiv'), { theme: 'outline', size: 'large', shape: 'pill' });
 	}, []);
 
 	const [selectedUser, setSelectedUser] = useState({
@@ -70,8 +85,8 @@ function Login() {
 			});
 	};
 
-	const logIn = async (user) => {
-		const result = await LoginDataService.get(user.correoE, user.password);
+	const logIn = async (user, googleSignIn = false) => {
+		const result = await LoginDataService.get(user.correoE, user.password, googleSignIn);
 		console.log('con esto te intentas logear ', result);
 		if (result.data.status) {
 			setValidationErrorMessage('');
@@ -126,7 +141,16 @@ function Login() {
 						<input type="text" placeholder="email@email.com" className="form-control" name="correoE" onChange={handleChange} />
 						<label className="sr-only  align-content-start d-flex">Contraseña</label>
 						<input type="password" placeholder="Escribe tu contraseña" className="form-control" name="password" onChange={handleChange} />{' '}
-						<div className="d-grid gap-2 d-md-block">
+						<div className="d-grid gap-2 d-md-block justify-center">
+							<div
+								id="signInDiv"
+								className="g_id_signin mt-4 flex justify-center"
+								data-type="standard"
+								data-size="large"
+								data-theme="outline"
+								data-shape="rectangular"
+								data-logo_alignment="left"
+							></div>
 							<button className="btn mt-4 mx-2 btn-primary" type="button" onClick={() => logIn(user)}>
 								Iniciar Sesión
 							</button>

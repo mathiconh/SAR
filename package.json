@@ -18,6 +18,7 @@
     "igniteui-react-charts": "^18.1.0",
     "igniteui-react-core": "^18.1.0",
     "jquery": "^3.6.0",
+    "jwt-decode": "^3.1.2",
     "npm": "^8.18.0",
     "popper.js": "^1.16.1",
     "qrcode": "^1.5.1",
