@@ -142,15 +142,7 @@ function Login() {
 						<label className="sr-only  align-content-start d-flex">Contraseña</label>
 						<input type="password" placeholder="Escribe tu contraseña" className="form-control" name="password" onChange={handleChange} />{' '}
 						<div className="d-grid gap-2 d-md-block justify-center">
-							<div
-								id="signInDiv"
-								className="g_id_signin mt-4 flex justify-center"
-								data-type="standard"
-								data-size="large"
-								data-theme="outline"
-								data-shape="rectangular"
-								data-logo_alignment="left"
-							></div>
+							<div id="signInDiv" className="mt-4 flex justify-center"></div>
 							<button className="btn mt-4 mx-2 btn-primary" type="button" onClick={() => logIn(user)}>
 								Iniciar Sesión
 							</button>
