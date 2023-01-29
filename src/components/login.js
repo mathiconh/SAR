@@ -196,8 +196,8 @@ function Login() {
 						maxLength="200"
 						name="password"
 						id="passwordField"
-						onChange={handleChangeCreate}
 						value={selectedUser.password}
+						onChange={handleChangeCreate}
 					/>
 					<label>Telefono</label>
 					<input className="form-control" type="number" maxLength="50" name="telefono" id="telefonoField" onChange={handleChangeCreate} value={selectedUser.telefono} />

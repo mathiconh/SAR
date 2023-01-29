@@ -37,7 +37,7 @@ class UsersDataService {
 		let result;
 		result = validatePayload({ nombre, apellido, direccion, correoE, dni, fechaNac, telefono, idRol, idGenero, password });
 		if (!result.status) return result;
-		result = this.validateData(fechaNac, idRol, correoE);
+		result = this.validateData(fechaNac, idRol, correoE, password);
 		if (!result.status) return result;
 
 		const passwordHash = await bcrypt.hash(password, 8);
@@ -59,7 +59,7 @@ class UsersDataService {
 		let result;
 		result = validatePayload({ _id, nombre, apellido, direccion, correoE, dni, fechaNac, telefono, profilePic, idRol });
 		if (!result.status) return result;
-		result = this.validateData(fechaNac, idRol, correoE);
+		result = this.validateData(fechaNac, idRol, correoE, password);
 		if (!result.status) return result;
 
 		result = await http.put(
@@ -69,7 +69,7 @@ class UsersDataService {
 		return result;
 	}
 
-	validateData(fechaNac, idRol, correoE) {
+	validateData(fechaNac, idRol, correoE, password) {
 		const resultValidaciones = {
 			status: true,
 		};
@@ -93,6 +93,19 @@ class UsersDataService {
 		if (!validRegex.test(correoE)) {
 			resultValidaciones.status = false;
 			resultValidaciones.errorMessage = 'Debe ingresar un correo electrónico válido';
+		}
+
+		var validRegexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
+
+		if (!validRegexPassword.test(password)) {
+			resultValidaciones.status = false;
+			resultValidaciones.errorMessage =
+				'La contraseña debe contener:' +
+				'-Minimo 8 digitos' +
+				'-Máximo 15 digitos' +
+				'-Al menos 1 numero' +
+				'-Al menos 1 caracter especial' +
+				'-No puede contener espacios';
 		}
 
 		return resultValidaciones;
