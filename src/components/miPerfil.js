@@ -190,7 +190,7 @@ const MiPerfil = (props) => {
 
 	const editar = async (perfil) => {
 		if (selectedImg) perfil.profilePic = selectedImg;
-		const result = await UsersDataService.editUser(perfil);
+		const result = await UsersDataService.editUser(perfil, false);
 		if (result.status) {
 			console.log('Edicion exitosa');
 			setValidationErrorMessage('');
