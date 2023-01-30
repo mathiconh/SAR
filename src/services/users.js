@@ -101,11 +101,11 @@ class UsersDataService {
 			resultValidaciones.status = false;
 			resultValidaciones.errorMessage =
 				'La contraseña debe contener:' +
-				'-Minimo 8 digitos' +
-				'-Máximo 15 digitos' +
-				'-Al menos 1 numero' +
-				'-Al menos 1 caracter especial' +
-				'-No puede contener espacios';
+				' | Minimo 8 digitos' +
+				' | Máximo 15 digitos' +
+				' | Al menos 1 numero' +
+				' | Al menos 1 caracter especial' +
+				' | No puede contener espacios';
 		}
 
 		return resultValidaciones;
