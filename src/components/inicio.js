@@ -126,6 +126,7 @@ const Inicio = () => {
 					<div className="card bg-info bg-opacity-75 w-50">
 						{values ? (
 							<div className="card-container m-2">
+								<h1 className="text-center">Temperatura en el autodromo</h1>
 								<h1 className="city-name text-center">{values.name}</h1>
 								<p className="temp text-center">Temperatura actual: {Math.trunc(values.main.temp - 273.15)}ºC</p>
 								<p className="hum text-center">Humedad actual: {values.main.humidity}%</p>
