@@ -115,22 +115,22 @@ const Inicio = () => {
 	};
 
 	return (
-		<section className="vh-100 d-flex justify-content-center align-items-center img-fluid imagenFondo">
-			<div className="col-auto">
+		<section className="d-flex justify-content-center align-items-center img-fluid imagenFondo">
+			<div className="col-auto m-5">
 				<p className="h3 text-white text-center sombraTexto">Veni a probar los tiempos de tu auto</p>
 				<p className="h1 text-white text-center sombraTexto">EN EL GRAN AUTODROMO DE BUENOS AIRES</p>
 				<div className="d-flex justify-content-center">
 					<div className="d-flex">{sesion()}</div>
 				</div>
 				<div className="d-flex p-2 justify-content-center">
-					<div className="card bg-info bg-opacity-75 w-50">
+					<div className="card bg-info bg-opacity-75 w-75">
 						{values ? (
 							<div className="card-container m-2">
 								<h1 className="text-center">Temperatura en el autodromo</h1>
 								<h1 className="city-name text-center">{values.name}</h1>
 								<p className="temp text-center">Temperatura actual: {Math.trunc(values.main.temp - 273.15)}ºC</p>
 								<p className="hum text-center">Humedad actual: {values.main.humidity}%</p>
-								<img className="icon" src={imgObject[icon] ? imgObject[icon] : defaultWeather} alt="icon-weather" />
+								<img className="icon img-fluid" src={imgObject[icon] ? imgObject[icon] : defaultWeather} alt="icon-weather" />
 								<div className="card-footer">
 									<p className="text-center text-capitalize">{weatherDescripcion}</p>
 									<p className="temp-max-min text-center">
