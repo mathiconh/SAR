@@ -256,7 +256,7 @@ const MiPerfil = (props) => {
 			if (result.status && newContraseña.newPassword === newContraseña.newConfirmPassword) {
 				result.status = true;
 				result.errorMessage = '';
-				perfil.password = await bcrypt.hash(newContraseña.newPassword, 8);
+				perfil.password = newContraseña.newPassword;
 			} else if (result.status && newContraseña.newPassword !== newContraseña.newConfirmPassword) {
 				result.status = false;
 				result.errorMessage = 'La confirmacion de la nueva contraseña no coincide';
