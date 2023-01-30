@@ -212,7 +212,7 @@ const MiPerfil = (props) => {
 		newContraseña.newPassword = contraseñaReiniciada;
 		const newPasswordHash = await bcrypt.hash(newContraseña.newPassword, 8);
 		perfil.password = newPasswordHash;
-		const result = await UsersDataService.editUser(perfil);
+		const result = await UsersDataService.editUser(perfil, false);
 
 		if (result.status) {
 			console.log('Edicion exitosa');
