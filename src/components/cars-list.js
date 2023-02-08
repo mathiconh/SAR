@@ -68,14 +68,18 @@ const CarsList = () => {
 		await UserDataService.find(query, by)
 			.then((response) => {
 				console.log(response.data);
-				const usersList = response.data.users.sort((a, b) => a.apellido.localeCompare(b.apellido));
-				setUsers(usersList);
-				if (response.data.users.length) {
-					console.log('Se cambio el ID user Dueño a: ', response.data.users[0]._id);
-					setSelectedCar((prevState) => ({
-						...prevState,
-						idUsuarioDuenio: response.data.users[0]._id,
-					}));
+				if (response.data.users.length > 0) {
+					const usersList = response.data.users.sort((a, b) => a.apellido.localeCompare(b.apellido));
+					setUsers(usersList);
+					if (response.data.users.length) {
+						console.log('Se cambio el ID user Dueño a: ', response.data.users[0]._id);
+						setSelectedCar((prevState) => ({
+							...prevState,
+							idUsuarioDuenio: response.data.users[0]._id,
+						}));
+					}
+				} else {
+					alert(`No se encontraron datos para la busqueda de ${by} con valor ${query}`);
 				}
 			})
 			.catch((e) => {

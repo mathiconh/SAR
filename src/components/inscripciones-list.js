@@ -150,15 +150,19 @@ const InscripcionesList = () => {
 		await UserDataService.find(query, by)
 			.then(async (response) => {
 				console.log(response.data);
-				const usersList = response.data.users.sort((a, b) => a.apellido.localeCompare(b.apellido));
-				setUsers(usersList);
-				if (usersList.length) {
-					setSelectedInscripcion((prevState) => ({
-						...prevState,
-						idUsuario: usersList[0]._id,
-					}));
+				if (response.data.users.length > 0) {
+					const usersList = response.data.users.sort((a, b) => a.apellido.localeCompare(b.apellido));
+					setUsers(usersList);
+					if (usersList.length) {
+						setSelectedInscripcion((prevState) => ({
+							...prevState,
+							idUsuario: usersList[0]._id,
+						}));
+					}
+					await retrieveCars(response.data.users[0]._id);
+				} else {
+					alert(`No se encontraron datos para la busqueda de ${by} con valor ${query}`);
 				}
-				await retrieveCars(response.data.users[0]._id);
 			})
 			.catch((e) => {
 				console.log(e);

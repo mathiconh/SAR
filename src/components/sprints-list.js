@@ -171,13 +171,17 @@ const SprintsList = () => {
 		await UserDataService.find(query, by)
 			.then(async (response) => {
 				console.log(response.data);
-				const usersList = response.data.users.sort((a, b) => a.apellido.localeCompare(b.apellido));
-				setUsersP1(usersList);
-				setSelectedSprint((prevState) => ({
-					...prevState,
-					idUsuarioP1: response.data.users[0]._id,
-				}));
-				await retrieveCarsP1(response.data.users[0]._id);
+				if (response.data.users.length > 0) {
+					const usersList = response.data.users.sort((a, b) => a.apellido.localeCompare(b.apellido));
+					setUsersP1(usersList);
+					setSelectedSprint((prevState) => ({
+						...prevState,
+						idUsuarioP1: response.data.users[0]._id,
+					}));
+					await retrieveCarsP1(response.data.users[0]._id);
+				} else {
+					alert(`No se encontraron datos para la busqueda de ${by} con valor ${query}`);
+				}
 			})
 			.catch((e) => {
 				console.log(e);
@@ -188,13 +192,17 @@ const SprintsList = () => {
 		await UserDataService.find(query, by)
 			.then(async (response) => {
 				console.log(response.data);
-				const usersList = response.data.users.sort((a, b) => a.apellido.localeCompare(b.apellido));
-				setUsersP2(usersList);
-				setSelectedSprint((prevState) => ({
-					...prevState,
-					idUsuarioP2: response.data.users[0]._id,
-				}));
-				await retrieveCarsP2(response.data.users[0]._id);
+				if (response.data.users.length > 0) {
+					const usersList = response.data.users.sort((a, b) => a.apellido.localeCompare(b.apellido));
+					setUsersP2(usersList);
+					setSelectedSprint((prevState) => ({
+						...prevState,
+						idUsuarioP2: response.data.users[0]._id,
+					}));
+					await retrieveCarsP2(response.data.users[0]._id);
+				} else {
+					alert(`No se encontraron datos para la busqueda de ${by} con valor ${query}`);
+				}
 			})
 			.catch((e) => {
 				console.log(e);
