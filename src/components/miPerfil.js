@@ -616,6 +616,9 @@ const MiPerfil = (props) => {
 	};
 
 	const getIdVerContrincante = (idUsuarioP1, idUsuarioP2) => {
+		idUsuarioP1 = idUsuarioP1 !== '' ? idUsuarioP1 : cookies.get('_id');
+		idUsuarioP2 = idUsuarioP2 !== '' ? idUsuarioP2 : cookies.get('_id');
+
 		if (cookies.get('_id') === idUsuarioP1) {
 			return idUsuarioP2;
 		} else {
@@ -781,10 +784,10 @@ const MiPerfil = (props) => {
 																</thead>
 																<tbody>
 																	{carreras.map((selectedCarrera) => {
-																		const idUsuarioP1 = `${selectedCarrera.idUsuarioP1}`;
-																		const idUsuarioP2 = `${selectedCarrera.idUsuarioP2}`;
-																		const idVehiculoP1 = `${selectedCarrera.idVehiculoP1}`;
-																		const idVehiculoP2 = `${selectedCarrera.idVehiculoP2}`;
+																		const usuarioP1 = `${selectedCarrera.usuarioP1}`;
+																		const usuarioP2 = `${selectedCarrera.usuarioP2}`;
+																		const vehiculoP1 = `${selectedCarrera.vehiculoP1}`;
+																		const vehiculoP2 = `${selectedCarrera.vehiculoP2}`;
 																		const reaccionP1 = `${selectedCarrera.reaccionP1}`;
 																		const reaccionP2 = `${selectedCarrera.reaccionP2}`;
 																		const tiempo100mtsP1 = `${selectedCarrera.tiempo100mtsP1}`;
@@ -805,13 +808,13 @@ const MiPerfil = (props) => {
 																						Ver Contrincante
 																					</a>
 																				</td>
-																				<td className="tdData">{idUsuarioP1}</td>
-																				<td className="tdData">{idVehiculoP1}</td>
+																				<td className="tdData">{usuarioP1}</td>
+																				<td className="tdData">{vehiculoP1}</td>
 																				<td className="tdData">{reaccionP1}</td>
 																				<td className="tdData">{tiempo100mtsP1}</td>
 																				<td className="tdData">{tiempoLlegadaP1}</td>
-																				<td className="tdData">{idUsuarioP2}</td>
-																				<td className="tdData">{idVehiculoP2}</td>
+																				<td className="tdData">{usuarioP2}</td>
+																				<td className="tdData">{vehiculoP2}</td>
 																				<td className="tdData">{reaccionP2}</td>
 																				<td className="tdData">{tiempo100mtsP2}</td>
 																				<td className="tdData">{tiempoLlegadaP2}</td>
@@ -1268,10 +1271,10 @@ const MiPerfil = (props) => {
 																</thead>
 																<tbody>
 																	{carreras.map((selectedCarrera) => {
-																		const idUsuarioP1 = `${selectedCarrera.idUsuarioP1}`;
-																		const idUsuarioP2 = `${selectedCarrera.idUsuarioP2}`;
-																		const idVehiculoP1 = `${selectedCarrera.idVehiculoP1}`;
-																		const idVehiculoP2 = `${selectedCarrera.idVehiculoP2}`;
+																		const usuarioP1 = `${selectedCarrera.usuarioP1}`;
+																		const usuarioP2 = `${selectedCarrera.usuarioP2}`;
+																		const vehiculoP1 = `${selectedCarrera.vehiculoP1}`;
+																		const vehiculoP2 = `${selectedCarrera.vehiculoP2}`;
 																		const reaccionP1 = `${selectedCarrera.reaccionP1}`;
 																		const reaccionP2 = `${selectedCarrera.reaccionP2}`;
 																		const tiempo100mtsP1 = `${selectedCarrera.tiempo100mtsP1}`;
@@ -1292,13 +1295,13 @@ const MiPerfil = (props) => {
 																						Ver Contrincante
 																					</a>
 																				</td>
-																				<td className="tdData">{idUsuarioP1}</td>
-																				<td className="tdData">{idVehiculoP1}</td>
+																				<td className="tdData">{usuarioP1}</td>
+																				<td className="tdData">{vehiculoP1}</td>
 																				<td className="tdData">{reaccionP1}</td>
 																				<td className="tdData">{tiempo100mtsP1}</td>
 																				<td className="tdData">{tiempoLlegadaP1}</td>
-																				<td className="tdData">{idUsuarioP2}</td>
-																				<td className="tdData">{idVehiculoP2}</td>
+																				<td className="tdData">{usuarioP2}</td>
+																				<td className="tdData">{vehiculoP2}</td>
 																				<td className="tdData">{reaccionP2}</td>
 																				<td className="tdData">{tiempo100mtsP2}</td>
 																				<td className="tdData">{tiempoLlegadaP2}</td>
