@@ -291,9 +291,13 @@ const SprintsList = () => {
 		sprints.forEach((sprint) => {
 			if (sprint._id === selectedSprint._id) {
 				sprint.idEvento = selectedSprint.idEvento;
+				sprint.usuarioP1 = selectedSprint.usuarioP1;
 				sprint.idUsuarioP1 = selectedSprint.idUsuarioP1;
+				sprint.usuarioP2 = selectedSprint.usuarioP2;
 				sprint.idUsuarioP2 = selectedSprint.idUsuarioP2;
+				sprint.vehiculoP1 = selectedSprint.vehiculoP1;
 				sprint.idVehiculoP1 = selectedSprint.idVehiculoP1;
+				sprint.vehiculoP2 = selectedSprint.vehiculoP2;
 				sprint.idVehiculoP2 = selectedSprint.idVehiculoP2;
 				sprint.reaccionP1 = selectedSprint.reaccionP1;
 				sprint.reaccionP2 = selectedSprint.reaccionP2;
@@ -388,9 +392,13 @@ const SprintsList = () => {
 														<th className="thData fixedColHead">Acciones</th>
 														<th className="thData">ID</th>
 														<th className="thData">ID Evento</th>
+														<th className="thData">Usuario P1</th>
 														<th className="thData">ID Usuario P1</th>
+														<th className="thData">Usuario P2</th>
 														<th className="thData">ID Usuario P2</th>
+														<th className="thData">Vehículo P1</th>
 														<th className="thData">ID Vehículo P1</th>
+														<th className="thData">Vehículo P2</th>
 														<th className="thData">ID Vehículo P2</th>
 														<th className="thData">Reacción P1</th>
 														<th className="thData">Reacción P2</th>
@@ -404,9 +412,13 @@ const SprintsList = () => {
 													{sprints.map((sprint) => {
 														const id = `${sprint._id}`;
 														const idEvento = `${sprint.idEvento}`;
+														const usuarioP1 = `${sprint.usuarioP1}`;
 														const idUsuarioP1 = `${sprint.idUsuarioP1}`;
+														const usuarioP2 = `${sprint.usuarioP2}`;
 														const idUsuarioP2 = `${sprint.idUsuarioP2}`;
+														const vehiculoP1 = `${sprint.vehiculoP1}`;
 														const idVehiculoP1 = `${sprint.idVehiculoP1}`;
+														const vehiculoP2 = `${sprint.vehiculoP2}`;
 														const idVehiculoP2 = `${sprint.idVehiculoP2}`;
 														const reaccionP1 = `${sprint.reaccionP1}`;
 														const reaccionP2 = `${sprint.reaccionP2}`;
@@ -426,9 +438,13 @@ const SprintsList = () => {
 																</td>
 																<td className="tdData">{id}</td>
 																<td className="tdData">{idEvento}</td>
+																<td className="tdData">{usuarioP1}</td>
 																<td className="tdData">{idUsuarioP1}</td>
+																<td className="tdData">{usuarioP2}</td>
 																<td className="tdData">{idUsuarioP2}</td>
+																<td className="tdData">{vehiculoP1}</td>
 																<td className="tdData">{idVehiculoP1}</td>
+																<td className="tdData">{vehiculoP2}</td>
 																<td className="tdData">{idVehiculoP2}</td>
 																<td className="tdData">{reaccionP1}</td>
 																<td className="tdData">{reaccionP2}</td>
