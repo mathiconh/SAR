@@ -79,7 +79,6 @@ class CarsDataService {
 	async findVt(query, by = '_id', page = 0) {
 		console.log(`Searching by: ${by} value: ${query}`);
 		const result = await http.get(`vt?page=${page}&${by}=${query}`);
-		console.log('DB Result para vt: ', result);
 		return result;
 	}
 

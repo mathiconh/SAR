@@ -139,7 +139,6 @@ const MiPerfil = (props) => {
 	const retrieveUser = async (_id) => {
 		await UsersDataService.get(_id)
 			.then((response) => {
-				console.log('Data: ', response.data);
 				setPerfil(response.data.users[0]);
 			})
 			.catch((e) => {
@@ -150,7 +149,6 @@ const MiPerfil = (props) => {
 	const retrieveGeneros = async () => {
 		await UsersDataService.getAllGen()
 			.then((response) => {
-				console.log('Data: ', response.data);
 				setGeneros([{ nombre: 'Seleccionar Genero' }].concat(response.data.generos));
 			})
 			.catch((e) => {
@@ -437,7 +435,7 @@ const MiPerfil = (props) => {
 	const getAutos = async (_id) => {
 		await CarsDataService.find(_id, 'idUsuarioDuenio')
 			.then(async (response) => {
-				console.log('autos tiene', response.data.cars);
+				console.log('Car Profile Data: ', response.data.cars);
 				await Promise.all(
 					response.data.cars.map(async (car) => {
 						const estadoVt = await getEstadoVt(car.idVt);
@@ -453,7 +451,6 @@ const MiPerfil = (props) => {
 
 		await CarsDataService.findVt(_id, 'idVt')
 			.then((response) => {
-				console.log('vt tiene', response.data.vts);
 				setVt(response.data.vts);
 			})
 			.catch((e) => {
@@ -462,8 +459,8 @@ const MiPerfil = (props) => {
 
 		await CarrerasDataService.findCarreras(_id)
 			.then((response) => {
-				console.log('carreras tiene', response.data.sprints);
-				console.log('reporte tiene', response.data.reporte);
+				console.log('Sprints Profile Data: ', response.data.sprints);
+				console.log('Report Profile Data: ', response.data.reporte);
 				const sprintsOrdenados = response.data.sprints.slice().sort((a, b) => new Date(b.fechaSprint) - new Date(a.fechaSprint));
 				setCarreras(sprintsOrdenados);
 				setReporte(response.data.reporte);
