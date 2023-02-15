@@ -33,7 +33,7 @@ const imgObj = {
 	avatar8,
 };
 const keys = Object.keys(imgObj);
-const contraseñaReiniciada = crearContraseñaReinicio(10);
+const contraseñaReiniciada = `${crearContraseñaReinicio(10)}@`;
 
 function crearContraseñaReinicio(longitudContraseña) {
 	let result = '';
@@ -210,18 +210,19 @@ const MiPerfil = (props) => {
 
 	const reiniciarContraseña = async () => {
 		newContraseña.newPassword = contraseñaReiniciada;
-		const newPasswordHash = await bcrypt.hash(newContraseña.newPassword, 8);
+		const newPasswordHash = newContraseña.newPassword;
+		// const newPasswordHash = await bcrypt.hash(newContraseña.newPassword, 8);
 		perfil.password = newPasswordHash;
-		const result = await UsersDataService.editUser(perfil, false);
+		const result = await UsersDataService.editUser(perfil, true);
 
 		if (result.status) {
-			console.log('Edicion exitosa');
+			console.log('Edicion exitosa: ', result);
 			setValidationErrorMessage('');
 			setPerfil(perfil);
 			setModalReinicioContraseña(false);
 			refreshList();
 			setNewContraseña({
-				password: newPasswordHash,
+				password: perfil.password,
 				newPassword: '',
 				newConfirmPassword: '',
 			});

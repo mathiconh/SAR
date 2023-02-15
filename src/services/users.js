@@ -62,11 +62,16 @@ class UsersDataService {
 		result = this.validateData(fechaNac, idRol, correoE, password, updatePassword);
 		if (!result.status) return result;
 
-		password = await bcrypt.hash(password, 8);
-
-		result = await http.put(
-			`/editUser?_id=${_id}&nombre=${nombre}&apellido=${apellido}&direccion=${direccion}&correoE=${correoE}&dni=${dni}&fechaNac=${fechaNac}&telefono=${telefono}&profilePic=${profilePic}&idRol=${idRol}&idUsuarioModif=${idUsuarioModif}&idGenero=${idGenero}&password=${password}`
-		);
+		if (updatePassword) {
+			password = await bcrypt.hash(password, 8);
+			result = await http.put(
+				`/editUser?_id=${_id}&nombre=${nombre}&apellido=${apellido}&direccion=${direccion}&correoE=${correoE}&dni=${dni}&fechaNac=${fechaNac}&telefono=${telefono}&profilePic=${profilePic}&idRol=${idRol}&idUsuarioModif=${idUsuarioModif}&idGenero=${idGenero}&password=${password}`
+			);
+		} else {
+			result = await http.put(
+				`/editUser?_id=${_id}&nombre=${nombre}&apellido=${apellido}&direccion=${direccion}&correoE=${correoE}&dni=${dni}&fechaNac=${fechaNac}&telefono=${telefono}&profilePic=${profilePic}&idRol=${idRol}&idUsuarioModif=${idUsuarioModif}&idGenero=${idGenero}`
+			);
+		}
 		console.log('Result: ', result);
 		return result;
 	}
@@ -98,6 +103,7 @@ class UsersDataService {
 		}
 
 		if (updatePassword) {
+			console.log('Evaluating Password: ', password);
 			var validRegexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
 
 			if (!validRegexPassword.test(password)) {
