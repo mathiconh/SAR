@@ -1,3 +1,4 @@
+/* global google */
 import React, { useState, useEffect } from 'react';
 import LoginDataService from '../services/login';
 import UserDataService from '../services/users';
@@ -29,7 +30,6 @@ function Login() {
 
 	useEffect(() => {
 		retrieveGeneros();
-		/* global google */
 		google.accounts.id.initialize({
 			client_id: '552005328858-9p56qe7i9bpvq6oqfv9rcd216ucs6ljb.apps.googleusercontent.com',
 			callback: handleCallbackResponse,
