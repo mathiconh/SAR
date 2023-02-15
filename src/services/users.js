@@ -64,14 +64,11 @@ class UsersDataService {
 
 		if (updatePassword) {
 			password = await bcrypt.hash(password, 8);
-			result = await http.put(
-				`/editUser?_id=${_id}&nombre=${nombre}&apellido=${apellido}&direccion=${direccion}&correoE=${correoE}&dni=${dni}&fechaNac=${fechaNac}&telefono=${telefono}&profilePic=${profilePic}&idRol=${idRol}&idUsuarioModif=${idUsuarioModif}&idGenero=${idGenero}&password=${password}`
-			);
-		} else {
-			result = await http.put(
-				`/editUser?_id=${_id}&nombre=${nombre}&apellido=${apellido}&direccion=${direccion}&correoE=${correoE}&dni=${dni}&fechaNac=${fechaNac}&telefono=${telefono}&profilePic=${profilePic}&idRol=${idRol}&idUsuarioModif=${idUsuarioModif}&idGenero=${idGenero}`
-			);
 		}
+
+		result = await http.put(
+			`/editUser?_id=${_id}&nombre=${nombre}&apellido=${apellido}&direccion=${direccion}&correoE=${correoE}&dni=${dni}&fechaNac=${fechaNac}&telefono=${telefono}&profilePic=${profilePic}&idRol=${idRol}&idUsuarioModif=${idUsuarioModif}&idGenero=${idGenero}&password=${password}`
+		);
 		console.log('Result: ', result);
 		return result;
 	}
