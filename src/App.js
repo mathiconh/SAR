@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -17,6 +17,28 @@ import Cookies from 'universal-cookie';
 import './styles/inicio.css';
 import './styles/buttons.css';
 import Logo from './assets/otherPics/LogoS4Rok.png';
+import thunderstorm from './assets/icons/thunderstorms-rain.svg';
+import drizzle from './assets/icons/drizzle.svg';
+import rain from './assets/icons/rain.svg';
+import snow from './assets/icons/snow.svg';
+import clear from './assets/icons/clear-day.svg';
+import clouds from './assets/icons/fog.svg';
+import fog from './assets/icons/fog.svg';
+import haze from './assets/icons/haze.svg';
+import smoke from './assets/icons/smoke.svg';
+import defaultWeather from './assets/icons/clear-day.svg';
+
+const imgObject = {
+	thunderstorm,
+	drizzle,
+	rain,
+	snow,
+	clear,
+	clouds,
+	fog,
+	haze,
+	smoke,
+};
 
 const cookies = new Cookies();
 
@@ -32,6 +54,35 @@ function App() {
 			}
 		}
 	};
+
+	const [values, setValues] = useState('');
+	const [icon, setIcon] = useState('');
+
+	const URL = 'https://api.openweathermap.org/data/2.5/weather?lat=-34.69317866093715&lon=-58.458973184669176&lp&appid=7dbacc82273d56d57d095c085c71b60d';
+
+	const getClima = async () => {
+		await fetch(URL)
+			.then((response) => {
+				return response.json();
+			})
+			.then((data) => {
+				if (data.cod >= 400) {
+					setValues(false);
+				} else {
+					setIcon(data.weather[0].main.toLowerCase());
+					console.log(data.weather[0].main.toLowerCase());
+					setValues(data);
+					console.log(data.rain[0]);
+				}
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	};
+
+	useEffect(() => {
+		getClima();
+	}, []);
 
 	const completarMenuUser = () => {
 		return (
@@ -163,8 +214,8 @@ function App() {
 	let inscripcionACarrera = () => {
 		if (cookies.get('_id')) {
 			return (
-				<div>
-					<a href="/inscripcion" className=" btn btn-info text-light float-right mx-1">
+				<div className="col-2">
+					<a href="/inscripcion" className="  btn btn-info text-light float-right mx-1">
 						<strong>Inscripción a Carrera</strong>
 					</a>
 				</div>
@@ -174,16 +225,39 @@ function App() {
 
 	return (
 		<div>
-			<div className="navbar navbar-dark d-flex bg-dark navBlack box-shadow">
-				<div className="container justify-content-center">
+			<div className="navbar navbar-dark d-flex bg-dark navBlack box-shadow ">
+				<div className="container">
 					<div className="col-1 btn">
 						<a href="/inicio" className=" navbar-brand d-flex align-items-center">
 							<img className="logo" src={Logo}></img>
 						</a>
 						<span></span>
 					</div>
-					<div className="col-4 text-light">{cookies.get('nombre')}</div>
-					<div className="col-5">{inscripcionACarrera()}</div>
+					{inscripcionACarrera()}
+					{values ? (
+						<div className="d-flex col-4 card-container text-light">
+							<img className="icon img-fluid weather-icon" src={imgObject[icon] ? imgObject[icon] : defaultWeather} alt="icon-weather" />
+							<div className="d-flex">
+								<div>
+									<h5 className="city-name text-center">{values.name}</h5>
+
+									<p className="temp text-center">{Math.trunc(values.main.temp - 273.15)}ºC</p>
+								</div>
+							</div>
+							<div>
+								<p className="text-center">
+									Min {Math.trunc(values.main.temp_min - 273.15)}ºC | Máx {Math.trunc(values.main.temp_max - 273.15)}ºC;
+								</p>
+								<div className="d-flex">
+									<p className="text-center">
+										Humedad: {values.main.humidity}% | Lluvia: {values.main.humidity}%
+									</p>
+								</div>
+							</div>
+						</div>
+					) : (
+						<h1>{'Ciudad no encontrada'}</h1>
+					)}
 					<div className="col-1 m-1">{sesion()}</div>
 				</div>
 			</div>

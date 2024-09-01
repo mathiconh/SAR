@@ -132,7 +132,7 @@ function Login() {
 	};
 
 	return (
-		<div className="App imgLogin">
+		<div className="App">
 			<div className="container">
 				<div className="d-flex vh-85 p-5 justify-content-center align-items-center">
 					<div className="col card sombraCard form-signin">

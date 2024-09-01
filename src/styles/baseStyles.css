@@ -1,6 +1,6 @@
 html,
 body {
-  background-image: url('../assets/otherPics/galvez.jpg');
+  background-image: url('../assets/otherPics/readyRaceInicio.jpg');
   background-size: cover;
   background-repeat: no-repeat; 
   background-position: center;
@@ -14,6 +14,8 @@ body {
 .vh-85{
   height: 85vh!important;
 }
+
+
 
 .form-signin {
   width: 100%;

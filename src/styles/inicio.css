@@ -5,6 +5,8 @@
     background-position: center;
     overflow: hidden;
     background-attachment: fixed;
+    width: 100%;
+    height: 100%;
 }
 
 .bienvenido{
@@ -15,8 +17,7 @@
 }
 
 .botonPrincipal{
-  background-color: #E71E62 !important;
-  color: white;
+  padding: 10px 40px 0 40px;
 }
 
 .botonSecundario{

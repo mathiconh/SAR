@@ -20,6 +20,26 @@
   background-color: #192024 !important;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-bottom: 0px;
+}
+
+
+.weather-icon{
+  width: 50px;
+  height: 50px;
+}
+
+.height-50{
+  height: 50px;
+}
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

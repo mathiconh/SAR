@@ -88,7 +88,13 @@ const CarsList = () => {
 			.then((response) => {
 				console.log('autos tiene', response.data.cars);
 				if (!response.data.cars.length) {
-					alert('Debe tener al menos un auto cargado en el sistema para poder inscribirse');
+					return (
+						<>
+							<button className="btn btn-success" onClick={() => selectCar('Editar')}>
+								Añadir un nuevo Auto
+							</button>
+						</>
+					);
 				}
 				setAutos(response.data.cars);
 			})
@@ -417,11 +423,177 @@ const CarsList = () => {
 			</div>
 		);
 	} else {
-		window.location.href = './errorPage';
-		console.log('Necesita iniciar sesión y tener los permisos suficientes para poder acceder a esta pantalla');
-		<Alert id="errorMessage" className="alert alert-danger fade show" key="danger" variant="danger">
-			Necesita iniciar sesión y tener los permisos suficientes para poder acceder a esta pantalla
-		</Alert>;
+		return (
+			<div className="App">
+				<div className="container-fluid">
+					<div className="d-flex vh-85 p-2 justify-content-center align-self-center">
+						<div className="container-lg align-self-center col card sombraCard form-signin">
+							<form className="container-fluid align-self-center needs-validation" onSubmit={formPreventDefault} noValidate>
+								<p className="h1 text-center">Inscripcion a Evento</p>
+								<br></br>
+								<div className="form-row">
+									<div className="form-group align-items-stretch">
+										<div className="row justify-content-center">
+											<label className="label-class w-auto" htmlFor="exampleInputEmail1">
+												Clases disponibles para este viernes
+											</label>
+											<select className="form-select w-25" name="idEvento" id="idEventoField" onChange={onChangesetSelectedClass}>
+												{clasesDisponibles.map((param) => {
+													return (
+														<option key={param} value={param}>
+															{' '}
+															{param}{' '}
+														</option>
+													);
+												})}
+											</select>
+											<br></br>
+											<label className="label-class" htmlFor="cuposClase">
+												{eventoSeleccionada.aproxCupos}
+											</label>
+										</div>
+										<br></br>
+										<label className="label-class" htmlFor="tiempoClase">
+											{' '}
+											Tiempo de la clase seleccionada:{' '}
+										</label>
+										<input type="text" id="tiempoClaseData" name="tiempoDataInput" className="col-md-1" data-readonly required />
+										<div className="invalid-feedback">Por favor seleccione una clase de la lista.</div>
+									</div>
+									<hr className="rounded"></hr>
+									<div className="form-group form-check">
+										<label className="font-weight-bold" htmlFor="inscripcionOtroCompetidorLabel">
+											{' '}
+											Deseo inscribir a otro competidor:{' '}
+										</label>
+										<br></br>
+										<div onChange={onChangeValueCompetidor}>
+											<input className="radio-class-competidor" type="radio" value="false" name="inscribirOtroCompetidor" defaultChecked /> No
+											<br></br>
+											<input className="radio-class-competidor" type="radio" value="true" name="inscribirOtroCompetidor" /> Si
+										</div>
+									</div>
+									<div className="form-group align-items-center form-check">
+										<div className="form-group align-items-center">
+											<label className="label-class" htmlFor="idCompetidor">
+												{' '}
+												ID del competidor:{' '}
+											</label>
+											<input type="text" id="otroCompetidorData" name="otroCompetidorDataInput" className="mt-1" readOnly={inscribrOtroCompetidor} />
+											<div className="invalid-feedback">Por favor ingrese el ID de un competidor.</div>
+											<button className="btn btn-dark mx-2" id="buscarVehiculsButton" type="button" onClick={buscarVehiculosCompetidor}>
+												Buscar Vehiculos
+											</button>
+										</div>
+									</div>
+									<hr className="rounded"></hr>
+									<div>
+										<div className="container">
+											<div className="table-responsive-sm">
+												<div className="table-wrapper">
+													<div className="table-title">
+														<div className="row">
+															<div className="col align-items-center">
+																<h2>Selecciona el auto con el que vas a correr</h2>
+															</div>
+														</div>
+													</div>
+													<table className="table table-striped align-items-center table-hover">
+														<thead>
+															<tr>
+																<th>Patente</th>
+																<th>Marca & Modelo</th>
+																<th>Año</th>
+																<th>Taller Mecánico</th>
+																<th>Acciones</th>
+															</tr>
+														</thead>
+														<tbody>
+															{autos.map((selectedCar) => {
+																const patente = `${selectedCar.patente}`;
+																const modelo = `${selectedCar.modelo}`;
+																const anio = `${selectedCar.anio}`;
+																const tallerAsociado = `${selectedCar.tallerAsociado}`;
+																return (
+																	<tr>
+																		<td>{patente}</td>
+																		<td>{modelo}</td>
+																		<td>{anio}</td>
+																		<td>{tallerAsociado}</td>
+																		<td>
+																			<button className="btn btn-warning" type="button" onClick={() => selectCar(selectedCar)}>
+																				Seleccionar
+																			</button>
+																		</td>
+																	</tr>
+																);
+															})}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<br></br>
+										<div className="form-group">
+											<label className="label-class" htmlFor="tiempoClase">
+												{' '}
+												Vehiculo Seleccionado:{' '}
+											</label>
+											<input type="text" id="carData" name="carDataInput" className="col-md-6" data-readonly required />
+											<div className="invalid-feedback">Por favor seleccione uno de sus vehículos en la tabla.</div>
+										</div>
+									</div>
+									<hr className="rounded"></hr>
+									<div className="form-group align-items-center form-check">
+										<label className="font-weight-bold" htmlFor="tiempoClase">
+											{' '}
+											Precio de la inscripción: ${eventoSeleccionada.precio}
+										</label>
+										<br></br>
+									</div>
+									<hr className="rounded"></hr>
+									<button className="btn btn-primary col-md-3" onClick={enviarInscripcion}>
+										Inscribirse
+									</button>
+								</div>
+							</form>
+						</div>
+						<Modal isOpen={modalCodigoQR}>
+							<ModalBody>
+								<p className="h1 text-center">Gracias por inscribirse</p>
+								<label>Con el siguiente código QR, usted podra ingresár al predio por la entrada preferencial y abonar en efectivo:</label>
+								{qrcode && (
+									<>
+										<img src={qrcode} />
+										<a className="btn btn-warning" href={qrcode} download="qrcode.png">
+											Descargar
+										</a>
+									</>
+								)}
+							</ModalBody>
+							<ModalFooter>
+								<button className="btn btn-danger" onClick={() => closeModalCodigoQR()}>
+									Cerrar
+								</button>
+							</ModalFooter>
+						</Modal>
+
+						<Modal isOpen={modalErrorDatos}>
+							<ModalBody>
+								<p className="h1 text-center">Hay un error en los datos ingresados</p>
+								<label>Por favor corregir el error para continuar:</label>
+								{buildErrorMessage()}
+							</ModalBody>
+							<ModalFooter>
+								<button className="btn btn-secondary" onClick={() => closeModalErrorDatos()}>
+									Cerrar
+								</button>
+							</ModalFooter>
+						</Modal>
+					</div>
+				</div>
+			</div>
+		);
 	}
 };
 
